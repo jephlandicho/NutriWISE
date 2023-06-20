@@ -1,0 +1,12 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "meals" (
+	"id"	INTEGER,
+	"meal_name"	TEXT,
+	"meal_group"	TEXT,
+	"meal_calories"	REAL,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
+INSERT INTO "meals" VALUES (1,'carrots','vegetables',40.0);
+INSERT INTO "meals" VALUES (2,'potato','vegetables',20.0);
+INSERT INTO "meals" VALUES (3,'onio','vegetables',30.0);
+COMMIT;

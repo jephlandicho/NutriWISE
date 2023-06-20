@@ -167,6 +167,11 @@ android {
 
         }
     }
+  sourceSets {
+    main {
+      assets.srcDirs += ['src/main/assets']
+    }
+  }
 }
 
 // Apply static values from `gradle.properties` to the `android.packagingOptions`

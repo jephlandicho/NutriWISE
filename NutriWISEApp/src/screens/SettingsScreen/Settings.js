@@ -1,12 +1,18 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
 
 const Settings = () => {
+  const [mealNames, setMealNames] = useState([]);
+
+
   return (
     <View>
-      <Text>Settings</Text>
+      {mealNames.map((mealName, index) => (
+        <Text key={index}>{mealName}</Text>
+      ))}
     </View>
-  )
-}
+  );
+};
 
-export default Settings
+export default Settings;
