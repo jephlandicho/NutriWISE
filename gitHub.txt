@@ -6,6 +6,11 @@ git commit -m "platform-ginawa_mo"
 git push
 git push --set-upstream origin [name_of_the_branch]
 
+--IF MINIMAL PUSHING--
+git add .
+git commit -m "platform-ginawa_mo"
+git push
+
 --FOR UPDATING THE FILE IN THE FOLDER--
 
 git pull origin master
