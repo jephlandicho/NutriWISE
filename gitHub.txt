@@ -1,8 +1,8 @@
 --WHEN PUSHING THE CHANGES YOU MAKE--
 
-git checkout -b 'name_of_the_branch'
+git checkout -b 'Documentation_1.0'
 git add .
-git commit -m "platform-ginawa_mo"
+git commit -m "Docu"
 git push
 git push --set-upstream origin [name_of_the_branch]
 
