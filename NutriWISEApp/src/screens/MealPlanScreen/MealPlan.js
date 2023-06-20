@@ -2,6 +2,9 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Input, Button } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
+import CustomInput from '../../components/CustomInput';
+import CustomButton from '../../components/CustomButton';
+import {useForm,Controller} from 'react-hook-form';
 
 const MealPlan = () => {
   const [waistCircumference, setWaistCircumference] = useState('');
@@ -10,7 +13,7 @@ const MealPlan = () => {
   const [height, setHeight] = useState('');
   const [kcal, setKcal] = useState('');
   const [result, setResult] = useState('');
-
+  const {control,handleSubmit,formState:{errors}} = useForm();
   useEffect(() => {
     calculateResult();
   }, [waistCircumference, hipCircumference, weight, height, kcal]);
@@ -51,37 +54,68 @@ const MealPlan = () => {
 
       <View style={styles.container}>
         <View style={styles.inputContainer}>
-          <Input
+        <CustomInput
+        name="Client_name"
+        placeholder="Client name"
+        control={control}
+        rules={{required: 'Client Name is required!'}}
+      />
+      <CustomInput
+        name="Age"
+        placeholder="Age"
+        control={control}
+        rules={{required: 'Age is required!'}}
+      />
+      <View style={styles.pal}>
+      <Text>Sex:</Text>
+          <Picker selectedValue={kcal} onValueChange={handleChange}>
+            <Picker.Item label="Male" value="Male" />
+            <Picker.Item label="Female" value="Female" />
+          </Picker>
+      </View>
+
+      <View style={styles.item}>
+      <Input
             label="Waist Circumference (cm)"
             keyboardType="numeric"
             value={waistCircumference}
             onChangeText={(value) => setWaistCircumference(value)}
           />
-          <Input
+      </View>
+      <View style={styles.item}>
+      <Input
             label="Hip Circumference (cm)"
             keyboardType="numeric"
             value={hipCircumference}
             onChangeText={(value) => setHipCircumference(value)}
           />
-          <Input
+      </View>
+      <View style={styles.item}>
+      <Input
             label="Weight (kg)"
             keyboardType="numeric"
             value={weight}
             onChangeText={(value) => setWeight(value)}
           />
-          <Input
+      </View>
+      <View style={styles.item}>
+      <Input
             label="Height (m)"
             keyboardType="numeric"
             value={height}
             onChangeText={(value) => setHeight(value)}
           />
-          <Text>Physical Activity Level:</Text>
+      </View>
+      <View style={styles.pal}>
+      <Text>Physical Activity Level:</Text>
           <Picker selectedValue={kcal} onValueChange={handleChange}>
             <Picker.Item label="Sedentary" value="30" />
             <Picker.Item label="Light" value="35" />
             <Picker.Item label="Moderate" value="40" />
             <Picker.Item label="Very Active" value="45" />
           </Picker>
+      </View>
+
         </View>
       </View>
 
@@ -100,7 +134,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   scrollContainer: {
-    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -108,14 +141,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
-    marginTop: 50,
+    marginTop: 20,
   },
   inputContainer: {
-    width: 200,
-    marginBottom: 5,
+    width: '80%',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start'
+    
+  },
+  item: {
+    width: '50%',
+
+  },
+  pal: {
+    width: '100%',
   },
   resultContainer: {
-    marginTop: 5,
+    
   },
   result: {
     fontSize: 18,

@@ -2,40 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase('nw.db');
 
 const Settings = () => {
   const [mealNames, setMealNames] = useState([]);
 
   useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='meals'",
-        [],
-        (_, { rows }) => {
-          if (rows.length > 0) {
-            db.transaction(tx => {
-              tx.executeSql(
-                'SELECT meal_name FROM meals',
-                [],
-                (_, { rows }) => {
-                  if (rows.length > 0) {
-                    const names = rows._array.map(item => item.meal_name);
-                    setMealNames(names);
-                  }
-                },
-                (_, error) => {
-                  console.error('Error fetching meal names:', error);
-                }
-              );
-            });
+//list all the users
+const listUsers = async () => {
+  let sql = "SELECT * FROM meals";
+  db.transaction((tx) => {
+      tx.executeSql(sql, [], (tx, resultSet) => {
+          var length = resultSet.rows.length;
+          for (var i = 0; i < length; i++) {
+              console.log(resultSet.rows.item(i));
           }
-        },
-        (_, error) => {
-          console.error('Error checking for meals table:', error);
-        }
-      );
-    });
+      }, (error) => {
+          console.log("List user error", error);
+      })
+  })
+}
   }, []);
 
   return (
