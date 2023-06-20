@@ -2,7 +2,7 @@
 
 git checkout -b 'name_of_the_branch'
 git add .
-git commit -m "platform-ginawa_mo"
+git commit -m "platform header.php "
 git push
 git push --set-upstream origin [name_of_the_branch]
 
