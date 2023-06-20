@@ -5,6 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import {useForm,Controller} from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
 
 const MealPlan = () => {
   const [waistCircumference, setWaistCircumference] = useState('');
@@ -14,6 +15,8 @@ const MealPlan = () => {
   const [kcal, setKcal] = useState('');
   const [result, setResult] = useState('');
   const {control,handleSubmit,formState:{errors}} = useForm();
+  const navigation = useNavigation();
+
   useEffect(() => {
     calculateResult();
   }, [waistCircumference, hipCircumference, weight, height, kcal]);
@@ -46,12 +49,22 @@ const MealPlan = () => {
 
     const resultText = `(${bmiCategory})\n\nWHR: ${whr.toFixed(2)} cm\nBMI: ${bmi.toFixed(1)} kg/m²\nDesirable Body Weight: ${desirableWeight.toFixed(2)} kg\nTER: ${ter} kcal\nDiet RX:\nProtein: ${protein} g\nCarbohydrates: ${carbs} g\nFats: ${fats} g`;
     setResult(resultText);
+
+
   };
+  const nextPressed = () => {
+    navigation.navigate('ExchangeComputation');
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Text style={styles.header}>Body Stats Calculator</Text>
-
+      <View style={styles.btnNext}>
+      <CustomButton
+      text="Next"
+      onPress={handleSubmit(nextPressed)}
+      />
+      </View>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
         <CustomInput
@@ -122,7 +135,10 @@ const MealPlan = () => {
       <View style={styles.resultContainer}>
         <Text style={styles.result}>{result}</Text>
       </View>
+
+
     </ScrollView>
+
   );
 };
 
@@ -132,6 +148,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
+  },
+  btnNext:{
+    flexDirection: "row",
+    justifyContent: "flex-end"
   },
   scrollContainer: {
     justifyContent: 'center',
@@ -164,7 +184,7 @@ const styles = StyleSheet.create({
   result: {
     fontSize: 18,
     textAlign: 'center',
-  },
+  }
 });
 
 export default MealPlan;
