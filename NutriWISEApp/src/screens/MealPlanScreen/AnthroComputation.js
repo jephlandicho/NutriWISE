@@ -53,7 +53,7 @@ const MealPlan = () => {
 
   };
   const nextPressed = () => {
-    navigation.navigate('ExchangeComputation');
+    navigation.navigate('MealPlanning');
   }
 
   return (
