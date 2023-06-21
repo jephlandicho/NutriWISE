@@ -17,12 +17,11 @@
     <div class="row">
       <div class="col-lg-12">
         <?php
-        // Check if the client name is provided as a query parameter
+       
         if (isset($_GET['client'])) {
           $clientName = $_GET['client'];
 
-          // Retrieve and display the client's full meal plan
-          // Replace this code with your actual logic to fetch the meal plan data
+        
           $mealPlan = getMealPlan($clientName);
 
           if ($mealPlan) {
@@ -40,11 +39,10 @@
           echo "<p>Client name not provided</p>";
         }
 
-        // Dummy function to simulate fetching the meal plan data
+       
         function getMealPlan($clientName)
         {
-          // Replace this code with your actual logic to fetch the meal plan data
-          // Return an array of meals or false if no meal plan found
+         
           if ($clientName === 'Clarence Andino') {
             return ['Breakfast: Eggs and toast', 'Lunch: Grilled chicken salad', 'Dinner: Baked salmon with steamed vegetables'];
           } elseif ($clientName === 'Jeph Landicho') {
@@ -79,7 +77,7 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
+
 <script src="assets/js/main.js"></script>
 
 </html>
