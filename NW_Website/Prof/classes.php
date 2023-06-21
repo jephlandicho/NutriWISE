@@ -15,7 +15,7 @@
   <section class="section dashboard">
     <div class="row">
       <!-- Left side columns -->
-      <div class="col-lg-8">
+      <div class="col-lg-12">
         <div class="row" id="class-container">
           <!-- The class cards will be dynamically added here -->
         </div>
@@ -29,11 +29,29 @@
 <div id="addClassModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <h2>Add Class</h2>
-    <input type="text" id="courseNameInput" placeholder="Course Name">
-    <input type="text" id="courseCodeInput" placeholder="Course Code">
-    <input type="text" id="facilitatorNameInput" placeholder="Facilitator Name">
-    <button id="saveClassBtn">Save</button>
+    <div class="modal-header">
+      <h2>Add Class</h2>
+    </div>
+    <div class="modal-body">
+      <form id="addClassForm">
+        <div class="form-group">
+          <label for="courseNameInput">Course Name:</label>
+          <input type="text" id="courseNameInput" class="modal-input" placeholder="Enter course name">
+        </div>
+        <div class="form-group">
+          <label for="courseCodeInput">Course Code:</label>
+          <input type="text" id="courseCodeInput" class="modal-input" placeholder="Enter course code">
+        </div>
+        <div class="form-group">
+          <label for="facilitatorNameInput">Facilitator Name:</label>
+          <input type="text" id="facilitatorNameInput" class="modal-input" placeholder="Enter facilitator name">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+      <button id="saveClassBtn" class="btn btn-primary">Save</button>
+    </div>
   </div>
 </div>
 
@@ -81,7 +99,35 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 300px;
+    width: 500px; /* Adjust the width as needed */
+    max-width: 90%; /* Ensure it doesn't exceed the viewport width */
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+  }
+
+  .modal-input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .modal-footer button {
+    padding: 8px 16px;
+    margin-left: 10px;
   }
 
   .close {
@@ -109,8 +155,6 @@
     margin-right: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-
-  
 
   /* CSS for the Add Class button */
   #add-class-btn {
@@ -182,7 +226,3 @@
     }
   });
 </script>
-
-
-
-----

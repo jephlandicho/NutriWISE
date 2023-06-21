@@ -13,7 +13,7 @@ git push
 
 --IF MINIMAL PUSHING--
 git add .
-git commit -m "platform-ginawa_mo"
+git commit -m "platform header.php "
 git push
 
 --FOR UPDATING THE FILE IN THE FOLDER--
