@@ -17,7 +17,7 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row" id="class-container">
-          <!-- The class cards will be dynamically added here -->
+         
         </div>
       </div>
     </div>
@@ -77,7 +77,7 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
+
 <script src="assets/js/main.js"></script>
 
 <style>
@@ -99,8 +99,8 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 500px; /* Adjust the width as needed */
-    max-width: 90%; /* Ensure it doesn't exceed the viewport width */
+    width: 500px; 
+    max-width: 90%; 
   }
 
   .modal-header {
@@ -146,7 +146,7 @@
   }
 
   .class-card {
-    flex: 0 0 calc(33.33% - 10px); /* Adjust the card width and spacing as needed */
+    flex: 0 0 calc(33.33% - 10px); 
     background-color: white;
     padding: 20px;
     border: 1px solid #ddd;
@@ -159,7 +159,7 @@
   /* CSS for the Add Class button */
   #add-class-btn {
     position: fixed;
-    top: 150px; /* Adjust the vertical position as needed */
+    top: 150px; 
     right: 20px;
     z-index: 9999;
   }
