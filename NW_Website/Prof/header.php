@@ -26,12 +26,21 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+
   <link href="assets/css/style.css" rel="stylesheet">
 
 
 </head>
 
+<style>
+
+.header{
+
+  background-color : whitesmoke;
+}
+
+
+</style>
 <body>
 
   <!-- ======= Header ======= -->
@@ -122,21 +131,21 @@
 
       <li class="nav-item">
         <a class="nav-link " href="index.php">
-          <i class="bi bi-bar-chart-fill"></i>
+          <i class="bi bi-bar-chart"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="meals.php">
-          <i class="bi bi-book-fill"></i>
+          <i class="bi bi-book"></i>
           <span>Meals</span>
         </a>
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collpsed" href="classes.php">
-          <i class="bi bi-people-fill"></i>
+          <i class="bi bi-people"></i>
           <span>Classes</span>
         </a>
       </li><!-- End Profile Page Nav -->
@@ -146,7 +155,7 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href=" ">
-          <i class="bi bi-person-fill"></i>
+          <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->

@@ -1,14 +1,4 @@
-/**
-* Template Name: NiceAdmin
-* Updated: May 30 2023 with Bootstrap v5.3.0
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
 }
@@ -381,10 +371,8 @@ h6 {
   z-index: 997;
   height: 60px;
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
-  background-color: lightgreen;
+  background-color:whitesmoke;
   padding-left: 20px;
-  /* Toggle Sidebar Button */
-  /* Search Bar */
 }
 
 .header .toggle-sidebar-btn {
@@ -395,7 +383,7 @@ h6 {
 }
 
 .header .search-bar {
-  min-width: 360px;
+  min-width: 360px; 
   padding: 0 20px;
 }
 
@@ -407,7 +395,7 @@ h6 {
     right: 0;
     padding: 20px;
     box-shadow: 0px 0px 15px 0px rgba(1, 41, 112, 0.1);
-    background: white;
+    background-color: white;
     z-index: 9999;
     transition: 0.3s;
     visibility: hidden;
@@ -622,7 +610,7 @@ h6 {
 .sidebar::-webkit-scrollbar {
   width: 5px;
   height: 8px;
-  background-color: #fff;
+  background-color:
 }
 
 .sidebar::-webkit-scrollbar-thumb {
@@ -684,9 +672,9 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
-  color:lightgreen;
+ 
   transition: 0.3;
-  background: #f6f9ff;
+ 
   padding: 10px 15px;
   border-radius: 4px;
 }
@@ -694,25 +682,19 @@ h6 {
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
-  color: lightgreen;
+  
 }
 
-.sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
-}
+
 
 .sidebar-nav .nav-link.collapsed i {
   color: #899bbd;
 }
 
-.sidebar-nav .nav-link:hover {
-  color: lightgreen;
-  background: #f6f9ff;
-}
+
 
 .sidebar-nav .nav-link:hover i {
-  color: lightgreen;
+  color: red;
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
