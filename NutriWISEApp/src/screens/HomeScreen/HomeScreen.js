@@ -1,12 +1,16 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Assuming you have the Ionicons package installed
+import { Ionicons } from '@expo/vector-icons';
+
+
 
 // Import your screen components
 import MealPlan from '../MealPlanScreen';
+import Exchange from '../MealPlanScreen/ExchangeComputation';
 import DashboardScreen from '../DashboardScreen';
 import SettingsScreen from '../SettingsScreen';
+
 
 const HomeScreen = () => {
   const Tab = createBottomTabNavigator();

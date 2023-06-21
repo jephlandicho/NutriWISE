@@ -1,1 +1,1 @@
-export {default} from './MealPlan';
+export {default} from './AnthroComputation';

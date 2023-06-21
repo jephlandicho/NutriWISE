@@ -3,6 +3,7 @@ import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ExchangeComputation from '../screens/MealPlanScreen/ExchangeComputation';
+import MealPlanning from '../screens/MealPlanScreen/MealPlanning';
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -26,6 +27,10 @@ const Navigation = () => {
             <Stack.Screen
                 name="ExchangeComputation"
                 component={ExchangeComputation}
+            ></Stack.Screen>
+            <Stack.Screen
+                name="MealPlanning"
+                component={MealPlanning}
             ></Stack.Screen>
         </Stack.Navigator>
     </NavigationContainer>
