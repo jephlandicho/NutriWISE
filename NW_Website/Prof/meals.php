@@ -22,7 +22,7 @@
               <tr>
                 <th>Client Name</th>
                 <th>Assigned to</th>
-                <th>Actions</th>
+                <th>View</th>
               </tr>
             </thead>
             <tbody>
@@ -70,14 +70,11 @@
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
 
-<!-- Template Main JS File -->
+
 <script src="assets/js/main.js"></script>
 
 <style>
-  .table-with-lines {
-    border-collapse: separate;
-    border-spacing: 0;
-  }
+  
 
   .table-with-lines tbody tr:not(:last-child) {
     border-bottom: 1px solid #ccc;
@@ -87,6 +84,12 @@
   .table-with-lines td {
     padding: 10px;
   }
+
+  table,th,td{
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+  sxa
 </style>
 
 <script>
