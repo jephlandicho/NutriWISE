@@ -124,6 +124,7 @@ const MealPlanning = () => {
       <View style={styles.totalCaloriesContainer}>
         <Text style={styles.totalCaloriesText}>Total Calories: {calculateTotalCalories()} cal</Text>
       </View>
+
     </View>
   );
 };
