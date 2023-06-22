@@ -1,4 +1,4 @@
-<?php include "header.php" ?>
+<?php include "header.php"; ?>
 
 <main id="main" class="main">
 
@@ -17,7 +17,41 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row" id="class-container">
-         
+          <?php 
+          // Retrieve classes from the database and display them
+          $host = "localhost";
+          $database = "class_added";
+          $conn = new mysqli($host, "", "", $database);
+
+          // Check connection
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          // Fetch classes from the database
+          $sql = "SELECT * FROM classes";
+          $result = $conn->query($sql);
+
+          // Display classes
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              $classId = isset($row['class_id']) ? $row['class_id'] : '';
+              echo '
+                <div class="class-card" data-class-id="' . $classId . '">
+                  <h2><span>' . $row['course_name'] . '</span></h2>
+                  <p>Course Code: ' . $row['course_code'] . '</p>
+                  <p>Facilitator: ' . $row['facilitator_name'] . '</p>
+                  <button class="edit-button">Edit</button>
+                  <button class="delete-button">Delete</button>
+                </div>
+              ';
+            }
+          } else {
+            echo '<p>No classes found.</p>';
+          }
+
+          $conn->close();
+          ?>
         </div>
       </div>
     </div>
@@ -59,15 +93,17 @@
 <button id="add-class-btn" class="btn btn-primary"><i class="bi bi-plus"></i> Add Class</button>
 
 <!-- ======= Footer ======= -->
+
 <!--<footer id="footer" class="footer">
   <div class="copyright">
     &copy; <?php echo date("Y"); ?> <strong><span>NutriWise</span></strong>. All Rights Reserved
   </div>
-</footer><!-- End Footer -->
+</footer>
+
+<!-- End Footer -->
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/vendor/chart.js/chart.umd.js"></script>
@@ -167,62 +203,197 @@
 
 <script>
   // Get the container and button elements
-  const classContainer = document.getElementById('class-container');
-  const addClassBtn = document.getElementById('add-class-btn');
-  const modal = document.getElementById('addClassModal');
-  const closeBtn = document.getElementsByClassName('close')[0];
-  const saveClassBtn = document.getElementById('saveClassBtn');
-  const courseNameInput = document.getElementById('courseNameInput');
-  const courseCodeInput = document.getElementById('courseCodeInput');
-  const facilitatorNameInput = document.getElementById('facilitatorNameInput');
+const classContainer = document.getElementById('class-container');
+const addClassBtn = document.getElementById('add-class-btn');
+const modal = document.getElementById('addClassModal');
+const closeBtn = document.getElementsByClassName('close')[0];
+const saveClassBtn = document.getElementById('saveClassBtn');
+const courseNameInput = document.getElementById('courseNameInput');
+const courseCodeInput = document.getElementById('courseCodeInput');
+const facilitatorNameInput = document.getElementById('facilitatorNameInput');
 
-  // Add event listener to the button
-  addClassBtn.addEventListener('click', function() {
-    // Show the modal
-    modal.style.display = 'block';
-  });
+// Add event listener to the button
+addClassBtn.addEventListener('click', function() {
+  // Show the modal
+  modal.style.display = 'block';
+});
 
-  // Close the modal when the close button is clicked
-  closeBtn.addEventListener('click', function() {
+// Close the modal when the close button is clicked
+closeBtn.addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+// Close the modal when the user clicks outside of it
+window.addEventListener('click', function(event) {
+  if (event.target == modal) {
     modal.style.display = 'none';
+  }
+});
+
+// Save the class when the save button is clicked
+saveClassBtn.addEventListener('click', function() {
+  const courseName = courseNameInput.value.trim();
+  const courseCode = courseCodeInput.value.trim();
+  const facilitatorName = facilitatorNameInput.value.trim();
+
+  if (courseName && courseCode && facilitatorName) {
+    // Send class data to the server using AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'save_class.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Create a new class card element
+        const classCard = document.createElement('div');
+        classCard.classList.add('class-card');
+        classCard.innerHTML = xhr.responseText;
+
+        // Append the class card to the container
+        classContainer.appendChild(classCard);
+
+        // Clear input fields
+        courseNameInput.value = '';
+        courseCodeInput.value = '';
+        facilitatorNameInput.value = '';
+
+        // Close the modal
+        modal.style.display = 'none';
+
+        // Attach event listeners to the edit and delete buttons of the newly added class card
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-button');
+        editButton.innerText = 'Edit';
+        attachEditEventListener(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-button');
+        deleteButton.innerText = 'Delete';
+        attachDeleteEventListener(deleteButton);
+
+        classCard.appendChild(editButton);
+        classCard.appendChild(deleteButton);
+      }
+    };
+    xhr.send('course_name=' + courseName + '&course_code=' + courseCode + '&facilitator_name=' + facilitatorName);
+  }
+});
+
+// Function to attach delete event listener to the delete button
+function attachDeleteEventListener(deleteButton) {
+  deleteButton.addEventListener('click', function() {
+    const classCard = deleteButton.closest('.class-card');
+    const classId = classCard.getAttribute('data-class-id');
+
+    // Send class ID to the server for deletion using AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'delete_class.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Check the response from the server
+        const response = xhr.responseText;
+        if (response === 'success') {
+          // Delete the class card from the DOM
+          classCard.remove();
+        } else {
+          // Display an error message
+          console.log('Error deleting class: ' + response);
+        }
+      }
+    };
+    xhr.send('class_id=' + classId);
   });
+}
 
-  // Close the modal when the user clicks outside of it
-  window.addEventListener('click', function(event) {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
+// Attach event listeners to the existing delete buttons of the class cards
+const deleteButtons = document.querySelectorAll('.delete-button');
+deleteButtons.forEach(function(deleteButton) {
+  attachDeleteEventListener(deleteButton);
+});
+
+// Function to attach edit event listener to the edit button
+function attachEditEventListener(editButton) {
+  editButton.addEventListener('click', function() {
+    const classCard = editButton.closest('.class-card');
+    const classId = classCard.getAttribute('data-class-id');
+
+    // Retrieve class data from the server using AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'get_class.php?class_id=' + classId, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Parse the JSON response
+        const classData = JSON.parse(xhr.responseText);
+
+        // Pre-fill the input fields with the retrieved class data
+        courseNameInput.value = classData.course_name;
+        courseCodeInput.value = classData.course_code;
+        facilitatorNameInput.value = classData.facilitator_name;
+
+        // Show the modal
+        modal.style.display = 'block';
+
+        // Update the save button's event listener to handle class update
+        saveClassBtn.removeEventListener('click', saveClassHandler);
+        saveClassBtn.addEventListener('click', function() {
+          updateClassHandler(classId);
+        });
+      }
+    };
+    xhr.send();
   });
+}
 
-  // Save the class when the save button is clicked
-  saveClassBtn.addEventListener('click', function() {
-    const courseName = courseNameInput.value.trim();
-    const courseCode = courseCodeInput.value.trim();
-    const facilitatorName = facilitatorNameInput.value.trim();
+// Attach event listeners to the existing edit buttons of the class cards
+const editButtons = document.querySelectorAll('.edit-button');
+editButtons.forEach(function(editButton) {
+  attachEditEventListener(editButton);
+});
 
-    if (courseName && courseCode && facilitatorName) {
-      // Create a new class card element
-      const classCard = document.createElement('div');
-      classCard.classList.add('class-card');
+// Function to handle class update
+function updateClassHandler(classId) {
+  const courseName = courseNameInput.value.trim();
+  const courseCode = courseCodeInput.value.trim();
+  const facilitatorName = facilitatorNameInput.value.trim();
 
-      // Create HTML structure for the class card content
-      const classCardHTML = `
-        <h2><span>${courseName}</span></h2>
-        <p>Course Code: ${courseCode}</p>
-        <p>Facilitator: ${facilitatorName}</p>
-      `;
-      classCard.innerHTML = classCardHTML;
+  if (courseName && courseCode && facilitatorName) {
+    // Send updated class data to the server using AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'update_class.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // Check the response from the server
+        const response = xhr.responseText;
+        if (response === 'success') {
+          // Update the class card in the DOM with the updated data
+          const classCard = document.querySelector('.class-card[data-class-id="' + classId + '"]');
+          const courseNameSpan = classCard.querySelector('h2 span');
+          const courseCodeP = classCard.querySelector('p:nth-child(2)');
+          const facilitatorNameP = classCard.querySelector('p:nth-child(3)');
 
-      // Append the class card to the container
-      classContainer.appendChild(classCard);
+          courseNameSpan.innerText = courseName;
+          courseCodeP.innerText = 'Course Code: ' + courseCode;
+          facilitatorNameP.innerText = 'Facilitator: ' + facilitatorName;
 
-      // Clear input fields
-      courseNameInput.value = '';
-      courseCodeInput.value = '';
-      facilitatorNameInput.value = '';
+          // Clear input fields
+          courseNameInput.value = '';
+          courseCodeInput.value = '';
+          facilitatorNameInput.value = '';
 
-      // Close the modal
-      modal.style.display = 'none';
-    }
-  });
+          // Close the modal
+          modal.style.display = 'none';
+
+          // Update the save button's event listener to handle class creation
+          saveClassBtn.removeEventListener('click', updateClassHandler);
+          saveClassBtn.addEventListener('click', saveClassHandler);
+        } else {
+          // Display an error message
+          console.log('Error updating class: ' + response);
+        }
+      }
+    };
+    xhr.send('class_id=' + classId + '&course_name=' + courseName + '&course_code=' + courseCode + '&facilitator_name=' + facilitatorName);
+  }
+}
 </script>
