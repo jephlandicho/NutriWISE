@@ -13,8 +13,11 @@ const SignInScreen = () => {
     const {control,handleSubmit,formState:{errors}} = useForm();
 
     const onSignInPressed = data => {
-      console.log(data);
+      const { Username, password } = data;
+      console.log('Username:', Username);
+      console.log('Password:', password);
       navigation.navigate('HomeScreen');
+
       
     }
 
