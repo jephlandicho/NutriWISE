@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "NW_app",
+    "slug": "NW_app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

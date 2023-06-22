@@ -4,6 +4,7 @@ import { Input } from 'react-native-elements';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import CustomButton from '../../components/CustomButton';
+import { DataTable } from 'react-native-paper';
 
 
 const ExchangeComputation = () => {
@@ -21,7 +22,6 @@ const ExchangeComputation = () => {
   const [fat, setFat] = useState('');
 
   const [protein1, setProtein1] = useState('');
-  const [meat1, setMeat1] = useState('');
   const [fat1, setFat1] = useState('');  
 
   const [riceExResult, setRiceExResult] = useState('');
@@ -31,6 +31,8 @@ const ExchangeComputation = () => {
   const [showInputField, setShowInputField] = useState(false);
   const [showInputField2, setShowInputField2] = useState(false);
   const [showInputField3, setShowInputField3] = useState(false);
+
+
 
   useEffect(() => {
     if (vegetables && fruit && milk && sugar) {
@@ -72,9 +74,6 @@ const ExchangeComputation = () => {
 
     const riceRes = `(${riceExchange})`;
     setRiceExResult(riceRes);
-
-    const res1 = `Vegetables: (${vegetables}) exchange\nCarbohydrates: (${vegCarbs}) Protein: (${vegProtein}) Kcal: (${vegKcal})\n\nFruits: (${fruit}) exchange\n Carbohydrates: (${fruitCarbs}) Kcal: (${fruitKcal})\n\nMilk: (${milk}) exchange\nCarbohydrates: (${milkCarbs})Protein: (${milkProtein})Fat: (${milkFat})Kcal: (${milkKcal})\n\nSugar: (${sugar}) exchange\nSugar: (${sugarCarbs}) Kcal: (${sugarKcal})`;
-    setResult1(res1);
     setShowInputField(true);
   };
 
@@ -219,14 +218,43 @@ const ExchangeComputation = () => {
 
         {fat !== '' && (
           <View>
-            <Text style={styles.result}>{result1}</Text>
             {showInputField3 && (
-          <View style={styles.btnNext}>
-            <CustomButton
-              text="Next"
-              onPress={handleSubmit(nextPressed)}
-            />
-          </View>
+              <View>
+                <View style={styles.btnNext}>
+                  <CustomButton
+                    text="Next"
+                    onPress={handleSubmit(nextPressed)}
+                  />
+                </View>
+                <DataTable style={styles.containerTable}>
+                  <DataTable.Header style={styles.tableHeader}>
+                    <DataTable.Title >Food</DataTable.Title>
+                    <DataTable.Title  numberOfLines={2}>No. of Exchange</DataTable.Title>
+                    <DataTable.Title  numberOfLines={2}>Carbohydrates(g)</DataTable.Title>
+                    <DataTable.Title  numberOfLines={2}>Protein(g)</DataTable.Title>
+                    <DataTable.Title >Fat(g)</DataTable.Title>
+                    <DataTable.Title  numberOfLines={2}>Energy(kcal)</DataTable.Title>
+                  </DataTable.Header>
+                <DataTable.Row style={styles.row}>
+                  <DataTable.Cell>Veg</DataTable.Cell>
+                  <DataTable.Cell>{vegetables}</DataTable.Cell>
+                  <DataTable.Cell></DataTable.Cell>
+                  <DataTable.Cell>3</DataTable.Cell>
+                  <DataTable.Cell>-</DataTable.Cell>
+                  <DataTable.Cell>48</DataTable.Cell>
+                </DataTable.Row>
+                <DataTable.Row style={styles.row}>
+                  <DataTable.Cell>Fruit</DataTable.Cell>
+                  <DataTable.Cell>{fruit}</DataTable.Cell>
+                  <DataTable.Cell></DataTable.Cell>
+                  <DataTable.Cell>3</DataTable.Cell>
+                  <DataTable.Cell>-</DataTable.Cell>
+                  <DataTable.Cell>48</DataTable.Cell>
+                </DataTable.Row>
+                </DataTable>
+              </View>
+              
+
             )}
           </View>
         )}
@@ -293,6 +321,13 @@ const styles = StyleSheet.create({
   result: {
     fontSize: 18,
     textAlign: 'center',
+  },
+  containerTable: {
+    padding: 5,
+  },
+  tableHeader: {
+    backgroundColor: '#DCDCDC',
+    alignItems: 'center',
   },
 });
 
