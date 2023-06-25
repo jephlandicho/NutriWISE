@@ -42,7 +42,8 @@ const MealPlan = () => {
       bmiCategory = 'Obese 2';
     }
     const heightInCm = parseFloat(height) * 100;
-    const desirableWeight = (heightInCm - 100) * 0.90;
+    const tenPercent = (heightInCm - 100);
+    const desirableWeight = tenPercent -(tenPercent * .10);
     const ter = Math.round((desirableWeight * parseFloat(kcal)) / 50) * 50;
     const protein = Math.round(((ter * 0.65) / 4) / 5) * 5;
     const carbs = Math.round(((ter * 0.15) / 4) / 5) * 5;
