@@ -12,6 +12,7 @@ import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import MealPlanning from '../Stack/MealPlanning';
+import ExchangeDistribution from '../Stack/ExchangeDistribution';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -143,11 +144,15 @@ function StackNavigator() {
         component={ExchangeComputation}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Meal Planning')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Exchange Distribution')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
         })}
+      />
+      <Stack.Screen
+        name='Exchange Distribution'
+        component={ExchangeDistribution}
       />
       <Stack.Screen
         name='Meal Planning'
