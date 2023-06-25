@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Connect to the database
     $host = "localhost";
     $database = "class_added";
-    $conn = new mysqli($host, '', '', $database);
+    $conn = new mysqli($host, 'root', '', $database);
 
     // Check connection
     if ($conn->connect_error) {

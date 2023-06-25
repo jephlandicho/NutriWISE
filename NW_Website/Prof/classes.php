@@ -92,6 +92,7 @@
 <!-- Add Class Button -->
 <button id="add-class-btn" class="btn btn-primary"><i class="bi bi-plus"></i> Add Class</button>
 
+
 <!-- ======= Footer ======= -->
 
 <!--<footer id="footer" class="footer">
