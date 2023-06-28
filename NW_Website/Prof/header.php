@@ -154,7 +154,7 @@
       <li class="nav-heading"></li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href=" ">
+        <a class="nav-link collapsed" href="user_profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>

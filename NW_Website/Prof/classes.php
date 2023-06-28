@@ -200,6 +200,28 @@
     right: 20px;
     z-index: 9999;
   }
+
+  .edit-button,
+.delete-button {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.edit-button {
+  background-color: #337ab7;
+  color: #fff;
+}
+
+.delete-button {
+  background-color: #d9534f;
+  color: #fff;
+}
 </style>
 
 <script>
