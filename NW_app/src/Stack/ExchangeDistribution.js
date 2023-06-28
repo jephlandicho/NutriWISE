@@ -435,9 +435,7 @@ const ExchangeDistribution = () => {
             {/* Last Row */}
             {displayLastRow && (
                 <>
-                <CustomButton
                 
-                />
                 </>
             )}
         </View>
