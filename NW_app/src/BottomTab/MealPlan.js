@@ -3,6 +3,8 @@ import React, { useEffect, useState,useContext  } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../Components/CustomInput';
 import { useForm, Controller } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFormData, setResult, setOtherValue } from '../Features/mealPlanSlice';
 import { useNavigation } from '@react-navigation/native';
 import { ResultContext } from '../Components/ResultContext';
 

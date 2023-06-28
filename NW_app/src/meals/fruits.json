@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "meal_calories": 40.0,
+        "meal_group": "fruits",
+        "meal_name": "atis"
+    },
+    {
+        "id": 2,
+        "meal_calories": 20.0,
+        "meal_group": "fruits",
+        "meal_name": "balimbing"
+    },
+    {
+        "id": 3,
+        "meal_calories": 30.0,
+        "meal_group": "fruits",
+        "meal_name": "bayabas"
+    }
+]
