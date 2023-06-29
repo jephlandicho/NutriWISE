@@ -11,7 +11,7 @@ import MealPlan from '../BottomTab/MealPlan';
 import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
-import MealPlanning from '../Stack/MealPlanning';
+import Breakfast from '../Stack/Breakfast';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
 import Try from '../Stack/Try';
 
@@ -156,15 +156,15 @@ function StackNavigator() {
         component={ExchangeDistribution}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Try')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
         })}
       />
       <Stack.Screen
-        name='Meal Planning'
-        component={MealPlanning}
+        name='Breakfast'
+        component={Breakfast}
       />
         <Stack.Screen
         name='Try'

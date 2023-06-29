@@ -46,7 +46,7 @@ const ExchangeComputation = () => {
 
 
   const { result, otherValue } = useContext(ResultContext);
-  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal } = useContext(ResultContext);
+  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
 
 
 
@@ -183,14 +183,17 @@ const ExchangeComputation = () => {
     <View>
 <View style={{ flexDirection: 'row', marginLeft: 30, marginTop: 10 }}>
   <View style={{ flex: 1 }}>
-    <Text style={styles.result1}>{otherValue}</Text>
+        <Text style={styles.result1}>Carbohydrates: {carbs} g</Text>
+        <Text style={styles.result1}>Protein: {protein} g</Text>
+        <Text style={styles.result1}>Fats: {fats} g</Text>
+        <Text style={styles.result1}>TER: {TER} kcal</Text>
   </View>
   {kcal3 !== '' && showInputField3 && (
     <View style={{ flex: 1 }}>
-      <Text>totalCarbs: {totalCarbs}</Text>
-      <Text>totalProtein: {totalProtein}</Text>
-      <Text>totalFat: {totalFat}</Text>
-      <Text>totalKcal: {totalKcal}</Text>
+      <Text>Carbohydrates: {totalCarbs}</Text>
+      <Text>Protein: {totalProtein}</Text>
+      <Text>Fats: {totalFat}</Text>
+      <Text>TER: {totalKcal}</Text>
     </View>
   )}
 </View>

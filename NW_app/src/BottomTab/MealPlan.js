@@ -3,17 +3,17 @@ import React, { useEffect, useState,useContext  } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../Components/CustomInput';
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFormData, setResult, setOtherValue } from '../Features/mealPlanSlice';
 import { useNavigation } from '@react-navigation/native';
 import { ResultContext } from '../Components/ResultContext';
 
 const MealPlan = () => {
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
   const navigation = useNavigation();
-  const { result, setResult, otherValue, setOtherValue } = useContext(ResultContext);
+  const { result, setResult, otherValue, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
   
-
+  const name = watch('Client_name');
+  const age = watch('Age');
+  const sex = watch('gender');
   const waistCircumference = watch('waistCircumference');
   const hipCircumference = watch('hipCircumference');
   const weight = watch('weight');
@@ -53,8 +53,25 @@ const MealPlan = () => {
 
     const resultText = `(${bmiCategory})\n\nWHR: ${whr.toFixed(2)} cm\nBMI: ${bmi.toFixed(1)} kg/m²\nDesirable Body Weight: ${desirableWeight.toFixed(2)} kg`;
     setResult(resultText);
-    const dietRX = `Diet RX:\nProtein: ${protein} g\nCarbohydrates: ${carbs} g\nFats: ${fats} g\nTER: ${ter} kcal`;
+    const dietRX = `Diet RX:\n \nCarbohydrates: ${carbs} g\nProtein: ${protein} g\nFats: ${fats} g\nTER: ${ter} kcal`;
     setOtherValue(dietRX);
+
+    setClientname(name);
+    setClientAge(age);
+    setClientSex(sex);
+    setWaistC(waistCircumference);
+    setHipC(hipCircumference);
+    setweight(weight);
+    setheight(height);
+    setPal(kcal);
+    setNormal(bmiCategory);
+    setwhr(whr.toFixed(2));
+    setbmi(bmi.toFixed(1));
+    setdbw(desirableWeight.toFixed(2));
+    setcarbs(carbs);
+    setprotein(protein);
+    setfats(fats);
+    setTER(ter);
   };
 
   const nextPressed = () => {
@@ -154,9 +171,15 @@ const MealPlan = () => {
         </View>
       </View>
       <View style={styles.resultContainer}>
-        <Text style={styles.result}>{result}</Text>
-        <Text style={styles.result}>{otherValue}</Text>
-
+      <Text style={styles.result}>{normal}</Text>
+      <Text style={styles.result}>WHR: {whr} cm</Text>
+      <Text style={styles.result}>BMI: {bmi} kg/m²</Text>
+      <Text style={styles.result}>DBW: {dbw} kg</Text>
+        <Text style={styles.result}>Diet RX:</Text>
+        <Text style={styles.result}>Carbohydrates: {carbs} g</Text>
+        <Text style={styles.result}>Protein: {protein} g</Text>
+        <Text style={styles.result}>Fats: {fats} g</Text>
+        <Text style={styles.result}>TER: {TER} kcal</Text>
       </View>
 
     </ScrollView></>

@@ -1,37 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-const MealPlanning = () => {
+import foodsData from '../meals/foods.json';
+
+const Breakfast = () => {
   const [mealPlan, setMealPlan] = useState({});
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState('Vegetable');
   const [selectedVegetables, setSelectedVegetables] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const sections = ['Vegetables', 'Fruits', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'LF Meat', 'MF Meat', 'Fat', 'Sugar'];
+  const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [vegetables, setVegetables] = useState([]);
   const [filteredVegetables, setFilteredVegetables] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (selectedSection !== '') {
-        try {
-          const response = await fetch(`../meals/${selectedSection.toLowerCase()}`);
-          const data = await response.json();
-          setVegetables(data);
-          setFilteredVegetables(data);
-        } catch (error) {
-          console.error('Error loading JSON:', error);
-          setVegetables([]);
-          setFilteredVegetables([]);
-        }
-      }
-    };
+  const fetchData = () => {
+    if (selectedSection !== '') {
+      const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
+      setVegetables(sectionData);
+      setFilteredVegetables(sectionData);
+      const mealNames = sectionData.map((food) => food.meal_name);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, [selectedSection]);
 
-  const addVegetableToMeal = (section) => {
-    setSelectedSection(section);
+  const addVegetableToMeal = (section, vegetable) => {
+    const updatedMealPlan = { ...mealPlan };
+    if (updatedMealPlan[section]) {
+      // Check if the vegetable already exists in the selected section
+      const isDuplicate = updatedMealPlan[section].some((item) => item.id === vegetable.id);
+      if (isDuplicate) {
+        Alert.alert('Duplicate Food', 'You have already selected this food.');
+        return;
+      }
+      updatedMealPlan[section].push(vegetable);
+    } else {
+      updatedMealPlan[section] = [vegetable];
+    }
+    setMealPlan(updatedMealPlan);
   };
+
 
   const deleteVegetableFromMeal = (section, vegetable) => {
     const updatedMealPlan = { ...mealPlan };
@@ -44,25 +54,6 @@ const MealPlanning = () => {
     }
   };
 
-  const calculateSectionCalories = (section) => {
-    if (mealPlan[section]) {
-      const sectionVegetables = mealPlan[section];
-      const totalCalories = sectionVegetables.reduce(
-        (sum, vegetable) => sum + vegetable.meal_calories,
-        0
-      );
-      return totalCalories;
-    }
-    return 0;
-  };
-
-  const calculateTotalCalories = () => {
-    const totalCalories = Object.values(mealPlan)
-      .flat()
-      .reduce((sum, vegetable) => sum + vegetable.meal_calories, 0);
-    return totalCalories;
-  };
-
   const handleSearch = (query) => {
     setSearchQuery(query);
     const filteredList = vegetables.filter((vegetable) =>
@@ -73,65 +64,74 @@ const MealPlanning = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.sectionContainer}>
-        <ScrollView horizontal>
-          {sections.map((section) => (
-            <TouchableOpacity
-              key={section}
-              style={[styles.sectionButton, selectedSection === section && styles.selectedSection]}
-              onPress={() => addVegetableToMeal(section)}
+        <View style={styles.inputContainer}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchBar}
+              value={searchQuery}
+              onChangeText={handleSearch}
+              placeholder="Search here..."
+            />
+          </View>
+          <View style={styles.pickerContainer}>
+            <Picker
+              style={styles.picker}
+              selectedValue={selectedSection}
+              onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
             >
-              <Text style={styles.sectionButtonText}>{section}</Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+              {sections.map((section) => (
+                <Picker.Item key={section} label={section} value={section} />
+              ))}
+            </Picker>
+          </View>
+        </View>
 
-      <TextInput
-        style={styles.searchBar}
-        value={searchQuery}
-        onChangeText={handleSearch}
-        placeholder="Search vegetables..."
-      />
 
       <ScrollView style={styles.vegetablesContainer}>
         {filteredVegetables.map((vegetable) => (
           <TouchableOpacity
-            key={vegetable.id}
+           key={vegetable.id}
             style={[
               styles.vegetableButton,
               selectedVegetables.includes(vegetable) && styles.selectedVegetable,
             ]}
             onPress={() => addVegetableToMeal(selectedSection, vegetable)}
           >
-            <Text style={styles.vegetableButtonText}>{vegetable.meal_name}</Text>
-            <Text style={styles.vegetableCalories}>{vegetable.meal_calories} cal</Text>
+            <Text style={styles.vegetableButtonText}>
+              {vegetable.meal_name} - {vegetable.household_measure}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <View style={styles.mealtextContainer}>
+      <Text style={styles.mealPlanText}>Meal Plan:</Text>
+      <View style={styles.searchContainer}>
+      <TextInput 
+      style={styles.menuBar}
+      placeholder='Menu...'
+      ></TextInput>
+      </View>
+
+      </View>
 
       <ScrollView style={styles.mealPlanContainer}>
-        <Text style={styles.mealPlanText}>Meal Plan:</Text>
         {Object.entries(mealPlan).map(([section, vegetables]) => (
           <View key={section} style={styles.mealPlanSection}>
-            <Text style={styles.mealPlanSectionTitle}>{section} Calories: {calculateSectionCalories(section)} cal</Text>
+            <Text style={styles.mealPlanSectionTitle}>{section}</Text>
             {vegetables.map((vegetable) => (
               <TouchableOpacity
                 key={vegetable.id}
                 style={styles.mealPlanVegetable}
                 onPress={() => deleteVegetableFromMeal(section, vegetable)}
               >
-                <Text>{vegetable.meal_name}</Text>
-                <Text style={styles.mealPlanVegetableCalories}>{vegetable.meal_calories} cal</Text>
+                <Text>
+                  {vegetable.meal_name} - {vegetable.household_measure}
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
         ))}
       </ScrollView>
-
-      <View style={styles.totalCaloriesContainer}>
-        <Text style={styles.totalCaloriesText}>Total Calories: {calculateTotalCalories()} cal</Text>
-      </View>
     </View>
   );
 };
@@ -141,9 +141,20 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  sectionContainer: {
+  inputContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 16,
+  },
+  searchContainer: {
+    flex: 1,
+  },
+  pickerContainer: {
+    marginLeft: 5,
+    width: 120, // Adjust the width as needed
+  },
+  picker: {
+    flex: 1,
   },
   sectionButton: {
     backgroundColor: '#ECECEC',
@@ -187,7 +198,19 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   mealPlanContainer: {
-    marginBottom: 16,
+    marginBottom: 80,
+  },
+  mealtextContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuBar: {
+    backgroundColor: '#ECECEC',
+    padding: 5,
+    marginBottom: 8,
+    borderRadius: 8,
+    marginLeft: 20,
+    marginRight: 10,
   },
   mealPlanText: {
     fontSize: 16,
@@ -228,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MealPlanning;
+export default Breakfast;
