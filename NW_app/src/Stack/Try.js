@@ -43,20 +43,19 @@ const Try = () => {
   useEffect(() => {
 
         db.transaction(tx => {
-          tx.executeSql(
-            'SELECT * FROM items',
+          tx.executeSql('CREATE TABLE IF NOT EXISTS tbl_user(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(20), user_contact INT(10), user_address VARCHAR(255))',
             [],
-            (_, result) => {
-              const rows = result.rows;
-              const names = [];
-              for (let i = 0; i < rows.length; i++) {
-                names.push(rows.item(i).name);
-              }
-              setMealNames(names);
-            },
-            (txObj, error) => {
-              console.log('Query error:', error);
-            }
+            // (_, result) => {
+            //   const rows = result.rows;
+            //   const names = [];
+            //   for (let i = 0; i < rows.length; i++) {
+            //     names.push(rows.item(i).name);
+            //   }
+            //   setMealNames(names);
+            // },
+            // (txObj, error) => {
+            //   console.log('Query error:', error);
+            // }
           );
         });
   }, []);
