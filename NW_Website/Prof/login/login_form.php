@@ -4,34 +4,32 @@
 session_start();
 
 if (isset($_POST['submit'])) {
-    $email = mysqli_real_escape_string($conn, $_POST['usermail']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $pass = md5($_POST['password']);
 
-    $select = "SELECT * FROM prof_form WHERE email = '$email' && password = '$pass'";
+    $select = "SELECT * FROM prof_form WHERE username = '$username' && password = '$pass'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
-        $_SESSION['usermail'] = $email;
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['username'] = $username;
         $_SESSION['isFaculty'] = true; // Set a session variable to indicate faculty status
         header('location:../index.php');
         exit;
     } else {
-        $error[] = 'Incorrect password or email.';
+        $error[] = 'Incorrect username or password.';
     }
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="form-container">
         <form action="" method="post">
@@ -47,13 +45,11 @@ if (isset($_POST['submit'])) {
                 }
             }
             ?>
-            <input type="email" name="usermail" placeholder="Enter Email" class="box" required>
+            <input type="text" name="username" placeholder="Enter Username" class="box" required>
             <input type="password" name="password" placeholder="Enter Password" class="box" required>
             <input type="submit" value="LOG IN" class="form-btn" name="submit">
             <p>Don't have an account? <a href="register_form.php">Register now!</a></p>
         </form>
     </div>
-
 </body>
-
 </html>

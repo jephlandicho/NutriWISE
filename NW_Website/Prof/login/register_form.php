@@ -1,64 +1,68 @@
- <?php
+<?php
 
 @include 'config.php';
 
 session_start();
 
-if(isset($_POST['submit'])){
-    
-   $email = mysqli_real_escape_string($conn, $_POST['usermail']);
-   $pass = md5($_POST['password']);
-   $cpass = md5($_POST['cpassword']);
+if (isset($_POST['submit'])) {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $email = mysqli_real_escape_string($conn, $_POST['usermail']);
+    $pass = md5($_POST['password']);
+    $cpass = md5($_POST['cpassword']);
 
-   $select = " SELECT * FROM prof_form WHERE email = '$email' && password = '$pass'";
+    $select = "SELECT * FROM prof_form WHERE email = '$email'";
 
-   $result = mysqli_query($conn, $select);
+    $result = mysqli_query($conn, $select);
 
-   if(mysqli_num_rows($result) > 0){
-      $error[] = 'user already exist';
-   }else{
-      if($pass != $cpass){
-         $error[] = 'password not mathched!';
-      }else{
-         $insert = "INSERT INTO prof_form(email, password) VALUES('$email','$pass')";
-         mysqli_query($conn, $insert);
-         header('location:login_form.php');
-      }
-   }
-
+    if (mysqli_num_rows($result) > 0) {
+        $error[] = 'User already exists';
+    } else {
+        if ($pass != $cpass) {
+            $error[] = 'Passwords do not match!';
+        } else {
+            $insert = "INSERT INTO prof_form(username, email, password) VALUES('$username', '$email','$pass')";
+            mysqli_query($conn, $insert);
+            header('location: login_form.php');
+            exit;
+        }
+    }
 }
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    
-<div class="form-container">
 
-   <form action="" method="post">
-      <h3 class="title">register now</h3>
-      <?php
-         if(isset($error)){
-            foreach($error as $error){
-               echo '<span class="error-msg">'.$error.'</span>';
+    <div class="form-container">
+
+        <form action="" method="post">
+            <h3 class="title">Register Now</h3>
+            <?php
+            if (isset($error)) {
+                foreach ($error as $error) {
+                    echo '<span class="error-msg">' . $error . '</span>';
+                }
             }
-         }
-      ?>
-      <input type="email" name="usermail" placeholder="enter your email" class="box" required>
-      <input type="password" name="password" placeholder="enter your password" class="box" required>
-      <input type="password" name="cpassword" placeholder="confirm your password" class="box" required>
-      <input type="submit" value="register now" class="form-btn" name="submit">
-      <p>already have an account? <a href="login_form.php">login now!</a></p>
-   </form>
+            ?>
+            <input type="text" name="username" placeholder="Enter Username" class="box" required>
+            <input type="email" name="usermail" placeholder="Enter Email" class="box" required>
+            <input type="password" name="password" placeholder="Enter Password" class="box" required>
+            <input type="password" name="cpassword" placeholder="Confirm Password" class="box" required>
+            <input type="submit" value="Register Now" class="form-btn" name="submit">
+            <p>Already have an account? <a href="login_form.php">Login now!</a></p>
+        </form>
 
-</div>
+    </div>
 
 </body>
+
 </html>

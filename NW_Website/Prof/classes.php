@@ -37,10 +37,10 @@
             while ($row = $result->fetch_assoc()) {
               $classId = isset($row['class_id']) ? $row['class_id'] : '';
               echo '
-                <div class="class-card" data-class-id="' . $classId . '">
+                 <div class="class-card card-link" data-class-id="' . $classId . '">
                   <h2><span>' . $row['course_name'] . '</span></h2>
                   <p>Course Code: ' . $row['course_code'] . '</p>
-                  <p>Facilitator: ' . $row['facilitator_name'] . '</p>
+                  <p>Room: ' . $row['facilitator_name'] . '</p>
                   <button class="edit-button">Edit</button>
                   <button class="delete-button">Delete</button>
                 </div>
@@ -58,68 +58,9 @@
   </section>
 
 </main><!-- End #main -->
-
-<!-- Add Class Modal -->
-<div id="addClassModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <div class="modal-header">
-      <h2>Add Class</h2>
-    </div>
-    <div class="modal-body">
-      <form id="addClassForm">
-        <div class="form-group">
-          <label for="courseNameInput">Course Name:</label>
-          <input type="text" id="courseNameInput" class="modal-input" placeholder="Enter course name">
-        </div>
-        <div class="form-group">
-          <label for="courseCodeInput">Course Code:</label>
-          <input type="text" id="courseCodeInput" class="modal-input" placeholder="Enter course code">
-        </div>
-        <div class="form-group">
-          <label for="facilitatorNameInput">Facilitator Name:</label>
-          <input type="text" id="facilitatorNameInput" class="modal-input" placeholder="Enter facilitator name">
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
-      <button id="saveClassBtn" class="btn btn-primary">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Add Class Button -->
-<button id="add-class-btn" class="btn btn-primary"><i class="bi bi-plus"></i> Add Class</button>
-
-
-<!-- ======= Footer ======= -->
-
-<!--<footer id="footer" class="footer">
-  <div class="copyright">
-    &copy; <?php echo date("Y"); ?> <strong><span>NutriWise</span></strong>. All Rights Reserved
-  </div>
-</footer>
-
-<!-- End Footer -->
-
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-
-
-<script src="assets/js/main.js"></script>
-
 <style>
-  /* CSS for the modal */
-  .modal {
+   /* CSS for the modal */
+   .modal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -193,36 +134,200 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  /* CSS for the Add Class button */
+
   #add-class-btn {
     position: fixed;
     top: 150px; 
     right: 20px;
     z-index: 9999;
   }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: #000;
+  }
+  /* CSS for the modal */
+ .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
-  .edit-button,
-.delete-button {
-  display: inline-block;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  text-align: center;
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 500px; 
+  max-width: 90%; 
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal-input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  margin-left: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
+.class-card {
+  flex: 0 0 calc(33.33% - 10px); 
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-right: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS for the Add Class button */
+#add-class-btn {
+  position: fixed;
+  top: 150px; 
+  right: 20px;
+  z-index: 9999;
+}
+
+.edit-button, .delete-button {
+display: inline-block;
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+font-size: 16px;
+text-align: center;
+text-decoration: none;
+cursor: pointer;
+}
+
 .edit-button {
-  background-color: #337ab7;
-  color: #fff;
+background-color: #337ab7;
+color: #fff;
 }
 
 .delete-button {
-  background-color: #d9534f;
-  color: #fff;
+background-color: #d9534f;
+color: #fff;
 }
+  
 </style>
+
+<!-- Add Class Modal -->
+<div id="addClassModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-header">
+      <h2>Add Class</h2>
+    </div>
+    <div class="modal-body">
+      <form id="addClassForm">
+        <div class="form-group">
+          <label for="courseNameInput">Class Name:</label>
+          <input type="text" id="courseNameInput" class="modal-input" placeholder="Enter course name">
+        </div>
+        <div class="form-group">
+          <label for="courseCodeInput">Course Code:</label>
+          <input type="text" id="courseCodeInput" class="modal-input" placeholder="Enter course code">
+        </div>
+        <div class="form-group">
+          <label for="facilitatorNameInput">Class Room:</label>
+          <input type="text" id="facilitatorNameInput" class="modal-input" placeholder="Room Location">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelBtn" class="btn btn-secondary">Cancel</button>
+      <button id="saveClassBtn" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Class Button -->
+<button id="add-class-btn" class="btn btn-primary"><i class="bi bi-plus"></i> Add Class</button>
+
+
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+
+<script src="assets/js/main.js"></script>
+
+
 
 <script>
   // Get the container and button elements
@@ -342,7 +447,7 @@ function attachEditEventListener(editButton) {
 
     // Retrieve class data from the server using AJAX
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'get_class.php?class_id=' + classId, true);
+    xhr.open('GET', 'class_details.php?class_id=' + classId, true);
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         // Parse the JSON response
@@ -397,7 +502,7 @@ function updateClassHandler(classId) {
 
           courseNameSpan.innerText = courseName;
           courseCodeP.innerText = 'Course Code: ' + courseCode;
-          facilitatorNameP.innerText = 'Facilitator: ' + facilitatorName;
+          facilitatorNameP.innerText = 'Room: ' + facilitatorName;
 
           // Clear input fields
           courseNameInput.value = '';
@@ -419,4 +524,54 @@ function updateClassHandler(classId) {
     xhr.send('class_id=' + classId + '&course_name=' + courseName + '&course_code=' + courseCode + '&facilitator_name=' + facilitatorName);
   }
 }
+
+  // Function to handle class card click event and redirect to the new page
+  function handleClassCardClick(classId) {
+    // Redirect to the new page, passing the class ID as a parameter
+    window.location.href = 'class_details.php?class_id=' + classId;
+  }
+
+  // Add event listeners to the class cards
+  const classCards = document.querySelectorAll('.class-card');
+  classCards.forEach(function(classCard) {
+    const classId = classCard.getAttribute('data-class-id');
+    classCard.addEventListener('click', function(event) {
+      // Check if the click originated from the delete or edit button
+      const target = event.target;
+      if (
+        target.classList.contains('delete-button') ||
+        target.classList.contains('edit-button')
+      ) {
+        // Stop event propagation to prevent class card click action
+        event.stopPropagation();
+      } else {
+        // Handle class card click event
+        handleClassCardClick(classId);
+      }
+    });
+  });
+
+  $(document).ready(function() {
+      // Handle class card click event
+      $('.class-card').on('click', function() {
+        // Get the class ID from the data attribute
+        var classId = $(this).data('class-id');
+        
+        // Redirect to class details page with the class ID
+        window.location.href = 'class_details.php?class_id=' + classId;
+      });
+    });
+
+  
+
 </script>
+
+<!-- ======= Footer ======= -->
+
+<!--<footer id="footer" class="footer">
+  <div class="copyright">
+    &copy; <?php echo date("Y"); ?> <strong><span>NutriWise</span></strong>. All Rights Reserved
+  </div>
+</footer>
+
+<!-- End Footer -->
