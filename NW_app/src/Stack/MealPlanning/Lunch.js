@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-import foodsData from '../meals/foods.json';
+import foodsData from '../../meals/foods.json';
 
-const Breakfast = () => {
+const Lunch = () => {
   const [mealPlan, setMealPlan] = useState({});
   const [selectedSection, setSelectedSection] = useState('Vegetable');
   const [selectedVegetables, setSelectedVegetables] = useState([]);
@@ -251,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Breakfast;
+export default Lunch;
