@@ -11,9 +11,13 @@ import MealPlan from '../BottomTab/MealPlan';
 import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
-import Breakfast from '../Stack/Breakfast';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
-import Try from '../Stack/Try';
+import Breakfast from '../Stack/MealPlanning/Breakfast';
+import AMSnacks from '../Stack/MealPlanning/AMSnack';
+import Lunch from '../Stack/MealPlanning/Lunch';
+import PMSnacks from '../Stack/MealPlanning/PMSnacks';
+import Dinner from '../Stack/MealPlanning/Dinner';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -165,10 +169,50 @@ function StackNavigator() {
       <Stack.Screen
         name='Breakfast'
         component={Breakfast}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('AMSnacks')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+        })}
       />
-        <Stack.Screen
-        name='Try'
-        component={Try}
+      <Stack.Screen
+        name='AMSnacks'
+        component={AMSnacks}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Lunch')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='Lunch'
+        component={Lunch}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('PMSnacks')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='PMSnacks'
+        component={PMSnacks}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Dinner')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='Dinner'
+        component={Dinner}
       />
     </Stack.Navigator>
   );
