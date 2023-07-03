@@ -12,6 +12,8 @@ import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
+import MealPlanResult from '../Stack/MealPlanResult';
+
 import Breakfast from '../Stack/MealPlanning/Breakfast';
 import AMSnacks from '../Stack/MealPlanning/AMSnack';
 import Lunch from '../Stack/MealPlanning/Lunch';
@@ -171,7 +173,7 @@ function StackNavigator() {
         component={Breakfast}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('AMSnacks')}>
+            <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
@@ -213,6 +215,10 @@ function StackNavigator() {
       <Stack.Screen
         name='Dinner'
         component={Dinner}
+      />
+      <Stack.Screen
+        name='MealPlanResult'
+        component={MealPlanResult}
       />
     </Stack.Navigator>
   );

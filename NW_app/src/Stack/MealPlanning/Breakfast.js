@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { ResultContext } from '../../Components/ResultContext';
 
 import foodsData from '../../meals/foods.json';
 
 const Breakfast = () => {
-  const [mealPlan, setMealPlan] = useState({});
   const [selectedSection, setSelectedSection] = useState('Vegetable');
-  const [selectedVegetables, setSelectedVegetables] = useState([]);
+  const [selectedFoods, setSelectedFoods] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
-  const [vegetables, setVegetables] = useState([]);
-  const [filteredVegetables, setFilteredVegetables] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const [filteredFoods, setFilteredFoods] = useState([]);
+  const { breakfast, setBreakfast } = useContext(ResultContext);
 
   const fetchData = () => {
     if (selectedSection !== '') {
       const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
-      setVegetables(sectionData);
-      setFilteredVegetables(sectionData);
+      setFoods(sectionData);
+      setFilteredFoods(sectionData);
       const mealNames = sectionData.map((food) => food.meal_name);
     }
   };
@@ -26,106 +27,106 @@ const Breakfast = () => {
     fetchData();
   }, [selectedSection]);
 
-  const addVegetableToMeal = (section, vegetable) => {
-    const updatedMealPlan = { ...mealPlan };
+  const addFoodToMeal = (section, food) => {
+    const updatedMealPlan = { ...breakfast };
     if (updatedMealPlan[section]) {
-      // Check if the vegetable already exists in the selected section
-      const isDuplicate = updatedMealPlan[section].some((item) => item.id === vegetable.id);
+      // Check if the food already exists in the selected section
+      const isDuplicate = updatedMealPlan[section].some((item) => item.id === food.id);
       if (isDuplicate) {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
         return;
       }
-      updatedMealPlan[section].push(vegetable);
+      updatedMealPlan[section].push(food);
     } else {
-      updatedMealPlan[section] = [vegetable];
+      updatedMealPlan[section] = [food];
     }
-    setMealPlan(updatedMealPlan);
+
+    if (!food.household_measure) {
+      const updatedSelectedFoods = [...selectedFoods];
+      updatedSelectedFoods.push(food);
+      setSelectedFoods(updatedSelectedFoods);
+    }
+
+    setBreakfast(updatedMealPlan);
   };
 
-
-  const deleteVegetableFromMeal = (section, vegetable) => {
-    const updatedMealPlan = { ...mealPlan };
+  const deleteFoodFromMeal = (section, food) => {
+    const updatedMealPlan = { ...breakfast };
     if (updatedMealPlan[section]) {
-      updatedMealPlan[section] = updatedMealPlan[section].filter((item) => item.id !== vegetable.id);
+      updatedMealPlan[section] = updatedMealPlan[section].filter((item) => item.id !== food.id);
       if (updatedMealPlan[section].length === 0) {
         delete updatedMealPlan[section];
       }
-      setMealPlan(updatedMealPlan);
+      setBreakfast(updatedMealPlan);
     }
+
+    const updatedSelectedFoods = selectedFoods.filter((item) => item.id !== food.id);
+    setSelectedFoods(updatedSelectedFoods);
   };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    const filteredList = vegetables.filter((vegetable) =>
-      vegetable.meal_name.toLowerCase().includes(query.toLowerCase())
+    const filteredList = foods.filter((food) =>
+      food.meal_name.toLowerCase().includes(query.toLowerCase())
     );
-    setFilteredVegetables(filteredList);
+    setFilteredFoods(filteredList);
   };
 
   return (
     <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <View style={styles.searchContainer}>
-            <TextInput
-              style={styles.searchBar}
-              value={searchQuery}
-              onChangeText={handleSearch}
-              placeholder="Search here..."
-            />
-          </View>
-          <View style={styles.pickerContainer}>
-            <Picker
-              style={styles.picker}
-              selectedValue={selectedSection}
-              onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
-            >
-              {sections.map((section) => (
-                <Picker.Item key={section} label={section} value={section} />
-              ))}
-            </Picker>
-          </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchBar}
+            value={searchQuery}
+            onChangeText={handleSearch}
+            placeholder="Search here..."
+          />
         </View>
-
-
-      <ScrollView style={styles.vegetablesContainer}>
-        {filteredVegetables.map((vegetable) => (
-          <TouchableOpacity
-           key={vegetable.id}
-            style={[
-              styles.vegetableButton,
-              selectedVegetables.includes(vegetable) && styles.selectedVegetable,
-            ]}
-            onPress={() => addVegetableToMeal(selectedSection, vegetable)}
+        <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedSection}
+            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
           >
-            <Text style={styles.vegetableButtonText}>
-              {vegetable.meal_name} - {vegetable.household_measure}
+            {sections.map((section) => (
+              <Picker.Item key={section} label={section} value={section} />
+            ))}
+          </Picker>
+        </View>
+      </View>
+
+      <ScrollView style={styles.foodsContainer}>
+        {filteredFoods.map((food) => (
+          <TouchableOpacity
+            key={food.id}
+            style={[
+              styles.foodButton,
+              selectedFoods.includes(food) && styles.selectedFood,
+            ]}
+            onPress={() => addFoodToMeal(selectedSection, food)}
+          >
+            <Text style={styles.foodButtonText}>
+              {food.meal_name}
+              {food.household_measure ? ` - ${food.household_measure}` : ''}
             </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <View style={styles.mealtextContainer}>
-      <Text style={styles.mealPlanText}>Meal Plan:</Text>
-      <View style={styles.searchContainer}>
-      <TextInput 
-      style={styles.menuBar}
-      placeholder='Menu...'
-      ></TextInput>
-      </View>
-
-      </View>
 
       <ScrollView style={styles.mealPlanContainer}>
-        {Object.entries(mealPlan).map(([section, vegetables]) => (
+        {Object.entries(breakfast).map(([section, foods]) => (
           <View key={section} style={styles.mealPlanSection}>
             <Text style={styles.mealPlanSectionTitle}>{section}</Text>
-            {vegetables.map((vegetable) => (
+            {foods.map((food) => (
               <TouchableOpacity
-                key={vegetable.id}
-                style={styles.mealPlanVegetable}
-                onPress={() => deleteVegetableFromMeal(section, vegetable)}
+                key={food.id}
+                style={styles.mealPlanFood}
+                onPress={() => deleteFoodFromMeal(section, food)}
               >
                 <Text>
-                  {vegetable.meal_name} - {vegetable.household_measure}
+                  {food.meal_name}
+                  {food.household_measure ? ` - ${food.household_measure}` : ''}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -156,19 +157,7 @@ const styles = StyleSheet.create({
   picker: {
     flex: 1,
   },
-  sectionButton: {
-    backgroundColor: '#ECECEC',
-    padding: 8,
-    marginRight: 8,
-    borderRadius: 8,
-  },
-  selectedSection: {
-    backgroundColor: 'lightblue',
-  },
-  sectionButtonText: {
-    fontWeight: 'bold',
-  },
-  vegetablesContainer: {
+  foodsContainer: {
     maxHeight: 200,
     marginBottom: 16,
   },
@@ -178,7 +167,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderRadius: 8,
   },
-  vegetableButton: {
+  foodButton: {
     backgroundColor: '#ECECEC',
     padding: 8,
     marginRight: 8,
@@ -188,34 +177,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  selectedVegetable: {
+  selectedFood: {
     backgroundColor: 'lightgreen',
   },
-  vegetableButtonText: {
+  foodButtonText: {
     fontWeight: 'bold',
-  },
-  vegetableCalories: {
-    color: 'gray',
   },
   mealPlanContainer: {
     marginBottom: 80,
-  },
-  mealtextContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  menuBar: {
-    backgroundColor: '#ECECEC',
-    padding: 5,
-    marginBottom: 8,
-    borderRadius: 8,
-    marginLeft: 20,
-    marginRight: 10,
-  },
-  mealPlanText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
   },
   mealPlanSection: {
     marginBottom: 8,
@@ -224,30 +193,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  mealPlanVegetable: {
+  mealPlanFood: {
     backgroundColor: '#ECECEC',
     padding: 8,
     marginRight: 8,
     marginBottom: 8,
     borderRadius: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  mealPlanVegetableCalories: {
-    color: 'gray',
-  },
-  totalCaloriesContainer: {
-    marginBottom: 16,
-  },
-  totalCaloriesText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    backgroundColor: 'lightblue',
-    borderRadius: 8,
-    padding: 6,
-    paddingHorizontal: 10,
-    alignSelf: 'flex-start',
   },
 });
 
