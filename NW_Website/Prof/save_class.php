@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($stmt->affected_rows > 0) {
       // Class added successfully
       echo "Class added successfully!";
+      echo '<script>window.location.reload();</script>'; // Reload the page using JavaScript
     } else {
       // Failed to add class
       echo "Failed to add class.";
@@ -44,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 } else {
   // Redirect back to the form page if accessed directly
-  header("Location: add_class_form.php");
+  header("Location: classes.php");
   exit();
 }
 ?>

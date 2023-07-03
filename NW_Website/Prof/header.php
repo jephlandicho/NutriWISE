@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +9,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>NutriWise|Classes</title>
+  <title>NutriWise</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -25,6 +29,7 @@
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="asset/css/styles.css">
 
 
   <link href="assets/css/style.css" rel="stylesheet">
@@ -33,14 +38,11 @@
 </head>
 
 <style>
-
-.header{
-
-  background-color : whitesmoke;
-}
-
-
+  .header {
+    background-color: whitesmoke;
+  }
 </style>
+
 <body>
 
   <!-- ======= Header ======= -->
@@ -54,7 +56,6 @@
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
-    
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
@@ -64,20 +65,23 @@
           </a>
         </li><!-- End Search Icon-->
 
-     
-
-        
-
         <li class="nav-item dropdown pe-3">
-
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Unique Salonga</span>
+            <?php if (isset($_SESSION['username'])) : ?>
+              <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username']; ?></span>
+            <?php else : ?>
+              <span class="d-none d-md-block dropdown-toggle ps-2">Guest</span>
+            <?php endif; ?>
           </a><!-- End Profile Iamge Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Unique Salonga</h6>
+              <?php if (isset($_SESSION['username'])) : ?>
+                <h6><?php echo $_SESSION['username']; ?></h6>
+              <?php else : ?>
+                <h6>Guest</h6>
+              <?php endif; ?>
               <span>Prof</span>
             </li>
             <li>
@@ -104,7 +108,6 @@
               <hr class="dropdown-divider">
             </li>
 
-          
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -150,7 +153,7 @@
         </a>
       </li><!-- End Profile Page Nav -->
 
-      
+
       <li class="nav-heading"></li>
 
       <li class="nav-item">
