@@ -25,7 +25,7 @@
                 <tr>
                   <th>Client Name</th>
                   <th>Assigned To</th>
-                  <th>Actions</th>
+                  <th>Meal</th>
                 </tr>
               </thead>
               <tbody>

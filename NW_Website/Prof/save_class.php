@@ -29,8 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Check if the insertion was successful
     if ($stmt->affected_rows > 0) {
       // Class added successfully
-      echo "Class added successfully!";
-      echo '<script>window.location.reload();</script>'; // Reload the page using JavaScript
+      echo "Class Added Successfully!";
     } else {
       // Failed to add class
       echo "Failed to add class.";
@@ -49,3 +48,67 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   exit();
 }
 ?>
+
+<script>
+document.getElementById('saveClassBtn').addEventListener('click', function(event) {
+  event.preventDefault();
+  
+  // Clear previous error messages
+  document.getElementById('courseNameError').innerHTML = '';
+  document.getElementById('courseCodeError').innerHTML = '';
+  document.getElementById('facilitatorNameError').innerHTML = '';
+  
+  // Retrieve form data
+  var courseName = document.getElementById('courseNameInput').value;
+  var courseCode = document.getElementById('courseCodeInput').value;
+  var facilitatorName = document.getElementById('facilitatorNameInput').value;
+  
+  // Validate form data
+  var isValid = true;
+  if (courseName.trim() === '') {
+    document.getElementById('courseNameError').innerHTML = 'Course name is required.';
+    isValid = false;
+  }
+  if (courseCode.trim() === '') {
+    document.getElementById('courseCodeError').innerHTML = 'Course code is required.';
+    isValid = false;
+  }
+  if (facilitatorName.trim() === '') {
+    document.getElementById('facilitatorNameError').innerHTML = 'Classroom is required.';
+    isValid = false;
+  }
+  
+  if (isValid) {
+    // Perform AJAX form submission
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'save_class.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // Handle the response from the server
+          var response = xhr.responseText;
+      if (response === 'success') {
+  // Class added successfully
+  // Display the success message outside of the modal box
+  document.getElementById('successMessage').innerHTML = 'Class added successfully!';
+  document.getElementById('successMessage').style.display = 'block';
+  // Redirect to a new window or perform any other necessary action
+  window.location.href = 'success.html';
+} 
+          } else {
+            // Failed to add class, display the error message
+            document.getElementById('generalError').innerHTML = response;
+          }
+        } else {
+          // Request failed, display a general error message
+          document.getElementById('generalError').innerHTML = 'An error occurred. Please try again later.';
+        }
+      }
+    };
+    xhr.send('course_name=' + encodeURIComponent(courseName) + '&course_code=' + encodeURIComponent(courseCode) + '&facilitator_name=' + encodeURIComponent(facilitatorName));
+  }
+});
+</script>
+
+<div id="successMessage" style="display: none;"></div>
