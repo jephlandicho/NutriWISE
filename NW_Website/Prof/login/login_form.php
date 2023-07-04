@@ -3,22 +3,32 @@
 
 session_start();
 
+// Check if the login form is submitted
 if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $pass = md5($_POST['password']);
+    $password = md5($_POST['password']);
 
-    $select = "SELECT * FROM prof_form WHERE username = '$username' && password = '$pass'";
+    $select = "SELECT * FROM prof_form WHERE username = '$username' && password = '$password'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION['username'] = $username;
         $_SESSION['isFaculty'] = true; // Set a session variable to indicate faculty status
-        header('location:../index.php');
+        
+        // Redirect to homepage or any other page
+        header('location: ../index.php');
         exit;
     } else {
         $error[] = 'Incorrect username or password.';
     }
+}
+
+// Check if the user is logged in and display a welcome message
+if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
+    $welcomeMessage = 'Welcome Faculty!';
+} else {
+    $welcomeMessage = 'Welcome!';
 }
 ?>
 
@@ -33,15 +43,11 @@ if (isset($_POST['submit'])) {
 <body>
     <div class="form-container">
         <form action="" method="post">
-            <?php if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) : ?>
-                <h3 class="title">Welcome Faculty!</h3>
-            <?php else : ?>
-                <h3 class="title">Welcome!</h3>
-            <?php endif; ?>
+            <h3 class="title"><?php echo $welcomeMessage; ?></h3>
             <?php
             if (isset($error)) {
-                foreach ($error as $error) {
-                    echo '<span class="error-msg">' . $error . '</span>';
+                foreach ($error as $errorMsg) {
+                    echo '<span class="error-msg">' . $errorMsg . '</span>';
                 }
             }
             ?>
