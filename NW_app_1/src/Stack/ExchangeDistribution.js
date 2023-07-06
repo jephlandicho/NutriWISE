@@ -1,34 +1,43 @@
-import { StyleSheet, TextInput, Text, View,ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, TextInput, Text, View,ScrollView } from 'react-native';
 import React, { useState, useEffect, useContext } from 'react';
 import { ResultContext } from '../Components/ResultContext';
 import CustomInput from '../Components/CustomInput';
 import { useForm, Controller } from 'react-hook-form';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomButton from '../Components/CustomButton';
 
-const windowWidth = Dimensions.get('window').width;
 const ExchangeDistribution = () => {
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
-  const { vegetableEx, fruitEx, milkEx, sugarEx, riceAEx, riceBEx, riceCEx, LFmeatEx, MFmeatEx, fatEx ,setAvegetablesBreakfast ,setAvegetablesAMSnacks,setAvegetablesLunch,setAvegetablesPMSnacks,setAvegetablesDinner,setAfruitBreakfast,setAfruitAMSnacks,setAfruitLunch,setAfruitPMSnacks,setAfruitDinner,setAriceABreakfast,setAriceAAMSnacks,setAriceALunch,setAriceAPMSnacks,setAriceADinner,setAriceBBreakfast,setAriceBAMSnacks,setAriceBLunch,setAriceBPMSnacks,setAriceBDinner,setAriceCBreakfast,setAriceCAMSnacks,setAriceCLunch,setAriceCPMSnacks,setAriceCDinner,setAMilkBreakfast,setAMilkAMSnacks,setAMilkLunch,setAMilkPMSnacks,setAMilkDinner,setALFBreakfast,setALFAMSnacks,setALFLunch,setALFPMSnacks,setALFDinner,setAMFBreakfast,setAMFAMSnacks,setAMFLunch,setAMFPMSnacks,setAMFDinner,setAFatBreakfast,setAFatAMSnacks,setAFatLunch,setAFatPMSnacks,setAFatDinner,setASugarBreakfast,setASugarAMSnacks,setASugarLunch,setASugarPMSnacks,setASugarDinner} = useContext(ResultContext);
+  const { vegetableEx, fruitEx, milkEx, sugarEx, riceAEx, riceBEx, riceCEx, LFmeatEx, MFmeatEx, fatEx } = useContext(ResultContext);
 
   const [vegetableTotal, setVegetableTotal] = useState(0);
+  const [displayFruitRow, setDisplayFruitRow] = useState(false);
 
   const [fruitTotal, setFruitTotal] = useState(0);
+  const [displayRiceARow, setdisplayRiceARow] = useState(false);
 
   const [riceATotal, setriceATotal] = useState(0);
+  const [displayRiceBRow, setdisplayRiceBRow] = useState(false);
 
   const [riceBTotal, setriceBTotal] = useState(0);
+  const [displayRiceCRow, setdisplayRiceCRow] = useState(false);
 
   const [riceCTotal, setriceCTotal] = useState(0);
+  const [displayMilkRow, setdisplayMilkRow] = useState(false);
 
   const [milkTotal, setMilkTotal] = useState(0);
+  const [displayLFRow, setdisplayLFRow] = useState(false);
 
   const [LFTotal, setLFTotal] = useState(0);
+  const [displayMFRow, setdisplayMFRow] = useState(false);
 
   const [MFTotal, setMFTotal] = useState(0);
+  const [displayFatRow, setdisplayFatRow] = useState(false);
 
   const [fatTotal, setFatTotal] = useState(0);
+  const [displaySugarRow, setSugarRow] = useState(false);
 
   const [sugarTotal, setSugarTotal] = useState(0);
+  const [displayLastRow, setLastRow] = useState(false);
 
   const vegetablesBreakfast = parseFloat(watch('vegetablesBreakfast') || 0);
   const vegetablesAMSnacks = parseFloat(watch('vegetablesAMSnacks') || 0);
@@ -93,7 +102,6 @@ const ExchangeDistribution = () => {
 
 
   useEffect(() => {
-    assigned()
     const totalVegetables = vegetablesBreakfast + vegetablesAMSnacks + vegetablesLunch + vegetablesPMSnacks + vegetablesDinner;
     setVegetableTotal(totalVegetables);
 
@@ -124,65 +132,69 @@ const ExchangeDistribution = () => {
     const totalSugar = SugarBreakfast + SugarAMSnacks + SugarLunch + SugarPMSnacks + SugarDinner;
     setSugarTotal(totalSugar);
 
+    if (totalVegetables === parseFloat(vegetableEx)) {
+      setDisplayFruitRow(true);
+    } else {
+      setDisplayFruitRow(false);
+    }
+    if (totalFruit === parseFloat(fruitEx)) {
+        setdisplayRiceARow(true);
+      } else {
+        setdisplayRiceARow(false);
+      }
+
+      if (totalRiceA === parseFloat(riceAEx)) {
+        setdisplayRiceBRow(true);
+      } else {
+        setdisplayRiceBRow(false);
+      }
+
+      if (totalRiceB === parseFloat(riceBEx)) {
+        setdisplayRiceCRow(true);
+      } else {
+        setdisplayRiceCRow(false);
+      }
+
+      if (totalRiceC === parseFloat(riceCEx)) {
+        setdisplayMilkRow(true);
+      } else {
+        setdisplayMilkRow(false);
+      }
+
+      if (totalMilk === parseFloat(milkEx)) {
+        setdisplayLFRow(true);
+      } else {
+        setdisplayLFRow(false);
+      }
+
+      if (totalLF === parseFloat(LFmeatEx)) {
+        setdisplayMFRow(true);
+      } else {
+        setdisplayMFRow(false);
+      }
+
+      if (totalMF === parseFloat(MFmeatEx)) {
+        setdisplayFatRow(true);
+      } else {
+        setdisplayFatRow(false);
+      }
+
+      if (totalFat === parseFloat(fatEx)) {
+        setSugarRow(true);
+      } else {
+        setSugarRow(false);
+      }
+
+      if (totalSugar === parseFloat(sugarEx)) {
+        setLastRow(true);
+      } else {
+        setLastRow(false);
+      }
   }, [vegetableEx, vegetablesBreakfast, vegetablesAMSnacks, vegetablesLunch, vegetablesPMSnacks, vegetablesDinner,fruitBreakfast,fruitAMSnacks,fruitLunch,fruitPMSnacks,fruitDinner,riceABreakfast,riceAAMSnacks,riceALunch,riceAPMSnacks,riceADinner,riceBBreakfast,riceBAMSnacks,riceBLunch,riceBPMSnacks,riceBDinner,riceCBreakfast,riceCAMSnacks,riceCLunch,riceCPMSnacks,riceCDinner,MilkBreakfast,MilkAMSnacks,MilkLunch,MilkPMSnacks,
     MilkDinner,LFBreakfast,LFAMSnacks,LFLunch,LFPMSnacks,LFDinner,MFBreakfast,MFAMSnacks,MFLunch,MFPMSnacks,MFDinner,FatBreakfast,FatAMSnacks,FatLunch,FatPMSnacks,FatDinner,SugarBreakfast,SugarAMSnacks,SugarLunch,SugarPMSnacks,SugarDinner]);
 
-    const assigned = () => {
-        setAvegetablesBreakfast(vegetablesBreakfast)
-        setAvegetablesAMSnacks(vegetablesAMSnacks)
-        setAvegetablesLunch(vegetablesLunch)
-        setAvegetablesPMSnacks(vegetablesPMSnacks)
-        setAvegetablesDinner(vegetablesDinner)
-        setAfruitBreakfast(fruitBreakfast)
-        setAfruitAMSnacks(fruitAMSnacks)
-        setAfruitLunch(fruitLunch)
-        setAfruitPMSnacks(fruitPMSnacks)
-        setAfruitDinner(fruitDinner)
-        setAriceABreakfast(riceABreakfast)
-        setAriceAAMSnacks(riceAAMSnacks)
-        setAriceALunch(riceALunch)
-        setAriceAPMSnacks(riceAPMSnacks)
-        setAriceADinner(riceADinner)
-        setAriceBBreakfast(riceBBreakfast)
-        setAriceBAMSnacks(riceBAMSnacks)
-        setAriceBLunch(riceBLunch)
-        setAriceBPMSnacks(riceBPMSnacks)
-        setAriceBDinner(riceBDinner)
-        setAriceCBreakfast(riceCBreakfast)
-        setAriceCAMSnacks(riceCAMSnacks)
-        setAriceCLunch(riceCLunch)
-        setAriceCPMSnacks(riceCPMSnacks)
-        setAriceCDinner(riceCDinner)
-        setAMilkBreakfast(MilkBreakfast)
-        setAMilkAMSnacks(MilkAMSnacks)
-        setAMilkLunch(MilkLunch)
-        setAMilkPMSnacks(MilkPMSnacks)
-        setAMilkDinner(MilkDinner)
-
-        setALFBreakfast(LFBreakfast)
-        setALFAMSnacks(LFAMSnacks)
-        setALFLunch(LFLunch)
-        setALFPMSnacks(LFPMSnacks)
-        setALFDinner(LFDinner)
-
-        setAMFBreakfast(MFBreakfast)
-        setAMFAMSnacks(MFAMSnacks)
-        setAMFLunch(MFLunch)
-        setAMFPMSnacks(MFPMSnacks)
-        setAMFDinner(MFDinner)
-        setAFatBreakfast(FatBreakfast)
-        setAFatAMSnacks(FatAMSnacks)
-        setAFatLunch(FatLunch)
-        setAFatPMSnacks(FatPMSnacks)
-        setAFatDinner(FatDinner)
-        setASugarBreakfast(SugarBreakfast)
-        setASugarAMSnacks(SugarAMSnacks)
-        setASugarLunch(SugarLunch)
-        setASugarPMSnacks(SugarPMSnacks)
-        setASugarDinner(SugarDinner)
-    } 
   return (
-    <View View style={styles.mainContainer}>
+    <>
           <View style={styles.header}>
               <Text style={styles.textDesign}>Breakfast</Text>
               <Text style={styles.textDesign}>AM Snacks</Text>
@@ -192,6 +204,8 @@ const ExchangeDistribution = () => {
           </View>
       <ScrollView>
         <View style={styles.container}>
+
+            {/* Row 2 */}
 
             <Text>Vegetables: {vegetableEx}</Text>
             <View style={styles.row}>
@@ -211,6 +225,10 @@ const ExchangeDistribution = () => {
                     <CustomInput control={control} numeric={true} name="vegetablesDinner" />
                 </View>
             </View>
+
+            {/* Fruit Row */}
+            {displayFruitRow && (
+                <>
                     <Text>Fruit: {fruitEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="fruitBreakfast" />
@@ -228,6 +246,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="fruitDinner" />
                         </View>
                     </View>
+                </>
+            )}
+
+            {/* Rice A Row */}
+            {displayRiceARow && (
+                <>
                     <Text>Rice A: {riceAEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="riceABreakfast" />
@@ -245,7 +269,11 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="riceADinner" />
                         </View>
                     </View>
-
+                </>
+            )}
+            {/* Rice B Row */}
+            {displayRiceBRow && (
+                <>
                     <Text>Rice B: {riceBEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="riceBBreakfast" />
@@ -263,7 +291,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="riceBDinner" />
                         </View>
                     </View>
+                </>
+            )}
 
+            {/* Rice C Row */}
+            {displayRiceCRow && (
+                <>
                     <Text>Rice C: {riceCEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="riceCBreakfast" />
@@ -281,7 +314,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="riceCDinner" />
                         </View>
                     </View>
+                </>
+            )}
 
+            {/* Milk Row */}
+            {displayMilkRow && (
+                <>
                     <Text>Milk: {milkEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="MilkBreakfast" />
@@ -299,8 +337,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="MilkDinner" />
                         </View>
                     </View>
+                </>
+            )}
 
-
+            {/* Meat LF Row */}
+            {displayLFRow && (
+                <>
                     <Text>LF Meat: {LFmeatEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="LFBreakfast" />
@@ -318,7 +360,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="LFDinner" />
                         </View>
                     </View>
+                </>
+            )}
 
+                {/* Meat MF Row */}
+                {displayMFRow && (
+                <>
                     <Text>MF Meat: {MFmeatEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="MFBreakfast" />
@@ -336,7 +383,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="MFDinner" />
                         </View>
                     </View>
+                </>
+            )}
 
+                {/* Fat Row */}
+            {displayFatRow && (
+                <>
                     <Text>Fat: {fatEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="FatBreakfast" />
@@ -354,6 +406,12 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="FatDinner" />
                         </View>
                     </View>
+                </>
+            )}
+
+            {/* sugar Row */}
+            {displaySugarRow && (
+                <>
                     <Text>Sugar: {sugarEx}</Text><View style={styles.row}>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="SugarBreakfast" />
@@ -371,16 +429,26 @@ const ExchangeDistribution = () => {
                             <CustomInput control={control} numeric={true} name="SugarDinner" />
                         </View>
                     </View>
+                </>
+            )}
+
+            {/* Last Row */}
+            {displayLastRow && (
+                <>
+                
+                </>
+            )}
         </View>
           </ScrollView>
-          </View>
+          </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: windowWidth * 0.05,
+    padding: 10,
+    alignItems: "center",
     marginBottom:100,
   },
   row: {
@@ -395,7 +463,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     marginTop: 10,
-    marginHorizontal: windowWidth * 0.05,
   },
   textDesign: {
     flex: 1,
@@ -405,10 +472,6 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap', // Ensure text stays in one line only
     fontSize: 14,
   },
-  mainContainer: {
-    flex: 1,
-    marginHorizontal: windowWidth * 0.05,
-    },
 });
 
 export default ExchangeDistribution;

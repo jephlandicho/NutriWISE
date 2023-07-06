@@ -1,16 +1,15 @@
 {
   "expo": {
     "name": "NW_app",
-    "slug": "nwapp",
+    "slug": "NW_app",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
     "extra": {
       "eas": {
-        "projectId": "ec280d22-3744-4379-96cc-7540abfb736f"
+        "projectId": "0eb9425b-06cf-425e-8065-f5cb4d55f524"
       }
-    },
-    "owner": "jephjeph12"
+    }
   }
 }
