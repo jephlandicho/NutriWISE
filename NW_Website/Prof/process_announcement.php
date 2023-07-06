@@ -17,32 +17,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submit'])) {
   // Escape and sanitize the announcement text
   $announcement = $conn->real_escape_string($_POST['announcement']);
 
-  // Escape and sanitize the link
-  $link = $conn->real_escape_string($_POST['link']);
-
   // Initialize link variables
   $driveLink = "";
   $youtubeLink = "";
   $regularLink = "";
 
- // Process the link based on its type (e.g., Google Drive, YouTube, or regular link)
-if (strpos($link, 'google.com/drive') !== false) {
-    // Handle Google Drive link
-    $driveLink = $link;
-    $youtubeLink = '';
-    $regularLink = '';
-  } elseif (strpos($link, 'youtube.com') !== false) {
-    // Handle YouTube link
-    $driveLink = '';
-    $youtubeLink = $link;
-    $regularLink = '';
-  } else {
-    // Handle regular link
-    $driveLink = '';
-    $youtubeLink = '';
-    $regularLink = $link;
+  // Check if the 'drive-link' key exists in the $_POST array
+  if (isset($_POST['drive-link'])) {
+    $driveLink = $conn->real_escape_string($_POST['drive-link']);
   }
-  
+
+  // Check if the 'youtube-link' key exists in the $_POST array
+  if (isset($_POST['youtube-link'])) {
+    $youtubeLink = $conn->real_escape_string($_POST['youtube-link']);
+  }
+
+  // Check if the 'regular-link' key exists in the $_POST array
+  if (isset($_POST['regular-link'])) {
+    $regularLink = $conn->real_escape_string($_POST['regular-link']);
+  }
+
+  // Prepare the SQL statement
+  $stmt = $conn->prepare("INSERT INTO files (name, type, size, content, drive_link, youtube_link, regular_link, announcement) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+  // Bind the parameters to the statement
+  $stmt->bind_param("ssisssss", $filename, $filetype, $filesize, $filecontent, $driveLink, $youtubeLink, $regularLink, $announcement);
 
   // Process the uploaded file if present
   if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
@@ -52,70 +51,31 @@ if (strpos($link, 'google.com/drive') !== false) {
     $filesize = $file['size'];
     $filecontent = $conn->real_escape_string(file_get_contents($file['tmp_name']));
 
-    // Save the file information to the database
-    $sql = "INSERT INTO files (name, type, size, content, drive_link, youtube_link, link, announcement) VALUES ('$filename', '$filetype', $filesize, '$filecontent', '$driveLink', '$youtubeLink', '$regularLink', '$announcement')";
-
-    if ($conn->query($sql) === true) {
-      // Display the success message using Bootstrap modal
-      echo '
-        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Announcement Posted</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>Your announcement has been successfully posted.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <script>
-          $(document).ready(function() {
-            $("#successModal").modal("show");
-          });
-        </script>
-      ';
+    // Execute the prepared statement
+    if ($stmt->execute()) {
+      // Display the success message using JavaScript alert
+      echo '<script>alert("Your announcement has been successfully posted.");</script>';
     } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $stmt->error;
     }
   } else {
     // Save the announcement without an uploaded file
-    $sql = "INSERT INTO files (name, type, size, content, drive_link, youtube_link, link, announcement) VALUES('', '', 0, '', '$driveLink', '$youtubeLink', '$regularLink', '$announcement')";
+    $filename = '';
+    $filetype = '';
+    $filesize = 0;
+    $filecontent = '';
 
-    if ($conn->query($sql) === true) {
-      // Display the success message using Bootstrap modal
-      echo '
-        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Announcement Posted</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>Your announcement has been successfully posted.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <script>
-          $(document).ready(function() {
-            $("#successModal").modal("show");
-          });
-        </script>
-      ';
+    // Execute the prepared statement
+    if ($stmt->execute()) {
+      // Display the success message using JavaScript alert
+      echo '<script>alert("Your announcement has been successfully posted.");</script>';
     } else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $stmt->error;
     }
   }
 
-  // Close the database connection
+  // Close the statement and the database connection
+  $stmt->close();
   $conn->close();
 }
 ?>

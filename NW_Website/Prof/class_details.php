@@ -319,7 +319,6 @@
             <label for="regular-link">Regular Link</label>
             <input type="text" class="form-control" id="regular-link" name="regular-link">
           </div>
-
           <div class="form-group" id="file-input-group" style="display: none;">
             <label for="file">Upload File</label>
             <input type="file" class="form-control-file" id="file" name="file">
