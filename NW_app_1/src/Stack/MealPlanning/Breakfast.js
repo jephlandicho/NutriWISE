@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
-import { Ionicons } from '@expo/vector-icons';
 
 import foodsData from '../../meals/foods.json';
 
@@ -14,17 +13,13 @@ const Breakfast = () => {
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const { breakfast, setBreakfast } = useContext(ResultContext);
-  const [h_measure, sethmeasure] = useState();
-  const [menuText, setMenuText] = useState('');
-  const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
-  const [householdMeasureText, setHouseholdMeasureText] = useState('');
-  const { AvegetablesBreakfast,AfruitBreakfast,ASugarBreakfast,AMilkBreakfast,ALFBreakfast,AMFBreakfast,AriceABreakfast,AriceBBreakfast,AriceCBreakfast,AFatBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
 
   const fetchData = () => {
     if (selectedSection !== '') {
       const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
       setFoods(sectionData);
       setFilteredFoods(sectionData);
+      const mealNames = sectionData.map((food) => food.meal_name);
     }
   };
 
@@ -47,7 +42,9 @@ const Breakfast = () => {
     }
 
     if (!food.household_measure) {
-      setShowHouseholdMeasure(true);
+      const updatedSelectedFoods = [...selectedFoods];
+      updatedSelectedFoods.push(food);
+      setSelectedFoods(updatedSelectedFoods);
     }
 
     setBreakfast(updatedMealPlan);
@@ -77,56 +74,6 @@ const Breakfast = () => {
 
   return (
     <View style={styles.container}>
-<View style={styles.Alertcontainer}>
-  <Text style={styles.exchangesText}>Exchanges</Text>
-  <TouchableOpacity onPress={() => {
-    let alertContent = '';
-
-    if (AvegetablesBreakfast !== 0) {
-      alertContent += `Vegetables: ${AvegetablesBreakfast}\n`;
-    }
-    if (AfruitBreakfast !== 0) {
-      alertContent += `Fruit: ${AfruitBreakfast}\n`;
-    }
-    if (ASugarBreakfast !== 0) {
-      alertContent += `Sugar: ${ASugarBreakfast}\n`;
-    }
-    if (AMilkBreakfast !== 0) {
-      alertContent += `Milk: ${AMilkBreakfast}\n`;
-    }
-    if (ALFBreakfast !== 0) {
-      alertContent += `LF Meat: ${ALFBreakfast}\n`;
-    }
-    if (AMFBreakfast !== 0) {
-      alertContent += `MF Meat: ${AMFBreakfast}\n`;
-    }
-    if (AriceABreakfast !== 0) {
-      alertContent += `Rice A: ${AriceABreakfast}\n`;
-    }
-    if (AriceBBreakfast !== 0) {
-      alertContent += `Rice B: ${AriceBBreakfast}\n`;
-    }
-    if (AriceCBreakfast !== 0) {
-      alertContent += `Rice C: ${AriceCBreakfast}\n`;
-    }
-    if (AFatBreakfast !== 0) {
-      alertContent += `Fat: ${AFatBreakfast}\n`;
-    }
-
-    if (alertContent !== '') {
-      Alert.alert(
-        'Exchanges',
-        alertContent.trim(),
-        [
-          { text: 'Close', style: 'cancel' }
-        ],
-        { cancelable: true }
-      );
-    }
-  }}>
-    <Ionicons name="ios-help-circle-outline" size={24} color="black" />
-  </TouchableOpacity>
-</View>
       <View style={styles.inputContainer}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -166,44 +113,22 @@ const Breakfast = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <View style={styles.mealtextContainer}>
-        <Text style={styles.mealPlanText}>Meal Plan:</Text>
-        <View style={styles.searchContainer}>
-          <TextInput 
-          style={styles.menuBar}
-          placeholder='Menu...'
-          value={menuText}
-          onChangeText={setMenuText}
-          >
-            
-          </TextInput>
-        </View>
-      </View>
+
       <ScrollView style={styles.mealPlanContainer}>
         {Object.entries(breakfast).map(([section, foods]) => (
           <View key={section} style={styles.mealPlanSection}>
             <Text style={styles.mealPlanSectionTitle}>{section}</Text>
-            {foods.map((food, index) => (
-              <View key={food.id}>
-                {!food.household_measure&& index === 0  && showHouseholdMeasure && (
-                  <TextInput
-                    style={styles.menuBar}
-                    value={householdMeasureBreakfast}
-                    onChangeText={setHouseholdMeasureBreakfast}
-                    placeholder="Household measure"
-                  />
-                )}
-                <TouchableOpacity
-                  style={styles.mealPlanFood}
-                  onPress={() => deleteFoodFromMeal(section, food)}
-                >
-                  <Text>
-                    {food.meal_name}
-                    {food.household_measure ? ` - ${food.household_measure}` : ''}
-                  </Text>
-                </TouchableOpacity>
-                
-              </View>
+            {foods.map((food) => (
+              <TouchableOpacity
+                key={food.id}
+                style={styles.mealPlanFood}
+                onPress={() => deleteFoodFromMeal(section, food)}
+              >
+                <Text>
+                  {food.meal_name}
+                  {food.household_measure ? ` - ${food.household_measure}` : ''}
+                </Text>
+              </TouchableOpacity>
             ))}
           </View>
         ))}
@@ -274,30 +199,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
     borderRadius: 8,
-  },
-  mealtextContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  mealPlanText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  menuBar: {
-    backgroundColor: '#ECECEC',
-    padding: 5,
-    marginBottom: 8,
-    borderRadius: 8,
-    marginLeft: 20,
-    marginRight: 10,
-  },
-  Alertcontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  exchangesText: {
-    marginRight: 5,
   },
 });
 

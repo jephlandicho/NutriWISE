@@ -6,9 +6,12 @@ import Navigation from './src/Navigation/Navigation'
 import { ResultProvider } from './src/Components/ResultContext';
 const App = () => {
   return (
-    <ResultProvider>
+    <Provider store={store}>
+      <ResultProvider>
       <Navigation/>
-    </ResultProvider>
+      </ResultProvider>
+      
+    </Provider>
   );
 };
 const styles = StyleSheet.create({

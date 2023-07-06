@@ -35,12 +35,193 @@ export const ResultProvider = ({ children }) => {
   const [totalFat,settotalFat] = useState('');
   const [totalKcal,settotalKcal] = useState('');
   const [normal,setNormal] = useState('');
+
   const [breakfast, setBreakfast] = useState({});
+  const [AMSnack, setAMSnack] = useState({});
+  const [lunch, setLunch] = useState({});
+  const [PMSnack, setPMSnack] = useState({});
+  const [dinner, setDinner] = useState({});
+
+  const [householdMeasureBreakfast, setHouseholdMeasureBreakfast] = useState('');
+  
+
+  const [AvegetablesBreakfast,setAvegetablesBreakfast] = useState('');
+  const [AvegetablesAMSnacks,setAvegetablesAMSnacks] = useState('');
+  const [AvegetablesLunch,setAvegetablesLunch] = useState('');
+  const [AvegetablesPMSnacks,setAvegetablesPMSnacks] = useState('');
+  const [AvegetablesDinner,setAvegetablesDinner] = useState('');
+
+  const [AfruitBreakfast,setAfruitBreakfast] = useState('');
+  const [AfruitAMSnacks,setAfruitAMSnacks] = useState('');
+  const [AfruitLunch,setAfruitLunch] = useState('');
+  const [AfruitPMSnacks,setAfruitPMSnacks] = useState('');
+  const [AfruitDinner,setAfruitDinner] = useState('');
+
+  const [AriceABreakfast,setAriceABreakfast] = useState('');
+  const [AriceAAMSnacks,setAriceAAMSnacks] = useState('');
+  const [AriceALunch,setAriceALunch] = useState('');
+  const [AriceAPMSnacks,setAriceAPMSnacks] = useState('');
+  const [AriceADinner,setAriceADinner] = useState('');
+
+  const [AriceBBreakfast,setAriceBBreakfast] = useState('');
+  const [AriceBAMSnacks,setAriceBAMSnacks] = useState('');
+  const [AriceBLunch,setAriceBLunch] = useState('');
+  const [AriceBPMSnacks,setAriceBPMSnacks] = useState('');
+  const [AriceBDinner,setAriceBDinner] = useState('');
+
+  const [AriceCBreakfast,setAriceCBreakfast] = useState('');
+  const [AriceCAMSnacks,setAriceCAMSnacks] = useState('');
+  const [AriceCLunch,setAriceCLunch] = useState('');
+  const [AriceCPMSnacks,setAriceCPMSnacks] = useState('');
+  const [AriceCDinner,setAriceCDinner] = useState('');
+
+  const [AMilkBreakfast,setAMilkBreakfast] = useState('');
+  const [AMilkAMSnacks,setAMilkAMSnacks] = useState('');
+  const [AMilkLunch,setAMilkLunch] = useState('');
+  const [AMilkPMSnacks,setAMilkPMSnacks] = useState('');
+  const [AMilkDinner,setAMilkDinner] = useState('');
+
+  const [ALFBreakfast,setALFBreakfast] = useState('');
+  const [ALFAMSnacks,setALFAMSnacks] = useState('');
+  const [ALFLunch,setALFLunch] = useState('');
+  const [ALFPMSnacks,setALFPMSnacks] = useState('');
+  const [ALFDinner,setALFDinner] = useState('');
+
+  const [AMFBreakfast,setAMFBreakfast] = useState('');
+  const [AMFAMSnacks,setAMFAMSnacks] = useState('');
+  const [AMFLunch,setAMFLunch] = useState('');
+  const [AMFPMSnacks,setAMFPMSnacks] = useState('');
+  const [AMFDinner,setAMFDinner] = useState('');
+
+  const [AFatBreakfast,setAFatBreakfast] = useState('');
+  const [AFatAMSnacks,setAFatAMSnacks] = useState('');
+  const [AFatLunch,setAFatLunch] = useState('');
+  const [AFatPMSnacks,setAFatPMSnacks] = useState('');
+  const [AFatDinner,setAFatDinner] = useState('');
+
+  const [ASugarBreakfast,setASugarBreakfast] = useState('');
+  const [ASugarAMSnacks,setASugarAMSnacks] = useState('');
+  const [ASugarLunch,setASugarLunch] = useState('');
+  const [ASugarPMSnacks,setASugarPMSnacks] = useState('');
+  const [ASugarDinner,setASugarDinner] = useState('');
 
 
 
   return (
-    <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,breakfast, setBreakfast}}>
+    <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
+      breakfast, setBreakfast,
+      AMSnack, setAMSnack,
+      lunch, setLunch,
+      PMSnack, setPMSnack,
+      dinner, setDinner
+      ,AvegetablesBreakfast
+      ,AvegetablesAMSnacks
+      ,AvegetablesLunch
+      ,AvegetablesPMSnacks
+      ,AvegetablesDinner
+      ,AfruitBreakfast
+      ,AfruitAMSnacks
+      ,AfruitLunch
+      ,AfruitPMSnacks
+      ,AfruitDinner
+      ,AriceABreakfast
+      ,AriceAAMSnacks
+      ,AriceALunch
+      ,AriceAPMSnacks
+      ,AriceADinner
+      ,AriceBBreakfast
+      ,AriceBAMSnacks
+      ,AriceBLunch
+      ,AriceBPMSnacks
+      ,AriceBDinner
+      ,AriceCBreakfast
+      ,AriceCAMSnacks
+      ,AriceCLunch
+      ,AriceCPMSnacks
+      ,AriceCDinner
+      ,AMilkBreakfast
+      ,AMilkAMSnacks
+      ,AMilkLunch
+      ,AMilkPMSnacks
+      ,AMilkDinner
+      ,ALFBreakfast
+      ,ALFAMSnacks
+      ,ALFLunch
+      ,ALFPMSnacks
+      ,ALFDinner
+      ,AMFBreakfast
+      ,AMFAMSnacks
+      ,AMFLunch
+      ,AMFPMSnacks
+      ,AMFDinner
+      ,AFatBreakfast
+      ,AFatAMSnacks
+      ,AFatLunch
+      ,AFatPMSnacks
+      ,AFatDinner
+      ,ASugarBreakfast
+      ,ASugarAMSnacks
+      ,ASugarLunch
+      ,ASugarPMSnacks
+      ,ASugarDinner
+      
+      ,setAvegetablesBreakfast
+      ,setAvegetablesAMSnacks
+      ,setAvegetablesLunch
+      ,setAvegetablesPMSnacks
+      ,setAvegetablesDinner
+      ,setAfruitBreakfast
+      ,setAfruitAMSnacks
+      ,setAfruitLunch
+      ,setAfruitPMSnacks
+      ,setAfruitDinner
+      ,setAriceABreakfast
+      ,setAriceAAMSnacks
+      ,setAriceALunch
+      ,setAriceAPMSnacks
+      ,setAriceADinner
+      ,setAriceBBreakfast
+      ,setAriceBAMSnacks
+      ,setAriceBLunch
+      ,setAriceBPMSnacks
+      ,setAriceBDinner
+      ,setAriceCBreakfast
+      ,setAriceCAMSnacks
+      ,setAriceCLunch
+      ,setAriceCPMSnacks
+      ,setAriceCDinner
+      ,setAMilkBreakfast
+      ,setAMilkAMSnacks
+      ,setAMilkLunch
+      ,setAMilkPMSnacks
+      ,setAMilkDinner
+      ,setALFBreakfast
+      ,setALFAMSnacks
+      ,setALFLunch
+      ,setALFPMSnacks
+      ,setALFDinner
+      ,setAMFBreakfast
+      ,setAMFAMSnacks
+      ,setAMFLunch
+      ,setAMFPMSnacks
+      ,setAMFDinner
+      ,setAFatBreakfast
+      ,setAFatAMSnacks
+      ,setAFatLunch
+      ,setAFatPMSnacks
+      ,setAFatDinner
+      ,setASugarBreakfast
+      ,setASugarAMSnacks
+      ,setASugarLunch
+      ,setASugarPMSnacks
+      ,setASugarDinner
+      ,AMSnack, setAMSnack
+      ,lunch, setLunch
+      ,PMSnack, setPMSnack
+      ,dinner, setDinner
+      ,householdMeasureBreakfast, setHouseholdMeasureBreakfast
+      
+      }}>
       {children}
     </ResultContext.Provider>
   );
