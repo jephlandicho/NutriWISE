@@ -1,7 +1,8 @@
 <?php
 session_start();
+// Check if the $username variable is set, otherwise set it to 'Guest'
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,10 +32,7 @@ session_start();
   <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link rel="stylesheet" href="asset/css/styles.css">
 
-
   <link href="assets/css/style.css" rel="stylesheet">
-
-
 </head>
 
 <style>
@@ -68,20 +66,12 @@ session_start();
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="" alt="Profile" class="rounded-circle">
-            <?php if (isset($_SESSION['username'])) : ?>
-              <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $_SESSION['username']; ?></span>
-            <?php else : ?>
-              <span class="d-none d-md-block dropdown-toggle ps-2">Guest</span>
-            <?php endif; ?>
-          </a><!-- End Profile Iamge Icon -->
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $username; ?></span>
+          </a><!-- End Profile Image Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <?php if (isset($_SESSION['username'])) : ?>
-                <h6><?php echo $_SESSION['username']; ?></h6>
-              <?php else : ?>
-                <h6>Guest</h6>
-              <?php endif; ?>
+              <h6><?php echo $username; ?></h6>
               <span>Prof</span>
             </li>
             <li>
@@ -166,8 +156,9 @@ session_start();
 
     </ul>
 
-  </aside><!-- End Sidebar-->
-<!--kukunin for header-->
+  </aside><!-- End Sidebar -->
+  <!--kukunin for header-->
+
 </body>
 
 </html>
