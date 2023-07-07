@@ -6,25 +6,19 @@ session_start();
 // Check if the login form is submitted
 if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
-    $select = "SELECT * FROM prof_form WHERE username = '$username'";
+    $select = "SELECT * FROM prof_form WHERE username = '$username' && password = '$password'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $hashedPassword = $row['password'];
-
-        if (password_verify($password, $hashedPassword)) {
-            $_SESSION['username'] = $username;
-            $_SESSION['isFaculty'] = true; // Set a session variable to indicate faculty status
-
-            // Redirect to homepage or any other page
-            header('location: ../index.php');
-            exit;
-        } else {
-            $error[] = 'Incorrect username or password.';
-        }
+        $_SESSION['username'] = $username;
+        $_SESSION['isFaculty'] = true; // Set a session variable to indicate faculty status
+        
+        // Redirect to homepage or any other page
+        header('location: ../index.php');
+        exit;
     } else {
         $error[] = 'Incorrect username or password.';
     }
