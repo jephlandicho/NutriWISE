@@ -13,6 +13,8 @@ import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
 import MealPlanResult from '../Stack/MealPlanResult';
+import MeasurementSummary from '../Stack/MeasurementSummary';
+import TableDisplay from '../Stack/TableDisplay';
 
 import Breakfast from '../Stack/MealPlanning/Breakfast';
 import AMSnacks from '../Stack/MealPlanning/AMSnack';
@@ -162,7 +164,7 @@ function StackNavigator() {
         component={ExchangeDistribution}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
+            <TouchableOpacity onPress={() => navigation.navigate('MeasurementSummary')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
@@ -219,6 +221,22 @@ function StackNavigator() {
       <Stack.Screen
         name='MealPlanResult'
         component={MealPlanResult}
+      />
+      <Stack.Screen
+        name='MeasurementSummary'
+        component={MeasurementSummary}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('TableDisplay')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='TableDisplay'
+        component={TableDisplay}
+        
       />
     </Stack.Navigator>
   );

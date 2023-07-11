@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert, FlatList, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,17 +8,16 @@ import foodsData from '../../meals/foods.json';
 
 const Breakfast = () => {
   const [selectedSection, setSelectedSection] = useState('Vegetable');
-  const [selectedFoods, setSelectedFoods] = useState([]);
+  const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
-  const { breakfast, setBreakfast } = useContext(ResultContext);
-  const [h_measure, sethmeasure] = useState();
-  const [menuText, setMenuText] = useState('');
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
-  const [householdMeasureText, setHouseholdMeasureText] = useState('');
-  const { AvegetablesBreakfast,AfruitBreakfast,ASugarBreakfast,AMilkBreakfast,ALFBreakfast,AMFBreakfast,AriceABreakfast,AriceBBreakfast,AriceCBreakfast,AFatBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
+  
+  const { breakfast, setBreakfast } = useContext(ResultContext);
+  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast } = useContext(ResultContext);
+  const { menuBreakfast, setmenuBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
 
   const fetchData = () => {
     if (selectedSection !== '') {
@@ -35,7 +34,6 @@ const Breakfast = () => {
   const addFoodToMeal = (section, food) => {
     const updatedMealPlan = { ...breakfast };
     if (updatedMealPlan[section]) {
-      // Check if the food already exists in the selected section
       const isDuplicate = updatedMealPlan[section].some((item) => item.id === food.id);
       if (isDuplicate) {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
@@ -45,28 +43,67 @@ const Breakfast = () => {
     } else {
       updatedMealPlan[section] = [food];
     }
-
+  
     if (!food.household_measure) {
       setShowHouseholdMeasure(true);
     }
-
+  
     setBreakfast(updatedMealPlan);
+    
+    // Add or remove the selected food ID from selectedFoodIds
+    setSelectedFoodIds((prevSelectedFoodIds) => {
+      if (prevSelectedFoodIds.includes(food.id)) {
+        return prevSelectedFoodIds.filter((id) => id !== food.id);
+      } else {
+        return [...prevSelectedFoodIds, food.id];
+      }
+    });
   };
+  
+  
 
   const deleteFoodFromMeal = (section, food) => {
-    const updatedMealPlan = { ...breakfast };
-    if (updatedMealPlan[section]) {
-      updatedMealPlan[section] = updatedMealPlan[section].filter((item) => item.id !== food.id);
-      if (updatedMealPlan[section].length === 0) {
-        delete updatedMealPlan[section];
-      }
-      setBreakfast(updatedMealPlan);
-    }
-
-    const updatedSelectedFoods = selectedFoods.filter((item) => item.id !== food.id);
-    setSelectedFoods(updatedSelectedFoods);
+    Alert.alert(
+      'Delete Food',
+      'Are you sure you want to delete this food?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            let updatedMealPlan = { ...breakfast };
+            let updatedSelectedFoodIds = [...selectedFoodIds];
+  
+            if (updatedMealPlan[section]) {
+              updatedMealPlan[section] = updatedMealPlan[section].filter(
+                (item) => item.id !== food.id
+              );
+  
+              if (updatedMealPlan[section].length === 0) {
+                delete updatedMealPlan[section];
+              }
+  
+              updatedSelectedFoodIds = updatedSelectedFoodIds.filter(
+                (id) => id !== food.id
+              );
+            }
+  
+            // Update the state after the Alert callback completes
+            setTimeout(() => {
+              setBreakfast(updatedMealPlan);
+              setSelectedFoodIds(updatedSelectedFoodIds);
+            }, 0);
+          },
+        },
+      ],
+      { cancelable: true }
+    );
   };
-
+  
   const handleSearch = (query) => {
     setSearchQuery(query);
     const filteredList = foods.filter((food) =>
@@ -77,56 +114,56 @@ const Breakfast = () => {
 
   return (
     <View style={styles.container}>
-<View style={styles.Alertcontainer}>
-  <Text style={styles.exchangesText}>Exchanges</Text>
-  <TouchableOpacity onPress={() => {
-    let alertContent = '';
+      <View style={styles.Alertcontainer}>
+        <Text style={styles.exchangesText}>Exchanges</Text>
+        <TouchableOpacity onPress={() => {
+          let alertContent = '';
 
-    if (AvegetablesBreakfast !== 0) {
-      alertContent += `Vegetables: ${AvegetablesBreakfast}\n`;
-    }
-    if (AfruitBreakfast !== 0) {
-      alertContent += `Fruit: ${AfruitBreakfast}\n`;
-    }
-    if (ASugarBreakfast !== 0) {
-      alertContent += `Sugar: ${ASugarBreakfast}\n`;
-    }
-    if (AMilkBreakfast !== 0) {
-      alertContent += `Milk: ${AMilkBreakfast}\n`;
-    }
-    if (ALFBreakfast !== 0) {
-      alertContent += `LF Meat: ${ALFBreakfast}\n`;
-    }
-    if (AMFBreakfast !== 0) {
-      alertContent += `MF Meat: ${AMFBreakfast}\n`;
-    }
-    if (AriceABreakfast !== 0) {
-      alertContent += `Rice A: ${AriceABreakfast}\n`;
-    }
-    if (AriceBBreakfast !== 0) {
-      alertContent += `Rice B: ${AriceBBreakfast}\n`;
-    }
-    if (AriceCBreakfast !== 0) {
-      alertContent += `Rice C: ${AriceCBreakfast}\n`;
-    }
-    if (AFatBreakfast !== 0) {
-      alertContent += `Fat: ${AFatBreakfast}\n`;
-    }
+          if (AvegetablesBreakfast !== 0) {
+            alertContent += `Vegetables: ${AvegetablesBreakfast}\n`;
+          }
+          if (AfruitBreakfast !== 0) {
+            alertContent += `Fruit: ${AfruitBreakfast}\n`;
+          }
+          if (AriceABreakfast !== 0) {
+            alertContent += `Rice A: ${AriceABreakfast}\n`;
+          }
+          if (AriceBBreakfast !== 0) {
+            alertContent += `Rice B: ${AriceBBreakfast}\n`;
+          }
+          if (AriceCBreakfast !== 0) {
+            alertContent += `Rice C: ${AriceCBreakfast}\n`;
+          }
+          if (AMilkBreakfast !== 0) {
+            alertContent += `Milk: ${AMilkBreakfast}\n`;
+          }
+          if (ALFBreakfast !== 0) {
+            alertContent += `LF Meat: ${ALFBreakfast}\n`;
+          }
+          if (AMFBreakfast !== 0) {
+            alertContent += `MF Meat: ${AMFBreakfast}\n`;
+          }
+          if (AFatBreakfast !== 0) {
+            alertContent += `Fat: ${AFatBreakfast}\n`;
+          }
+          if (ASugarBreakfast !== 0) {
+            alertContent += `Sugar: ${ASugarBreakfast}\n`;
+          }
 
-    if (alertContent !== '') {
-      Alert.alert(
-        'Exchanges',
-        alertContent.trim(),
-        [
-          { text: 'Close', style: 'cancel' }
-        ],
-        { cancelable: true }
-      );
-    }
-  }}>
-    <Ionicons name="ios-help-circle-outline" size={24} color="black" />
-  </TouchableOpacity>
-</View>
+          if (alertContent !== '') {
+            Alert.alert(
+              'Exchanges',
+              alertContent.trim(),
+              [
+                { text: 'Close', style: 'cancel' }
+              ],
+              { cancelable: true }
+            );
+          }
+        }}>
+          <Ionicons name="ios-help-circle-outline" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.inputContainer}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -149,13 +186,16 @@ const Breakfast = () => {
         </View>
       </View>
 
-      <ScrollView style={styles.foodsContainer}>
-        {filteredFoods.map((food) => (
+      <FlatList
+        style={styles.foodsContainer}
+        data={filteredFoods}
+        keyExtractor={(food) => food.id.toString()}
+        renderItem={({ item: food }) => (
           <TouchableOpacity
             key={food.id}
             style={[
               styles.foodButton,
-              selectedFoods.includes(food) && styles.selectedFood,
+              selectedFoodIds.includes(food.id) && styles.selectedFood,
             ]}
             onPress={() => addFoodToMeal(selectedSection, food)}
           >
@@ -164,50 +204,56 @@ const Breakfast = () => {
               {food.household_measure ? ` - ${food.household_measure}` : ''}
             </Text>
           </TouchableOpacity>
-        ))}
-      </ScrollView>
+        )}
+      />
       <View style={styles.mealtextContainer}>
         <Text style={styles.mealPlanText}>Meal Plan:</Text>
         <View style={styles.searchContainer}>
           <TextInput 
-          style={styles.menuBar}
-          placeholder='Menu...'
-          value={menuText}
-          onChangeText={setMenuText}
+            style={styles.menuBar}
+            placeholder='Menu...'
+            value={menuBreakfast}
+            onChangeText={setmenuBreakfast}
           >
-            
           </TextInput>
         </View>
       </View>
-      <ScrollView style={styles.mealPlanContainer}>
-        {Object.entries(breakfast).map(([section, foods]) => (
-          <View key={section} style={styles.mealPlanSection}>
-            <Text style={styles.mealPlanSectionTitle}>{section}</Text>
-            {foods.map((food, index) => (
-              <View key={food.id}>
-                {!food.household_measure&& index === 0  && showHouseholdMeasure && (
-                  <TextInput
-                    style={styles.menuBar}
-                    value={householdMeasureBreakfast}
-                    onChangeText={setHouseholdMeasureBreakfast}
-                    placeholder="Household measure"
-                  />
-                )}
-                <TouchableOpacity
-                  style={styles.mealPlanFood}
-                  onPress={() => deleteFoodFromMeal(section, food)}
-                >
-                  <Text>
-                    {food.meal_name}
-                    {food.household_measure ? ` - ${food.household_measure}` : ''}
-                  </Text>
-                </TouchableOpacity>
-                
-              </View>
-            ))}
+      <FlatList
+        style={styles.mealPlanContainer}
+        data={Object.entries(breakfast)}
+        keyExtractor={(item) => item[0]} // Use the section as the key
+        renderItem={({ item }) => (
+          <View style={styles.mealPlanSection}>
+            <Text style={styles.mealPlanSectionTitle}>{item[0]}</Text>
+            <FlatList
+              data={item[1]} // Foods for the section
+              keyExtractor={(food) => food.id.toString()}
+              renderItem={({ item: food, index }) => (
+                <View key={food.id}>
+                  {!food.household_measure && index === 0 && showHouseholdMeasure && (
+                    <TextInput
+                      style={styles.menuBar}
+                      value={householdMeasureBreakfast}
+                      onChangeText={setHouseholdMeasureBreakfast}
+                      placeholder="Household measure"
+                    />
+                  )}
+                  <TouchableOpacity
+                    style={styles.mealPlanFood}
+                    onPress={() => deleteFoodFromMeal(item[0], food)}
+                  >
+                    <Text>
+                      {food.meal_name}
+                      {food.household_measure ? ` - ${food.household_measure}` : ''}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            />
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
+
     </View>
   );
 };
@@ -227,7 +273,7 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     marginLeft: 5,
-    width: 120, // Adjust the width as needed
+    width: 120,
   },
   picker: {
     flex: 1,
@@ -275,14 +321,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderRadius: 8,
   },
-  mealtextContainer:{
+  mealtextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  mealPlanText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 16,
   },
   menuBar: {
     backgroundColor: '#ECECEC',
@@ -294,11 +336,39 @@ const styles = StyleSheet.create({
   },
   Alertcontainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   exchangesText: {
-    marginRight: 5,
+    fontWeight: 'bold',
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding:16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+  modalButton: {
+    marginHorizontal: 8,
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'lightgray',
+  },
+  mealPlanText: {
+  fontSize: 16,
+  marginBottom: 8,
+},
 });
 
 export default Breakfast;

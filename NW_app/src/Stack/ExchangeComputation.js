@@ -180,7 +180,7 @@ const ExchangeComputation = () => {
   }
 
   return (
-    <View>
+    <View style={styles.mainCon}>
 <View style={{ flexDirection: 'row', marginLeft: 30, marginTop: 10 }}>
   <View style={{ flex: 1 }}>
         <Text style={styles.result1}>Carbohydrates: {carbs} g</Text>
@@ -314,6 +314,9 @@ const ExchangeComputation = () => {
 };
 
 const styles = StyleSheet.create({
+  mainCon:{
+    backgroundColor: '#fff',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -337,7 +340,8 @@ const styles = StyleSheet.create({
   scrollContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 60,
+    paddingBottom: '20%',
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
@@ -364,7 +368,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginBottom: 160
+    marginBottom: 100,
   },
   item: {
     width: '50%',
@@ -377,13 +381,6 @@ const styles = StyleSheet.create({
   result1: {
     fontSize: 14,
     textAlign: 'left',
-  },
-  containerTable: {
-    padding: 5,
-  },
-  tableHeader: {
-    backgroundColor: '#DCDCDC',
-    alignItems: 'center',
   },
 });
 
