@@ -40,9 +40,19 @@ export const ResultProvider = ({ children }) => {
   const [AMSnack, setAMSnack] = useState({});
   const [lunch, setLunch] = useState({});
   const [PMSnack, setPMSnack] = useState({});
-  const [dinner, setDinner] = useState({});
+  const [Dinner, setDinner] = useState({});
+
+  const [menuBreakfast, setmenuBreakfast] = useState('');
+  const [menuAmSnacks, setmenuAmSnacks] = useState('');
+  const [menuLunch, setmenuLunch] = useState('');
+  const [menuPmSnacks, setmenuPmSnacks] = useState('');
+  const [menuDinner, setmenuDinner] = useState('');
 
   const [householdMeasureBreakfast, setHouseholdMeasureBreakfast] = useState('');
+  const [householdMeasureAmSnacks, setHouseholdMeasureAmSnacks] = useState('');
+  const [householdMeasureLunch, setHouseholdMeasureLunch] = useState('');
+  const [householdMeasurePmSnacks, setHouseholdMeasurePmSnacks] = useState('');
+  const [householdMeasureDinner, setHouseholdMeasureDinner] = useState('');
   
 
   const [AvegetablesBreakfast,setAvegetablesBreakfast] = useState('');
@@ -105,15 +115,13 @@ export const ResultProvider = ({ children }) => {
   const [ASugarPMSnacks,setASugarPMSnacks] = useState('');
   const [ASugarDinner,setASugarDinner] = useState('');
 
-
-
   return (
     <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
       breakfast, setBreakfast,
       AMSnack, setAMSnack,
       lunch, setLunch,
       PMSnack, setPMSnack,
-      dinner, setDinner
+      Dinner, setDinner
       ,AvegetablesBreakfast
       ,AvegetablesAMSnacks
       ,AvegetablesLunch
@@ -218,9 +226,18 @@ export const ResultProvider = ({ children }) => {
       ,AMSnack, setAMSnack
       ,lunch, setLunch
       ,PMSnack, setPMSnack
-      ,dinner, setDinner
+      ,Dinner, setDinner
       ,householdMeasureBreakfast, setHouseholdMeasureBreakfast
       
+      ,menuBreakfast, setmenuBreakfast
+      ,menuAmSnacks, setmenuAmSnacks
+      ,menuLunch, setmenuLunch
+      ,menuPmSnacks, setmenuPmSnacks
+      ,menuDinner, setmenuDinner
+      ,householdMeasureAmSnacks, setHouseholdMeasureAmSnacks
+      ,householdMeasureLunch, setHouseholdMeasureLunch
+      ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks
+      ,householdMeasureDinner, setHouseholdMeasureDinner
       }}>
       {children}
     </ResultContext.Provider>

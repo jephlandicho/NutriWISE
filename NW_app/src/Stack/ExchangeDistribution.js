@@ -182,7 +182,8 @@ const ExchangeDistribution = () => {
         setASugarDinner(SugarDinner)
     } 
   return (
-    <View View style={styles.mainContainer}>
+    <View style={styles.mainCon}>
+    <View style={styles.mainContainer}>
           <View style={styles.header}>
               <Text style={styles.textDesign}>Breakfast</Text>
               <Text style={styles.textDesign}>AM Snacks</Text>
@@ -374,13 +375,18 @@ const ExchangeDistribution = () => {
         </View>
           </ScrollView>
           </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+    mainCon:{
+    backgroundColor: '#fff',
+    flex: 1,
+    },
   container: {
     flex: 1,
-    marginHorizontal: windowWidth * 0.05,
+    marginHorizontal: windowWidth * 0.005,
     marginBottom:100,
   },
   row: {
@@ -395,7 +401,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     marginTop: 10,
-    marginHorizontal: windowWidth * 0.05,
+    marginHorizontal: windowWidth * 0.005,
   },
   textDesign: {
     flex: 1,
@@ -407,7 +413,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    marginHorizontal: windowWidth * 0.05,
+    marginHorizontal: windowWidth * 0.02,
     },
 });
 

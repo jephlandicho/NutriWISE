@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "NW_app",
+    "name": "NutriWISE",
     "slug": "nwapp",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/nutriwise.png",
     "assetBundlePatterns": [
       "**/*"
     ],

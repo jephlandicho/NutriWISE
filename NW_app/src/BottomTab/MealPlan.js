@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#fff',
     alignItems: 'center',
     padding: 5,
   },
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 60,
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
