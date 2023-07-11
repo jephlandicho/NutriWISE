@@ -261,8 +261,9 @@
       </div>
     </section>
   </main><!-- End #main -->
-   <!-- Modal -->
-   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog custom-modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -276,7 +277,7 @@
         <form action="process_announcement.php" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <label for="announcement">Announcement</label>
-            <textarea class="form-control" id="announcement" name="announcement" rows="3"></textarea>
+            <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
           </div>
 
           <div class="form-group">
@@ -307,21 +308,21 @@
 
           <div class="form-group" id="drive-link-input-group" style="display: none;">
             <label for="drive-link">Google Drive Link</label>
-            <input type="text" class="form-control" id="drive-link" name="drive-link">
+            <input type="text" class="form-control" id="drive-link" name="links[google-drive]">
           </div>
 
           <div class="form-group" id="youtube-link-input-group" style="display: none;">
             <label for="youtube-link">YouTube Link</label>
-            <input type="text" class="form-control" id="youtube-link" name="youtube-link">
+            <input type="text" class="form-control" id="youtube-link" name="links[youtube]">
           </div>
 
           <div class="form-group" id="regular-link-input-group" style="display: none;">
             <label for="regular-link">Regular Link</label>
-            <input type="text" class="form-control" id="regular-link" name="regular-link">
+            <input type="text" class="form-control" id="regular-link" name="links[regular]">
           </div>
           <div class="form-group" id="file-input-group" style="display: none;">
-            <label for="file">Upload File</label>
-            <input type="file" class="form-control-file" id="file" name="file">
+            <label for="file">Upload PDF File</label>
+            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf">
           </div>
 
           <button type="submit" class="btn btn-primary" name="submit">Submit</button>
@@ -331,7 +332,7 @@
   </div>
 </div>
 
-
+  
 
 <!-- Modal End -->
 
@@ -378,7 +379,7 @@
   }
 }
       function uploadFile() {
-        $('#link-input-group').hide();
+        $('#regular-link-input-group').hide();
         $('#file-input-group').show();
       }
     </script>
