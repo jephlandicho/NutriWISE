@@ -1,66 +1,62 @@
 <?php include 'header.php'; ?>
+<style>
+  /* Global styles */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
 
-<?php
-// Database configuration
-$dbHost = 'localhost';
-$dbUsername = 'root';
-$dbPassword = '';
-$dbName = 'nutriwise';
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 
-// Create a database connection
-$conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+  /* Card styles */
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
 
-// Check the connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+  .card p {
+    margin-bottom: 10px;
+  }
 
-// Initialize the success message variable
-$successMessage = "";
+  .card .announcement {
+    font-weight: bold;
+  }
 
-// Check if a file was uploaded
-if (isset($_FILES['file'])) {
-    $file = $_FILES['file'];
+  .card .uploaded-files {
+    font-weight: bold;
+  }
 
-    // Get file details
-    $fileName = $file['name'];
-    $fileType = $file['type'];
-    $fileSize = $file['size'];
-    $fileTmpName = $file['tmp_name'];
+  .card .file-link {
+    display: block;
+    color: #337ab7;
+    text-decoration: none;
+    margin-bottom: 5px;
+  }
 
-    // Check the file size (in bytes)
-    $maxFileSize = 100 * 1024 * 1024; // 100 MB (adjust as needed)
+  .card .file-link:hover {
+    text-decoration: underline;
+  }
 
-    if ($fileSize <= $maxFileSize) {
-        // Read the file content
-        $fileContent = file_get_contents($fileTmpName);
+  .card .link {
+    display: block;
+    color: #337ab7;
+    text-decoration: none;
+    margin-bottom: 5px;
+  }
 
-        // Prepare the SQL statement
-        $stmt = $conn->prepare("INSERT INTO files (name, type, size, content) VALUES (?, ?, ?, ?)");
-        
-        if ($stmt) {
-            $stmt->bind_param("ssis", $fileName, $fileType, $fileSize, $fileContent);
-            
-            // Execute the statement
-            if ($stmt->execute()) {
-                $successMessage = "File uploaded and saved in the database.";
-            } else {
-                $successMessage = "Error uploading file: " . $stmt->error;
-            }
-
-            // Close the statement
-            $stmt->close();
-        } else {
-            $successMessage = "Error preparing statement: " . $conn->error;
-        }
-    } else {
-        $successMessage = "File size exceeds the maximum limit of " . ($maxFileSize / 1024 / 1024) . " MB.";
-    }
-}
-
-// Close the database connection
-$conn->close();
-?>
+  .card .link:hover {
+    text-decoration: underline;
+  }
+</style>
 
 <!-- HTML form to upload the file -->
 <main id="main" class="main">
@@ -79,29 +75,49 @@ $conn->close();
   <section class="section dashboard">
     <div class="row">
       <div class="col-lg-8">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">File Upload</h5>
+        <?php
+        // Connect to your database
+        $conn = new mysqli('localhost', 'root', '', 'nutriwise');
 
-                <?php if (!empty($successMessage)): ?>
-                <div class="alert alert-success" role="alert">
-                  <?php echo $successMessage; ?>
-                </div>
-                <?php endif; ?>
+        // Check the connection
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
 
-                <form action="stream.php" method="POST" enctype="multipart/form-data">
-                  <div class="mb-3">
-                    <label for="file" class="form-label">Select File</label>
-                    <input type="file" class="form-control" name="file" id="file" required>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Upload</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        // Retrieve data from the "files" table
+        $sql = "SELECT description,materials,links,date FROM material";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+          // Iterate through the retrieved data and generate a card for each item
+          while ($row = $result->fetch_assoc()) {
+            // Generate the card layout using HTML and CSS
+            echo '<div class="card">';
+  
+            // Display the announcement text
+            echo '<p>' . $row['description'] . '</p>';
+  
+            // Display the uploaded files
+            echo '<p>Uploaded Files:</p>';
+            $fileNames = explode(',', $row['materials']);
+            foreach ($fileNames as $fileName) {
+              echo '<a href="' . $fileName . '">' . $fileName . '</a><br>';
+            }
+  
+            // Display the links
+            echo '<a href="' . $row['links'] . '">Link</a>';
+            // echo '<a href="' . $row['youtube_link'] . '">YouTube Link</a>';
+            // echo '<a href="' . $row['regular_link'] . '">Regular Link</a>';
+  
+            echo '</div>';
+          }
+        } else {
+          echo "No files found.";
+        }
+
+        // Close the database connection
+        $conn->close();
+        ?>
       </div>
     </div>
   </section>
