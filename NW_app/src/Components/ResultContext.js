@@ -3,9 +3,11 @@ import React, { createContext, useState } from 'react';
 export const ResultContext = createContext();
 
 export const ResultProvider = ({ children }) => {
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const [otherValue, setOtherValue] = useState('');
   const [clientName,setClientname] = useState('');
   const [clientAge,setClientAge] = useState('');
+  const [birthdate,setbirthdate] = useState('');
   const [clientSex,setClientSex] = useState('');
   const [waistC,setWaistC] = useState('');
   const [hipC,setHipC] = useState('');
@@ -114,10 +116,14 @@ export const ResultProvider = ({ children }) => {
   const [ASugarLunch,setASugarLunch] = useState('');
   const [ASugarPMSnacks,setASugarPMSnacks] = useState('');
   const [ASugarDinner,setASugarDinner] = useState('');
+  const [ClientID,setClientID] = useState('');
+
 
   return (
     <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
+      isLoggedIn, setLoggedIn,
       breakfast, setBreakfast,
+      ClientID,setClientID,
       AMSnack, setAMSnack,
       lunch, setLunch,
       PMSnack, setPMSnack,
@@ -237,7 +243,8 @@ export const ResultProvider = ({ children }) => {
       ,householdMeasureAmSnacks, setHouseholdMeasureAmSnacks
       ,householdMeasureLunch, setHouseholdMeasureLunch
       ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks
-      ,householdMeasureDinner, setHouseholdMeasureDinner
+      ,householdMeasureDinner, setHouseholdMeasureDinner,
+      birthdate,setbirthdate
       }}>
       {children}
     </ResultContext.Provider>

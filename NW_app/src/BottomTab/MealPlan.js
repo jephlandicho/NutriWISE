@@ -1,18 +1,24 @@
-import { View, Text, StyleSheet, ScrollView,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,TouchableOpacity, Button } from 'react-native';
 import React, { useEffect, useState,useContext  } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import CustomInput from '../Components/CustomInput';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { ResultContext } from '../Components/ResultContext';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import CustomButton from '../Components/CustomButton';
 
 const MealPlan = () => {
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [show, setShow] = useState(false);
+
+
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
   const navigation = useNavigation();
-  const { result, setResult, otherValue, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
+  const { result, setResult, otherValue, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,birthdate,setbirthdate } = useContext(ResultContext);
   
   const name = watch('Client_name');
-  const age = watch('Age');
   const sex = watch('gender');
   const waistCircumference = watch('waistCircumference');
   const hipCircumference = watch('hipCircumference');
@@ -26,6 +32,23 @@ const MealPlan = () => {
 
   const handleChange = (itemValue) => {
     setValue('kcal', itemValue);
+  };
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+    const formattedDate = `${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
+    setbirthdate(formattedDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
   };
 
   const calculateResult = () => {
@@ -57,7 +80,6 @@ const MealPlan = () => {
     setOtherValue(dietRX);
 
     setClientname(name);
-    setClientAge(age);
     setClientSex(sex);
     setWaistC(waistCircumference);
     setHipC(hipCircumference);
@@ -90,18 +112,27 @@ const MealPlan = () => {
             placeholder="Client name"
             control={control}
             rules={{ required: 'Client Name is required!' }} />
-          <CustomInput
-            title="Age"
-            name="Age"
-            placeholder="Age"
-            control={control}
-            rules={{ required: 'Age is required!' }}
-            numeric={true} />
+            <View style={styles.pal}>
+            <Text>Birthdate: ({new Date(date).toLocaleDateString('en-US')})</Text>
+            <CustomButton
+            onPress={showDatepicker} text={'Select Birthdate'} type='tertiary'
+            />
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              onChange={onChange}
+            />
+          )}
+            </View>
+
           <View style={styles.pal}>
             <Text>Sex:</Text>
             <Controller
               control={control}
               name="gender"
+              defaultValue="Male"
               render={({ field: { onChange, value } }) => (
                 <Picker
                   selectedValue={value}
@@ -155,6 +186,7 @@ const MealPlan = () => {
             <Controller
               control={control}
               name="kcal"
+              defaultValue="30"
               render={({ field: { onChange, value } }) => (
                 <Picker
                   selectedValue={value}
@@ -219,6 +251,7 @@ const styles = StyleSheet.create({
   },
   pal: {
     width: '100%',
+    marginTop: 10,
   },
   resultContainer: {
     paddingLeft: 10,

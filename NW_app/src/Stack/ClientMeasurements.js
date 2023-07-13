@@ -5,8 +5,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-native-paper';
 import Modal from 'react-native-modal';
+import { useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function TableDisplay() {
+function ClientMeasurements() {
+  const [userData, setUserData] = useState(null);
+  const getUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        setUserData(parsedUserData);
+      } else {
+        // User data doesn't exist in local storage
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -16,9 +33,13 @@ function TableDisplay() {
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const route = useRoute();
+  const { id } = route.params;
+
   React.useEffect(() => {
     setPage(0);
     refreshTableData();
+    getUserData();
   }, []);
 
   const handleUpdate = (id) => {
@@ -27,29 +48,8 @@ function TableDisplay() {
     setModalVisible(false);
   };
 
-  const handleDelete = (id) => {
-    const db = SQLite.openDatabase('mydatabase.db');
-    db.transaction((tx) => {
-      tx.executeSql(
-        'DELETE FROM client WHERE id = ?',
-        [id],
-        (_, { rowsAffected }) => {
-          if (rowsAffected > 0) {
-            Alert.alert('Success', 'Item deleted successfully');
-            console.log('Item deleted successfully');
-            refreshTableData(); // Call a function to refresh the table data
-          }
-        },
-        (error) => {
-          console.log('Error deleting item:', error);
-        }
-      );
-    });
-    setModalVisible(false);
-  };
-
   const handleView = (id) => {
-    navigation.navigate('ClientMeasurements', { id });
+    // navigation.navigate('ClientMeasurements', { id });
     setModalVisible(false);
   };
 
@@ -57,8 +57,8 @@ function TableDisplay() {
     const db = SQLite.openDatabase('mydatabase.db');
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM client',
-        [],
+        'SELECT * FROM client_measurements WHERE client_id = ?',
+        [id],
         (_, { rows }) => {
           const data = rows._array;
           setTableData(data); // Update the table data state
@@ -69,13 +69,13 @@ function TableDisplay() {
       );
     });
   };
-
+  
   const handleSearch = (query) => {
     setSearchQuery(query);
     const db = SQLite.openDatabase('mydatabase.db');
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT * FROM client WHERE name LIKE '%${query}%'`,
+        `SELECT * FROM client_measurements WHERE assessment_date LIKE '%${query}%'`,
         [],
         (_, { rows }) => {
           const data = rows._array;
@@ -88,6 +88,28 @@ function TableDisplay() {
     });
   };
 
+  const generateFields = async (itemId) => {
+    const db = SQLite.openDatabase('mydatabase.db');
+    
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM client_measurements WHERE id = ?',
+        [itemId],
+        (_, { rows }) => {
+          const itemData = rows.item(0);
+          const { remarks, physicalActLevel, BMI, waistCircum, hipCircum, weight, height, WHR, DBW } = itemData;
+    
+          const generatedFields = `Remarks: ${remarks}\nPAL: ${physicalActLevel}\nBMI: ${BMI}\nWaist: ${waistCircum}\nHip: ${hipCircum}\nWeight: ${weight}\nHeight: ${height}\nWHR: ${WHR}\nDBW: ${DBW}`;
+    
+          Alert.alert('Other Information:', generatedFields);
+        },
+        (error) => {
+          console.log('Error fetching item data: ', error);
+        }
+      );
+    });
+  };
+  
   const openMenu = (id) => {
     setSelectedItemId(id);
     setModalVisible(true);
@@ -112,11 +134,12 @@ function TableDisplay() {
         />
         <View>
           <DataTable.Header>
-            <DataTable.Title style={styles.cell}>ID</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Name</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Birthdate</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Sex</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Actions</DataTable.Title>
+            <DataTable.Title style={styles.dateColumn}>Date</DataTable.Title>
+            <DataTable.Title style={styles.actionCell}>TER</DataTable.Title>
+            <DataTable.Title style={styles.actionCell}>Carbs</DataTable.Title>
+            <DataTable.Title style={styles.actionCell}>Protein</DataTable.Title>
+            <DataTable.Title style={styles.actionCell}>Fats</DataTable.Title>
+            <DataTable.Title style={styles.actionCell}>Actions</DataTable.Title>
           </DataTable.Header>
         </View>
         <ScrollView style={styles.tableBodyContainer}>
@@ -124,18 +147,22 @@ function TableDisplay() {
             {displayedData.length > 0 ? (
               displayedData.map((item) => (
                 <DataTable.Row key={item.id}>
-                  <DataTable.Cell style={styles.cell}>{item.id}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.name}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.birthdate}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.sex}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>
+                  <DataTable.Cell style={styles.dateColumn}>{item.assessment_date}</DataTable.Cell>
+                  <DataTable.Cell style={styles.actionCell}>{item.TER}</DataTable.Cell>
+                  <DataTable.Cell style={styles.actionCell}>{item.carbs}</DataTable.Cell>
+                  <DataTable.Cell style={styles.actionCell}>{item.protein}</DataTable.Cell>
+                  <DataTable.Cell style={styles.actionCell}>{item.fats}</DataTable.Cell>
+                  <DataTable.Cell style={styles.actionCell}>
+                  <View style={styles.buttonContainer}>
+
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() => openMenu(item.id)}
                     >
                       <Ionicons name="md-reorder-three" size={20} />
                     </TouchableOpacity>
-                  </DataTable.Cell>
+                  </View>
+                </DataTable.Cell>
                 </DataTable.Row>
               ))
             ) : (
@@ -167,14 +194,14 @@ function TableDisplay() {
               <Text style={styles.modalText}>Update</Text>
             </TouchableOpacity>
             <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
             <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
               <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>View</Text>
+            </TouchableOpacity>
+            <Divider />
+            <TouchableOpacity style={styles.modalButton} onPress={() => generateFields(selectedItemId)}>
+              <Ionicons name="information" size={20} color="black" style={styles.modalIcon} />
+              <Text style={styles.modalText}>Other Information</Text>
             </TouchableOpacity>
           </View>
         </Modal>
@@ -227,11 +254,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-  
-  cell: {
+  actionCell: {
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  button: {
+    marginLeft: 5,
+    padding: 5,
+    borderRadius: 5,
+  },
+  dateColumn: {
+    flex: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
-export default TableDisplay;
+export default ClientMeasurements;

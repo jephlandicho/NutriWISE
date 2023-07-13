@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     alignItems: 'center',
     borderRadius: 5,
+    shadowColor: '#9c9c9c',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 5,
+    elevation: 3,
   },
 
   container_primary:{
@@ -31,7 +39,7 @@ const styles = StyleSheet.create({
   },
 
   container_tertiary:{
-    
+    backgroundColor: '#ffffff',
   },
 
   text: {
@@ -40,7 +48,7 @@ const styles = StyleSheet.create({
   },
 
   text_tertiary:{
-    color: 'gray',
+    color: '#aaaaaa',
   }
 });
 
