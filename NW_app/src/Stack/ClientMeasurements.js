@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,8 +7,36 @@ import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-nat
 import Modal from 'react-native-modal';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Measurements from '../Components/Measurements';
+import { ResultContext } from '../Components/ResultContext';
 
 function ClientMeasurements() {
+  const {
+    waistC,
+    hipC,
+    varweight,
+    varheight,
+    pal,
+    whr,
+    bmi,
+    dbw,
+    carbs,
+    protein,
+    fats,
+    TER,
+    normal,
+  } = useContext(ResultContext);
+  let palText;
+  if (pal === '30') {
+    palText = 'Sedentary';
+  } else if (pal === '35') {
+    palText = 'Light';
+  } else if (pal === '40') {
+    palText = 'Moderate';
+  } else {
+    palText = 'Vigorous';
+  }
+
   const [userData, setUserData] = useState(null);
   const getUserData = async () => {
     try {
@@ -115,6 +143,42 @@ function ClientMeasurements() {
     setModalVisible(true);
   };
 
+  const saveMeasurement = () => {
+    // saved
+    const db = SQLite.openDatabase('mydatabase.db');
+    db.transaction((tx) => {
+      tx.executeSql(
+        'INSERT INTO client_measurements (client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+        [
+          id,
+          userData.id,
+          waistC,
+          hipC,
+          varweight,
+          varheight,
+          palText,
+          whr,
+          bmi,
+          normal,
+          dbw,
+          TER,
+          protein,
+          carbs,
+          fats,
+        ],
+        () => {
+          refreshTableData()
+          Alert.alert('New client measurements added')
+          console.log('Data inserted into client_measurements successfully.');
+          setAnotherModalVisible(false);
+        },
+        (error) => {
+          console.log('Error inserting data into distribution_exchange: ', error);
+        }
+        )
+    })
+  };
+
   const closeMenu = () => {
     setModalVisible(false);
   };
@@ -122,6 +186,17 @@ function ClientMeasurements() {
   const from = page * itemsPerPage;
   const to = from + itemsPerPage;
   const displayedData = tableData.slice(from, to);
+
+  // Second Modal State and Functions
+  const [anotherModalVisible, setAnotherModalVisible] = useState(false);
+
+  const openAnotherModal = () => {
+    setAnotherModalVisible(true);
+  };
+
+  const closeAnotherModal = () => {
+    setAnotherModalVisible(false);
+  };
 
   return (
     <PaperProvider>
@@ -133,6 +208,13 @@ function ClientMeasurements() {
           onChangeText={handleSearch}
         />
         <View>
+        <View style={styles.meabuttonContainer}>
+        <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
+          <Text style={styles.buttonText}>
+            <Ionicons name="add-circle-outline" size={20} color="black" /> Add
+          </Text>
+        </TouchableOpacity>
+      </View>
           <DataTable.Header>
             <DataTable.Title style={styles.dateColumn}>Date</DataTable.Title>
             <DataTable.Title style={styles.actionCell}>TER</DataTable.Title>
@@ -153,16 +235,15 @@ function ClientMeasurements() {
                   <DataTable.Cell style={styles.actionCell}>{item.protein}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>{item.fats}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>
-                  <View style={styles.buttonContainer}>
-
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => openMenu(item.id)}
-                    >
-                      <Ionicons name="md-reorder-three" size={20} />
-                    </TouchableOpacity>
-                  </View>
-                </DataTable.Cell>
+                    <View style={styles.buttonContainer}>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => openMenu(item.id)}
+                      >
+                        <Ionicons name="md-reorder-three" size={20} />
+                      </TouchableOpacity>
+                    </View>
+                  </DataTable.Cell>
                 </DataTable.Row>
               ))
             ) : (
@@ -205,6 +286,19 @@ function ClientMeasurements() {
             </TouchableOpacity>
           </View>
         </Modal>
+        <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Another Modal</Text>
+            <Measurements/>
+            <View style={styles.savebuttonContainer}>
+        <TouchableOpacity style={styles.savebutton} onPress={saveMeasurement}>
+          <Text style={styles.savebuttonText}>
+            <Ionicons name="save-outline" size={25} color="black" /> Save
+          </Text>
+        </TouchableOpacity>
+        </View>
+          </View>
+        </Modal>
       </View>
     </PaperProvider>
   );
@@ -224,10 +318,12 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 5,
   },
-  button: {
-    marginLeft: 5,
-    padding: 5,
+  modalButton: {
+    marginBottom: 10,
+    backgroundColor: '#007bff',
+    padding: 10,
     borderRadius: 5,
+    alignItems: 'center',
   },
   noDataCell: {
     textAlign: 'center',
@@ -254,6 +350,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   actionCell: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -266,10 +367,44 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
+  meabutton: {
+    width: '25%',
+    marginVertical: 5,
+    alignItems: 'center',
+    flexDirection: 'row', // Add flexDirection: 'row' to align items horizontally
+    justifyContent: 'center', // Add justifyContent: 'center' to align items vertically
+    borderRadius: 5,
+  },
+  meabuttonContainer: {
+    alignItems: 'flex-end',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#aaaaaa',
+    marginLeft: 5, // Add marginLeft to create space between icon and text
+  },
   dateColumn: {
     flex: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  savebutton: {
+    width: '25%',
+    marginVertical: 5,
+    alignItems: 'center',
+    flexDirection: 'row', // Add flexDirection: 'row' to align items horizontally
+    justifyContent: 'center', // Add justifyContent: 'center' to align items vertically
+    borderRadius: 5,
+  },
+  savebuttonContainer: {
+    alignItems: 'center',
+  },
+  savebuttonText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginLeft: 5, // Add marginLeft to create space between icon and text
   },
 });
 

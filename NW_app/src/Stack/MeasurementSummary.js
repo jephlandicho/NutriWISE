@@ -22,7 +22,6 @@ function MeasurementSummary() {
   const [userData, setUserData] = useState(null);
   const {
     clientName,
-    clientAge,
     clientSex,
     waistC,
     hipC,
@@ -52,6 +51,56 @@ function MeasurementSummary() {
     totalProtein,
     totalFat,
     totalKcal,
+    AvegetablesBreakfast,
+    AvegetablesAMSnacks,
+    AvegetablesLunch,
+    AvegetablesPMSnacks,
+    AvegetablesDinner,
+    AfruitBreakfast,
+    AfruitAMSnacks,
+    AfruitLunch,
+    AfruitPMSnacks,
+    AfruitDinner,
+    AriceABreakfast,
+    AriceAAMSnacks,
+    AriceALunch,
+    AriceAPMSnacks,
+    AriceADinner,
+    AriceBBreakfast,
+    AriceBAMSnacks,
+    AriceBLunch,
+    AriceBPMSnacks,
+    AriceBDinner,
+    AriceCBreakfast,
+    AriceCAMSnacks,
+    AriceCLunch,
+    AriceCPMSnacks,
+    AriceCDinner,
+    AMilkBreakfast,
+    AMilkAMSnacks,
+    AMilkLunch,
+    AMilkPMSnacks,
+    AMilkDinner,
+    ALFBreakfast,
+    ALFAMSnacks,
+    ALFLunch,
+    ALFPMSnacks,
+    ALFDinner,
+    AMFBreakfast,
+    AMFAMSnacks,
+    AMFLunch,
+    AMFPMSnacks,
+    AMFDinner,
+    AFatBreakfast,
+    AFatAMSnacks,
+    AFatLunch,
+    AFatPMSnacks,
+    AFatDinner,
+    ASugarBreakfast,
+    ASugarAMSnacks,
+    ASugarLunch,
+    ASugarPMSnacks,
+    ASugarDinner,
     ClientID,
     setClientID,
   } = useContext(ResultContext);
@@ -163,6 +212,29 @@ function MeasurementSummary() {
           console.log('Error creating exchanges table: ', error);
         }
       );
+
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS distribution_exchange (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        exchange_id INTEGER,
+        food_group TEXT,
+        breakfast REAL,
+        am_snacks REAL,
+        lunch REAL,
+        pm_snacks REAL,
+        dinner REAL,
+        FOREIGN KEY (exchange_id) REFERENCES exchanges(id)
+      );
+
+        )`,
+        [],
+        () => {
+          console.log('distribution_exchange table created successfully.');
+        },
+        (error) => {
+          console.log('Error creating distribution_exchange table: ', error);
+        }
+      );
     });
 
     return () => {
@@ -240,8 +312,112 @@ function MeasurementSummary() {
               totalProtein,
               totalFat,
             ],
-            () => {
+            (tx, resultSet) => {
+              const exchangeId = resultSet.insertId;
               console.log('Data inserted into exchanges successfully.');
+              const distributionExchangeData = [
+                {
+                  food_group: 'Vegetable',
+                  breakfast: AvegetablesBreakfast,
+                  am_snacks: AvegetablesAMSnacks,
+                  lunch: AvegetablesLunch,
+                  pm_snacks: AvegetablesPMSnacks,
+                  dinner: AvegetablesDinner,
+                },
+                {
+                  food_group: 'Fruit',
+                  breakfast: AfruitBreakfast,
+                  am_snacks: AfruitAMSnacks,
+                  lunch: AfruitLunch,
+                  pm_snacks: AfruitPMSnacks,
+                  dinner: AfruitDinner,
+                },
+                {
+                  food_group: 'Rice A',
+                  breakfast: AriceABreakfast,
+                  am_snacks: AriceAAMSnacks,
+                  lunch: AriceALunch,
+                  pm_snacks: AriceAPMSnacks,
+                  dinner: AriceADinner,
+                },
+                {
+                  food_group: 'Rice B',
+                  breakfast: AriceBBreakfast,
+                  am_snacks: AriceBAMSnacks,
+                  lunch: AriceBLunch,
+                  pm_snacks: AriceBPMSnacks,
+                  dinner: AriceBDinner,
+                },
+                {
+                  food_group: 'Rice C',
+                  breakfast: AriceCBreakfast,
+                  am_snacks: AriceCAMSnacks,
+                  lunch: AriceCLunch,
+                  pm_snacks: AriceCPMSnacks,
+                  dinner: AriceCDinner,
+                },
+                {
+                  food_group: 'Milk',
+                  breakfast: AMilkBreakfast,
+                  am_snacks: AMilkAMSnacks,
+                  lunch: AMilkLunch,
+                  pm_snacks: AMilkPMSnacks,
+                  dinner: AMilkDinner,
+                },
+                {
+                  food_group: 'LF Meat',
+                  breakfast: ALFBreakfast,
+                  am_snacks: ALFAMSnacks,
+                  lunch: ALFLunch,
+                  pm_snacks: ALFPMSnacks,
+                  dinner: ALFDinner,
+                },
+                {
+                  food_group: 'MF Meat',
+                  breakfast: AMFBreakfast,
+                  am_snacks: AMFAMSnacks,
+                  lunch: AMFLunch,
+                  pm_snacks: AMFPMSnacks,
+                  dinner: AMFDinner,
+                },
+                {
+                  food_group: 'Fat',
+                  breakfast: AFatBreakfast,
+                  am_snacks: AFatAMSnacks,
+                  lunch: AFatLunch,
+                  pm_snacks: AFatPMSnacks,
+                  dinner: AFatDinner,
+                },
+                {
+                  food_group: 'Sugar',
+                  breakfast: ASugarBreakfast,
+                  am_snacks: ASugarAMSnacks,
+                  lunch: ASugarLunch,
+                  pm_snacks: ASugarPMSnacks,
+                  dinner: ASugarDinner,
+                },
+              ];
+      
+              // Insert multiple rows into the distribution_exchange table
+              distributionExchangeData.forEach((row) => {
+                tx.executeSql(
+                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                  [
+                    exchangeId,
+                    row.food_group,
+                    row.breakfast,
+                    row.am_snacks,
+                    row.lunch,
+                    row.pm_snacks,
+                    row.dinner,
+                  ],
+                  () => {
+                    console.log('Data inserted into distribution_exchange successfully.');
+                  },
+                  (error) => {
+                    console.log('Error inserting data into distribution_exchange: ', error);
+                  })
+                })
             },
             (error) => {
               console.log('Error inserting data into exchanges: ', error);
@@ -270,6 +446,14 @@ function MeasurementSummary() {
         <View style={styles.column}>
           <Text>Sex: {clientSex}</Text>
         </View>
+      </View>
+      <View style={styles.row}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 5}}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      </View>
+      <View style={styles.row}>
+      <Text>Measurements</Text>
       </View>
       <View style={styles.row}>
         <View style={styles.column}>
@@ -329,8 +513,95 @@ function MeasurementSummary() {
           <Text> {TER} kcal</Text>
         </View>
       </View>
+      <View style={styles.row}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 5}}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      </View>
+      <View style={styles.row}>
+      <Text>Exchanges</Text>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text>Vegetable</Text>
+          <Text> {vegetableEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Fruit</Text>
+          <Text> {fruitEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Milk</Text>
+          <Text> {milkEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Sugar</Text>
+          <Text> {sugarEx}</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text>Rice A</Text>
+          <Text> {riceAEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Rice B</Text>
+          <Text> {riceBEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Rice C</Text>
+          <Text> {riceCEx} </Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text>LF Meat</Text>
+          <Text> {LFmeatEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>MF Meat</Text>
+          <Text> {MFmeatEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Fat</Text>
+          <Text> {fatEx} </Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 5}}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      </View>
+      <View style={styles.row}>
+      <Text>Diet Presciption</Text>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text>Carbohydrates</Text>
+          <Text> {totalCarbs} g</Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Protein</Text>
+          <Text> {totalProtein} g</Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Fats</Text>
+          <Text> {totalFat} g</Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Energy</Text>
+          <Text> {totalKcal} kcal</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+      <View style={{flexDirection: 'row', alignItems: 'center', marginVertical: 5}}>
+        <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+      </View>
+      </View>
       <Button title="Save Data" onPress={insertData} />
     </View>
+    
+
   );
 }
 
@@ -343,11 +614,16 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginVertical: 3
   },
   column: {
     flex: 1,
     padding: 5,
     alignItems: 'center',
+  },
+  line: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
   },
 });
 
