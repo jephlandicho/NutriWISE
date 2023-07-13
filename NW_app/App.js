@@ -1,18 +1,52 @@
-import {StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Navigation from './src/Navigation/Navigation'
-import { ResultProvider } from './src/Components/ResultContext';
+import SignInScreen from './src/Auth/SignInScreen';
+import Navigation from './src/Navigation/Navigation';
+
+export const ResultContext = React.createContext();
+
 const App = () => {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  React.useEffect(() => {
+    const checkUserLoginStatus = async () => {
+      try {
+        const userAccountString = await AsyncStorage.getItem('userAccountss');
+        if (userAccountString) {
+          const userAccount = JSON.parse(userAccountString);
+          // Perform any additional checks or validations if needed
+
+          setLoggedIn(true);
+        }
+      } catch (error) {
+        // Handle error while retrieving data
+        console.log('Error retrieving user account:', error);
+      }
+    };
+
+    checkUserLoginStatus();
+  }, []);
+
   return (
-    <ResultProvider>
-      <Navigation/>
-    </ResultProvider>
+    <ResultContext.Provider value={{ isLoggedIn, setLoggedIn }}>
+      <View style={styles.container}>
+        {isLoggedIn ? (
+          <Navigation isLoggedIn={isLoggedIn} />
+        ) : (
+          <SignInScreen setLoggedIn={setLoggedIn} />
+        )}
+      </View>
+    </ResultContext.Provider>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
 });
+
 export default App;

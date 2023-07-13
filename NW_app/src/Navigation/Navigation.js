@@ -15,6 +15,7 @@ import ExchangeDistribution from '../Stack/ExchangeDistribution';
 import MealPlanResult from '../Stack/MealPlanResult';
 import MeasurementSummary from '../Stack/MeasurementSummary';
 import TableDisplay from '../Stack/TableDisplay';
+import ClientMeasurements from '../Stack/ClientMeasurements';
 
 import Breakfast from '../Stack/MealPlanning/Breakfast';
 import AMSnacks from '../Stack/MealPlanning/AMSnack';
@@ -22,6 +23,7 @@ import Lunch from '../Stack/MealPlanning/Lunch';
 import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
 
+import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -238,6 +240,11 @@ function StackNavigator() {
         component={TableDisplay}
         
       />
+      <Stack.Screen
+        name='ClientMeasurements'
+        component={ClientMeasurements}
+        
+      />
     </Stack.Navigator>
   );
 }
@@ -245,7 +252,9 @@ function StackNavigator() {
 const Navigation = () => {
   return (
     <NavigationContainer>
+      <ResultProvider>
       <TabNavigator />
+      </ResultProvider>
     </NavigationContainer>
   );
 };
