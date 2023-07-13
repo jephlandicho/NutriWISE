@@ -92,7 +92,7 @@ include 'header.php';
     padding: 20px;
     /* Adjust the padding value as needed */
     width: 1100px;
-    background-color: #8aff8a;
+    background-color: #83D475;
     color: #333;
     font-family: Arial, sans-serif;
     font-size: 18px;
@@ -306,81 +306,38 @@ include 'header.php';
   </section>
 </main><!-- End #main -->
 
+
 <!-- Modal -->
-
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog custom-modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel">Create Announcement</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        <div class="modal-body">
+  <div class="modal-dialog custom-modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Create Announcement</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <form action="process_announcement.php?class_id=<?php echo $classDetails['id']; ?>" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="announcement">Announcement</label>
-              <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label>Insert Link</label>
-              <div class="icon-container">
-                <a href="#" class="icon-link" data-toggle="tooltip" title="Add Google Drive File"
-                  onclick="insertLink('google-drive')">
-                  <span class="circle-icon">
-                    <i class="bi bi-device-hdd"></i>
-                  </span>
-                </a>
-                <a href="#" class="icon-link" data-toggle="tooltip" title="Add YouTube Video"
-                  onclick="insertLink('youtube')">
-                  <span class="circle-icon">
-                    <i class="bi bi-youtube"></i>
-                  </span>
-                </a>
-                <a href="#" class="icon-link" data-toggle="tooltip" title="Add Link" onclick="insertLink('link')">
-                  <span class="circle-icon">
-                    <i class="bi bi-link-45deg"></i>
-                  </span>
-                </a>
-                <a href="#" class="icon-link" data-toggle="tooltip" title="Upload File" onclick="uploadFile()">
-                  <span class="circle-icon">
-                    <i class="bi bi-file-earmark-arrow-up"></i>
-                  </span>
-                </a>
-              </div>
-            </div>
-
-            <div class="form-group" id="drive-link-input-group" style="display: none;">
-              <label for="drive-link">Google Drive Link</label>
-              <input type="text" class="form-control" id="drive-link" name="links[google-drive]">
-            </div>
-
-            <div class="form-group" id="youtube-link-input-group" style="display: none;">
-              <label for="youtube-link">YouTube Link</label>
-              <input type="text" class="form-control" id="youtube-link" name="links[youtube]">
-            </div>
-
-            <div class="form-group" id="regular-link-input-group" style="display: none;">
-              <label for="regular-link">Regular Link</label>
-              <input type="text" class="form-control" id="regular-link" name="links[regular]">
-            </div>
-            <div class="form-group" id="file-input-group" style="display: none;">
-              <label for="file">Upload File</label>
-              <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif">
-
-            </div>
-
-            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-          </form>
-        </div>
+          <div class="form-group">
+            <label for="announcement">Announcement</label>
+            <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="links">Link</label>
+            <input type="text" class="form-control" id="links" name="links" placeholder="Enter Link">
+          </div>
+          <div class="form-group">
+            <label for="file">Upload File</label>
+            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif">
+          </div>
+          <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </form>
       </div>
     </div>
   </div>
-
+</div>
+<!-- Modal End -->
 
 
   <!-- Modal End -->

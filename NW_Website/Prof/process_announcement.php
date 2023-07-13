@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $fileName = basename($_FILES["file"]["name"]);
     $targetFilePath = $targetDir . $fileName;
     $uploadOk = 1;
-    
+
     // If file upload checks pass, move the file to the target directory
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
         // File upload successful
@@ -28,9 +28,7 @@ if (isset($_POST['submit'])) {
 
             // Escape and sanitize the announcement text and other input fields
             $description = $_POST['description'];
-            $youtubeLink = $_POST['links']['youtube'];
-            $driveLink = $_POST['links']['google-drive'];
-            $regularLink = $_POST['links']['regular'];
+            $youtubeLink = $_POST['links'];
             $materials = $targetFilePath;
             $date = date('Y-m-d');
 
@@ -39,7 +37,7 @@ if (isset($_POST['submit'])) {
 
             // Prepare and execute the database query
             $stmt = $conn->prepare("INSERT INTO materials (class_id, description, links, materials, date) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$classId, $description, $youtubeLink . ", " . $driveLink . ", " . $regularLink, $materials, $date]);
+            $stmt->execute([$classId, $description, $youtubeLink, $materials, $date]);
 
             // Close the database connection
             $conn = null;

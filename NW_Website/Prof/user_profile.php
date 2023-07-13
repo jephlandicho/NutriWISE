@@ -111,7 +111,7 @@ mysqli_close($connection);
         <h1 style="color: lightgreen;">Profile</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="meuser_profiles.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="user_profiles.php">Home</a></li>
                 <li class="breadcrumb-item active">Profile</li>
             </ol>
         </nav>

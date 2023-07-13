@@ -644,7 +644,6 @@ h6 {
     left: -300px;
   }
 }
-
 .sidebar-nav {
   padding: 0;
   margin: 0;
@@ -674,29 +673,23 @@ h6 {
   align-items: center;
   font-size: 15px;
   font-weight: 600;
- 
-  transition: 0.3;
- 
+  transition: 0.3s;
   padding: 10px 15px;
   border-radius: 4px;
+  color: black;
 }
 
 .sidebar-nav .nav-link i {
   font-size: 16px;
   margin-right: 10px;
-  
 }
-
-
 
 .sidebar-nav .nav-link.collapsed i {
   color: #899bbd;
 }
 
-
-
-.sidebar-nav .nav-link:hover i {
-  color: red;
+.sidebar-nav .nav-link i:hover {
+  color: lightgreen ; /* Icon color on hover */
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -720,13 +713,13 @@ h6 {
   font-size: 14px;
   font-weight: 600;
   color: lightgreen;
-  transition: 0.3;
+  transition: 0.3s;
   padding: 10px 0 10px 40px;
   transition: 0.3s;
 }
 
 .sidebar-nav .nav-content a i {
-  font-size: 6px;
+  font-size: 12px;
   margin-right: 8px;
   line-height: 0;
   border-radius: 50%;
@@ -737,10 +730,14 @@ h6 {
   color: lightgreen;
 }
 
-.sidebar-nav .nav-content a.active i {
+/* .sidebar-nav .nav-content a.active i {
+  background-color: lightgreen;
+} */
+
+.sidebar-nav .nav-link.active {
+  color: #fff;
   background-color: lightgreen;
 }
-
 /*--------------------------------------------------------------
 # Dashboard
 --------------------------------------------------------------*/

@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-include "config.php"; // Include the config.php file
+include "config.php";
 
 if (isset($_POST['class_id'])) {
     $classId = $_POST['class_id'];
@@ -15,17 +15,17 @@ if (isset($_POST['class_id'])) {
 
         $rowCount = $stmt->affected_rows;
         if ($rowCount > 0) {
-            echo '<script>alert("Class successfully deleted.");</script>'; // Alert message
-            echo '<script>window.location.href = "classes.php";</script>'; // Redirect to classes.php
+            echo '<script>alert("Class successfully deleted.");</script>';
+            echo '<script>window.location.href = "classes.php";</script>';
         } else {
-            echo '<script>alert("Error Removing Class");</script>'; // No class found with the provided ID
+            echo '<script>alert("Error removing class.");</script>';
         }
     } catch (mysqli_sql_exception $e) {
-        echo "error"; // Error deleting class
+        echo "Error: " . $e->getMessage();
     }
 
     $stmt->close();
 } else {
-    echo "error"; // Class ID is missing
+    echo "Error: Class ID not specified.";
 }
 ?>
