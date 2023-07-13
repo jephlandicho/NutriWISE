@@ -1,5 +1,9 @@
 <?php
-session_start();
+// Check if a session is already active
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Check if the $username variable is set, otherwise set it to 'Guest'
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 ?>
@@ -158,6 +162,7 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
   </aside><!-- End Sidebar -->
   <!--kukunin for header-->
+
 
 </body>
 

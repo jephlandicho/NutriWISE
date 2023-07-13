@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
     // File upload configuration
@@ -6,56 +8,54 @@ if (isset($_POST['submit'])) {
     $fileName = basename($_FILES["file"]["name"]);
     $targetFilePath = $targetDir . $fileName;
     $uploadOk = 1;
-    $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-
-    // Allow only specific file formats (PDF in this case)
-    if ($fileType != "pdf") {
-        echo "Sorry, only PDF files are allowed.";
-        $uploadOk = 0;
-    }
-
+    
     // If file upload checks pass, move the file to the target directory
-    if ($uploadOk == 1) {
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
-            // File upload successful
-            echo "The file has been uploaded successfully.";
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
+        // File upload successful
+        echo '<script>alert("The file has been uploaded successfully.");</script>';
 
-            // Store the file information in the database
-            // Replace the database credentials with your own
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "nutriwise";
+        // Store the file information in the database
+        // Replace the database credentials with your own
+        $host = "localhost";
+        $database = "nutriwise";
+        $username = "root";
+        $password = ""; // Add your database password
 
+        try {
             // Create a connection to the database
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            // Check the connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
+            $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Escape and sanitize the announcement text and other input fields
-            $description = $conn->real_escape_string($_POST['description']);
-            $youtubeLink = $conn->real_escape_string($_POST['links']['youtube']);
-            $driveLink = $conn->real_escape_string($_POST['links']['google-drive']);
-            $regularLink = $conn->real_escape_string($_POST['links']['regular']);
-            $materials = $conn->real_escape_string($targetFilePath);
+            $description = $_POST['description'];
+            $youtubeLink = $_POST['links']['youtube'];
+            $driveLink = $_POST['links']['google-drive'];
+            $regularLink = $_POST['links']['regular'];
+            $materials = $targetFilePath;
             $date = date('Y-m-d');
 
+            // Get the class ID from the session variable
+            $classId = $_SESSION['class_id'];
+
             // Prepare and execute the database query
-            $sql = "INSERT INTO material (description, links, materials, date) VALUES ('$description', '$youtubeLink, $driveLink, $regularLink', '$materials', '$date')";
-            if ($conn->query($sql) === TRUE) {
-                echo "Announcement saved in the database.";
-            } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
-            }
+            $stmt = $conn->prepare("INSERT INTO materials (class_id, description, links, materials, date) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$classId, $description, $youtubeLink . ", " . $driveLink . ", " . $regularLink, $materials, $date]);
 
             // Close the database connection
-            $conn->close();
-        } else {
-            echo "Sorry, there was an error uploading your file.";
+            $conn = null;
+
+            // Redirect back to class_details.php
+            echo '<script>
+                    setTimeout(function() {
+                        window.location.href = "class_details.php?class_id='.$classId.'";
+                    }, 1000); // 1000 milliseconds = 1 second
+                  </script>';
+            exit(); // Ensure the script stops executing after the redirect
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
         }
+    } else {
+        echo "Sorry, there was an error uploading your file.";
     }
 }
 ?>

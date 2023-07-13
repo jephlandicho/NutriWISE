@@ -1,4 +1,7 @@
-<?php include 'header.php'; ?>
+<?php
+include 'header.php';
+?>
+
 <style>
   /* Global styles */
   body {
@@ -56,9 +59,22 @@
   .card .link:hover {
     text-decoration: underline;
   }
+
+  /* File icon styles */
+  .file-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    background-color: #f5f5f5;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #777;
+  }
 </style>
 
-<!-- HTML form to upload the file -->
 <main id="main" class="main">
   <div class="pagetitle">
     <h1 style="color: lightgreen;">Classes</h1>
@@ -76,61 +92,89 @@
     <div class="row">
       <div class="col-lg-8">
         <?php
-        // Connect to your database
-        $conn = new mysqli('localhost', 'root', '', 'nutriwise');
+      
+        include "config.php"; // Include the config.php file
 
-        // Check the connection
-        if ($conn->connect_error) {
-          die("Connection failed: " . $conn->connect_error);
-        }
+        // Check if the class ID is stored in the session
+        if (isset($_SESSION['class_id'])) {
+          // Retrieve the class ID from the session
+          $classId = $_SESSION['class_id'];
 
-        // Retrieve data from the "files" table
-        $sql = "SELECT description,materials,links,date FROM material";
-        $result = $conn->query($sql);
+          // Fetch the stream content for the current class ID from the database
+          $query = "SELECT * FROM materials WHERE class_id = '$classId'";
+          $result = mysqli_query($conn, $query);
 
-        if ($result->num_rows > 0) {
-          // Iterate through the retrieved data and generate a card for each item
-          while ($row = $result->fetch_assoc()) {
-            // Generate the card layout using HTML and CSS
-            echo '<div class="card">';
-  
-            // Display the announcement text
-            echo '<p>' . $row['description'] . '</p>';
-  
-            // Display the uploaded files
-            echo '<p>Uploaded Files:</p>';
-            $fileNames = explode(',', $row['materials']);
-            foreach ($fileNames as $fileName) {
-              echo '<a href="' . $fileName . '">' . $fileName . '</a><br>';
+          // Check if there is any stream content
+          if (mysqli_num_rows($result) > 0) {
+            // Iterate through the stream content and generate a card for each item
+            while ($row = mysqli_fetch_assoc($result)) {
+              // Generate the card layout using HTML and CSS
+              echo '<div class="card">';
+
+              // Display the announcement text
+              echo '<p class="announcement">' . $row['description'] . '</p>';
+
+              // Display the uploaded files
+              echo '<p class="uploaded-files">Uploaded Files:</p>';
+              $fileNames = explode(',', $row['materials']);
+              foreach ($fileNames as $fileName) {
+                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+                $fileIconClass = getFileIconClass($fileExtension);
+                echo '<a href="' . $fileName . '" class="file-link"><span class="file-icon ' . $fileIconClass . '"></span>' . $fileName . '</a><br>';
+              }
+
+              // Display the links
+              echo '<a href="' . $row['links'] . '" class="link">Link</a>';
+
+              echo '</div>';
             }
-  
-            // Display the links
-            echo '<a href="' . $row['links'] . '">Link</a>';
-            // echo '<a href="' . $row['youtube_link'] . '">YouTube Link</a>';
-            // echo '<a href="' . $row['regular_link'] . '">Regular Link</a>';
-  
-            echo '</div>';
+          } else {
+            echo "No stream content available.";
           }
         } else {
-          echo "No files found.";
+          echo "Class ID not specified.";
         }
 
-        // Close the database connection
-        $conn->close();
+        // Helper function to get the file icon class based on the file extension
+        function getFileIconClass($extension)
+        {
+          $iconClass = 'file-icon'; // Default file icon class
+
+          // Define additional file icons based on the file extension
+          switch ($extension) {
+            case 'pdf':
+              $iconClass = 'file-icon-pdf';
+              break;
+            case 'doc':
+            case 'docx':
+              $iconClass = 'file-icon-doc';
+              break;
+            case 'xls':
+            case 'xlsx':
+              $iconClass = 'file-icon-xls';
+              break;
+            case 'ppt':
+            case 'pptx':
+              $iconClass = 'file-icon-ppt';
+              break;
+            case 'zip':
+            case 'rar':
+              $iconClass = 'file-icon-zip';
+              break;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+              $iconClass = 'file-icon-img';
+              break;
+          }
+
+          return $iconClass;
+        }
         ?>
+
       </div>
     </div>
   </section>
 </main><!-- End #main -->
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-<script src="assets/js/main.js"></script>

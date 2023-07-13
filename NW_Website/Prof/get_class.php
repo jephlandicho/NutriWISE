@@ -2,27 +2,23 @@
 // Retrieve all classes from the database
 
 $host = "localhost";
-$database = "class_added";
-$conn = new mysqli($host, "root", "", $database);
+$database = "nutriwise";
+$username = "root"; 
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $conn->query("SELECT * FROM classes");
+    $classes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Return the classes as JSON response
+    header('Content-Type: application/json');
+    echo json_encode($classes);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
 }
 
-$sql = "SELECT * FROM classes";
-$result = $conn->query($sql);
-
-$classes = array();
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $classes[] = $row;
-  }
-}
-
-$conn->close();
-
-// Return the classes as JSON response
-header('Content-Type: application/json');
-echo json_encode($classes);
+$stmt = null;
+$conn = null;
 ?>

@@ -24,7 +24,7 @@ if (isset($_SESSION['username'])) {
         die("Database connection failed: " . mysqli_connect_error());
     }
 
-    $query = "SELECT email FROM prof_form WHERE username = '$username'";
+    $query = "SELECT email FROM professor WHERE username = '$username'";
     $result = mysqli_query($connection, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format.";
     } else {
-        $updateQuery = "UPDATE prof_form SET username='$newUsername', email='$newEmail' WHERE username='$username'";
+        $updateQuery = "UPDATE professor SET username='$newUsername', email='$newEmail' WHERE username='$username'";
         $updateResult = mysqli_query($connection, $updateQuery);
 
         if ($updateResult) {
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $_SESSION['username'] = $newUsername;
 
             // petch the updated email from the db
-            $query = "SELECT email FROM prof_form WHERE username = '$newUsername'";
+            $query = "SELECT email FROM professor WHERE username = '$newUsername'";
             $result = mysqli_query($connection, $query);
 
             if ($result && mysqli_num_rows($result) > 0) {
@@ -257,17 +257,6 @@ mysqli_close($connection);
     </section>
 </main>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/chart.js/chart.umd.js"></script>
-<script src="assets/vendor/echarts/echarts.min.js"></script>
-<script src="assets/vendor/quill/quill.min.js"></script>
-<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-<script src="assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="assets/vendor/php-email-form/validate.js"></script>
-<script src="assets/js/main.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -294,6 +283,21 @@ mysqli_close($connection);
     });
 });
 </script>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
 </body>
 

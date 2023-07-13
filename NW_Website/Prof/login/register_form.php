@@ -1,16 +1,16 @@
 <?php
-
 @include 'config.php';
 
 session_start();
 
 if (isset($_POST['submit'])) {
+    $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $email = mysqli_real_escape_string($conn, $_POST['usermail']);
     $pass = md5($_POST['password']);
     $cpass = md5($_POST['cpassword']);
 
-    $select = "SELECT * FROM prof_form WHERE email = '$email'";
+    $select = "SELECT * FROM professor WHERE email = '$email'";
 
     $result = mysqli_query($conn, $select);
 
@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
         if ($pass != $cpass) {
             $error[] = 'Passwords do not match!';
         } else {
-            $insert = "INSERT INTO prof_form(username, email, password) VALUES('$username', '$email','$pass')";
+            $insert = "INSERT INTO professor(fullname, username, email, password) VALUES('$fullname', '$username', '$email','$pass')";
             mysqli_query($conn, $insert);
             header('location: login_form.php');
             exit;
@@ -53,6 +53,7 @@ if (isset($_POST['submit'])) {
                 }
             }
             ?>
+            <input type="text" name="fullname" placeholder="Enter Full Name" class="box" required>
             <input type="text" name="username" placeholder="Enter Username" class="box" required>
             <input type="email" name="usermail" placeholder="Enter Email" class="box" required>
             <input type="password" name="password" placeholder="Enter Password" class="box" required>
