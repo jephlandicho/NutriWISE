@@ -117,10 +117,12 @@ export const ResultProvider = ({ children }) => {
   const [ASugarPMSnacks,setASugarPMSnacks] = useState('');
   const [ASugarDinner,setASugarDinner] = useState('');
   const [ClientID,setClientID] = useState('');
+  const [MeasurementID,setMeasurementID] = useState('');
 
 
   return (
     <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
+      MeasurementID,setMeasurementID,
       isLoggedIn, setLoggedIn,
       breakfast, setBreakfast,
       ClientID,setClientID,

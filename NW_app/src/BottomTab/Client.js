@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
-function TableDisplay() {
+function Client() {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -234,4 +234,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TableDisplay;
+export default Client;

@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text, Button,Alert } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { ResultContext } from '../Components/ResultContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
+const db = SQLite.openDatabase('mydatabase.db');
 function MeasurementSummary() {
+  const navigation = useNavigation();
 
   const getUserData = async () => {
     try {
@@ -138,109 +141,156 @@ function MeasurementSummary() {
     const uniqueCode = generateUniqueSixDigitCode();
     setClientID(uniqueCode);
 
-    // Print the unique code
-    console.log(uniqueCode);
-    const db = SQLite.openDatabase('mydatabase.db');
-    // Open the database connection
+    // Check if the client table exists
     db.transaction((tx) => {
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, name TEXT, birthdate TEXT, sex TEXT)',
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='client'",
         [],
-        () => {
-          console.log('client table created successfully.');
+        (_, resultSet) => {
+          // If the table doesn't exist, create it
+          if (resultSet.rows.length === 0) {
+            tx.executeSql(
+              'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, name TEXT, birthdate TEXT, sex TEXT)',
+              [],
+              () => {
+                console.log('client table created successfully.');
+              },
+              (error) => {
+                console.log('Error creating client table: ', error);
+              }
+            );
+          }
         },
         (error) => {
-          console.log('Error creating client table: ', error);
-        }
-      );
-
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS client_measurements (
-          id INTEGER PRIMARY KEY,
-          client_id INTEGER,
-          student_id REAL,
-          assessment_date DATE DEFAULT (date('now')),
-          waistCircum REAL,
-          hipCircum REAL,
-          weight REAL,
-          height REAL,
-          physicalActLevel TEXT,
-          WHR REAL,
-          BMI REAL,
-          remarks TEXT,
-          DBW REAL,
-          TER REAL,
-          protein REAL,
-          carbs REAL,
-          fats REAL,
-          FOREIGN KEY (client_id) REFERENCES client (id)
-        )`,
-        [],
-        () => {
-          console.log('client_measurements table created successfully.');
-        },
-        (error) => {
-          console.log('Error creating client_measurements table: ', error);
-        }
-      );
-
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS exchanges (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          measurement_id INTEGER,
-          vegetables REAL,
-          fruit REAL,
-          milk REAL,
-          sugar REAL,
-          riceA REAL,
-          riceB REAL,
-          riceC REAL,
-          lfMeat REAL,
-          mfMeat REAL,
-          fat REAL,
-          TER REAL,
-          carbohydrates REAL,
-          protein REAL,
-          fats REAL,
-          FOREIGN KEY (measurement_id) REFERENCES client_measurements (id)
-        )`,
-        [],
-        () => {
-          console.log('exchanges table created successfully.');
-        },
-        (error) => {
-          console.log('Error creating exchanges table: ', error);
-        }
-      );
-
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS distribution_exchange (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        exchange_id INTEGER,
-        food_group TEXT,
-        breakfast REAL,
-        am_snacks REAL,
-        lunch REAL,
-        pm_snacks REAL,
-        dinner REAL,
-        FOREIGN KEY (exchange_id) REFERENCES exchanges(id)
-      );
-
-        )`,
-        [],
-        () => {
-          console.log('distribution_exchange table created successfully.');
-        },
-        (error) => {
-          console.log('Error creating distribution_exchange table: ', error);
+          console.log('Error checking client table existence: ', error);
         }
       );
     });
 
-    return () => {
-      // Close the database connection when the component unmounts
-      db.close();
-    };
+    // Check if the client_measurements table exists
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='client_measurements'",
+        [],
+        (_, resultSet) => {
+          // If the table doesn't exist, create it
+          if (resultSet.rows.length === 0) {
+            tx.executeSql(
+              `CREATE TABLE IF NOT EXISTS client_measurements (
+                id INTEGER PRIMARY KEY,
+                client_id INTEGER,
+                student_id REAL,
+                assessment_date DATE DEFAULT (date('now')),
+                waistCircum REAL,
+                hipCircum REAL,
+                weight REAL,
+                height REAL,
+                physicalActLevel TEXT,
+                WHR REAL,
+                BMI REAL,
+                remarks TEXT,
+                DBW REAL,
+                TER REAL,
+                protein REAL,
+                carbs REAL,
+                fats REAL,
+                FOREIGN KEY (client_id) REFERENCES client (id)
+              )`,
+              [],
+              () => {
+                console.log('client_measurements table created successfully.');
+              },
+              (error) => {
+                console.log('Error creating client_measurements table: ', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.log('Error checking client_measurements table existence: ', error);
+        }
+      );
+    });
+
+    // Check if the exchanges table exists
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='exchanges'",
+        [],
+        (_, resultSet) => {
+          // If the table doesn't exist, create it
+          if (resultSet.rows.length === 0) {
+            tx.executeSql(
+              `CREATE TABLE IF NOT EXISTS exchanges (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                measurement_id INTEGER,
+                vegetables REAL,
+                fruit REAL,
+                milk REAL,
+                sugar REAL,
+                riceA REAL,
+                riceB REAL,
+                riceC REAL,
+                lfMeat REAL,
+                mfMeat REAL,
+                fat REAL,
+                TER REAL,
+                carbohydrates REAL,
+                protein REAL,
+                fats REAL,
+                FOREIGN KEY (measurement_id) REFERENCES client_measurements (id)
+              )`,
+              [],
+              () => {
+                console.log('exchanges table created successfully.');
+              },
+              (error) => {
+                console.log('Error creating exchanges table: ', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.log('Error checking exchanges table existence: ', error);
+        }
+      );
+    });
+
+    // Check if the distribution_exchange table exists
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='distribution_exchange'",
+        [],
+        (_, resultSet) => {
+          // If the table doesn't exist, create it
+          if (resultSet.rows.length === 0) {
+            tx.executeSql(
+              `CREATE TABLE IF NOT EXISTS distribution_exchange (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                exchange_id INTEGER,
+                food_group TEXT,
+                breakfast REAL,
+                am_snacks REAL,
+                lunch REAL,
+                pm_snacks REAL,
+                dinner REAL,
+                FOREIGN KEY (exchange_id) REFERENCES exchanges(id)
+              )`,
+              [],
+              () => {
+                console.log('distribution_exchange table created successfully.');
+              },
+              (error) => {
+                console.log('Error creating distribution_exchange table: ', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.log('Error checking distribution_exchange table existence: ', error);
+        }
+      );
+    });
   }, []);
 
   function calculateAge(birthdate) {
@@ -259,13 +309,14 @@ function MeasurementSummary() {
   }
 
   const insertData = () => {
-    const db = SQLite.openDatabase('mydatabase.db');
+    
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO client (id, name, birthdate, sex) VALUES (?, ?, ?, ?)',
         [ClientID, clientName, birthdate, clientSex],
         () => {
           console.log('Data inserted into client successfully.');
+          
         },
         (error) => {
           console.log('Error inserting data into client: ', error);
@@ -399,7 +450,7 @@ function MeasurementSummary() {
               ];
       
               // Insert multiple rows into the distribution_exchange table
-              distributionExchangeData.forEach((row) => {
+              distributionExchangeData.forEach((row,index) => {
                 tx.executeSql(
                   'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner) VALUES (?, ?, ?, ?, ?, ?, ?)',
                   [
@@ -412,7 +463,10 @@ function MeasurementSummary() {
                     row.dinner,
                   ],
                   () => {
-                    console.log('Data inserted into distribution_exchange successfully.');
+                    if (index === distributionExchangeData.length - 1) {
+                      Alert.alert('Success', 'Client Data Saved');
+                      navigation.navigate('Client');
+                    }
                   },
                   (error) => {
                     console.log('Error inserting data into distribution_exchange: ', error);

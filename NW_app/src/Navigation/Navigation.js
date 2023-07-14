@@ -6,16 +6,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+
 import Home from '../BottomTab/Home';
+import Client from '../BottomTab/Client';
 import MealPlan from '../BottomTab/MealPlan';
+import Anthro from '../Stack/Anthro';
 import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
 import MealPlanResult from '../Stack/MealPlanResult';
 import MeasurementSummary from '../Stack/MeasurementSummary';
-import TableDisplay from '../Stack/TableDisplay';
 import ClientMeasurements from '../Stack/ClientMeasurements';
+import Exchanges from '../Stack/Exchanges';
 
 import Breakfast from '../Stack/MealPlanning/Breakfast';
 import AMSnacks from '../Stack/MealPlanning/AMSnack';
@@ -70,8 +73,29 @@ function TabNavigator() {
         }}
       />
       <Tab.Screen
-        name='MealPlan'
+        name='Clients'
         component={StackNavigator}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <View style={[styles.tabItem, { width: wp('30%') }]}>
+              <Ionicons
+                name={focused ? 'ios-person' : 'ios-person-outline'}
+                size={wp('6%')} // Use responsive values
+                style={{
+                  color: focused ? '#78B878' : '#bcc7bc',
+                }}
+              />
+              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
+                Clients
+              </Text>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='MealPlan'
+        component={MealPlanScreens}
         options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
@@ -84,7 +108,7 @@ function TabNavigator() {
                 }}
               />
               <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-                MEAL PLAN
+              MealPlan
               </Text>
             </View>
           ),
@@ -138,19 +162,53 @@ function TabNavigator() {
 
 function StackNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerTitleAlign: 'center', // Center-align the header title
+        headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
+      }}
+    >
+    <Stack.Screen
+        name='Client'
+        component={Client}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Anthro')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Clients
+              </Text>
+            </View>
+          ),
+        })}
+      />
       <Stack.Screen
-        name='Meal Plan'
-        component={MealPlan}
+        name='Anthro'
+        component={Anthro}
         options={({ navigation }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Exchange Computation')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Client Information
+              </Text>
+            </View>
+          ),
         })}
       />
-      <Stack.Screen
+            <Stack.Screen
         name='Exchange Computation'
         component={ExchangeComputation}
         options={({ navigation }) => ({
@@ -158,6 +216,13 @@ function StackNavigator() {
             <TouchableOpacity onPress={() => navigation.navigate('Exchange Distribution')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+              Exchange Computation
+              </Text>
+            </View>
           ),
         })}
       />
@@ -170,9 +235,92 @@ function StackNavigator() {
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+              Exchange Distribution
+              </Text>
+            </View>
+          ),
+        })}
+      />
+            <Stack.Screen
+        name='MeasurementSummary'
+        component={MeasurementSummary}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Client Assessment
+              </Text>
+            </View>
+          ),
         })}
       />
       <Stack.Screen
+        name='ClientMeasurements'
+        component={ClientMeasurements}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Client Measurements
+              </Text>
+            </View>
+          ),
+        })}
+      />
+        <Stack.Screen
+        name='Exchanges'
+        component={Exchanges}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Food Exchanges
+              </Text>
+            </View>
+          ),
+        })}
+      />
+
+
+    </Stack.Navigator>
+  );
+}
+
+function MealPlanScreens() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerTitleAlign: 'center', // Center-align the header title
+        headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
+      }}
+
+    >
+      <Stack.Screen
+        name='MealInfo'
+        component={MealPlan}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Meal Information
+              </Text>
+            </View>
+          ),
+        })}
+      />
+    <Stack.Screen
         name='Breakfast'
         component={Breakfast}
         options={({ navigation }) => ({
@@ -180,6 +328,13 @@ function StackNavigator() {
             <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Breakfast
+              </Text>
+            </View>
           ),
         })}
       />
@@ -192,6 +347,13 @@ function StackNavigator() {
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                AM Snacks
+              </Text>
+            </View>
+          ),
         })}
       />
       <Stack.Screen
@@ -202,6 +364,13 @@ function StackNavigator() {
             <TouchableOpacity onPress={() => navigation.navigate('PMSnacks')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Lunch
+              </Text>
+            </View>
           ),
         })}
       />
@@ -214,46 +383,51 @@ function StackNavigator() {
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                PM Snacks
+              </Text>
+            </View>
+          ),
         })}
       />
       <Stack.Screen
         name='Dinner'
         component={Dinner}
-      />
-      <Stack.Screen
-        name='MealPlanResult'
-        component={MealPlanResult}
-      />
-      <Stack.Screen
-        name='MeasurementSummary'
-        component={MeasurementSummary}
         options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('TableDisplay')}>
-              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-            </TouchableOpacity>
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Dinner
+              </Text>
+            </View>
           ),
         })}
       />
       <Stack.Screen
-        name='TableDisplay'
-        component={TableDisplay}
-        
+        name='MealPlanResult'
+        component={MealPlanResult}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Meal Plan
+              </Text>
+            </View>
+          ),
+        })}
       />
-      <Stack.Screen
-        name='ClientMeasurements'
-        component={ClientMeasurements}
-        
-      />
+
     </Stack.Navigator>
-  );
+  )
 }
 
 const Navigation = () => {
   return (
     <NavigationContainer>
       <ResultProvider>
-      <TabNavigator />
+        <TabNavigator />
       </ResultProvider>
     </NavigationContainer>
   );
@@ -274,6 +448,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerTitleCon:{
+    flexDirection: 'row', alignItems: 'center'
+  },
+  headerTitle:{
+    fontSize: 18, fontWeight: 'bold', marginRight: 5
+  }
 });
 
 export default Navigation;
