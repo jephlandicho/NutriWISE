@@ -8,7 +8,7 @@ import { ResultContext } from '../Components/ResultContext';
 import CustomInput from '../Components/CustomInput';
 
 
-const ExchangeComputation = () => {
+const ExchangeComputation = ({tCarbs, tProtein, tFats, tKcal}) => {
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
   const navigation = useNavigation();
   // total of the 3 food groups per computation
@@ -92,6 +92,7 @@ const ExchangeComputation = () => {
 
     const carbsPartial = vegCarbs + fruitCarbs + milkCarbs + sugarCarbs;
     setCarbs1(carbsPartial)
+    
     const riceExchange = Math.round((245 - carbsPartial) / 23);
 
     const riceRes = `(${riceExchange})`;
@@ -168,7 +169,7 @@ const ExchangeComputation = () => {
   }
 
   const totalCompute = () =>{
-    const t_carbs = carbs1 + carbs2
+    const t_carbs =carbs1 + carbs2
     settotalCarbs(t_carbs)
     const t_protein = protein1 + protein2 + protein3
     settotalProtein(t_protein)
@@ -183,10 +184,10 @@ const ExchangeComputation = () => {
     <View style={styles.mainCon}>
 <View style={{ flexDirection: 'row', marginLeft: 30, marginTop: 10 }}>
   <View style={{ flex: 1 }}>
-        <Text style={styles.result1}>Carbohydrates: {carbs} g</Text>
-        <Text style={styles.result1}>Protein: {protein} g</Text>
-        <Text style={styles.result1}>Fats: {fats} g</Text>
-        <Text style={styles.result1}>TER: {TER} kcal</Text>
+        <Text style={styles.result1}>Carbohydrates: {tCarbs} g</Text>
+        <Text style={styles.result1}>Protein: {tProtein} g</Text>
+        <Text style={styles.result1}>Fats: {tFats} g</Text>
+        <Text style={styles.result1}>TER: {tKcal} kcal</Text>
   </View>
   {kcal3 !== '' && showInputField3 && (
     <View style={{ flex: 1 }}>
@@ -340,7 +341,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: '20%',
     backgroundColor: '#fff',
   },
   header: {
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   inputContainer: {
-    width: '80%',
+    width: '100%',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   inputContainer2: {
     marginTop: 20,
-    width: '80%',
+    width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
@@ -368,7 +368,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-    marginBottom: 100,
   },
   item: {
     width: '50%',

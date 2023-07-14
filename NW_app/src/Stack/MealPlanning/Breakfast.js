@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert,
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useRoute } from '@react-navigation/native';
 
 import foodsData from '../../meals/foods.json';
 
@@ -16,7 +17,7 @@ const Breakfast = () => {
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { breakfast, setBreakfast } = useContext(ResultContext);
-  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast } = useContext(ResultContext);
+  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast,setMeasurementID } = useContext(ResultContext);
   const { menuBreakfast, setmenuBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
 
   const fetchData = () => {

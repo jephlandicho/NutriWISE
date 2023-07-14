@@ -1,9 +1,9 @@
 import React, { useState, useRef,useContext } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView,FlatList } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-native-paper';
+import { Card, IconButton, Provider as PaperProvider, Divider, DataTable } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,47 +12,25 @@ import { ResultContext } from '../Components/ResultContext';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
-function ClientMeasurements() {
+function Exchanges() {
   const {
-    waistC,
-    hipC,
-    varweight,
-    varheight,
-    pal,
-    whr,
-    bmi,
-    dbw,
-    carbs,
-    protein,
-    fats,
-    TER,
-    normal,
+    vegetableEx,
+    fruitEx,
+    milkEx,
+    sugarEx,
+    riceAEx,
+    riceBEx,
+    riceCEx,
+    LFmeatEx,
+    MFmeatEx,
+    fatEx,
+    totalCarbs,
+    totalProtein,
+    totalFat,
+    totalKcal,
   } = useContext(ResultContext);
-  let palText;
-  if (pal === '30') {
-    palText = 'Sedentary';
-  } else if (pal === '35') {
-    palText = 'Light';
-  } else if (pal === '40') {
-    palText = 'Moderate';
-  } else {
-    palText = 'Vigorous';
-  }
 
-  const [userData, setUserData] = useState(null);
-  const getUserData = async () => {
-    try {
-      const userData = await AsyncStorage.getItem('userData');
-      if (userData) {
-        const parsedUserData = JSON.parse(userData);
-        setUserData(parsedUserData);
-      } else {
-        // User data doesn't exist in local storage
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+
 
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,7 +46,6 @@ function ClientMeasurements() {
   React.useEffect(() => {
     setPage(0);
     refreshTableData();
-    getUserData();
   }, []);
 
   const handleUpdate = (id) => {
@@ -81,7 +58,7 @@ function ClientMeasurements() {
     
     db.transaction((tx) => {
       tx.executeSql(
-        'DELETE FROM client_measurements WHERE id = ?',
+        'DELETE FROM exchanges WHERE id = ?',
         [id],
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) {
@@ -99,14 +76,14 @@ function ClientMeasurements() {
   };
 
   const handleView = (id) => {
-    navigation.navigate('Exchanges', { id });
+    // navigation.navigate('ClientMeasurements', { id });
     setModalVisible(false);
   };
 
   const refreshTableData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM client_measurements WHERE client_id = ?',
+        'SELECT * FROM exchanges WHERE measurement_id = ?',
         [id],
         (_, { rows }) => {
           const data = rows._array;
@@ -122,24 +99,23 @@ function ClientMeasurements() {
 
   const generateFields = async (itemId) => {
     
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     'SELECT * FROM exchanges WHERE id = ?',
+    //     [itemId],
+    //     (_, { rows }) => {
+    //       const itemData = rows.item(0);
+    //       const { remarks, physicalActLevel, BMI, waistCircum, hipCircum, weight, height, WHR, DBW } = itemData;
     
-    db.transaction((tx) => {
-      tx.executeSql(
-        'SELECT * FROM client_measurements WHERE id = ?',
-        [itemId],
-        (_, { rows }) => {
-          const itemData = rows.item(0);
-          const { remarks, physicalActLevel, BMI, waistCircum, hipCircum, weight, height, WHR, DBW } = itemData;
+    //       const generatedFields = `Remarks: ${remarks}\nPAL: ${physicalActLevel}\nBMI: ${BMI}\nWaist: ${waistCircum}\nHip: ${hipCircum}\nWeight: ${weight}\nHeight: ${height}\nWHR: ${WHR}\nDBW: ${DBW}`;
     
-          const generatedFields = `Remarks: ${remarks}\nPAL: ${physicalActLevel}\nBMI: ${BMI}\nWaist: ${waistCircum}\nHip: ${hipCircum}\nWeight: ${weight}\nHeight: ${height}\nWHR: ${WHR}\nDBW: ${DBW}`;
-    
-          Alert.alert('Other Information:', generatedFields);
-        },
-        (error) => {
-          console.log('Error fetching item data: ', error);
-        }
-      );
-    });
+    //       Alert.alert('Other Information:', generatedFields);
+    //     },
+    //     (error) => {
+    //       console.log('Error fetching item data: ', error);
+    //     }
+    //   );
+    // });
   };
   
   const openMenu = (id) => {
@@ -149,37 +125,36 @@ function ClientMeasurements() {
 
   const saveMeasurement = () => {
     // saved
-    db.transaction((tx) => {
-      tx.executeSql(
-        'INSERT INTO client_measurements (client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
-        [
-          id,
-          userData.id,
-          waistC,
-          hipC,
-          varweight,
-          varheight,
-          palText,
-          whr,
-          bmi,
-          normal,
-          dbw,
-          TER,
-          protein,
-          carbs,
-          fats,
-        ],
-        () => {
-          refreshTableData()
-          Alert.alert('New client measurements added')
-          console.log('Data inserted into client_measurements successfully.');
-          setAnotherModalVisible(false);
-        },
-        (error) => {
-          console.log('Error inserting data into distribution_exchange: ', error);
-        }
-        )
-    })
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     'INSERT INTO client_measurements (client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+    //     [
+    //       id,
+    //       waistC,
+    //       hipC,
+    //       varweight,
+    //       varheight,
+    //       palText,
+    //       whr,
+    //       bmi,
+    //       normal,
+    //       dbw,
+    //       TER,
+    //       protein,
+    //       carbs,
+    //       fats,
+    //     ],
+    //     () => {
+    //       refreshTableData()
+    //       Alert.alert('New client measurements added')
+    //       console.log('Data inserted into client_measurements successfully.');
+    //       setAnotherModalVisible(false);
+    //     },
+    //     (error) => {
+    //       console.log('Error inserting data into distribution_exchange: ', error);
+    //     }
+    //     )
+    // })
   };
 
   const closeMenu = () => {
@@ -201,6 +176,31 @@ function ClientMeasurements() {
     setAnotherModalVisible(false);
   };
 
+  const renderCard = ({ item }) => {
+    return (
+      <Card style={styles.card}>
+        <Card.Title title={`ID: ${item.id}`} />
+        <Card.Content>
+          <Text>Vegetable: {item.vegetables}</Text>
+          <Text>Fruit: {item.fruit}</Text>
+          <Text>Milk: {item.milk}</Text>
+          <Text>Sugar: {item.sugar}</Text>
+          <Text>Rice A: {item.riceA}</Text>
+          <Text>Rice B: {item.riceB}</Text>
+          <Text>Rice C: {item.riceC}</Text>
+          <Text>LF Meat: {item.lfMeat}</Text>
+          <Text>MF Meat: {item.mfMeat}</Text>
+          <Text>Fat: {item.fat}</Text>
+        </Card.Content>
+        <Card.Actions>
+          <IconButton icon="pencil" onPress={() => handleUpdate(item.id)} />
+          <IconButton icon="delete" onPress={() => handleDelete(item.id)} />
+          <IconButton icon="eye" onPress={() => handleView(item.id)} />
+        </Card.Actions>
+      </Card>
+    );
+  };
+
   return (
     <PaperProvider>
       <View style={styles.container}>
@@ -212,46 +212,13 @@ function ClientMeasurements() {
           </Text>
         </TouchableOpacity>
       </View>
-          <DataTable.Header>
-            <DataTable.Title style={styles.dateColumn}>Date</DataTable.Title>
-            <DataTable.Title style={styles.actionCell}>TER</DataTable.Title>
-            <DataTable.Title style={styles.actionCell}>Carbs</DataTable.Title>
-            <DataTable.Title style={styles.actionCell}>Protein</DataTable.Title>
-            <DataTable.Title style={styles.actionCell}>Fats</DataTable.Title>
-            <DataTable.Title style={styles.actionCell}>Actions</DataTable.Title>
-          </DataTable.Header>
         </View>
-        <ScrollView style={styles.tableBodyContainer}>
-          <DataTable>
-            {displayedData.length > 0 ? (
-              displayedData.map((item) => (
-                <DataTable.Row key={item.id}>
-                  <DataTable.Cell style={styles.dateColumn}>{item.assessment_date}</DataTable.Cell>
-                  <DataTable.Cell style={styles.actionCell}>{item.TER}</DataTable.Cell>
-                  <DataTable.Cell style={styles.actionCell}>{item.carbs}</DataTable.Cell>
-                  <DataTable.Cell style={styles.actionCell}>{item.protein}</DataTable.Cell>
-                  <DataTable.Cell style={styles.actionCell}>{item.fats}</DataTable.Cell>
-                  <DataTable.Cell style={styles.actionCell}>
-                    <View style={styles.buttonContainer}>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => openMenu(item.id)}
-                      >
-                        <Ionicons name="md-reorder-three" size={20} />
-                      </TouchableOpacity>
-                    </View>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))
-            ) : (
-              <DataTable.Row>
-                <DataTable.Cell style={styles.noDataCell} colSpan={5}>
-                  No Measurement found
-                </DataTable.Cell>
-              </DataTable.Row>
-            )}
-          </DataTable>
-        </ScrollView>
+        <FlatList
+        data={displayedData}
+        renderItem={renderCard}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.cardContainer}
+      />
         <DataTable.Pagination
           page={page}
           numberOfPages={Math.ceil(tableData.length / itemsPerPage)}
@@ -265,29 +232,6 @@ function ClientMeasurements() {
           showFastPaginationControls
           selectPageDropdownLabel={'Rows per page'}
         />
-        <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
-          <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
-              <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Update</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
-              <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>View</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => generateFields(selectedItemId)}>
-              <Ionicons name="information" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Other Information</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
         <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Another Modal</Text>
@@ -310,7 +254,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 16,
+    padding: 5,
+  },
+  cardContainer: {
+    paddingBottom: 10,
+  },
+  card: {
+    marginBottom: 16,
+  },
+  modalButton: {
+    marginBottom: 10,
+    backgroundColor: '#007bff',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
   },
   noDataCell: {
     textAlign: 'center',
@@ -318,7 +275,7 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   tableBodyContainer: {
-    maxHeight: 200, // Adjust the height as needed
+    maxHeight: 50, // Adjust the height as needed
   },
   modalContainer: {
     backgroundColor: 'white',
@@ -395,4 +352,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ClientMeasurements;
+export default Exchanges;
