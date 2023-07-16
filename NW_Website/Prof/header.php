@@ -1,7 +1,14 @@
 <?php
-session_start();
+// Check if a session is already active
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Check if the $username variable is set, otherwise set it to 'Guest'
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+// Get the current page filename
+$currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +46,18 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
   .header {
     background-color: whitesmoke;
   }
+
+  /* Add active class to the current page in the sidebar */
+  .sidebar-nav .nav-link.active {
+    color: #fff;
+    background-color: lightgreen;
+  }
+  .sidebar-nav .nav-content a.active i {
+  background-color: whitesmoke;
+}
+.sidebar-nav .nav-link:hover i {
+  color: lightgreen;
+}
 </style>
 
 <body>
@@ -119,45 +138,40 @@ $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
-
       <li class="nav-item">
-        <a class="nav-link " href="index.php">
+        <a class="nav-link <?php if ($currentPage == 'index.php') echo 'active'; ?>" href="index.php">
           <i class="bi bi-bar-chart"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="meals.php">
+        <a class="nav-link <?php if ($currentPage == 'meals.php') echo 'active'; ?>" href="meals.php">
           <i class="bi bi-book"></i>
           <span>Meals</span>
         </a>
-      </li><!-- End Profile Page Nav -->
+      </li><!-- End Meals Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collpsed" href="classes.php">
+        <a class="nav-link <?php if ($currentPage == 'classes.php') echo 'active'; ?>" href="classes.php">
           <i class="bi bi-people"></i>
           <span>Classes</span>
         </a>
-      </li><!-- End Profile Page Nav -->
-
+      </li><!-- End Classes Page Nav -->
 
       <li class="nav-heading"></li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="user_profile.php">
+        <a class="nav-link <?php if ($currentPage == 'user_profile.php') echo 'active'; ?>" href="user_profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Profile Page Nav -->
-
-
     </ul>
-
   </aside><!-- End Sidebar -->
   <!--kukunin for header-->
+
 
 </body>
 
