@@ -56,7 +56,7 @@
         <div class="container">
             <div class="site-title">
                 <a href="index.php" id="branding" class="logo">
-                    <img src="images/logo.png" alt="NutriWise Logo">
+                    <img src="images/nutriwise.png" alt="NutriWise Logo">
                     <h1>NutriWise</h1>
                 </a>
             </div>
@@ -69,6 +69,7 @@
                     <li class="menu-item"><a href="offer.php">Offer</a></li>
                     <li class="menu-item"><a href="sample.php">Sample Meal Plan</a></li>
                     <li class="menu-item"><a href="contact.php">Contact</a></li>
+                    <li class="menu-item"><a href="app.php">Download Our App</a></li>
                 </ul>
             </div>
         </div>

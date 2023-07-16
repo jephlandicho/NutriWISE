@@ -47,7 +47,18 @@
 				<a href="#" class="button">Read more</a>
 			</div> <!-- .category-content -->
 		</div>
-	</div> 
+	</div>
+	
+	<!-- <div class="fullwidth-block fruits-section category-block">
+		<div class="container">
+			<figure><img src="images/doctor.png" alt="WALA PA IMAGE"></figure>
+			<div class="category-content">
+				<h2 class="category-title">What We Do?</h2>
+				<p>Dietitians and nutritionists counsel clients on nutrition issues and healthy eating habits. Dietitians and nutritionists are experts in the use of food and nutrition to promote health and manage disease. They plan and conduct food service or nutritional programs to help people lead healthy lives.</p>
+				<a href="#" class="button">Read more</a>
+			</div> <!-- .category-content -->
+		</div>
+	</div> <!-- .fruits-s -->
 
 </main> <!-- .main-content -->
 

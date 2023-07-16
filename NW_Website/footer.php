@@ -6,6 +6,7 @@
 						<a href="offer.php">Offer</a>
 						<a href="sample.php">Sample Meal Plan</a>
 						<a href="contact.php">Contact</a>
+						<a href="app.php">Download Our App</a>
 					</nav>
 					
 					<div class="social-links">
