@@ -1,7 +1,7 @@
 <?php
 $hostname = "localhost";
 $username = "root";
-$password = ""; // Replace 'your_password' with your actual database password
+$password = ""; 
 $database = "nutriwise";
 
 $conn = mysqli_connect($hostname, $username, $password, $database);

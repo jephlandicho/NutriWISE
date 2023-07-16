@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// Include the config.php file for database connection
+include 'config.php';
+
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
     // File upload configuration
@@ -15,15 +18,9 @@ if (isset($_POST['submit'])) {
         echo '<script>alert("The file has been uploaded successfully.");</script>';
 
         // Store the file information in the database
-        // Replace the database credentials with your own
-        $host = "localhost";
-        $database = "nutriwise";
-        $username = "root";
-        $password = ""; // Add your database password
-
         try {
-            // Create a connection to the database
-            $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
+            // Create a connection to the database (using the values from config.php)
+            $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Escape and sanitize the announcement text and other input fields

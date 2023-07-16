@@ -40,6 +40,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   <link rel="stylesheet" href="asset/css/styles.css">
 
   <link href="assets/css/style.css" rel="stylesheet">
+  <link href="C:\xampp\htdocs\NutriWISE\NW_Website\Prof\assets\bootstrap-5.3.0-dist" rel="stylesheet">
+
 </head>
 
 <style>
@@ -67,7 +69,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.php" class="logo d-flex align-items-center">
-        <img src="" alt="">
+        <img src="assets\img\nutriwise.png" alt="">
         <span class="d-none d-lg-block" style="color: black">NutriWise</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -174,5 +176,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 
 </body>
+
+
 
 </html>

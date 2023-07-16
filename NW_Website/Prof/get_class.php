@@ -1,9 +1,6 @@
 <?php
-// Retrieve all classes from the database
-
-$host = "localhost";
-$database = "nutriwise";
-$username = "root"; 
+// Include the config.php file
+include 'config.php';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);

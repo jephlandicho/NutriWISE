@@ -1,4 +1,7 @@
 <?php
+// Include the config.php file for database connection
+include 'config.php';
+
 // Start the session
 session_start();
 ?>
