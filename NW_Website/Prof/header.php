@@ -100,7 +100,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="">
+              <a class="dropdown-item d-flex align-items-center" href="user_profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -110,7 +110,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="">
+              <a class="dropdown-item d-flex align-items-center" href="user_profile.php">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>

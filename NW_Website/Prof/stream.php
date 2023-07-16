@@ -110,8 +110,8 @@ include 'header.php';
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="classes.php">Home</a></li>
-        <li class="breadcrumb-item">Classes</li>
-        <li class="breadcrumb-item">ClassRoom</li>
+        <li class="breadcrumb-item"><a href="classes.php">Classes</a></li>
+        <li class="breadcrumb-item"><a href="class_details.php">ClassRoom</a></li>
         <li class="breadcrumb-item active">Stream</li>
       </ol>
     </nav>
