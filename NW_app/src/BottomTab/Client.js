@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useIsFocused  } from '@react-navigation/native';
 import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-native-paper';
 import Modal from 'react-native-modal';
 
@@ -10,6 +10,7 @@ const db = SQLite.openDatabase('mydatabase.db');
 
 function Client() {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [page, setPage] = useState(0);
@@ -20,8 +21,10 @@ function Client() {
 
   React.useEffect(() => {
     setPage(0);
-    refreshTableData();
-  }, []);
+    if (isFocused) {
+      refreshTableData();
+    }
+  }, [isFocused]);
 
   const handleUpdate = (id) => {
     // Handle the update logic here using the item id
@@ -111,6 +114,7 @@ function Client() {
           onChangeText={handleSearch}
         />
         <View>
+
           <DataTable.Header>
             <DataTable.Title style={styles.cell}>ID</DataTable.Title>
             <DataTable.Title style={styles.cell}>Name</DataTable.Title>
