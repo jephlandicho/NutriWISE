@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -19,7 +19,7 @@ import MealPlanResult from '../Stack/MealPlanResult';
 import MeasurementSummary from '../Stack/MeasurementSummary';
 import ClientMeasurements from '../Stack/ClientMeasurements';
 import Exchanges from '../Stack/Exchanges';
-
+import MealPlanName from '../Stack/MealPlanName';
 import Breakfast from '../Stack/MealPlanning/Breakfast';
 import AMSnacks from '../Stack/MealPlanning/AMSnack';
 import Lunch from '../Stack/MealPlanning/Lunch';
@@ -31,10 +31,74 @@ import { ResultProvider } from '../Components/ResultContext';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+
+function FloatingTabIcon({ name, size, focused, style, label }) {
+  const sizeIncrease = focused ? 10 : 0; // Increase size by 10 when focused
+
+  const translateY = React.useRef(new Animated.Value(0)).current;
+  const scale = React.useRef(new Animated.Value(1)).current;
+
+  React.useEffect(() => {
+    let timeout;
+
+    if (focused) {
+      timeout = setTimeout(() => {
+        Animated.parallel([
+          Animated.spring(translateY, {
+            toValue: -20, // Adjust the floating distance as needed
+            useNativeDriver: true,
+          }),
+          Animated.sequence([
+            Animated.spring(scale, {
+              toValue: 1.2, // Increase scale by 20% when focused
+              useNativeDriver: true,
+            }),
+            Animated.spring(scale, {
+              toValue: 1, // Return scale to original size
+              useNativeDriver: true,
+            }),
+          ]),
+        ]).start();
+      }, 200); // Adjust the delay duration as needed
+    } else {
+      Animated.parallel([
+        Animated.spring(translateY, {
+          toValue: 0,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scale, {
+          toValue: 1,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+
+    return () => clearTimeout(timeout);
+  }, [focused, translateY, scale]);
+
+  const iconSize = size + sizeIncrease; // Apply size increase when focused
+  const iconColor = focused ? '#78B878' : '#bcc7bc';
+  const labelColor = focused ? '#78B878' : '#bcc7bc';
+  const shadowStyle = focused ? styles.shadow : null;
+
+  return (
+    <Animated.View style={[styles.floatingTabIconContainer, shadowStyle, { transform: [{ translateY }, { scale }] }]}>
+      <Ionicons name={name} size={iconSize} color={iconColor} style={style} />
+      {focused && (
+        <Ionicons name="ios-arrow-up" size={12} color="#78B878" style={styles.fruitIcon} />
+      )}
+      <Text style={[styles.tabLabel, { color: labelColor }]}>{label}</Text>
+    </Animated.View>
+  );
+}
+
+
+
+
 function TabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, focused }) => ({
         tabBarShowLabel: false,
         tabBarStyle: [
           {
@@ -49,113 +113,54 @@ function TabNavigator() {
             ...styles.shadow,
           },
         ],
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } else if (route.name === 'Clients') {
+            iconName = focused ? 'ios-people' : 'ios-people-outline';
+          } else if (route.name === 'MealPlan') {
+            iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
+          } else if (route.name === 'Classes') {
+            iconName = focused ? 'ios-book' : 'ios-book-outline';
+          } else if (route.name === 'Settings') {
+            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          }
+
+          return (
+            <FloatingTabIcon
+              name={iconName}
+              size={size}
+              color={color}
+              focused={focused}
+              style={styles.floatingTabIcon}
+              label={route.name}
+            />
+          );
+        },
       })}
     >
-      <Tab.Screen
-        name='Home'
-        component={Home}
+      <Tab.Screen name='Home' component={Home}
+      options={{
+          headerShown: false,
+        }} />
+      <Tab.Screen name='Clients' component={StackNavigator} 
+          options={{
+        headerShown: false,
+      }}/>
+      <Tab.Screen name='MealPlan' component={MealPlanScreens} 
+            options={{
+              headerShown: false,
+            }}/>
+      <Tab.Screen name='Classes' component={Classes} 
         options={{
           headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.tabItem, { width: wp('20%') }]}>
-              <Ionicons
-                name={focused ? 'ios-home' : 'ios-home-outline'}
-                size={wp('6%')} // Use responsive values
-                style={{
-                  color: focused ? '#78B878' : '#bcc7bc',
-                }}
-              />
-              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-                HOME
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Clients'
-        component={StackNavigator}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.tabItem, { width: wp('30%') }]}>
-              <Ionicons
-                name={focused ? 'ios-person' : 'ios-person-outline'}
-                size={wp('6%')} // Use responsive values
-                style={{
-                  color: focused ? '#78B878' : '#bcc7bc',
-                }}
-              />
-              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-                Clients
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='MealPlan'
-        component={MealPlanScreens}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.tabItem, { width: wp('30%') }]}>
-              <Ionicons
-                name={focused ? 'ios-restaurant' : 'ios-restaurant-outline'}
-                size={wp('6%')} // Use responsive values
-                style={{
-                  color: focused ? '#78B878' : '#bcc7bc',
-                }}
-              />
-              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-              MealPlan
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Classes'
-        component={Classes}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.tabItem, { width: wp('20%') }]}>
-              <Ionicons
-                name={focused ? 'ios-book' : 'ios-book-outline'}
-                size={wp('6%')} // Use responsive values
-                style={{
-                  color: focused ? '#78B878' : '#bcc7bc',
-                }}
-              />
-              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-                CLASSES
-              </Text>
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Settings'
-        component={Settings}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ focused }) => (
-            <View style={[styles.tabItem, { width: wp('20%') }]}>
-              <Ionicons
-                name={focused ? 'ios-settings' : 'ios-settings-outline'}
-                size={wp('6%')} // Use responsive values
-                style={{
-                  color: focused ? '#78B878' : '#bcc7bc',
-                }}
-              />
-              <Text style={{ color: focused ? '#78B878' : '#bcc7bc' }}>
-                SETTINGS
-              </Text>
-            </View>
-          ),
-        }}
-      />
+        }}/>
+      <Tab.Screen name='Settings' component={Settings} 
+      options={{
+        headerShown: false,
+      }}/>
     </Tab.Navigator>
   );
 }
@@ -418,6 +423,19 @@ function MealPlanScreens() {
           ),
         })}
       />
+      <Stack.Screen
+        name='MealPlanName'
+        component={MealPlanName}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Meal Plan Title
+              </Text>
+            </View>
+          ),
+        })}
+      />
 
     </Stack.Navigator>
   )
@@ -434,6 +452,32 @@ const Navigation = () => {
 };
 
 const styles = StyleSheet.create({
+  tabItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitleCon:{
+    flexDirection: 'row', alignItems: 'center'
+  },
+  headerTitle:{
+    fontSize: 18, fontWeight: 'bold', marginRight: 5
+  },
+  floatingTabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#78B878',
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  tabLabel: {
+    fontSize: 12, // Adjust the font size as needed
+    marginTop: 4, // Adjust the spacing between icon and label as needed
+  },
   shadow: {
     shadowColor: '#78B878',
     shadowOffset: {
@@ -444,16 +488,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.5,
     elevation: 5,
   },
-  tabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerTitleCon:{
-    flexDirection: 'row', alignItems: 'center'
-  },
-  headerTitle:{
-    fontSize: 18, fontWeight: 'bold', marginRight: 5
-  }
 });
 
 export default Navigation;

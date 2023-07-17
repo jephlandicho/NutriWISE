@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const db = SQLite.openDatabase('mydatabase.db');
 function MeasurementSummary() {
+
   const navigation = useNavigation();
 
   const getUserData = async () => {
@@ -291,6 +292,35 @@ function MeasurementSummary() {
         }
       );
     });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='meal_title'",
+        [],
+        (_, resultSet) => {
+          // If the table doesn't exist, create it
+          if (resultSet.rows.length === 0) {
+            tx.executeSql(
+              `CREATE TABLE IF NOT EXISTS meal_title (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                exchanges_id INTEGER,
+                meal_title TEXT,
+                FOREIGN KEY (exchanges_id) REFERENCES exchanges (id)
+              )`,
+              [],
+              () => {
+                console.log('meal_title table created successfully.');
+              },
+              (error) => {
+                console.log('Error creating meal_title table: ', error);
+              }
+            );
+          }
+        },
+        (error) => {
+          console.log('Error checking distribution_exchange table existence: ', error);
+        }
+      );
+    });
   }, []);
 
   function calculateAge(birthdate) {
@@ -464,14 +494,29 @@ function MeasurementSummary() {
                   ],
                   () => {
                     if (index === distributionExchangeData.length - 1) {
-                      Alert.alert('Success', 'Client Data Saved');
-                      navigation.navigate('Client');
+                      console.log('distributionExchangeData successfully');
                     }
                   },
                   (error) => {
                     console.log('Error inserting data into distribution_exchange: ', error);
                   })
                 })
+
+                  tx.executeSql(
+                    'INSERT INTO meal_title (exchanges_id, meal_title) VALUES (?, ?)',
+                    [exchangeId, clientName +' One Day Menu'],
+                    (_, { rowsAffected, insertId }) => {
+                      if (rowsAffected > 0) {
+                        console.log('Meal title saved successfully');
+                        Alert.alert('Success', 'Client Data Saved');
+                      navigation.navigate('Client');
+                      }
+                    },
+                    (error) => {
+                      console.log('Error saving meal title:', error);
+                    }
+                  );
+
             },
             (error) => {
               console.log('Error inserting data into exchanges: ', error);
