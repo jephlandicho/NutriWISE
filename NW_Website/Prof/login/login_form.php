@@ -1,32 +1,41 @@
 <?php
+// Include the database connection file 'config.php'
 @include 'config.php';
 
 session_start();
 
+// Check if the database connection is successful
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
 if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
 
-    $select = "SELECT id, username, password FROM professor WHERE username = '$username' && password = '$password'";
+    $select = "SELECT id, username, password FROM professor WHERE username = '$username'";
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $_SESSION['username'] = $row['username'];
-        $_SESSION['professor_id'] = $row['id']; 
-        $_SESSION['isFaculty'] = true; 
+        $hashedPassword = $row['password'];
 
-        // Store the professor_id in a variable
-        $professorId = $row['id'];
+        // Verify the password using password_verify()
+        if (password_verify($password, $hashedPassword)) {
+            $_SESSION['username'] = $row['username'];
+            $_SESSION['professor_id'] = $row['id'];
+            $_SESSION['isFaculty'] = true;
 
-        // Redirect to the index page
-        header('location: ../index.php');
-        exit;
+            // Redirect to the index page
+            header('location: ../index.php');
+            exit;
+        } else {
+            $error = 'Incorrect username or password.';
+        }
     } else {
-        $error[] = 'Incorrect username or password.';
+        $error = 'Incorrect username or password.';
     }
 }
-
 
 // Check if the user is logged in and display a welcome message
 if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
@@ -50,9 +59,7 @@ if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
             <h3 class="title"><?php echo $welcomeMessage; ?></h3>
             <?php
             if (isset($error)) {
-                foreach ($error as $errorMsg) {
-                    echo '<span class="error-msg">' . $errorMsg . '</span>';
-                }
+                echo '<span class="error-msg">' . $error . '</span>';
             }
             ?>
             <input type="text" name="username" placeholder="Enter Username" class="box" required>

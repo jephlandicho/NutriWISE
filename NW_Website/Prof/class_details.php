@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 include "config.php"; // Include the config.php file
 
@@ -261,37 +260,24 @@ include 'header.php';
   </div><!-- End .class-container -->
 
   <section class="section">
-  <div class="class-details">
+    <div class="class-details">
       <?php
       // Check if the class ID is provided in the query string
       if (isset($_GET['class_id'])) {
-        // Replace the database credentials with your own
-        $host = "localhost";
-        $database = "nutriwise";
-        $username = "root";
-        $password = ""; // Add your database password
+        // Fetch the class details from the database
+        $stmt = $conn->prepare("SELECT * FROM classes WHERE id = ?");
+        $stmt->bind_param("i", $classId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        try {
-          $conn = new PDO("mysql:host=$host;dbname=$database", $username, $password);
-          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-          // Escape the class ID to prevent SQL injection
-          $classId = $conn->quote($_GET['class_id']);
-
-          // Fetch the class details from the database
-          $stmt = $conn->query("SELECT * FROM classes WHERE id = $classId");
-          $classDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-
-          if ($classDetails) {
-            // Display the class details inside a rectangle box
-            echo '<h3>' . $classDetails['class_name'] . '</h3>';
-            echo ' <h2>' . $classDetails['class_code'] . '</h2>';
-            echo ' <h2>' . $classDetails['description'] . '</h2>';
-          } else {
-            echo 'Class not found.';
-          }
-        } catch (PDOException $e) {
-          echo 'Error: ' . $e->getMessage();
+        if ($result->num_rows > 0) {
+          $classDetails = $result->fetch_assoc();
+          // Display the class details inside a rectangle box
+          echo '<h3>' . $classDetails['class_name'] . '</h3>';
+          echo ' <h2>' . $classDetails['class_code'] . '</h2>';
+          echo ' <h2>' . $classDetails['description'] . '</h2>';
+        } else {
+          echo 'Class not found.';
         }
       } else {
         echo 'Class not found.';
@@ -340,72 +326,71 @@ include 'header.php';
 <!-- Modal End -->
 
 
-  <!-- Modal End -->
+<!-- Modal End -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 
-  <script>
-    $(function () {
-      // Activate Bootstrap tooltips
-      $('[data-toggle="tooltip"]').tooltip();
-    });
-  </script>
-  <script>
-    $(document).ready(function () {
-      // Activate Bootstrap tooltips
-      $('[data-toggle="tooltip"]').tooltip();
-    });
+<script>
+  $(function () {
+    // Activate Bootstrap tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+<script>
+  $(document).ready(function () {
+    // Activate Bootstrap tooltips
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 
-    function insertLink(type) {
-      if (type === 'google-drive') {
-        $('#drive-link-input-group').show();
-        $('#youtube-link-input-group').hide();
-        $('#regular-link-input-group').hide();
-      } else if (type === 'youtube') {
-        $('#drive-link-input-group').hide();
-        $('#youtube-link-input-group').show();
-        $('#regular-link-input-group').hide();
-      } else if (type === 'link') {
-        $('#drive-link-input-group').hide();
-        $('#youtube-link-input-group').hide();
-        $('#regular-link-input-group').show();
-      }
-    }
-
-    function uploadFile() {
+  function insertLink(type) {
+    if (type === 'google-drive') {
+      $('#drive-link-input-group').show();
+      $('#youtube-link-input-group').hide();
       $('#regular-link-input-group').hide();
-      $('#file-input-group').show();
+    } else if (type === 'youtube') {
+      $('#drive-link-input-group').hide();
+      $('#youtube-link-input-group').show();
+      $('#regular-link-input-group').hide();
+    } else if (type === 'link') {
+      $('#drive-link-input-group').hide();
+      $('#youtube-link-input-group').hide();
+      $('#regular-link-input-group').show();
     }
-  </script>
+  }
 
-          <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  function uploadFile() {
+    $('#regular-link-input-group').hide();
+    $('#file-input-group').show();
+  }
+</script>
 
-        <!-- Vendor JS Files -->
-        <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/chart.js/chart.umd.js"></script>
-        <script src="assets/vendor/echarts/echarts.min.js"></script>
-        <script src="assets/vendor/quill/quill.min.js"></script>
-        <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-        <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-        <script src="assets/vendor/php-email-form/validate.js"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-        <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 
 
 
