@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation,useIsFocused  } from '@react-navigation/native';
 import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-native-paper';
 import Modal from 'react-native-modal';
+import MyTheme from '../Components/MyTheme';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
@@ -105,7 +106,7 @@ function Client() {
   const displayedData = tableData.slice(from, to);
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
         <TextInput
           style={styles.searchInput}
@@ -132,6 +133,7 @@ function Client() {
                   <DataTable.Cell style={styles.cell}>{item.name}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>{item.birthdate}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>{item.sex}</DataTable.Cell>
+                  <DataTable.Cell style={styles.cell}>{item.syncData}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>
                     <TouchableOpacity
                       style={styles.button}
@@ -231,10 +233,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-  
   cell: {
     alignItems: 'center',
     justifyContent: 'center',
+    color: '#ffffff'
   }
 });
 

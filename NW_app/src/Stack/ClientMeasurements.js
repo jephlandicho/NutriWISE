@@ -9,7 +9,7 @@ import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Measurements from '../Components/Measurements';
 import { ResultContext } from '../Components/ResultContext';
-
+import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
 
 function ClientMeasurements() {
@@ -202,7 +202,7 @@ function ClientMeasurements() {
   };
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
         <View>
         <View style={styles.meabuttonContainer}>
@@ -231,6 +231,7 @@ function ClientMeasurements() {
                   <DataTable.Cell style={styles.actionCell}>{item.carbs}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>{item.protein}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>{item.fats}</DataTable.Cell>
+                  <DataTable.Cell style={styles.cell}>{item.syncData}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>
                     <View style={styles.buttonContainer}>
                       <TouchableOpacity

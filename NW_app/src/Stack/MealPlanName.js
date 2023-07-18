@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider, TextInput as PaperTextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
-
+import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
 
 function MealPlanName() {
@@ -143,7 +143,7 @@ function MealPlanName() {
 
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
         <TextInput
           style={styles.searchInput}

@@ -107,6 +107,9 @@ function MeasurementSummary() {
     ASugarDinner,
     ClientID,
     setClientID,
+    C_MeasurementID,setC_MeasurementID,
+    C_exchangesID,setC_exchangesID,
+    C_meal_titleID,setC_meal_titleID,
   } = useContext(ResultContext);
 
   let palText;
@@ -121,6 +124,7 @@ function MeasurementSummary() {
   }
 
   const [CAge, setCAge] = useState('');
+
 
   let generatedCodes = [];
 
@@ -142,6 +146,18 @@ function MeasurementSummary() {
     const uniqueCode = generateUniqueSixDigitCode();
     setClientID(uniqueCode);
 
+    const m_ID = generateUniqueSixDigitCode();
+    const finalm_ID =  '01' + m_ID 
+    setC_MeasurementID(finalm_ID)
+
+    const e_ID = generateUniqueSixDigitCode();
+    const finale_ID =  '02' + e_ID 
+    setC_exchangesID(finale_ID)
+
+    const mt_ID = generateUniqueSixDigitCode();
+    const finalmt_ID =  '03' + mt_ID 
+    setC_meal_titleID(finalmt_ID)
+
     // Check if the client table exists
     db.transaction((tx) => {
       tx.executeSql(
@@ -151,7 +167,7 @@ function MeasurementSummary() {
           // If the table doesn't exist, create it
           if (resultSet.rows.length === 0) {
             tx.executeSql(
-              'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, name TEXT, birthdate TEXT, sex TEXT)',
+              'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, name TEXT, birthdate TEXT, sex TEXT, syncData INTEGER)',
               [],
               () => {
                 console.log('client table created successfully.');
@@ -195,6 +211,7 @@ function MeasurementSummary() {
                 protein REAL,
                 carbs REAL,
                 fats REAL,
+                syncData INTEGER,
                 FOREIGN KEY (client_id) REFERENCES client (id)
               )`,
               [],
@@ -223,7 +240,7 @@ function MeasurementSummary() {
           if (resultSet.rows.length === 0) {
             tx.executeSql(
               `CREATE TABLE IF NOT EXISTS exchanges (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY,
                 measurement_id INTEGER,
                 vegetables REAL,
                 fruit REAL,
@@ -239,6 +256,7 @@ function MeasurementSummary() {
                 carbohydrates REAL,
                 protein REAL,
                 fats REAL,
+                syncData INTEGER,
                 FOREIGN KEY (measurement_id) REFERENCES client_measurements (id)
               )`,
               [],
@@ -275,6 +293,7 @@ function MeasurementSummary() {
                 lunch REAL,
                 pm_snacks REAL,
                 dinner REAL,
+                syncData INTEGER,
                 FOREIGN KEY (exchange_id) REFERENCES exchanges(id)
               )`,
               [],
@@ -301,9 +320,10 @@ function MeasurementSummary() {
           if (resultSet.rows.length === 0) {
             tx.executeSql(
               `CREATE TABLE IF NOT EXISTS meal_title (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY,
                 exchanges_id INTEGER,
                 meal_title TEXT,
+                syncData INTEGER,
                 FOREIGN KEY (exchanges_id) REFERENCES exchanges (id)
               )`,
               [],
@@ -327,23 +347,24 @@ function MeasurementSummary() {
     const today = new Date();
     const birthdateArray = birthdate.split('-');
     const birthdateObj = new Date(
-      birthdateArray[2],
-      birthdateArray[0] - 1,
-      birthdateArray[1]
+      birthdateArray[0],
+      birthdateArray[1] - 1,
+      birthdateArray[2]
     );
     const ageDiff = today - birthdateObj;
     const ageDate = new Date(ageDiff);
     const years = Math.abs(ageDate.getUTCFullYear() - 1970);
-
+  
     return years.toString();
   }
+  
 
   const insertData = () => {
     
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO client (id, name, birthdate, sex) VALUES (?, ?, ?, ?)',
-        [ClientID, clientName, birthdate, clientSex],
+        'INSERT INTO client (id, name, birthdate, sex,syncData) VALUES (?, ?, ?, ?,?)',
+        [ClientID, clientName, birthdate, clientSex,0],
         () => {
           console.log('Data inserted into client successfully.');
           
@@ -352,10 +373,11 @@ function MeasurementSummary() {
           console.log('Error inserting data into client: ', error);
         }
       );
-
+      
       tx.executeSql(
-        'INSERT INTO client_measurements (client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+        'INSERT INTO client_measurements (id, client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats,syncData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)',
         [
+          C_MeasurementID,
           ClientID,
           userData.id,
           waistC,
@@ -371,12 +393,14 @@ function MeasurementSummary() {
           protein,
           carbs,
           fats,
+          0
         ],
         (tx, resultSet) => {
           const measurementId = resultSet.insertId;
           tx.executeSql(
-            'INSERT INTO exchanges (measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, fat, TER, carbohydrates, protein, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, fat, TER, carbohydrates, protein, fats,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
             [
+              C_exchangesID,
               measurementId,
               vegetableEx,
               fruitEx,
@@ -392,6 +416,7 @@ function MeasurementSummary() {
               totalCarbs,
               totalProtein,
               totalFat,
+              0
             ],
             (tx, resultSet) => {
               const exchangeId = resultSet.insertId;
@@ -482,7 +507,7 @@ function MeasurementSummary() {
               // Insert multiple rows into the distribution_exchange table
               distributionExchangeData.forEach((row,index) => {
                 tx.executeSql(
-                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?)',
                   [
                     exchangeId,
                     row.food_group,
@@ -491,6 +516,7 @@ function MeasurementSummary() {
                     row.lunch,
                     row.pm_snacks,
                     row.dinner,
+                    0
                   ],
                   () => {
                     if (index === distributionExchangeData.length - 1) {
@@ -503,8 +529,8 @@ function MeasurementSummary() {
                 })
 
                   tx.executeSql(
-                    'INSERT INTO meal_title (exchanges_id, meal_title) VALUES (?, ?)',
-                    [exchangeId, clientName +' One Day Menu'],
+                    'INSERT INTO meal_title (id,exchanges_id, meal_title,syncData) VALUES (?,?, ?,?)',
+                    [C_meal_titleID,exchangeId, clientName +' One Day Menu',0],
                     (_, { rowsAffected, insertId }) => {
                       if (rowsAffected > 0) {
                         console.log('Meal title saved successfully');

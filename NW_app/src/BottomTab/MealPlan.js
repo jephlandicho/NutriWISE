@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider, TextInput as PaperTextInput } from 'react-native-paper';
+import MyTheme from '../Components/MyTheme';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
@@ -46,20 +47,22 @@ function MealPlan() {
 
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS meal (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id INTEGER PRIMARY KEY,
           meal_title_id INTEGER,
           meal_name TEXT,
           meal_time TEXT,
+          syncData INTEGER,
           FOREIGN KEY (meal_title_id) REFERENCES meal_title (id)
         )`
       );
 
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS meal_plan (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          id INTEGER PRIMARY KEY,
           meal_name_id INTEGER,
           exchange_distribution FLOAT,
           food_id INT,
+          syncData INTEGER,
           FOREIGN KEY (meal_name_id) REFERENCES meal (id)
         )`
       );
@@ -152,7 +155,7 @@ function MealPlan() {
 
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
         <TextInput
           style={styles.searchInput}

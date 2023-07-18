@@ -38,7 +38,7 @@ const MealPlan = () => {
     const currentDate = selectedDate;
     setShow(false);
     setDate(currentDate);
-    const formattedDate = `${currentDate.getMonth() + 1}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
+    const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
     setbirthdate(formattedDate);
   };
 
