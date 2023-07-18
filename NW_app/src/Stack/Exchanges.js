@@ -3,11 +3,12 @@ import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView,
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { Card, IconButton, Provider as PaperProvider, Divider, DataTable } from 'react-native-paper';
+import { Card, IconButton, Provider as PaperProvider, Divider, DataTable, ThemeProvider  } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import { useRoute } from '@react-navigation/native';
 import ExchangeComponent from '../Components/ExchangeComponent';
 import { ResultContext } from '../Components/ResultContext';
+import MyTheme from '../Components/MyTheme';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
@@ -213,6 +214,7 @@ function Exchanges() {
 
   const renderCard = ({ item }) => {
     return (
+      <ThemeProvider theme={MyTheme}>
       <Card style={styles.card}>
         <Card.Title title={`ID: ${item.id}`} />
         <Card.Content>
@@ -262,6 +264,10 @@ function Exchanges() {
                 <Text style={styles.header}>Fat</Text>
                 <Text>{item.fat}</Text>
                 </View>
+                <View style={styles.cell}>
+                <Text style={styles.header}>Sync</Text>
+                <Text>{item.syncData}</Text>
+                </View>
                 
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -289,11 +295,12 @@ function Exchanges() {
           <IconButton icon="eye" onPress={() => handleView(item.id)} iconColor='black' style={{backgroundColor: 'transparent'}}/>
         </Card.Actions>
       </Card>
+      </ThemeProvider>
     );
   };
 
   return (
-    <PaperProvider>
+    <PaperProvider theme={MyTheme}>
         <View style={styles.Maincontainer}>
       <View style={styles.container}>
         <View>
@@ -367,6 +374,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: 16,
+    backgroundColor: '#ffffff'
   },
   modalContainer: {
     backgroundColor: 'white',

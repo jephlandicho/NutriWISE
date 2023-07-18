@@ -13,7 +13,7 @@ const SignInScreen = ({ setLoggedIn }) => {
 
   const onSignInPressed = async (data) => {
     try {
-      const response = await fetch('http://192.168.66.79/api/login.php', {
+      const response = await fetch('https://nutriwise.website/api/login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

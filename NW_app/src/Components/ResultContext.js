@@ -119,6 +119,10 @@ export const ResultProvider = ({ children }) => {
   const [ClientID,setClientID] = useState('');
   const [MeasurementID,setMeasurementID] = useState('');
 
+  const [C_MeasurementID,setC_MeasurementID] = useState('');
+  const [C_exchangesID,setC_exchangesID] = useState('');
+  const [C_meal_titleID,setC_meal_titleID] = useState('');
+
 
   return (
     <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
@@ -126,6 +130,9 @@ export const ResultProvider = ({ children }) => {
       isLoggedIn, setLoggedIn,
       breakfast, setBreakfast,
       ClientID,setClientID,
+      C_MeasurementID,setC_MeasurementID,
+      C_exchangesID,setC_exchangesID,
+      C_meal_titleID,setC_meal_titleID,
       AMSnack, setAMSnack,
       lunch, setLunch,
       PMSnack, setPMSnack,
