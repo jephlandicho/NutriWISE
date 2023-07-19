@@ -10,7 +10,7 @@ import foodsData from '../../meals/foods.json';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const Breakfast = () => {
-  const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
+  const {C_meal_titleID,setC_meal_titleID,C_exchangesID,setC_exchangesID} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
   const route = useRoute();
   const { id,e_ID } = route.params;
@@ -47,6 +47,7 @@ const Breakfast = () => {
     fetchData();
     fetchDataFromDatabase();
     setC_meal_titleID(id)
+    setC_exchangesID(e_ID)
   }, [selectedSection]);
 
   const fetchDataFromDatabase = () => {
@@ -57,11 +58,12 @@ const Breakfast = () => {
         (_, { rows }) => {
           const data = rows._array;
           setTableData(data);
+          console.log(data)
   
           // Assign the fetched data to the respective variables
           data.forEach((item) => {
             const { breakfast, food_group, id } = item;
-  
+            
             switch (food_group) {
               case 'Vegetable':
                 setAvegetablesBreakfast(breakfast);
@@ -190,7 +192,7 @@ const Breakfast = () => {
   return (
     <View style={styles.container}>
       <View style={styles.Alertcontainer}>
-        <Text style={styles.exchangesText}>Exchanges {id} {e_ID}</Text>
+        <Text style={styles.exchangesText}>Exchanges</Text>
         <TouchableOpacity onPress={() => {
           let alertContent = '';
 

@@ -3,10 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert,
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import { Ionicons } from '@expo/vector-icons';
-
 import foodsData from '../../meals/foods.json';
 
+import * as SQLite from 'expo-sqlite';
+const db = SQLite.openDatabase('mydatabase.db');
 const Lunch = () => {
+  const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
+  const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('Vegetable');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -16,7 +19,16 @@ const Lunch = () => {
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { lunch, setLunch } = useContext(ResultContext);
-  const { AvegetablesLunch, AfruitLunch, AriceALunch, AriceBLunch, AriceCLunch, AMilkLunch, ALFLunch, AMFLunch, AFatLunch, ASugarLunch } = useContext(ResultContext);
+  const { AvegetablesLunch, AfruitLunch, AriceALunch, AriceBLunch, AriceCLunch, AMilkLunch, ALFLunch, AMFLunch, AFatLunch, ASugarLunch,setAvegetablesLunch,
+    setAfruitLunch,
+    setAriceALunch,
+    setAriceBLunch,
+    setAriceCLunch,
+    setAMilkLunch,
+    setALFLunch,
+    setAMFLunch,
+    setAFatLunch,
+    setASugarLunch } = useContext(ResultContext);
   const { menuLunch, setmenuLunch,householdMeasureLunch, setHouseholdMeasureLunch }= useContext(ResultContext);
 
   const fetchData = () => {
@@ -29,7 +41,64 @@ const Lunch = () => {
 
   useEffect(() => {
     fetchData();
+    fetchDataFromDatabase()
   }, [selectedSection]);
+
+  const fetchDataFromDatabase = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT id, food_group, lunch FROM distribution_exchange WHERE exchange_id = ?`,
+        [C_exchangesID],
+        (_, { rows }) => {
+          const data = rows._array;
+          setTableData(data);
+          console.log(data)
+          // Assign the fetched data to the respective variables
+          data.forEach((item) => {
+            const { lunch, food_group, id } = item;
+            
+            switch (food_group) {
+              case 'Vegetable':
+                setAvegetablesLunch(lunch);
+                break;
+              case 'Fruit':
+                setAfruitLunch(lunch);
+                break;
+              case 'Rice A':
+                setAriceALunch(lunch);
+                break;
+              case 'Rice B':
+                setAriceBLunch(lunch);
+                break;
+              case 'Rice C':
+                setAriceCLunch(lunch);
+                break;
+              case 'Milk':
+                setAMilkLunch(lunch);
+                break;
+              case 'LF Meat':
+                setALFLunch(lunch);
+                break;
+              case 'MF Meat':
+                setAMFLunch(lunch);
+                break;
+              case 'Fat':
+                setAFatLunch(lunch);
+                break;
+              case 'Sugar':
+                setASugarLunch(lunch);
+                break;
+              default:
+                break;
+            }
+          });
+        },
+        (error) => {
+          console.log('Error performing SELECT query:', error);
+        }
+      );
+    });
+  };
 
   const addFoodToMeal = (section, food) => {
     const updatedMealPlan = { ...lunch };

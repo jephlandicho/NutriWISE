@@ -188,7 +188,6 @@ export const ResultProvider = ({ children }) => {
       ,ASugarLunch
       ,ASugarPMSnacks
       ,ASugarDinner
-      
       ,setAvegetablesBreakfast
       ,setAvegetablesAMSnacks
       ,setAvegetablesLunch
@@ -244,7 +243,6 @@ export const ResultProvider = ({ children }) => {
       ,PMSnack, setPMSnack
       ,Dinner, setDinner
       ,householdMeasureBreakfast, setHouseholdMeasureBreakfast
-      
       ,menuBreakfast, setmenuBreakfast
       ,menuAmSnacks, setmenuAmSnacks
       ,menuLunch, setmenuLunch

@@ -25,6 +25,7 @@ import AMSnacks from '../Stack/MealPlanning/AMSnack';
 import Lunch from '../Stack/MealPlanning/Lunch';
 import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
+import MealPlanning from '../Stack/MealPlanning';
 
 import { ResultProvider } from '../Components/ResultContext';
 
@@ -330,7 +331,7 @@ function MealPlanScreens() {
         component={Breakfast}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
+            <TouchableOpacity onPress={() => navigation.navigate('AMSnacks')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
@@ -401,6 +402,11 @@ function MealPlanScreens() {
         name='Dinner'
         component={Dinner}
         options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
@@ -436,6 +442,21 @@ function MealPlanScreens() {
           ),
         })}
       />
+
+      <Stack.Screen
+        name='MealPlanning'
+        component={MealPlanning}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Meal Plan List
+              </Text>
+            </View>
+          ),
+        })}
+      />
+
 
     </Stack.Navigator>
   )

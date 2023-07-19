@@ -73,3 +73,56 @@ const saveDataToDatabase = async () => {
 };
 
 saveDataToDatabase();
+
+
+
+//////////////////////////////////////////////////////////////////////
+import * as SQLite from 'expo-sqlite';
+
+const db = SQLite.openDatabase('mydatabase.db');
+
+// Define the meal name IDs
+const MealBreakfastID = 1;
+const MealAMSnacksID = 2;
+const MealLunchID = 3;
+const MealPMSnacksID = 4;
+const MealDinnerID = 5;
+
+// Function to insert data into the meal_plan table
+function insertMealPlanData(mealData, mealNameId, householdMeasure) {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      mealData.forEach((foodItem) => {
+        const household_measurement = householdMeasure || foodItem.household_measure;
+        const exchange_distribution = 0; // Replace with the actual exchange_distribution value
+        const food_id = foodItem.id;
+
+        tx.executeSql(
+          `INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData)
+          VALUES (?, ?, ?, ?, ?)`,
+          [mealNameId, exchange_distribution, food_id, household_measurement, 0],
+          (_, result) => {
+            console.log('Data inserted successfully!');
+          },
+          (_, error) => {
+            console.log('Error inserting data:', error);
+          }
+        );
+      });
+    }, reject, resolve);
+  });
+}
+
+// Assuming you have the parsed JSON data for each meal: parsedbreakfast, parsedAMSnacks, parsedLunch, parsedPMSnacks, parsedDinner
+
+// Insert breakfast data
+insertMealPlanData(parsedbreakfast.Fruit, MealBreakfastID, householdMeasureBreakfast)
+  .then(() => {
+    // Insert AMSnacks data
+    // Repeat the same process for AMSnacks, Lunch, PMSnacks, and Dinner
+    // return insertMealPlanData(parsedAMSnacks.someCategory, MealAMSnacksID, householdMeasureAmSnacks);
+  })
+  .catch((error) => {
+    console.log('Error:', error);
+  });
+
