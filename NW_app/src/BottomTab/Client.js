@@ -133,7 +133,6 @@ function Client() {
                   <DataTable.Cell style={styles.cell}>{item.name}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>{item.birthdate}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>{item.sex}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.syncData}</DataTable.Cell>
                   <DataTable.Cell style={styles.cell}>
                     <TouchableOpacity
                       style={styles.button}

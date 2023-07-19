@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,8 +8,12 @@ import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider
 import { useRoute } from '@react-navigation/native';
 import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
+import { ResultContext } from '../Components/ResultContext';
+
+
 
 function MealPlanName() {
+
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -22,6 +26,8 @@ function MealPlanName() {
   const [mealTitle, setMealTitle] = useState('');
   const [selectedExchangesId, setSelectedExchangesId] = useState(null);
 
+  const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
+
   const route = useRoute();
   const { id,e_ID } = route.params;
   const openAnotherModal = () => {
@@ -32,9 +38,26 @@ function MealPlanName() {
     setAnotherModalVisible(false);
   };
 
+  let generatedCodes = [];
+
+  function generateUniqueSixDigitCode() {
+    let code = '';
+
+    do {
+      code = Math.floor(100000 + Math.random() * 900000).toString();
+    } while (generatedCodes.includes(code));
+
+    generatedCodes.push(code);
+
+    return code;
+  }
   React.useEffect(() => {
     setPage(0);
     refreshTableData();
+
+    const mt_ID = generateUniqueSixDigitCode();
+    const finalmt_ID =  '03' + mt_ID 
+    setC_meal_titleID(finalmt_ID)
   }, []);
 
 
@@ -66,14 +89,14 @@ function MealPlanName() {
   };
 
   const handleView = (id) => {
-    // navigation.navigate('MealPlanName', { id });
+    navigation.navigate('Breakfast', { id,e_ID });
     setModalVisible(false);
   };
 
   const refreshTableData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT id, meal_title FROM meal_title WHERE exchanges_id = ?
+        `SELECT id, exchanges_id, meal_title FROM meal_title WHERE exchanges_id = ?
         `,
         [e_ID],
         (_, { rows }) => {
@@ -108,8 +131,8 @@ function MealPlanName() {
   const saveMealTitle = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO meal_title (exchanges_id, meal_title) VALUES (?, ?)',
-        [e_ID, mealTitle],
+        'INSERT INTO meal_title (id, exchanges_id, meal_title,syncData) VALUES (?,?,?,?)',
+        [C_meal_titleID, e_ID, mealTitle,0],
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) {
             refreshTableData();
@@ -127,8 +150,9 @@ function MealPlanName() {
     });
   };
 
-  const openMenu = (id) => {
+  const openMenu = (id,e_id) => {
     setSelectedItemId(id);
+    setSelectedExchangesId(e_id)
     setModalVisible(true);
   };
 
@@ -175,7 +199,7 @@ function MealPlanName() {
                   <DataTable.Cell style={styles.cell}>
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() => openMenu(item.id)}
+                      onPress={() => openMenu(item.id,item.exchanges_id)}
                     >
                       <Ionicons name="md-reorder-three" size={20} />
                     </TouchableOpacity>
@@ -216,7 +240,7 @@ function MealPlanName() {
               <Text style={styles.modalText}>Delete</Text>
             </TouchableOpacity>
             <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
+            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId,selectedExchangesId)}>
               <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>View</Text>
             </TouchableOpacity>

@@ -1,4 +1,4 @@
-package com.nwapp;
+package com.jephjeph12.nutriwise;
 
 import android.app.Application;
 import android.content.res.Configuration;

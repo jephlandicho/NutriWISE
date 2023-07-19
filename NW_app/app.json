@@ -18,6 +18,9 @@
         "projectId": "ec280d22-3744-4379-96cc-7540abfb736f"
       }
     },
-    "owner": "jephjeph12"
+    "owner": "jephjeph12",
+    "android": {
+      "package": "com.jephjeph12.nutriwise"
+    }
   }
 }

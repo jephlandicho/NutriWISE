@@ -4,10 +4,16 @@ import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-
+import * as SQLite from 'expo-sqlite';
 import foodsData from '../../meals/foods.json';
 
+const db = SQLite.openDatabase('mydatabase.db');
+
 const Breakfast = () => {
+  const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
+  const [tableData, setTableData] = useState([]);
+  const route = useRoute();
+  const { id,e_ID } = route.params;
   const [selectedSection, setSelectedSection] = useState('Vegetable');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +23,16 @@ const Breakfast = () => {
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { breakfast, setBreakfast } = useContext(ResultContext);
-  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast,setMeasurementID } = useContext(ResultContext);
+  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast,setMeasurementID,setAvegetablesBreakfast,
+    setAfruitBreakfast,
+    setAriceABreakfast,
+    setAriceBBreakfast,
+    setAriceCBreakfast,
+    setAMilkBreakfast,
+    setALFBreakfast,
+    setAMFBreakfast,
+    setAFatBreakfast,
+    setASugarBreakfast } = useContext(ResultContext);
   const { menuBreakfast, setmenuBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
 
   const fetchData = () => {
@@ -30,7 +45,66 @@ const Breakfast = () => {
 
   useEffect(() => {
     fetchData();
+    fetchDataFromDatabase();
+    setC_meal_titleID(id)
   }, [selectedSection]);
+
+  const fetchDataFromDatabase = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT id, food_group, breakfast FROM distribution_exchange WHERE exchange_id = ?`,
+        [e_ID],
+        (_, { rows }) => {
+          const data = rows._array;
+          setTableData(data);
+  
+          // Assign the fetched data to the respective variables
+          data.forEach((item) => {
+            const { breakfast, food_group, id } = item;
+  
+            switch (food_group) {
+              case 'Vegetable':
+                setAvegetablesBreakfast(breakfast);
+                break;
+              case 'Fruit':
+                setAfruitBreakfast(breakfast);
+                break;
+              case 'Rice A':
+                setAriceABreakfast(breakfast);
+                break;
+              case 'Rice B':
+                setAriceBBreakfast(breakfast);
+                break;
+              case 'Rice C':
+                setAriceCBreakfast(breakfast);
+                break;
+              case 'Milk':
+                setAMilkBreakfast(breakfast);
+                break;
+              case 'LF Meat':
+                setALFBreakfast(breakfast);
+                break;
+              case 'MF Meat':
+                setAMFBreakfast(breakfast);
+                break;
+              case 'Fat':
+                setAFatBreakfast(breakfast);
+                break;
+              case 'Sugar':
+                setASugarBreakfast(breakfast);
+                break;
+              default:
+                break;
+            }
+          });
+        },
+        (error) => {
+          console.log('Error performing SELECT query:', error);
+        }
+      );
+    });
+  };
+  
 
   const addFoodToMeal = (section, food) => {
     const updatedMealPlan = { ...breakfast };
@@ -116,7 +190,7 @@ const Breakfast = () => {
   return (
     <View style={styles.container}>
       <View style={styles.Alertcontainer}>
-        <Text style={styles.exchangesText}>Exchanges</Text>
+        <Text style={styles.exchangesText}>Exchanges {id} {e_ID}</Text>
         <TouchableOpacity onPress={() => {
           let alertContent = '';
 

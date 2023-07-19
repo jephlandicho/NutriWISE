@@ -53,7 +53,14 @@ function MealPlan() {
           meal_time TEXT,
           syncData INTEGER,
           FOREIGN KEY (meal_title_id) REFERENCES meal_title (id)
-        )`
+        )`,
+        [],
+        () => {
+          console.log('meal table created successfully.');
+        },
+        (error) => {
+          console.log('Error creating meal table: ', error);
+        }
       );
 
       tx.executeSql(
@@ -61,10 +68,18 @@ function MealPlan() {
           id INTEGER PRIMARY KEY,
           meal_name_id INTEGER,
           exchange_distribution FLOAT,
-          food_id INT,
+          food_id INTEGER,
+          household_measurement TEXT,
           syncData INTEGER,
           FOREIGN KEY (meal_name_id) REFERENCES meal (id)
-        )`
+        )`,
+        [],
+        () => {
+          console.log('meal_plan table created successfully.');
+        },
+        (error) => {
+          console.log('Error creating meal_plan table: ', error);
+        }
       );
     });
   };
