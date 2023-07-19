@@ -63,9 +63,9 @@ const Classes = () => {
   return (
     <View style={styles.container}>
       <Text>Classes</Text>
-      <TouchableOpacity onPress={handleDeleteTables}>
+      {/* <TouchableOpacity onPress={handleDeleteTables}>
         <Text>Delete All Tables</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* <TouchableOpacity onPress={handleUpdateTables}>
         <Text>Update Tables</Text>
       </TouchableOpacity> */}

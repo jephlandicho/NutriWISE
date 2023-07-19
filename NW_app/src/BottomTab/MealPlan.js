@@ -65,7 +65,7 @@ function MealPlan() {
 
       tx.executeSql(
         `CREATE TABLE IF NOT EXISTS meal_plan (
-          id INTEGER PRIMARY KEY,
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
           meal_name_id INTEGER,
           exchange_distribution FLOAT,
           food_id INTEGER,

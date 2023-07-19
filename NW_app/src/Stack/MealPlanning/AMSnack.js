@@ -3,11 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert,
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import { Ionicons } from '@expo/vector-icons';
-
 import foodsData from '../../meals/foods.json';
 
+import * as SQLite from 'expo-sqlite';
+const db = SQLite.openDatabase('mydatabase.db');
+
 const AMSnack = () => {
-  
+  const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
+  const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('Vegetable');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +20,18 @@ const AMSnack = () => {
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { AMSnack, setAMSnack } = useContext(ResultContext);
-  const { AvegetablesAMSnacks, AfruitAMSnacks, AriceAAMSnacks, AriceBAMSnacks, AriceCAMSnacks, AMilkAMSnacks, ALFAMSnacks, AMFAMSnacks, AFatAMSnacks, ASugarAMSnacks } = useContext(ResultContext);
+  const { AvegetablesAMSnacks, AfruitAMSnacks, AriceAAMSnacks, AriceBAMSnacks, AriceCAMSnacks, AMilkAMSnacks, ALFAMSnacks, AMFAMSnacks, AFatAMSnacks, ASugarAMSnacks,
+    setAvegetablesAMSnacks,
+    setAfruitAMSnacks,
+    setAriceAAMSnacks,
+    setAriceBAMSnacks,
+    setAriceCAMSnacks,
+    setAMilkAMSnacks,
+    setALFAMSnacks,
+    setAMFAMSnacks,
+    setAFatAMSnacks,
+    setASugarAMSnacks} = useContext(ResultContext);
+
   const { menuAmSnacks, setmenuAmSnacks ,householdMeasureAmSnacks, setHouseholdMeasureAmSnacks }= useContext(ResultContext);
 
   const fetchData = () => {
@@ -30,7 +44,64 @@ const AMSnack = () => {
 
   useEffect(() => {
     fetchData();
+    fetchDataFromDatabase();
   }, [selectedSection]);
+
+  const fetchDataFromDatabase = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT id, food_group, am_snacks FROM distribution_exchange WHERE exchange_id = ?`,
+        [C_exchangesID],
+        (_, { rows }) => {
+          const data = rows._array;
+          setTableData(data);
+          console.log(data)
+          // Assign the fetched data to the respective variables
+          data.forEach((item) => {
+            const { am_snacks, food_group, id } = item;
+            
+            switch (food_group) {
+              case 'Vegetable':
+                setAvegetablesAMSnacks(am_snacks);
+                break;
+              case 'Fruit':
+                setAfruitAMSnacks(am_snacks);
+                break;
+              case 'Rice A':
+                setAriceAAMSnacks(am_snacks);
+                break;
+              case 'Rice B':
+                setAriceBAMSnacks(am_snacks);
+                break;
+              case 'Rice C':
+                setAriceCAMSnacks(am_snacks);
+                break;
+              case 'Milk':
+                setAMilkAMSnacks(am_snacks);
+                break;
+              case 'LF Meat':
+                setALFAMSnacks(am_snacks);
+                break;
+              case 'MF Meat':
+                setAMFAMSnacks(am_snacks);
+                break;
+              case 'Fat':
+                setAFatAMSnacks(am_snacks);
+                break;
+              case 'Sugar':
+                setASugarAMSnacks(am_snacks);
+                break;
+              default:
+                break;
+            }
+          });
+        },
+        (error) => {
+          console.log('Error performing SELECT query:', error);
+        }
+      );
+    });
+  };
 
   const addFoodToMeal = (section, food) => {
     const updatedMealPlan = { ...AMSnack };
