@@ -264,10 +264,6 @@ function Exchanges() {
                 <Text style={styles.header}>Fat</Text>
                 <Text>{item.fat}</Text>
                 </View>
-                <View style={styles.cell}>
-                <Text style={styles.header}>Sync</Text>
-                <Text>{item.syncData}</Text>
-                </View>
                 
             </View>
             <View style={{ flexDirection: 'row' }}>

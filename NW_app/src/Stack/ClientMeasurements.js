@@ -231,7 +231,6 @@ function ClientMeasurements() {
                   <DataTable.Cell style={styles.actionCell}>{item.carbs}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>{item.protein}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>{item.fats}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.syncData}</DataTable.Cell>
                   <DataTable.Cell style={styles.actionCell}>
                     <View style={styles.buttonContainer}>
                       <TouchableOpacity

@@ -11,7 +11,7 @@ const handleDeleteTables = () => {
     // Replace 'table1', 'table2', 'table3', ... with the actual table names in your database.
     // Add more table names if you have additional tables to delete.
     
-    const tablesToDelete = ['client', 'client_measurements', 'exchanges','distribution_exchange','meal_title','meal','meal_plan'];
+    const tablesToDelete = ['meal','meal_plan'];
 
     tablesToDelete.forEach((table) => {
       const query = `DROP TABLE IF EXISTS ${table};`;
@@ -66,9 +66,9 @@ const Classes = () => {
       <TouchableOpacity onPress={handleDeleteTables}>
         <Text>Delete All Tables</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleUpdateTables}>
+      {/* <TouchableOpacity onPress={handleUpdateTables}>
         <Text>Update Tables</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       {/* <SyncButton/> */}
     </View>
   )

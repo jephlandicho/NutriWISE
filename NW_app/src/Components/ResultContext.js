@@ -122,6 +122,7 @@ export const ResultProvider = ({ children }) => {
   const [C_MeasurementID,setC_MeasurementID] = useState('');
   const [C_exchangesID,setC_exchangesID] = useState('');
   const [C_meal_titleID,setC_meal_titleID] = useState('');
+  
 
 
   return (

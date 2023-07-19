@@ -5,6 +5,7 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import MealComponent from '../Components/MealComponent';
 
 const MealPlanResult = () => {
+  const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
   const { breakfast,AMSnack,lunch,PMSnack,dinner } = useContext(ResultContext);
   const { menuBreakfast, householdMeasureBreakfast } = useContext(ResultContext);
   

@@ -113,13 +113,13 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.nwapp"
+    namespace 'com.jephjeph12.nutriwise'
     defaultConfig {
-        applicationId "com.nwapp"
+        applicationId 'com.jephjeph12.nutriwise'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
 
     splits {

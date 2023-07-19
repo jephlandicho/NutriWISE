@@ -196,7 +196,7 @@ const MealPlan = () => {
                   <Picker.Item label="Sedentary" value="30" />
                   <Picker.Item label="Light" value="35" />
                   <Picker.Item label="Moderate" value="40" />
-                  <Picker.Item label="Very Active" value="45" />
+                  <Picker.Item label="Vigorous" value="45" />
                 </Picker>
               )} />
           </View>
