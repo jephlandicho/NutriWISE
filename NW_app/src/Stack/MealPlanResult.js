@@ -225,7 +225,7 @@ const MealPlanResult = () => {
       >
       </MealComponent>
       </View>
-      {/* <Button title="Save Meal Plan" onPress={insertData} /> */}
+      <Button title="Save Meal Plan" onPress={insertData} />
       </ScrollView>
 
     </DataTable>

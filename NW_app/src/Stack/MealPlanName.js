@@ -93,10 +93,10 @@ function MealPlanName() {
     setModalVisible(false);
   };
 
-  const handleAdd = (id) => {
-    navigation.navigate('Breakfast', { id,e_ID });
-    setModalVisible(false);
-  };
+  // const handleAdd = (id) => {
+  //   navigation.navigate('Breakfast', { id,e_ID });
+  //   setModalVisible(false);
+  // };
 
   const refreshTableData = () => {
     db.transaction((tx) => {
@@ -235,11 +235,10 @@ function MealPlanName() {
         />
         <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
           <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.modalButton} onPress={() => handleAdd(selectedItemId,selectedExchangesId)}>
+          {/* <TouchableOpacity style={styles.modalButton} onPress={() => handleAdd(selectedItemId,selectedExchangesId)}>
               <Ionicons name="md-add" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>Add Meal Plan</Text>
-            </TouchableOpacity>
-            <Divider />
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
               <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>Update</Text>
@@ -254,7 +253,6 @@ function MealPlanName() {
               <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>View Meal Plan</Text>
             </TouchableOpacity>
-            <Divider />
             
           </View>
         </Modal>

@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const Settings = () => {
+import { useNavigation } from '@react-navigation/native';
+ const Settings = () => {
+  const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+   useEffect(() => {
     getUserData();
+    getNotificationSettings();
   }, []);
-
-  const getUserData = async () => {
+   const getUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('userData');
       if (userData) {
@@ -22,40 +23,112 @@ const Settings = () => {
       console.error('Error:', error);
     }
   };
-
-  return (
+   const getNotificationSettings = async () => {
+    try {
+      const notificationsEnabled = await AsyncStorage.getItem('notificationsEnabled');
+      if (notificationsEnabled) {
+        setNotificationsEnabled(JSON.parse(notificationsEnabled));
+      } else {
+        setNotificationsEnabled(false);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+   const toggleNotifications = async () => {
+    try {
+      const newNotificationsEnabled = !notificationsEnabled;
+      setNotificationsEnabled(newNotificationsEnabled);
+      await AsyncStorage.setItem('notificationsEnabled', JSON.stringify(newNotificationsEnabled));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>User Data:</Text>
       {userData && (
-        <View>
-          <Text style={styles.label}>ID: {userData.id}</Text>
-          <Text style={styles.label}>Full Name: {userData.fullName}</Text>
-          <Text style={styles.label}>Email: {userData.email}</Text>
-          <Text style={styles.label}>Username: {userData.username}</Text>
-          <Text style={styles.label}>Password: {userData.password}</Text>
+        <View style={styles.userDataContainer}>
+          <Text style={styles.label}>User Data:</Text>
+          <Text style={styles.userDataItem}>Full Name: {userData.fullName}</Text>
+          <Text style={styles.userDataItem}>Email: {userData.email}</Text>
+          <Text style={styles.userDataItem}>Username: {userData.username}</Text>
         </View>
       )}
+       <View style={styles.settingsContainer}>
+        <Text style={styles.settingsHeading}>User Settings:</Text>
+        <View style={styles.settingItem}>
+          <Text style={styles.settingLabel}>Enable Notifications:</Text>
+          <Switch
+            value={notificationsEnabled}
+            onValueChange={toggleNotifications}
+            thumbColor="#f4f3f4"
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+          />
+        </View>
+        <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Change Password')}>
+          <Text style={styles.settingLabel}>Change Password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
+          <Text style={styles.settingLabel}>Privacy Settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
+ const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingTop: 40,
+    paddingHorizontal: 20,
   },
   heading: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  userDataContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '100%',
+    maxWidth: 400,
+    elevation: 3,
+    marginBottom: 20,
+  },
+  label: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  label: {
+  userDataItem: {
     fontSize: 16,
     marginBottom: 5,
   },
+  settingsContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '100%',
+    maxWidth: 400,
+    elevation: 3,
+  },
+  settingsHeading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  settingItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  settingLabel: {
+    fontSize: 16,
+  },
 });
-
-export default Settings;
+ export default Settings;

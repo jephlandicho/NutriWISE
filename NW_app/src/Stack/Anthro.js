@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   inputContainer: {
-    width: '80%',
+    width: '90%',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
