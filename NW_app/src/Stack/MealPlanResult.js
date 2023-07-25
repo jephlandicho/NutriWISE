@@ -3,10 +3,12 @@ import { DataTable } from 'react-native-paper';
 import { ResultContext } from '../Components/ResultContext';
 import { Text, View, StyleSheet, ScrollView, Button } from 'react-native';
 import MealComponent from '../Components/MealComponent';
+import { useNavigation } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const MealPlanResult = () => {
+  const navigation = useNavigation();
   const {C_meal_titleID} = useContext(ResultContext);
   // ID for meal/menu
   const [MealBreakfastID, setMealBreakfastID] = useState(null);
@@ -54,6 +56,172 @@ const MealPlanResult = () => {
     setMealDinnerID(d_ID)
   }, []);
 
+  const insertMealPlan = (
+    parsedData,
+    householdMeasurement,
+    setMealID,
+    getExchangeDistribution) => {
+      db.transaction((tx)=>{
+        Object.keys(parsedData).forEach((mealGroup) => {
+          parsedData[mealGroup].forEach((mealData) => {
+            const { id, household_measure: householdMeasurementData } = mealData;
+      
+            // Get the exchange distribution for the current meal group
+            const exchangeDistribution = getExchangeDistribution(mealGroup);
+      
+            // Determine the household_measurement to be used
+            const finalHouseholdMeasurement = householdMeasurementData || householdMeasurement;
+      
+            tx.executeSql(
+              "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
+              [setMealID, exchangeDistribution, id, finalHouseholdMeasurement, 0],
+              (txObj, resultSet) => {
+                // Handle success if needed
+                console.log("Insertion successful:", resultSet);
+              },
+              (txObj, error) => {
+                // Handle error if needed
+                console.log("Error during insertion:", error);
+              }
+            );
+          });
+        });
+      })
+
+  }
+  function getEDBreakfast(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitBreakfast;
+      case "Low Fat Meat":
+        return ALFBreakfast;
+      case "Milk":
+        return AMilkBreakfast;
+      case "Rice A":
+        return AriceABreakfast;
+      case "Rice B":
+        return AriceBBreakfast;
+      case "Rice C":
+        return AriceCBreakfast;
+      case "Medium Fat Meat":
+        return AMFBreakfast;
+      case "Fat":
+        return AFatBreakfast;
+      case "Sugar":
+        return ASugarBreakfast;
+      case "Vegetable":
+        return AvegetablesBreakfast;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
+  
+  function getEDAMSnacks(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitAMSnacks;
+      case "Low Fat Meat":
+        return ALFAMSnacks;
+      case "Milk":
+        return AMilkAMSnacks;
+      case "Rice A":
+        return AriceAAMSnacks;
+      case "Rice B":
+        return AriceBAMSnacks;
+      case "Rice C":
+        return AriceCAMSnacks;
+      case "Medium Fat Meat":
+        return AMFAMSnacks;
+      case "Fat":
+        return AFatAMSnacks;
+      case "Sugar":
+        return ASugarAMSnacks;
+      case "Vegetable":
+        return AvegetablesAMSnacks;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
+  
+  function getEDLunch(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitLunch;
+      case "Low Fat Meat":
+        return ALFLunch;
+      case "Milk":
+        return AMilkLunch;
+      case "Rice A":
+        return AriceALunch;
+      case "Rice B":
+        return AriceBLunch;
+      case "Rice C":
+        return AriceCLunch;
+      case "Medium Fat Meat":
+        return AMFLunch;
+      case "Fat":
+        return AFatLunch;
+      case "Sugar":
+        return ASugarLunch;
+      case "Vegetable":
+        return AvegetablesLunch;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
+  
+  function getEDPMSnacks(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitPMSnacks;
+      case "Low Fat Meat":
+        return ALFPMSnacks;
+      case "Milk":
+        return AMilkPMSnacks;
+      case "Rice A":
+        return AriceAPMSnacks;
+      case "Rice B":
+        return AriceBPMSnacks;
+      case "Rice C":
+        return AriceCPMSnacks;
+      case "Medium Fat Meat":
+        return AMFPMSnacks;
+      case "Fat":
+        return AFatPMSnacks;
+      case "Sugar":
+        return ASugarPMSnacks;
+      case "Vegetable":
+        return AvegetablesPMSnacks;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
+  function getEDDinner(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitDinner;
+      case "Low Fat Meat":
+        return ALFDinner;
+      case "Milk":
+        return AMilkDinner;
+      case "Rice A":
+        return AriceADinner;
+      case "Rice B":
+        return AriceBDinner;
+      case "Rice C":
+        return AriceCDinner;
+      case "Medium Fat Meat":
+        return AMFDinner;
+      case "Fat":
+        return AFatDinner;
+      case "Sugar":
+        return ASugarDinner;
+      case "Vegetable":
+        return AvegetablesDinner;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
   const insertData = () => {
     const mealData = [
       { meal_name: menuBreakfast, meal_time: 'Breakfast', id: MealBreakfastID },
@@ -62,18 +230,6 @@ const MealPlanResult = () => {
       { meal_name: menuPmSnacks, meal_time: 'PMSnacks', id: MealPMSnacksID },
       { meal_name: menuDinner, meal_time: 'Dinner', id: MealDinnerID },
     ];
-
-    // const foodGroupToExchangeDistribution = {
-    //   AvegetablesBreakfast,AvegetablesAMSnacks,AvegetablesLunch,AvegetablesPMSnacks,AvegetablesDinner,AfruitBreakfast,AfruitAMSnacks,AfruitLunch,AfruitPMSnacks,AfruitDinner,AriceABreakfast,AriceAAMSnacks,AriceALunch,AriceAPMSnacks,AriceADinner,AriceBBreakfast,AriceBAMSnacks,AriceBLunch,AriceBPMSnacks,AriceBDinner,AriceCBreakfast,AriceCAMSnacks,AriceCLunch,AriceCPMSnacks,AriceCDinner,AMilkBreakfast,AMilkAMSnacks,AMilkLunch,AMilkPMSnacks,AMilkDinner,ALFBreakfast,ALFAMSnacks,ALFLunch,ALFPMSnacks,ALFDinner,AMFBreakfast,AMFAMSnacks,AMFLunch,AMFPMSnacks,AMFDinner,AFatBreakfast,AFatAMSnacks,AFatLunch,AFatPMSnacks,AFatDinner,ASugarBreakfast,ASugarAMSnacks,ASugarLunch,ASugarPMSnacks,ASugarDinner,
-
-    //   Vegetable: [AvegetablesBreakfast, AvegetablesAMSnacks, AvegetablesLunch, AvegetablesPMSnacks, AvegetablesDinner],
-    //   Fruit: [AfruitBreakfast, AfruitAMSnacks, AfruitLunch, AfruitPMSnacks, AfruitDinner],
-    //   Rice_A: [AriceABreakfast, AriceAAMSnacks, AriceALunch, AriceAPMSnacks, AriceADinner],
-    //   Rice_B: [AriceBBreakfast, AriceBAMSnacks, AriceBLunch, AriceBPMSnacks, AriceBDinner],
-    //   Rice_C: [AriceBBreakfast, AriceBAMSnacks, AriceBLunch, AriceBPMSnacks, AriceBDinner],
-    //   Milk: [AriceBBreakfast, AriceBAMSnacks, AriceBLunch, AriceBPMSnacks, AriceBDinner],
-    //   // and so on...
-    // };
 
     db.transaction((tx) => {
       mealData.forEach((meal) => {
@@ -89,8 +245,71 @@ const MealPlanResult = () => {
           }
         );
       });
+      // Inserting breakfast
+      // Object.keys(parsedbreakfast).forEach((mealGroup) => {
+      //   parsedbreakfast[mealGroup].forEach((mealData) => {
+      //     const { id, household_measure: householdMeasurement } = mealData;
     
+      //     // Get the exchange distribution for the current meal group
+      //     const exchangeDistribution = getEDBreakfast(mealGroup);
+    
+      //     // Determine the household_measurement to be used
+      //     const finalHouseholdMeasurement = householdMeasurement || householdMeasureBreakfast;
+    
+      //     tx.executeSql(
+      //       "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
+      //       [MealBreakfastID, exchangeDistribution, id, finalHouseholdMeasurement, 0],
+      //       (txObj, resultSet) => {
+      //         // Handle success if needed
+      //         console.log("Insertion successful:", resultSet);
+      //       },
+      //       (txObj, error) => {
+      //         // Handle error if needed
+      //         console.log("Error during insertion:", error);
+      //       }
+      //     );
+      //   });
+      // });
+      insertMealPlan(
+        parsedbreakfast,
+        householdMeasureBreakfast,
+        MealBreakfastID,
+        getEDBreakfast
+      )
+      // Am Snacks
+      insertMealPlan(
+        parsedAMSnacks,
+        householdMeasureAmSnacks,
+        MealAMSnacksID,
+        getEDAMSnacks
+      )
+
+      // Lunch
+      insertMealPlan(
+        parsedLunch,
+        householdMeasureLunch,
+        MealLunchID,
+        getEDLunch
+      )
+
+      // PM Snacks
+      insertMealPlan(
+        parsedPMSnacks,
+        householdMeasurePmSnacks,
+        MealPMSnacksID,
+        getEDPMSnacks
+      )
+
+      // Dinner
+      insertMealPlan(
+        parsedDinner,
+        householdMeasureDinner,
+        MealDinnerID,
+        getEDDinner
+      )
+
     })
+    navigation.navigate('MealInfo');
   }
   return (
     <>
@@ -224,10 +443,11 @@ const MealPlanResult = () => {
       householdMeasure={householdMeasureDinner}
       >
       </MealComponent>
-      </View>
       <Button title="Save Meal Plan" onPress={insertData} />
+      </View>
+      
       </ScrollView>
-
+      
     </DataTable>
     
     </>
