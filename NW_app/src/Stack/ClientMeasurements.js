@@ -205,13 +205,13 @@ function ClientMeasurements() {
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
         <View>
-        <View style={styles.meabuttonContainer}>
+        {/* <View style={styles.meabuttonContainer}>
         <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
           <Text style={styles.buttonText}>
             <Ionicons name="add-circle-outline" size={20} color="black" /> Add
           </Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
           <DataTable.Header>
             <DataTable.Title style={styles.dateColumn}>Date</DataTable.Title>
             <DataTable.Title style={styles.actionCell}>TER</DataTable.Title>

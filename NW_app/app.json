@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "NutriWISE",
-    "slug": "nwapp",
-    "version": "1.0.0",
+    "slug": "nutriwise",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -15,10 +15,10 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "ec280d22-3744-4379-96cc-7540abfb736f"
+        "projectId": "80142c2b-dbea-49b1-ac65-9030c0b4d5b6"
       }
     },
-    "owner": "jephjeph12",
+    "owner": "jephlandicho12",
     "android": {
       "package": "com.jephjeph12.nutriwise"
     }

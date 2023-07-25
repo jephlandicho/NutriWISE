@@ -1,105 +1,148 @@
-import { StyleSheet, View, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Card, Text } from 'react-native-paper';
-import foodsData from '../meals/foods.json';
-import { useRoute } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Card, Text, Provider as PaperProvider } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
-const db = SQLite.openDatabase('mydatabase.db');
-// Assuming you have set up your SQLite database connection and exported it as 'db'
+import { useRoute } from '@react-navigation/native';
+import MyTheme from '../Components/MyTheme';
+import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
-// Function to get all meal plans with their corresponding meal title
-const getAllMealPlans = (mealTitleId) => {
-  return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `SELECT mp.*, m.meal_title_id, m.meal_name AS meal_title_name FROM meal_plan mp
-         JOIN meal m ON mp.meal_name_id = m.id
-         WHERE m.meal_title_id = ?`,
-        [mealTitleId],
-        (tx, results) => {
-          const mealPlans = [];
-          for (let i = 0; i < results.rows.length; i++) {
-            mealPlans.push(results.rows.item(i));
-          }
-          resolve(mealPlans);
-        },
-        (_, error) => {
-          reject(error);
-        }
-      );
-    });
-  });
-};
+const db = SQLite.openDatabase('mydatabase.db');
 
 const MealPlanning = () => {
+  const navigation = useNavigation();
   const route = useRoute();
-  const { id,e_ID } = route.params;
-
-  const [mealPlans, setMealPlans] = useState([]);
+  const { id, e_ID } = route.params;
+  const addMealPlan = () => {
+    navigation.navigate('Breakfast', { id,e_ID });
+  };
+  const [mealData, setMealData] = useState([]);
 
   useEffect(() => {
-    // Assuming you have the meal_title_id of the meal you want to fetch plans for.
-    // Replace 'YOUR_MEAL_TITLE_ID' with the actual meal_title_id you want to fetch.
-
-    // Fetch meal plans from the SQLite database based on meal_title_id
-    getAllMealPlans(id)
-      .then((plans) => setMealPlans(plans))
-      .catch((error) => console.error('Error fetching meal plans:', error));
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM meal WHERE meal_title_id=?', [id], (tx, results) => {
+        var temp = [];
+        for (let i = 0; i < results.rows.length; ++i)
+          temp.push(results.rows.item(i));
+        setMealData(temp);
+      });
+    });
   }, []);
 
-  // Function to get the food data based on food_id
-  const getFoodData = (foodId) => {
-    return foodsData.find((food) => food.id === foodId);
+  // Custom function to get the order of meal types
+  const getMealOrder = (mealType) => {
+    switch (mealType) {
+      case 'Breakfast':
+        return 1;
+      case 'AMSnacks':
+        return 2;
+      case 'Lunch':
+        return 3;
+      case 'PMSnacks':
+        return 4;
+      case 'Dinner':
+        return 5;
+      default:
+        return 6;
+    }
   };
 
-  // Function to render each meal plan card
   const renderMealPlanCard = ({ item }) => {
     return (
       <Card style={styles.card}>
         <Card.Content>
-          <Text>Meal Title: {item.meal_title_name}</Text>
-          <Text>Meal: {item.meal_name_id}</Text>
-          {item.exchange_distribution.map((distribution, index) => (
-            <Text key={index}>Exchange Distribution {index + 1}: {distribution}</Text>
-          ))}
-          {item.food_id.map((foodId, index) => {
-            const foodData = getFoodData(foodId);
-            return (
-              <Text key={index}>Food {index + 1}: {foodData ? foodData.meal_name : 'Not Found'}</Text>
-            );
-          })}
-          {/* Add more details from the meal plan or food data as needed */}
+        <Text style={styles.mealName}>Meal Time: {item.id}</Text>
+        <Text style={styles.mealName}>Meal Time: {item.meal_title_id}</Text>
+          <Text style={styles.mealTitle}>Meal {item.meal_name}</Text>
+          <Text style={styles.mealName}>Meal Time: {item.meal_time}</Text>
+          {/* You can customize how you want to display the meal data */}
         </Card.Content>
       </Card>
     );
   };
 
+  // Sort mealData based on the meal type order
+  const sortedMealData = mealData.sort(
+    (a, b) => getMealOrder(a.meal_time) - getMealOrder(b.meal_time)
+  );
+
   return (
-    <View style={styles.container}>
-      {mealPlans.length > 0 ? (
-        <FlatList
-          data={mealPlans}
-          renderItem={renderMealPlanCard}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      ) : (
-        <Text>No meal plans found.</Text>
-      )}
-    </View>
+    <PaperProvider theme={MyTheme}>
+      <View style={styles.container}>
+        {mealData.length === 0 && (
+          <View style={styles.meabuttonContainer}>
+            <TouchableOpacity style={styles.meabutton} onPress={addMealPlan}>
+              <Text style={styles.buttonText}>
+                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {mealData.length === 0 ? (
+            <Text style={styles.noPlanText}>Meal Plan not found</Text>
+          ) : (
+            sortedMealData.map((meal, index) => (
+              <View key={index}>{renderMealPlanCard({ item: meal })}</View>
+            ))
+          )}
+        </ScrollView>
+      </View>
+    </PaperProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+  },
+  scrollContainer: {
+    padding: 16,
+    paddingBottom: 100,
   },
   card: {
-    margin: 16,
+    marginBottom: 16,
     borderRadius: 8,
     elevation: 4,
+    backgroundColor: '#ffffff',
+  },
+  mealTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 4,
+  },
+  mealName: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  exchangeText: {
+    marginBottom: 2,
+  },
+  foodText: {
+    marginBottom: 6,
+  },
+  noPlanText: {
+    textAlign: 'center',
+    fontSize: 18,
+    marginTop: 20,
+  },
+  meabutton: {
+    width: '25%',
+    marginVertical: 5,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  meabuttonContainer: {
+    alignItems: 'flex-end',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#aaaaaa',
+    marginLeft: 5,
   },
 });
 

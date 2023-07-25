@@ -7,6 +7,14 @@ import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = ({ setLoggedIn }) => {
+  React.useEffect(() => {
+    // Your refresh or reload logic here (if needed)
+    // For example, you can reset form fields or clear any data on the screen.
+    // If you need to fetch new data, you can do it here.
+
+    // For instance, you can reset the form on each mount:
+    // reset();
+  }, []);
   const { height } = useWindowDimensions();
 
   const { control, handleSubmit, formState: { errors } } = useForm();
@@ -28,14 +36,11 @@ const SignInScreen = ({ setLoggedIn }) => {
         await AsyncStorage.setItem('userData', JSON.stringify(result.userData));
         setLoggedIn(true); // Update the isLoggedIn state
       } else {
-        Alert.alert('Error', result.message);
+        throw new Error(result.message); // Throw an error with the error message from the API response
       }
     } catch (error) {
       console.error('Error:', error);
-      Alert.alert(
-        'Error',
-        'An error occurred while signing in. Please try again later.'
-      );
+      Alert.alert('Error', 'An error occurred while signing in. Please try again later.');
     }
   };
   
@@ -65,10 +70,12 @@ const SignInScreen = ({ setLoggedIn }) => {
           control={control}
           rules={{ required: 'Username is required!' }}
           icon="user"
+          title="Username"
         />
         <CustomInput
           name="password"
           placeholder="Password"
+          title="Password"
           control={control}
           secureTextEntry={true}
           rules={{ required: 'Password is required!', minLength: { value: 8, message: 'Password must be at least 8 characters' } }}
@@ -107,7 +114,8 @@ const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
     padding: 50,
-    paddingTop: 60,
+    paddingTop: 10,
+    backgroundColor: 'white'
   },
   logo: {
     width: '50%',
@@ -119,8 +127,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
     textAlign: 'center',
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

@@ -27,6 +27,8 @@ import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
 import MealPlanning from '../Stack/MealPlanning';
 
+import SignInScreen from '../Auth/SignInScreen';
+
 import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
@@ -158,7 +160,7 @@ function TabNavigator() {
         options={{
           headerShown: false,
         }}/>
-      <Tab.Screen name='Settings' component={Settings} 
+      <Tab.Screen name='Settings' component={SettingsScreen} 
       options={{
         headerShown: false,
       }}/>
@@ -458,6 +460,34 @@ function MealPlanScreens() {
       />
 
 
+    </Stack.Navigator>
+  )
+}
+
+function SettingsScreen(){
+  return(
+    <Stack.Navigator
+    screenOptions={{
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTitleAlign: 'center', // Center-align the header title
+      headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
+    }}>
+      <Stack.Screen
+        name='Settingss'
+        component={Settings}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Settings
+              </Text>
+            </View>
+          ),
+        })}
+      />
     </Stack.Navigator>
   )
 }
