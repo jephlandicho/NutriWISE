@@ -166,22 +166,18 @@ $result = mysqli_query($conn, $query);
     margin-bottom: 20px;
     margin-top:70px;
   }
-
   .class-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start; /* Change this to 'flex-start' */
+    gap: 20px; /* Add this property to create space between cards */
     padding: 20px;
   }
 
   .card {
-    width: 300px;
+    width: calc(33.333% - 20px); /* Adjust the width of the cards based on the number of cards you want per row */
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    cursor: pointer;
+    /* Other styles for the card */
   }
 
   .card:hover {

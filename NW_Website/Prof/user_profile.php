@@ -4,105 +4,85 @@ header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");
 header("Expires: 0");
 
+// Include config.php for database configuration and connection
+include 'config.php';
 include 'header.php';
 
 session_start();
 
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
-
-    $email = '';
-
-    $servername = "localhost";
-    $usernameDB = "root";
-    $passwordDB = "";
-    $dbname = "nutriwise";
-
-    $connection = mysqli_connect($servername, $usernameDB, $passwordDB, $dbname);
-
-    if (!$connection) {
-        die("Database connection failed: " . mysqli_connect_error());
-    }
-
-    $query = "SELECT email FROM professor WHERE username = '$username'";
-    $result = mysqli_query($connection, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $email = $row['email'];
-    }
-} else {
+if (!isset($_SESSION['username'])) {
     header("Location: login/login_form.php");
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    // process submission form
-    $newUsername = $_POST['username'];
-    $newEmail = $_POST['email'];
+$username = $_SESSION['username'];
 
-    if (empty($newUsername)) {
-        $error = "Username is required.";
-    } elseif (empty($newEmail)) {
-        $error = "Email is required.";
-    } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-        $error = "Invalid email format.";
-    } else {
-        $updateQuery = "UPDATE professor SET username='$newUsername', email='$newEmail' WHERE username='$username'";
-        $updateResult = mysqli_query($connection, $updateQuery);
+// Fetch email from the database
+$email = '';
+$query = "SELECT email FROM professor WHERE username = '$username'";
+$result = mysqli_query($conn, $query);
 
-        if ($updateResult) {
-            $successMessage = "Profile updated successfully.";
-            $_SESSION['username'] = $newUsername;
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $email = $row['email'];
+}
 
-            // petch the updated email from the db
-            $query = "SELECT email FROM professor WHERE username = '$newUsername'";
-            $result = mysqli_query($connection, $query);
+$error = '';
+$successMessage = '';
+$passwordError = '';
+$passwordSuccessMessage = '';
 
-            if ($result && mysqli_num_rows($result) > 0) {
-                $row = mysqli_fetch_assoc($result);
-                $email = $row['email'];
-                $_SESSION['email'] = $email;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['submit'])) {
+        // Process submission form
+        $newUsername = mysqli_real_escape_string($conn, $_POST['username']);
+        $newEmail = mysqli_real_escape_string($conn, $_POST['email']);
+
+        if (empty($newUsername)) {
+            $error = "Username is required.";
+        } elseif (empty($newEmail)) {
+            $error = "Email is required.";
+        } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
+            $error = "Invalid email format.";
+        } else {
+            $updateQuery = "UPDATE professor SET username='$newUsername', email='$newEmail' WHERE username='$username'";
+            $updateResult = mysqli_query($conn, $updateQuery);
+
+            if ($updateResult) {
+                $successMessage = "Profile updated successfully.";
+                $_SESSION['username'] = $newUsername;
+                $_SESSION['email'] = $newEmail;
+            } else {
+                $error = "Failed to update profile.";
             }
+        }
+    } elseif (isset($_POST['changePassword'])) {
+        // Process change password form
+        $newPassword = mysqli_real_escape_string($conn, $_POST['newPassword']);
+        $confirmNewPassword = mysqli_real_escape_string($conn, $_POST['confirmNewPassword']);
 
-            echo "<script>alert('Profile Updated Successfully');</script>";
+        // Add more validation rules for the password fields if necessary
+        if (empty($newPassword)) {
+            $passwordError = "New password is required.";
+        } elseif (strlen($newPassword) < 8) {
+            $passwordError = "New password must be at least 8 characters long.";
+        } elseif ($newPassword !== $confirmNewPassword) {
+            $passwordError = "New password and confirm password do not match.";
         } else {
-            $error = "Failed to update profile.";
+            // Hash and update the new password
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $updatePasswordQuery = "UPDATE professor SET password='$hashedPassword' WHERE username='$username'";
+            $updatePasswordResult = mysqli_query($conn, $updatePasswordQuery);
+
+            if ($updatePasswordResult) {
+                $passwordSuccessMessage = "Password changed successfully.";
+                $_SESSION['password'] = $hashedPassword;
+            } else {
+                $passwordError = "Failed to change password.";
+            }
         }
     }
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changePassword'])) {
-    // process change password form
-    $newPassword = $_POST['newPassword'];
-    $confirmNewPassword = $_POST['confirmNewPassword'];
-
-    // Add validation rules for the password fields if necessary
-
-    // Validate the new password
-    if (empty($newPassword)) {
-        $passwordError = "New password is required.";
-    } elseif (strlen($newPassword) < 8) {
-        $passwordError = "New password must be at least 8 characters long.";
-    } elseif ($newPassword !== $confirmNewPassword) {
-        $passwordError = "New password and confirm password do not match.";
-    } else {
-        // Hash and update the new password
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        $updatePasswordQuery = "UPDATE prof_form SET password='$hashedPassword' WHERE username='$username'";
-        $updatePasswordResult = mysqli_query($connection, $updatePasswordQuery);
-
-        if ($updatePasswordResult) {
-            $passwordSuccessMessage = "Password changed successfully.";
-            $_SESSION['password'] = $hashedPassword;
-            echo "<script>alert('Password Changed Successfully');</script>";
-        } else {
-            $passwordError = "Failed to change password.";
-        }
-    }
-}
-
-mysqli_close($connection);
 ?>
 
 <main id="main" class="main">
@@ -256,8 +236,6 @@ mysqli_close($connection);
         </div>
     </section>
 </main>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var form = document.getElementById('editProfileForm');
@@ -286,18 +264,18 @@ mysqli_close($connection);
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.umd.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.min.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
 
 </body>
 
