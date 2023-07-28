@@ -314,11 +314,11 @@ function MealPlanScreens() {
         name='MealInfo'
         component={MealPlan}
         options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
-              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-            </TouchableOpacity>
-          ),
+          // headerRight: () => (
+          //   <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
+          //     <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+          //   </TouchableOpacity>
+          // ),
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>

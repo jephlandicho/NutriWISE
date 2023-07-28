@@ -93,6 +93,11 @@ function MealPlanName() {
     setModalVisible(false);
   };
 
+  const handleSaveasPDF = (id) => {
+    // I want to save as PDF the data that will come from the sqlite database with table name meal_title where id=?
+    // setModalVisible(false);
+
+  };
   // const handleAdd = (id) => {
   //   navigation.navigate('Breakfast', { id,e_ID });
   //   setModalVisible(false);
@@ -114,6 +119,8 @@ function MealPlanName() {
       );
     });
   };
+
+
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -239,6 +246,11 @@ function MealPlanName() {
               <Ionicons name="md-add" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>Add Meal Plan</Text>
             </TouchableOpacity> */}
+
+            <TouchableOpacity style={styles.modalButton} onPress={() => handleSaveasPDF(selectedItemId)}>
+              <Ionicons name="md-save" size={20} color="black" style={styles.modalIcon} />
+              <Text style={styles.modalText}>Save as PDF</Text>
+              </TouchableOpacity>
             <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
               <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>Update</Text>
