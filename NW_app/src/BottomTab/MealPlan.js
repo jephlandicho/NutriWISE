@@ -226,11 +226,6 @@ function MealPlan() {
         />
         <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
           <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
             <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId,e_ID)}>
               <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>View</Text>
