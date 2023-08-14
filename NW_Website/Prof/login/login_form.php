@@ -1,13 +1,7 @@
 <?php
-// Include the database connection file 'config.php'
 @include 'config.php';
 
 session_start();
-
-// Check if the database connection is successful
-if (!$conn) {
-    die("Database connection failed: " . mysqli_connect_error());
-}
 
 if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
@@ -16,24 +10,20 @@ if (isset($_POST['submit'])) {
     $select = "SELECT id, username, password FROM professor WHERE username = '$username'";
     $result = mysqli_query($conn, $select);
 
-    if (mysqli_num_rows($result) > 0) {
+    if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $hashedPassword = $row['password'];
 
-        // Verify the password using password_verify()
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['username'] = $row['username'];
             $_SESSION['professor_id'] = $row['id'];
             $_SESSION['isFaculty'] = true;
-
-            // Redirect to the index page
-            header('location: ../index.php');
-            exit;
+            $showSweetAlert = true;
         } else {
-            $error = 'Incorrect username or password.';
+            $error[] = 'Incorrect username or password.';
         }
     } else {
-        $error = 'Incorrect username or password.';
+        $error[] = 'Incorrect username or password.';
     }
 }
 
@@ -52,6 +42,8 @@ if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Add Sweet Alert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="form-container">
@@ -59,7 +51,9 @@ if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
             <h3 class="title"><?php echo $welcomeMessage; ?></h3>
             <?php
             if (isset($error)) {
-                echo '<span class="error-msg">' . $error . '</span>';
+                foreach ($error as $errorMsg) {
+                    echo '<span class="error-msg">' . $errorMsg . '</span>';
+                }
             }
             ?>
             <input type="text" name="username" placeholder="Enter Username" class="box" required>
@@ -68,5 +62,26 @@ if (isset($_SESSION['isFaculty']) && $_SESSION['isFaculty'] === true) {
             <p>Don't have an account? <a href="register_form.php">Register now!</a></p>
         </form>
     </div>
+    <?php if (isset($showSweetAlert) && $showSweetAlert) { ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: "<?php echo $welcomeMessage; ?>",
+                    icon: "success",
+                    showConfirmButton: true,
+                    confirmButtonText: "Done",
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        redirectToIndexPage();
+                    }
+                });
+
+                function redirectToIndexPage() {
+                    window.location.href = "../index.php";
+                }
+            });
+        </script>
+    <?php } ?>
 </body>
 </html>

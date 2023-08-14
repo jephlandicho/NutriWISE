@@ -145,9 +145,9 @@ include 'header.php';
             foreach ($fileNames as $fileName) {
               $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
               $fileIconClass = getFileIconClass($fileExtension);
-              echo '<a href="' . $fileName . '" class="file-link"><span class="file-icon ' . $fileIconClass . '"></span>' . $fileName . '</a><br>';
+              echo '<a href="' . $fileName . '" class="file-link" target="_blank"><span class="file-icon ' . $fileIconClass . '"></span>' . $fileName . '</a><br>';
             }
-            echo '<a href="' . $row['links'] . '" class="link">Link</a>';
+            echo '<a href="' . $row['links'] . '" class="link" target="_blank">Link</a>';
 
             echo '</div>';
           }
@@ -198,3 +198,4 @@ include 'header.php';
     </div>
   </section>
 </main><!-- End #main -->
+

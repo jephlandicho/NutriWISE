@@ -6,51 +6,73 @@ include 'config.php';
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
+    // Escape and sanitize the announcement text and other input fields
+    $description = $_POST['description'];
+    $youtubeLink = $_POST['links'];
+
+    // Get the class ID from the session variable
+    $classId = $_SESSION['class_id'];
+
     // File upload configuration
     $targetDir = "uploadedfiles/"; // Folder where the file will be saved
     $fileName = basename($_FILES["file"]["name"]);
     $targetFilePath = $targetDir . $fileName;
     $uploadOk = 1;
+    $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
 
-    // If file upload checks pass, move the file to the target directory
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
-        // File upload successful
-        echo '<script>alert("The file has been uploaded successfully.");</script>';
+    // Check if a file is selected for upload
+    if (!empty($_FILES["file"]["name"])) {
+        // Check if the file is a valid file
+        $allowedFileTypes = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'gif','pptx'];
 
-        // Store the file information in the database
-        try {
-            // Create a connection to the database (using the values from config.php)
-            $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if (!in_array($fileType, $allowedFileTypes)) {
+            echo '<script>alert("Only PDF, DOC, DOCX, JPG, JPEG, PNG, and GIF files are allowed.");</script>';
+            $uploadOk = 0;
+        }
 
-            // Escape and sanitize the announcement text and other input fields
-            $description = $_POST['description'];
-            $youtubeLink = $_POST['links'];
-            $materials = $targetFilePath;
-            $date = date('Y-m-d');
+        // Check file size
+        $maxFileSize = 5 * 1024 * 1024; // 5MB (adjust the value as needed)
+        if ($_FILES["file"]["size"] > $maxFileSize) {
+            echo '<script>alert("Sorry, the file is too large. Maximum file size allowed is 5MB.");</script>';
+            $uploadOk = 0;
+        }
 
-            // Get the class ID from the session variable
-            $classId = $_SESSION['class_id'];
-
-            // Prepare and execute the database query
-            $stmt = $conn->prepare("INSERT INTO materials (class_id, description, links, materials, date) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$classId, $description, $youtubeLink, $materials, $date]);
-
-            // Close the database connection
-            $conn = null;
-
-            // Redirect back to class_details.php
-            echo '<script>
-                    setTimeout(function() {
-                        window.location.href = "class_details.php?class_id='.$classId.'";
-                    }, 1000); // 1000 milliseconds = 1 second
-                  </script>';
-            exit(); // Ensure the script stops executing after the redirect
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+        if ($uploadOk) {
+            // If file upload checks pass, move the file to the target directory
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
+                // File upload successful
+                echo '<script>alert("Announcement Successfully Posted!.");</script>';
+            } else {
+                echo '<script>alert("Sorry, there was an error uploading your file.");</script>';
+            }
         }
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        // No file selected for upload
+        echo '<script>alert("Announcement Successfully Posted!.");</script>';
+    }
+
+    // Store the announcement information in the database
+    try {
+        // Create a connection to the database (using the values from config.php)
+        $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Prepare and execute the database query
+        $stmt = $conn->prepare("INSERT INTO materials (class_id, description, links, materials, date) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->execute([$classId, $description, $youtubeLink, $targetFilePath]);
+
+        // Close the database connection
+        $conn = null;
+
+        // Redirect back to class_details.php after 1 second
+        echo '<script>
+                setTimeout(function() {
+                    window.location.href = "class_details.php?class_id=' . $classId . '";
+                }, 1000); // 1000 milliseconds = 1 second
+              </script>';
+        exit(); // Ensure the script stops executing after the redirect
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>

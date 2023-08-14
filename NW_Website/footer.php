@@ -3,10 +3,9 @@
 					<i class=""></i>
 					<nav class="footer-navigation">
 						<a href="about.php">About US</a>
-						<a href="offer.php">Offer</a>
 						<a href="sample.php">Sample Meal Plan</a>
-						<a href="contact.php">Contact</a>
 						<a href="app.php">Download Our App</a>
+						<a href="Prof/login/login_form.php">Log In</a>
 					</nav>
 					
 					<div class="social-links">

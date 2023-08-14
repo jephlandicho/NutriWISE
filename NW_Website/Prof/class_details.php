@@ -260,30 +260,7 @@ include 'header.php';
   </div><!-- End .class-container -->
 
   <section class="section">
-    <div class="class-details">
-      <?php
-      // Check if the class ID is provided in the query string
-      if (isset($_GET['class_id'])) {
-        // Fetch the class details from the database
-        $stmt = $conn->prepare("SELECT * FROM classes WHERE id = ?");
-        $stmt->bind_param("i", $classId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-          $classDetails = $result->fetch_assoc();
-          // Display the class details inside a rectangle box
-          echo '<h3>' . $classDetails['class_name'] . '</h3>';
-          echo ' <h2>' . $classDetails['class_code'] . '</h2>';
-          echo ' <h2>' . $classDetails['description'] . '</h2>';
-        } else {
-          echo 'Class not found.';
-        }
-      } else {
-        echo 'Class not found.';
-      }
-      ?>
-    </div>
+   
 
     <!-- Clickable card section -->
     <div class="card" data-toggle="modal" data-target="#myModal">

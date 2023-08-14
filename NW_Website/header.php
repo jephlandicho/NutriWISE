@@ -66,10 +66,9 @@
                 <ul class="menu">
                     <li class="menu-item"><a href="index.php">Home</a></li>
                     <li class="menu-item"><a href="about.php">About Us</a></li>
-                    <li class="menu-item"><a href="offer.php">Offer</a></li>
                     <li class="menu-item"><a href="sample.php">Sample Meal Plan</a></li>
-                    <li class="menu-item"><a href="contact.php">Contact</a></li>
                     <li class="menu-item"><a href="app.php">Download Our App</a></li>
+                    <li class="menu-item"><a href="Prof/login/login_form.php">Log In</a></li>
                 </ul>
             </div>
         </div>

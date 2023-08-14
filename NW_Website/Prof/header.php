@@ -1,4 +1,7 @@
 <?php
+// Include config.php for database configuration and connection
+include 'config.php';
+
 // Check if a session is already active
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -41,7 +44,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="C:\xampp\htdocs\NutriWISE\NW_Website\Prof\assets\bootstrap-5.3.0-dist" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 </head>
 
 <style>
@@ -52,7 +56,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   /* Add active class to the current page in the sidebar */
   .sidebar-nav .nav-link.active {
     color: #fff;
-    background-color: lightgreen;
+    background-color: darkcyan;
   }
   .sidebar-nav .nav-content a.active i {
   background-color: whitesmoke;
@@ -69,7 +73,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="index.php" class="logo d-flex align-items-center">
-        <img src="assets\img\nutriwise.png" alt="">
+        <img src="assets\img\nutrilogo.png" alt="">
         <span class="d-none d-lg-block" style="color: black">NutriWise</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -100,7 +104,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="user_profile.php">
+              <a class="dropdown-item d-flex align-items-center" href="profile.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -165,7 +169,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       <li class="nav-heading"></li>
 
       <li class="nav-item">
-        <a class="nav-link <?php if ($currentPage == 'user_profile.php') echo 'active'; ?>" href="user_profile.php">
+        <a class="nav-link <?php if ($currentPage == 'profile.php') echo 'active'; ?>" href="profile.php">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
@@ -174,9 +178,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   </aside><!-- End Sidebar -->
   <!--kukunin for header-->
 
-
 </body>
-
-
 
 </html>

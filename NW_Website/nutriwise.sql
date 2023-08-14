@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 16, 2023 at 07:00 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 25, 2023 at 09:45 AM
+-- Server version: 10.6.14-MariaDB-cll-lve
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `nutriwise`
+-- Database: `u479135962_nutriwise`
 --
 
 -- --------------------------------------------------------
@@ -40,8 +40,11 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `professor_id`, `class_name`, `class_code`, `description`) VALUES
-(48, 7, 'TRY CLASS', 'TRY-121', 'TRY'),
-(49, 8, 'TRY2', 'TR2-3232', 'TRY2');
+(55, 17, 'thfth', 'fghfgh', 'dfghdfgdfhdh'),
+(56, 18, 'App Dev', 'slfbe13', 'Apl Development'),
+(75, 28, 'CLASS', '1221-3', 'CLASS PO'),
+(76, 29, 'JUJTSU CLASS', '121-IHIHD', 'JUJUTSU CLASS'),
+(77, 17, 'IPT', 'fdjskd12', 'IPT');
 
 -- --------------------------------------------------------
 
@@ -51,10 +54,32 @@ INSERT INTO `classes` (`id`, `professor_id`, `class_name`, `class_code`, `descri
 
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `fullName` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `birthdate` date NOT NULL,
   `sex` varchar(10) NOT NULL,
-  `birthDate` date NOT NULL
+  `syncData` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `client`
+--
+
+INSERT INTO `client` (`id`, `name`, `birthdate`, `sex`, `syncData`) VALUES
+(239365, 'Random', '2000-07-18', 'Male', 0),
+(357062, 'Clarence', '2002-07-18', 'Male', 0),
+(376404, 'Elijah ', '2020-07-24', 'Male', 0),
+(513327, 'Maurice', '2002-07-20', 'Male', 0),
+(533670, 'Sir Yno', '1989-07-20', 'Male', 0),
+(547314, 'Hatdog', '2000-07-25', 'Male', 0),
+(553743, 'Michael Jordan', '1970-07-18', 'Male', 0),
+(626846, 'Maxine', '2001-07-18', 'Female', 0),
+(710800, 'Hello', '2001-07-18', 'Female', 0),
+(744568, 'Lebron James', '2000-07-18', 'Male', 0),
+(802987, 'John Doe', '2000-07-18', 'Female', 0),
+(828065, 'Lei', '2000-07-24', 'Female', 0),
+(883917, 'Jephthah', '2002-07-18', 'Male', 0),
+(910407, 'Missy', '2023-07-15', 'Female', 0),
+(984329, 'Ali', '2018-07-20', 'Male', 0);
 
 -- --------------------------------------------------------
 
@@ -79,8 +104,30 @@ CREATE TABLE `client_measurements` (
   `TER` float NOT NULL,
   `protein` float NOT NULL,
   `carbs` float NOT NULL,
-  `fats` float NOT NULL
+  `fats` float NOT NULL,
+  `syncData` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `client_measurements`
+--
+
+INSERT INTO `client_measurements` (`id`, `client_id`, `student_id`, `assessment_date`, `waistCircum`, `hipCircum`, `weight`, `height`, `physicalActLevel`, `WHR`, `BMI`, `remarks`, `DBW`, `TER`, `protein`, `carbs`, `fats`, `syncData`) VALUES
+(1165357, 357062, 1, '2023-07-18', 30, 50, 66, 1.76, 'Sedentary', 0.6, 21.3, 'Normal', 68.4, 2050, 75, 335, 45, 0),
+(1208917, 513327, 1, '2023-07-19', 67, 68, 55, 1.55, 'Moderate', 0.99, 22.9, 'Normal', 49.5, 2000, 75, 325, 45, 0),
+(1247345, 553743, 4, '2023-07-18', 90, 90, 85, 120, 'Moderate', 1, 0, 'Underweight', 10710, 428400, 16065, 69615, 9520, 0),
+(1266049, 239365, 1, '2023-07-18', 88, 99, 80, 1.96, 'Sedentary', 0.89, 20.8, 'Normal', 86.4, 2600, 100, 425, 60, 0),
+(1278580, 883917, 1, '2023-07-18', 46, 69, 45, 1.53, 'Sedentary', 0.67, 19.2, 'Normal', 47.7, 1450, 55, 235, 30, 0),
+(1329781, 828065, 1, '2023-07-24', 66, 69, 80, 1.98, 'Light', 0.96, 20.4, 'Normal', 88.2, 3100, 115, 505, 70, 0),
+(1464413, 910407, 7, '2023-07-20', 11, 12, 13, 42, 'Light', 0.92, 0, 'Underweight', 3690, 129150, 4845, 20985, 2870, 0),
+(1540761, 533670, 1, '2023-07-20', 66, 69, 58, 1.8, 'Moderate', 0.96, 17.9, 'Underweight', 72, 2900, 110, 470, 65, 0),
+(1648188, 802987, 1, '2023-07-18', 89, 87, 60, 1.9, 'Vigorous', 1.02, 16.6, 'Underweight', 81, 3650, 135, 595, 80, 0),
+(1816466, 547314, 1, '2023-07-25', 67, 88, 55, 1.6, 'Moderate', 0.76, 21.5, 'Normal', 54, 2150, 80, 350, 50, 0),
+(1841509, 626846, 1, '2023-07-18', 66, 64, 60, 1.9, 'Light', 1.03, 16.6, 'Underweight', 81, 2850, 105, 465, 65, 0),
+(1918060, 744568, 1, '2023-07-18', 98, 99, 80, 1.9, 'Vigorous', 0.99, 22.2, 'Normal', 81, 3650, 135, 595, 80, 0),
+(1943467, 710800, 1, '2023-07-18', 56, 60, 66, 1.8, 'Moderate', 0.93, 20.4, 'Normal', 72, 2900, 110, 470, 65, 0),
+(1968356, 376404, 1, '2023-07-24', 36, 66, 45, 1.53, 'Sedentary', 0.55, 19.2, 'Normal', 47.7, 1450, 55, 235, 30, 0),
+(1976147, 984329, 6, '2023-07-20', 21, 35, 56, 167, 'Light', 0.6, 0, 'Underweight', 14940, 522900, 19610, 84970, 11620, 0);
 
 -- --------------------------------------------------------
 
@@ -102,10 +149,32 @@ CREATE TABLE `exchanges` (
   `mfMeat` float NOT NULL,
   `fat` float NOT NULL,
   `TER` float NOT NULL,
-  `carbohydrats` float NOT NULL,
+  `carbohydrates` float NOT NULL,
   `protein` float NOT NULL,
-  `fats` float NOT NULL
+  `fats` float NOT NULL,
+  `syncData` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `exchanges`
+--
+
+INSERT INTO `exchanges` (`id`, `measurement_id`, `vegetables`, `fruit`, `milk`, `sugar`, `riceA`, `riceB`, `riceC`, `lfMeat`, `mfMeat`, `fat`, `TER`, `carbohydrates`, `protein`, `fats`, `syncData`) VALUES
+(2163019, 1816466, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2166240, 1976147, 4, 3, 2, 3, 2, 2, 3, 1, 1, 2, 1509, 242, 52, 37, 0),
+(2199652, 1278580, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2202914, 1943467, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2275789, 1841509, 3, 6, 3, 3, 1, 2, 2, 1, 1, 0, 1493, 235, 55, 37, 0),
+(2299351, 1329781, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2344980, 1968356, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2357585, 1540761, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2368544, 1918060, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2500362, 1165357, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2677024, 1208917, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2697003, 1247345, 3, 3, 2, 2, 3, 3, 1, 2, 2, 0, 1486, 234, 61, 34, 0),
+(2744097, 1648188, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0),
+(2830230, 1464413, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+(2972858, 1266049, 3, 5, 1, 2, 1, 5, 1, 2, 2, 2, 1502, 242, 57, 34, 0);
 
 -- --------------------------------------------------------
 
@@ -141,8 +210,13 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`id`, `class_id`, `description`, `materials`, `links`, `date`) VALUES
-(44, 48, 'TRY', 'uploadedfiles/300964491_479493797523946_8324112470786242159_n.jpg', 'https://www.google.com/search?client=opera-gx&q=rick&sourceid=opera&ie=UTF-8&oe=UTF-8', '2023-07-16'),
-(45, 49, 'TRY2', 'uploadedfiles/300964491_479493797523946_8324112470786242159_n.jpg', 'rasdsd', '2023-07-16');
+(48, 55, 'Wassup Madlang Pipol', '', '', '2023-07-17'),
+(49, 56, 'Youtube', '', 'https://www.mazda.ph/vehicles/mazda6', '2023-07-17'),
+(79, 75, 'ANNOUNCEMENT', 'uploadedfiles/About the system.pptx', 'https://www.google.com/search?client=opera-gx&q=rick&sourceid=opera&ie=UTF-8&oe=UTF-8', '2023-07-19'),
+(80, 75, 'PPT', 'uploadedfiles/About the system.pptx', 'https://www.google.com/search?client=opera-gx&q=rick&sourceid=opera&ie=UTF-8&oe=UTF-8', '2023-07-19'),
+(81, 75, 'CLARENCE', 'uploadedfiles/Image_20230629_0001.pdf', 'https://www.bing.com/videos/search?q=rickroll+gif&&view=detail&mid=CE4E492A85EA9A18525CCE4E492A85EA9A18525C&&FORM=VRDGAR&ru=%2Fvideos%2Fsearch%3Fq%3Dr', '2023-07-19'),
+(82, 76, 'DESCRIPTION ', 'uploadedfiles/About the system (3).pptx', 'https://www.google.com/search?client=opera-gx&q=rick&sourceid=opera&ie=UTF-8&oe=UTF-8', '2023-07-20'),
+(83, 77, 'Material', 'uploadedfiles/Online video to GIF converter.gif', 'https://www.google.com/search?client=opera-gx&q=rick&sourceid=opera&ie=UTF-8&oe=UTF-8', '2023-07-20');
 
 -- --------------------------------------------------------
 
@@ -189,8 +263,12 @@ CREATE TABLE `professor` (
 --
 
 INSERT INTO `professor` (`id`, `fullName`, `email`, `username`, `password`) VALUES
-(7, 'try', 'try@gmail.com', 'try', '080f651e3fcca17df3a47c2cecfcb880'),
-(8, 'try2', 'try2@gmail.com', 'try2', 'c0556c9522fe6ead9862e23b1f113829');
+(17, 'Jephthah', 'landichojjl@gmail.com', 'jephthah', '$2y$10$JyRe7d12rIdaebt/2HJvqeoRJyT1cW8C.uch7GEPbX7ElZzdmue7G'),
+(18, 'Wilgrace', 'wilg@gmail.com', 'Wilg', '$2y$10$j0OIxJS467M5KswAcjNFQOaeeasYUm4f5.oaJX1ih221T9kE.nUUS'),
+(19, 'Paolo D. Julongbayan', 'paolojulongbayan23@gmail.com', 'Paolo', '$2y$10$q7WFP22xl74Tfkc0DAunN.l8sejZZwXDptonJUHAo3Hr460Ba5bna'),
+(21, 'Jordan Jonson', 'jonsonjordan@gmail.com', 'jrdnpg', '$2y$10$/Xm1crRScl2SavLn1hgEUOa2xnQTLCZzSqSj5nrNQpnPWXhu5kBFO'),
+(28, 'Clarence Phol Bautista Andino', 'clarence@gmail.com', 'clarence5', '$2y$10$Il1dzhDH0vTHgEPNMP/LNudiuxsNL62TvXVGX0UemK6SA2uIeo1x6'),
+(29, 'Gojo Satoru', 'gojo@gmail.com', 'gojo', '$2y$10$A5u0Gz.vZDUsjfVMitiOS.7TCqDiZomVKpKedCnNL3wp4zCWzRM6i');
 
 -- --------------------------------------------------------
 
@@ -205,6 +283,20 @@ CREATE TABLE `student` (
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`id`, `fullName`, `email`, `username`, `password`) VALUES
+(1, 'Jephthah Jehosaphat Landicho', 'jephthahlandicho1212@gmail.com', 'jephthah', 'jephthah'),
+(2, 'Cleo Angelo Dimailig', 'c.a.dimailig00@gmail.com', 'cleo', 'cleoangelo'),
+(3, 'Clarence Phol Andino', 'joelapuk00@gmail.com', 'clarence', 'clarence'),
+(4, 'Paolo D. Julongbayan', 'paolo@gmail.com', 'paolo', 'paolojulongbayan'),
+(5, 'Maxine Singson', 'maxinesingson@gmail.com', 'maxine', 'maxinesingson'),
+(6, 'Alison Kate Reyes', 'alibayan2@gmail.com', 'alison', 'alisonkate'),
+(7, 'Cyrelyn Bugtong', 'cyrelyn@gmail.com', 'cyrelyn', 'cyrelynbugtong'),
+(8, 'Wilgrace Ednaco', 'wilgrace@gmail.com', 'wilgrace', 'wilgrace');
 
 -- --------------------------------------------------------
 
@@ -305,19 +397,7 @@ ALTER TABLE `student_class`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
---
--- AUTO_INCREMENT for table `client_measurements`
---
-ALTER TABLE `client_measurements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `exchanges`
---
-ALTER TABLE `exchanges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT for table `foods`
@@ -329,25 +409,19 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
-
---
--- AUTO_INCREMENT for table `meal`
---
-ALTER TABLE `meal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `professor`
 --
 ALTER TABLE `professor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
