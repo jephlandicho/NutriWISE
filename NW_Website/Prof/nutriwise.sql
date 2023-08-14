@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2023 at 05:58 AM
+-- Generation Time: Aug 14, 2023 at 06:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,7 +40,8 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `professor_id`, `class_name`, `class_code`, `description`) VALUES
-(94, 31, 'TRY', 'YFzO7Wfn', 'DES');
+(108, 31, '1', 'z71iQSUt', '1'),
+(109, 31, '2', 'W7hljgEt', '2');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,8 @@ CREATE TABLE `class_schedule` (
 --
 
 INSERT INTO `class_schedule` (`id`, `class_id`, `schedule_day`, `start_time`, `end_time`) VALUES
-(0, 94, 'Monday', '00:00:00', '00:00:00');
+(2, 108, 'Monday', '00:00:00', '00:00:00'),
+(3, 109, 'Wednesday', '00:00:00', '00:00:00');
 
 -- --------------------------------------------------------
 
@@ -332,7 +334,7 @@ ALTER TABLE `classes`
 --
 ALTER TABLE `class_schedule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `class_id` (`class_id`);
+  ADD KEY `fk_class_schedule_class_id` (`class_id`);
 
 --
 -- Indexes for table `client`
@@ -410,7 +412,13 @@ ALTER TABLE `student_class`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+
+--
+-- AUTO_INCREMENT for table `class_schedule`
+--
+ALTER TABLE `class_schedule`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `foods`
@@ -422,7 +430,7 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- AUTO_INCREMENT for table `professor`
@@ -450,7 +458,8 @@ ALTER TABLE `classes`
 -- Constraints for table `class_schedule`
 --
 ALTER TABLE `class_schedule`
-  ADD CONSTRAINT `class_schedule_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`);
+  ADD CONSTRAINT `class_schedule_ibfk_1` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
+  ADD CONSTRAINT `fk_class_schedule_class_id` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `client_measurements`
