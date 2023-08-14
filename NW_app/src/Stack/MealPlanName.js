@@ -7,13 +7,17 @@ import Modal from 'react-native-modal';
 import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider, TextInput as PaperTextInput } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import MyTheme from '../Components/MyTheme';
-const db = SQLite.openDatabase('mydatabase.db');
+import * as FileSystem from 'expo-file-system';
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
 import { ResultContext } from '../Components/ResultContext';
-
-
+import { set } from 'date-fns';
+import foods from '../meals/foods.json';
+const db = SQLite.openDatabase('mydatabase.db');
 
 function MealPlanName() {
-
+  const [dataFromDB, setDataFromDB] = useState([]);
+  const [exchangeData, setexchangeData] = useState([]);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -27,6 +31,464 @@ function MealPlanName() {
   const [selectedExchangesId, setSelectedExchangesId] = useState(null);
 
   const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
+
+  const generateHtml = (dataFromDB) => {
+    const name = dataFromDB.length > 0 ? dataFromDB[0].name : "";
+    const birthdate = dataFromDB.length > 0 ? dataFromDB[0].birthdate : "";
+    const sex = dataFromDB.length > 0 ? dataFromDB[0].sex : "";
+    const waistCircum = dataFromDB.length > 0 ? dataFromDB[0].waistCircum : "";
+    const hipCircum = dataFromDB.length > 0 ? dataFromDB[0].hipCircum : "";
+    const weight = dataFromDB.length > 0 ? dataFromDB[0].weight : "";
+    const height = dataFromDB.length > 0 ? dataFromDB[0].height : "";
+    const physicalActLevel = dataFromDB.length > 0 ? dataFromDB[0].physicalActLevel : "";
+    const whr = dataFromDB.length > 0 ? dataFromDB[0].WHR : "";
+    const bmi = dataFromDB.length > 0 ? dataFromDB[0].BMI : "";
+    const remarks = dataFromDB.length > 0 ? dataFromDB[0].remarks : "";
+    const DBW = dataFromDB.length > 0 ? dataFromDB[0].DBW : "";
+    const cmTER = dataFromDB.length > 0 ? dataFromDB[0].cmTER : "";
+    const cmCarbs = dataFromDB.length > 0 ? dataFromDB[0].cmCarbs : "";
+    const cmProtein = dataFromDB.length > 0 ? dataFromDB[0].cmProtein : "";
+    const cmFats = dataFromDB.length > 0 ? dataFromDB[0].cmFats : "";
+    // exchanges
+    const vegetables = dataFromDB.length > 0 ? dataFromDB[0].vegetables: "0";
+    const fruit = dataFromDB.length > 0 ? dataFromDB[0].fruit: "0";
+    const milk = dataFromDB.length > 0 ? dataFromDB[0].milk: "0";
+    const sugar = dataFromDB.length > 0 ? dataFromDB[0].sugar: "0";
+    const riceA = dataFromDB.length > 0 ? dataFromDB[0].riceA: "0";
+    const riceB = dataFromDB.length > 0 ? dataFromDB[0].riceB: "0";
+    const riceC = dataFromDB.length > 0 ? dataFromDB[0].riceC: "0";
+    const lfMeat = dataFromDB.length > 0 ? dataFromDB[0].lfMeat: "0";
+    const mfMeat = dataFromDB.length > 0 ? dataFromDB[0].mfMeat: "0";
+    const fat = dataFromDB.length > 0 ? dataFromDB[0].fat: "0";
+    const TER = dataFromDB.length > 0 ? dataFromDB[0].TER: "0";
+    const carbohydrates = dataFromDB.length > 0 ? dataFromDB[0].carbohydrates: "0";
+    const protein = dataFromDB.length > 0 ? dataFromDB[0].protein: "0";
+    const fats = dataFromDB.length > 0 ? dataFromDB[0].fats: "0";
+    const meal_title = dataFromDB.length > 0 ? dataFromDB[0].meal_title: "0";
+    let htmlContent = `
+      <html>
+        <head>
+          <style>
+            h1 {
+              text-align: center;
+            }
+            .table-container {
+              width: 100%;
+              text-align: center;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              text-align: left;
+              margin: auto;
+            }
+            tr, td,th {
+              padding: 8px;
+            
+            }
+            .marginBottom {
+              margin-bottom: 5px;
+            }
+            .header {
+              text-align: center;
+            }
+            .table {
+              width: 100%;
+              border-collapse: collapse;
+              text-align: center;
+              margin: auto;
+            }
+            .cells {
+              border: 1px solid black;
+              padding: 8px;
+              text-align: center;
+            }
+            .cells2 {
+              border: 1px solid black;
+              padding: 8px;
+              text-align: left;
+            }
+            .foodgroup{
+              width: 30%;
+              border: 1px solid black;
+              padding: 8px;
+              text-align: center;
+            }
+            .othercells {
+              width: 10%;
+              border: 1px solid black;
+              padding: 8px;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+        <div class="table-container">
+        <table>
+        <tr>
+          <th colspan="5" class="header">${name} Information</th>
+        </tr>
+        <tr class="marginBottom">
+          <td colspan="4"><b>Birthdate: </b> ${birthdate}</td>
+          <td colspan="4"><b>Sex:</b> ${sex}</td>
+        </tr>
+
+        <tr>
+          <td colspan="5" class="header"><b> <i> Anthropometric Measurements </i></b></td>
+        </tr>
+
+
+        <tr>
+          <td><b>Waist Circumference:</b> ${waistCircum} cm</td>
+          <td><b>Hip Circumference:</b> ${hipCircum} cm</td>
+          <td><b>Weight:</b> ${weight} kg</td>
+          <td><b>Height:</b> ${height} m</td>
+          
+        </tr>
+        <tr >
+        <td><b>WHR:</b> ${whr} cm</td>
+        <td><b>BMI:</b> ${bmi} kg/m²</td>
+        <td><b>DBW:</b> ${DBW} kg</td>
+        
+        </tr>
+        <tr class="marginBottom">
+        <td><b>Physical Activity Level:</b> ${physicalActLevel}</td>
+        <td><b>BMI Category:</b> ${remarks} </td>
+        </tr>
+        <tr>
+          <td colspan="5" class="header"><b> <i> Diet Rx </i></b></td>
+        </tr>
+        <tr>
+          <td><b>KCAL:</b> ${cmTER} kcal</td>
+          <td><b>Carbohydrates:</b> ${cmCarbs} g</td>
+          <td><b>Protein:</b> ${cmProtein} g</td>
+          <td><b>Fats:</b> ${cmFats} g</td>
+        </tr>
+
+        <tr>
+        <td colspan="5" class="header"><b> <i> Diet Prescription </i></b></td>
+      </tr>
+
+
+      <tr>
+        <td><b>KCAL:</b> ${TER} kcal</td>
+        <td><b>Carbohydrates:</b> ${carbohydrates} g</td>
+        <td><b>Protein:</b> ${protein} g</td>
+        <td><b>Fats:</b> ${fats} g</td>
+      </tr>
+        </table>`;
+          const vegetableData = exchangeData.find((item) => item.food_group === 'Vegetable') || {};
+          const {
+            breakfast: vegBreakfast = '',
+            am_snacks: vegAMSnacks = '',
+            lunch: vegLunch = '',
+            pm_snacks: vegPmSnacks = '',
+            dinner: vegDinner = '',
+          } = vegetableData;
+
+          const FruitData = exchangeData.find((item) => item.food_group === 'Fruit') || {};
+          const {
+            breakfast: FruitBreakfast = '',
+            am_snacks: FruitAMSnacks = '',
+            lunch: FruitLunch = '',
+            pm_snacks: FruitPmSnacks = '',
+            dinner: FruitDinner = '',
+          } = FruitData;
+
+          const RiceAData = exchangeData.find((item) => item.food_group === 'Rice A') || {};
+          const {
+            breakfast: RiceABreakfast = '',
+            am_snacks: RiceAAMSnacks = '',
+            lunch: RiceALunch = '',
+            pm_snacks: RiceAPmSnacks = '',
+            dinner: RiceADinner = '',
+          } = RiceAData;
+
+          const RiceBData = exchangeData.find((item) => item.food_group === 'Rice B') || {};
+          const {
+            breakfast: RiceBBreakfast = '',
+            am_snacks: RiceBAMSnacks = '',
+            lunch: RiceBLunch = '',
+            pm_snacks: RiceBPmSnacks = '',
+            dinner: RiceBDinner = '',
+          } = RiceBData;
+
+          const RiceCData = exchangeData.find((item) => item.food_group === 'Rice C') || {};
+          const {
+            breakfast: RiceCBreakfast = '',
+            am_snacks: RiceCAMSnacks = '',
+            lunch: RiceCLunch = '',
+            pm_snacks: RiceCPmSnacks = '',
+            dinner: RiceCDinner = '',
+          } = RiceCData;
+
+          const MilkData = exchangeData.find((item) => item.food_group === 'Milk') || {};
+          const {
+            breakfast: MilkBreakfast = '',
+            am_snacks: MilkAMSnacks = '',
+            lunch: MilkLunch = '',
+            pm_snacks: MilkPmSnacks = '',
+            dinner: MilkDinner = '',
+          } = MilkData;
+
+          const LFMeatData = exchangeData.find((item) => item.food_group === 'LF Meat') || {};
+          const {
+            breakfast: LFMeatBreakfast = '',
+            am_snacks: LFMeatAMSnacks = '',
+            lunch: LFMeatLunch = '',
+            pm_snacks: LFMeatPmSnacks = '',
+            dinner: LFMeatDinner = '',
+          } = LFMeatData;
+
+          const MFMeatData = exchangeData.find((item) => item.food_group === 'MF Meat') || {};
+          const {
+            breakfast: MFMeatBreakfast = '',
+            am_snacks: MFMeatAMSnacks = '',
+            lunch: MFMeatLunch = '',
+            pm_snacks: MFMeatPmSnacks = '',
+            dinner: MFMeatDinner = '',
+          } = MFMeatData;
+
+          const FatData = exchangeData.find((item) => item.food_group === 'Fat') || {};
+          const {
+            breakfast: FatBreakfast = '',
+            am_snacks: FatAMSnacks = '',
+            lunch: FatLunch = '',
+            pm_snacks: FatPmSnacks = '',
+            dinner: FatDinner = '',
+          } = FatData;
+
+          const SugarData = exchangeData.find((item) => item.food_group === 'Sugar') || {};
+          const {
+            breakfast: SugarBreakfast = '',
+            am_snacks: SugarAMSnacks = '',
+            lunch: SugarLunch = '',
+            pm_snacks: SugarPmSnacks = '',
+            dinner: SugarDinner = '',
+          } = SugarData;
+
+          htmlContent += `
+          
+          <!-- Exchanges Table -->
+          <table class="table">
+            <tr class="cells">
+              <th colspan="3" class="foodgroup">Food Groups</th>
+              <th class="othercells">Number of Exchanges</th>
+              <th class="othercells">Breakfast</th>
+              <th class="othercells">Morning Snack</th>
+              <th class="othercells">Lunch</th>
+              <th class="othercells">Afternoon Snack</th>
+              <th class="othercells">Supper</th>
+            </tr>
+            <tr class="cells2">
+            <td colspan="3" class="cells2">Vegetable</td>
+            <td class="cells">${vegetables}</td>
+            <td class="cells">${vegBreakfast}</td>
+            <td class="cells">${vegAMSnacks}</td>
+            <td class="cells">${vegLunch}</td>
+            <td class="cells">${vegPmSnacks}</td>
+            <td class="cells">${vegDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="3" class="cells2">Fruit</td>
+          <td class="cells">${fruit}</td>
+          <td class="cells">${FruitBreakfast}</td>
+          <td class="cells">${FruitAMSnacks}</td>
+          <td class="cells">${FruitLunch}</td>
+          <td class="cells">${FruitPmSnacks}</td>
+          <td class="cells">${FruitDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td rowspan="4"  class="cells2">Rice</td>
+          </tr>
+          <tr class="cells2">
+          <td class="cells2" colspan="2">A - Low Protein</td>
+          <td class="cells" >${riceA}</td>
+          <td class="cells">${RiceABreakfast}</td>
+          <td class="cells">${RiceAAMSnacks}</td>
+          <td class="cells">${RiceALunch}</td>
+          <td class="cells">${RiceAPmSnacks}</td>
+          <td class="cells">${RiceADinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td class="cells2" colspan="2">B - Medium Protein </td>
+          <td class="cells">${riceB}</td>
+          <td class="cells">${RiceBBreakfast}</td>
+          <td class="cells">${RiceBAMSnacks}</td>
+          <td class="cells">${RiceBLunch}</td>
+          <td class="cells">${RiceBPmSnacks}</td>
+          <td class="cells">${RiceBDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td class="cells2" colspan="2">C - High Protein</td>
+          <td class="cells">${riceC}</td>
+          <td class="cells">${RiceCBreakfast}</td>
+          <td class="cells">${RiceCAMSnacks}</td>
+          <td class="cells">${RiceCLunch}</td>
+          <td class="cells">${RiceCPmSnacks}</td>
+          <td class="cells">${RiceCDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="3" class="cells2">Milk</td>
+          <td class="cells">${milk}</td>
+          <td class="cells">${MilkBreakfast}</td>
+          <td class="cells">${MilkAMSnacks}</td>
+          <td class="cells">${MilkLunch}</td>
+          <td class="cells">${MilkPmSnacks}</td>
+          <td class="cells">${MilkDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td rowspan="3" class="cells2">Meat</td>
+          </tr>
+          <tr class="cells2">
+          <td class="cells2" colspan="2">Low Fat</td>
+          <td class="cells">${lfMeat}</td>
+          <td class="cells">${LFMeatBreakfast}</td>
+          <td class="cells">${LFMeatAMSnacks}</td>
+          <td class="cells">${LFMeatLunch}</td>
+          <td class="cells">${LFMeatPmSnacks}</td>
+          <td class="cells">${LFMeatDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td class="cells2" colspan="2">Medium Fat</td>
+          <td class="cells">${mfMeat}</td>
+          <td class="cells">${MFMeatBreakfast}</td>
+          <td class="cells">${MFMeatAMSnacks}</td>
+          <td class="cells">${MFMeatLunch}</td>
+          <td class="cells">${MFMeatPmSnacks}</td>
+          <td class="cells">${MFMeatDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="3" class="cells2">Fat</td>
+          <td class="cells">${fat}</td>
+          <td class="cells">${FatBreakfast}</td>
+          <td class="cells">${FatAMSnacks}</td>
+          <td class="cells">${FatLunch}</td>
+          <td class="cells">${FatPmSnacks}</td>
+          <td class="cells">${FatDinner}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="3" class="cells2">Sugar</td>
+          <td class="cells">${sugar}</td>
+          <td class="cells">${SugarBreakfast}</td>
+          <td class="cells">${SugarAMSnacks}</td>
+          <td class="cells">${SugarLunch}</td>
+          <td class="cells">${SugarPmSnacks}</td>
+          <td class="cells">${SugarDinner}</td>
+          </tr>
+          </table>
+          <br>
+          `;
+
+    htmlContent += `
+    </table>
+    <br>
+    <h5> ${meal_title} </h5>
+    <!-- Third Table -->
+    <table class="table">
+      <tr class="cells">
+        <th class="cells">Meal</th>
+        <th class="cells">Food Group List</th>
+        <th class="cells">No of Exchange</th>
+        <th class="cells">Sample Menu</th>
+        <th class="cells">Household Measure</th>
+      </tr>
+`;
+let previousMealName = '';
+let previousMealTime = '';
+let mealTimeRows = {};
+
+dataFromDB.forEach((item) => {
+  if (!mealTimeRows[item.meal_time]) {
+    mealTimeRows[item.meal_time] = 1;
+  } else {
+    mealTimeRows[item.meal_time]++;
+  }
+});
+dataFromDB.forEach((item) => {
+  const foodInfo = foods.find((food) => food.id === item.food_id);
+
+  if (!foodInfo) {
+    console.error(`Food info not found for food_id: ${item.food_id}`);
+    return; // Skip this iteration if food info is not found
+  }
+
+  if (item.meal_name !== previousMealName && item.meal_time !== previousMealTime) {
+    const rowspan = mealTimeRows[item.meal_time] + 1;
+    // Only display the meal name if it's different from the previous one
+    htmlContent += `
+        <tr>
+        <td class="cells" rowspan="${rowspan}">${item.meal_time}</td>
+        <td class="cells"></td>
+        <td class="cells"></td>
+        <td class="cells">${item.meal_name}</td>
+        <td class="cells"></td>
+      </tr>
+      <tr>
+      <td class="cells">${foodInfo.meal_group}</td>
+        <td class="cells">${item.exchange_distribution}</td>
+        <td class="cells">${foodInfo.meal_name}</td>
+        <td class="cells">${item.household_measurement}</td>
+      </tr>
+    `;
+
+    previousMealName = item.meal_name; // Update the previous meal name
+    previousMealTime = item.meal_time;
+  } else {
+    // If the meal name is the same as the previous one, don't display the meal name
+    htmlContent += `
+      <tr>
+      <td class="cells">${foodInfo.meal_group}</td>
+        <td class="cells">${item.exchange_distribution}</td>
+        <td class="cells">${foodInfo.meal_name}</td>
+        <td class="cells">${item.household_measurement}</td>
+      </tr>
+    `;
+  }
+});
+  
+  
+    htmlContent += `
+    </table>
+        </div>
+      </body>
+    </html>
+    `;
+
+    return htmlContent;
+  };
+  
+
+  const generateAndSharePdf = async (html) => {
+    // Copy the generatePdf function from the first code snippet
+    // ...
+    if (dataFromDB.length === 0) {
+      
+      console.log('No data to generate PDF');
+      return;
+    }
+
+    try {
+      const file = await printToFileAsync({
+        html: html,
+        width: 612,
+        height: 792,
+        base64: false,
+      });
+  
+      const timestamp = new Date().getTime(); // Get current timestamp
+      const fileUri = `${FileSystem.documentDirectory}data_${timestamp}.pdf`;
+  
+      await FileSystem.moveAsync({
+        from: file.uri,
+        to: fileUri,
+      });
+  
+      await shareAsync(fileUri);
+    } catch (error) {
+      console.log('Error while generating PDF: ', error);
+    }
+  };
 
   const route = useRoute();
   const { id,e_ID } = route.params;
@@ -54,12 +516,18 @@ function MealPlanName() {
   React.useEffect(() => {
     setPage(0);
     refreshTableData();
-
+    getExchangeData();
     const mt_ID = generateUniqueSixDigitCode();
     const finalmt_ID =  '03' + mt_ID 
     setC_meal_titleID(finalmt_ID)
   }, []);
 
+  React.useEffect(() => {
+    if (dataFromDB.length > 0) {
+      const html = generateHtml(dataFromDB);
+      generateAndSharePdf(html);
+    }
+  }, [dataFromDB]);
 
 
   const handleUpdate = (id) => {
@@ -94,19 +562,43 @@ function MealPlanName() {
   };
 
   const handleSaveasPDF = (id) => {
-    // I want to save as PDF the data that will come from the sqlite database with table name meal_title where id=?
-    // setModalVisible(false);
-
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT c.name, c.birthdate, c.sex, m.*,cm.*,cm.TER as cmTER, cm.protein as cmProtein, cm.carbs as cmCarbs, cm.fats as cmFats, mt.*, mp.*, e.*
+        FROM client AS c
+        INNER JOIN client_measurements AS cm ON c.id = cm.client_id
+        INNER JOIN exchanges AS e ON cm.id = e.measurement_id
+        INNER JOIN meal_title AS mt ON e.id = mt.exchanges_id
+        INNER JOIN meal AS m ON mt.id = m.meal_title_id
+        INNER JOIN meal_plan AS mp ON m.id = mp.meal_name_id
+        WHERE m.meal_title_id = ?;
+        `,
+        [id],
+        (_, { rows }) => {
+          const content = [];
+          for (let i = 0; i < rows.length; i++) {
+            content.push(rows.item(i));
+          }
+          setDataFromDB(content);
+    
+          // Show alert if no data is fetched
+          if (content.length === 0) {
+            Alert.alert('No Meal Plan', 'Please add a meal plan first');
+          }
+        },
+        (error) => {
+          console.log('Error while fetching data: ', error);
+        }
+      );
+    });
   };
-  // const handleAdd = (id) => {
-  //   navigation.navigate('Breakfast', { id,e_ID });
-  //   setModalVisible(false);
-  // };
+  
+  
 
   const refreshTableData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT id, exchanges_id, meal_title FROM meal_title WHERE exchanges_id = ?
+        `SELECT  id, exchanges_id, meal_title FROM meal_title WHERE exchanges_id = ?
         `,
         [e_ID],
         (_, { rows }) => {
@@ -120,6 +612,22 @@ function MealPlanName() {
     });
   };
 
+  const getExchangeData = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM distribution_exchange WHERE exchange_id = ?
+        `,
+        [e_ID],
+        (_, { rows }) => {
+          const data = rows._array;
+          setexchangeData(data);
+        },
+        (error) => {
+          console.log('Error performing join:', error);
+        }
+      );
+    });
+  };
 
 
   const handleSearch = (query) => {
@@ -221,7 +729,7 @@ function MealPlanName() {
             ) : (
               <DataTable.Row>
                 <DataTable.Cell style={styles.noDataCell} colSpan={5}>
-                  No Client found
+                  No Meal Plan Name found
                 </DataTable.Cell>
               </DataTable.Row>
             )}

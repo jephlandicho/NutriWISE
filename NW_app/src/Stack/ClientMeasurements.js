@@ -57,6 +57,7 @@ function ClientMeasurements() {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedExchangeID, setselectedExchangeID] = useState(null);
   const [page, setPage] = useState(0);
   const [numberOfItemsPerPageList] = useState([10, 20, 30]);
   const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
@@ -103,10 +104,15 @@ function ClientMeasurements() {
     setModalVisible(false);
   };
 
+  const handleViewMeal = (e_ID) => {
+    navigation.navigate('MealPlanName', { e_ID });
+    setModalVisible(false);
+  }
+
   const refreshTableData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM client_measurements WHERE client_id = ?',
+        'SELECT cm.*, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ?',
         [id],
         (_, { rows }) => {
           const data = rows._array;
@@ -142,8 +148,9 @@ function ClientMeasurements() {
     });
   };
   
-  const openMenu = (id) => {
+  const openMenu = (id,e_ID) => {
     setSelectedItemId(id);
+    setselectedExchangeID(e_ID)
     setModalVisible(true);
   };
 
@@ -235,7 +242,7 @@ function ClientMeasurements() {
                     <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={styles.button}
-                        onPress={() => openMenu(item.id)}
+                        onPress={() => openMenu(item.id,item.e_ID)}
                       >
                         <Ionicons name="md-reorder-three" size={20} />
                       </TouchableOpacity>
@@ -280,6 +287,11 @@ function ClientMeasurements() {
             <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
               <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
               <Text style={styles.modalText}>View</Text>
+            </TouchableOpacity>
+            <Divider />
+            <TouchableOpacity style={styles.modalButton} onPress={() => handleViewMeal(selectedExchangeID)}>
+              <Ionicons name="md-restaurant" size={20} color="black" style={styles.modalIcon} />
+              <Text style={styles.modalText}>View MealPlan</Text>
             </TouchableOpacity>
             <Divider />
             <TouchableOpacity style={styles.modalButton} onPress={() => generateFields(selectedItemId)}>

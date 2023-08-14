@@ -133,20 +133,6 @@ const Classes = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Data from Database:</Text>
-      <FlatList
-        data={dataFromDB}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <Text style={styles.contentText}>
-            {item.name} - {item.birthdate} - {item.sex} - {item.meal_time} - {item.food_id} - {item.exchange_distribution} - {item.household_measurement}
-          </Text>
-        )}
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="Generate PDF" onPress={generatePdf} />
-      </View>
-      <StatusBar style="auto" />
     </View>
   );
 };
