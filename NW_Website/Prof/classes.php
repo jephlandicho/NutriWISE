@@ -143,13 +143,13 @@ $result = mysqli_stmt_get_result($stmt);
 
 
 <style>
-  body {
-    /* font-family: 'Arial', sans-serif; */
-    /* background-color: #f5f5f5; */
-    margin: 0;
-    padding: 0;
-  }
-
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+  
   /* 
   .pagetitle {
     padding: 20px;
@@ -163,21 +163,21 @@ $result = mysqli_stmt_get_result($stmt);
   }
 
   .breadcrumb {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-  }
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
 
   .breadcrumb-item {
     display: inline-block;
     margin-right: 5px;
   }
-
   .breadcrumb-item:last-child {
-    font-weight: bold;
-  }
-
+  color: #333;
+  font-weight: bold;
+}
   /* .breadcrumb-item a {
     color: #fff;
     text-decoration: none;
@@ -208,10 +208,13 @@ $result = mysqli_stmt_get_result($stmt);
   }
 
   .card {
-    width: calc(33.333% - 20px); /* Adjust the width of the cards based on the number of cards you want per row */
-    margin-bottom: 20px;
-    /* Other styles for the card */
-  }
+  width: calc(33.333% - 20px);
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 
   .card:hover {
     transform: translateY(-5px);
@@ -223,41 +226,42 @@ $result = mysqli_stmt_get_result($stmt);
   }
 
   .card-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center; /* Add this line to center-align the text */
+}
 
-  .card-subtitle {
-    font-size: 16px;
-    color: #888;
-    margin-bottom: 10px;
-  }
 
-  .card-text {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
+.card-subtitle {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+}
 
-  .card-footer {
-    padding: 10px;
-    text-align: right;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-  }
+.card-text {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
 
-  .btn {
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+.card-footer {
+  padding: 10px;
+  text-align: right;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
   .btn-primary {
     background-color: lightgreen;
@@ -269,9 +273,9 @@ $result = mysqli_stmt_get_result($stmt);
   }
 
   .btn-danger {
-    background-color: #e74c3c;
-    color: #fff;
-  }
+  background-color: #dc3545;
+  color: #fff;
+}
 
   .btn-danger:hover {
     background-color: #c0392b;
@@ -290,15 +294,16 @@ $result = mysqli_stmt_get_result($stmt);
   }
 
   .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 600px;
-    max-width: 90%;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  width: 500px;
+  max-width: 90%;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 
   .close {
     color: #aaa;
