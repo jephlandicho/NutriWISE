@@ -15,6 +15,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+
 $username = $_SESSION['username'];
 
 // Fetch email from the database
@@ -111,6 +112,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="your_stylesheet.css">
     <!-- Add SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <style>
+        .profile-picture {
+            width: 100px;
+            height: 100x;
+            background-color: #f8f9fa; /* Set a background color if desired */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            border: 2px solid #17a2b8; /* Add a border if desired */
+            overflow: hidden; /* Ensure the image fits inside the circle */
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Maintain the aspect ratio and cover the circle */
+            border-radius: 50%;
+        }
+    </style>
+
 </head>
 <body>
 <main id="main" class="main">
@@ -126,26 +149,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <section class="section profile">
-        <div class="row">
-            <div class="col-xl-4">
-
-                <div class="card">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <h2><?php echo $username; ?></h2> <!-- Display the username -->
-
-                        <div class="social-links mt-2">
-                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
+    <div class="row">
+    <div class="col-xl-4">
+    <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <div class="profile-picture">
+                <img src="<?php echo $profile_picture; ?>" alt="Profile" class="rounded-circle">
             </div>
+            <h2><?php echo $username; ?></h2> <!-- Display the username -->
 
+            <div class="social-links mt-2">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
             <div class="col-xl-8">
 
                 <div class="card">
@@ -253,6 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </div>
+    </div>
     </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>

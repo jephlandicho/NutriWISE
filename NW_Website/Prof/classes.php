@@ -61,25 +61,25 @@ $result = mysqli_stmt_get_result($stmt);
 
       // Generate the HTML for the class card including schedule information
       echo '
-        <div class="card">
-          <a href="class_details.php?class_id=' . $classId . '">
-            <div class="card-body">
-              <h5 class="card-title">' . $className . '</h5>
-              <h6 class="card-subtitle mb-2 text-muted">' . $classCode . '</h6>
-              <p class="card-text">' . $description . '</p>
-              <p class="card-text">
-                <strong>Schedule:</strong> ' . $schedule_row['schedule_day'] . ' | ' . $schedule_row['start_time'] . ' - ' . $schedule_row['end_time'] . '
-              </p>
-            </div>
-          </a>
-          <div class="card-footer">
-            <form action="delete_class.php" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this class?\');">
-              <input type="hidden" name="class_id" value="' . $classId . '">
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
+      <div class="card">
+        <a href="class_details.php?class_id=' . $classId . '">
+          <div class="card-body">
+            <h5 class="card-title">' . $className . '</h5>
+            <p class="card-text"><strong>Class Code:</strong> ' . $classCode . '</p>
+            <p class="card-text"><strong>Section:</strong> ' . $description . '</p>
+            <p class="card-text">
+              <strong>Schedule:</strong> ' . $schedule_row['schedule_day'] . ' | ' . $schedule_row['start_time'] . ' - ' . $schedule_row['end_time'] . '
+            </p>
           </div>
+        </a>
+        <div class="card-footer">
+          <form action="delete_class.php" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this class?\');">
+            <input type="hidden" name="class_id" value="' . $classId . '">
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
         </div>
-      ';
+      </div>
+  ';
     }
   } else {
     // No classes found
@@ -109,8 +109,8 @@ $result = mysqli_stmt_get_result($stmt);
           <input type="text" id="classNameInput" class="form-control" placeholder="Enter the class name" required>
         </div>
         <div class="form-group">
-          <label for="descriptionInput">Description</label>
-          <textarea id="descriptionInput" class="form-control" placeholder="Enter the class description" rows="4" required></textarea>
+          <label for="descriptionInput">Section</label>
+          <textarea id="descriptionInput" class="form-control" placeholder="Enter Class Section" rows="4" required></textarea>
         </div>
         <div class="form-group">
           <label for="scheduleDayInput">Schedule Day</label>

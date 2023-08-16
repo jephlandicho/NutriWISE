@@ -3,6 +3,8 @@
 
 session_start();
 
+$error = array(); // Initialize the $error array
+
 if (isset($_POST['submit'])) {
     $fullname = mysqli_real_escape_string($conn, $_POST['fullname']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
@@ -21,8 +23,25 @@ if (isset($_POST['submit'])) {
         } else {
             // Use password_hash to securely hash the password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $insert = "INSERT INTO professor (fullname, username, email, password) VALUES ('$fullname', '$username', '$email', '$hashedPassword')";
+
+            if (!empty($_FILES['profilePicture']['tmp_name'])) {
+                $targetDir = '../profile_pictures/';
+                $profilePicture = $targetDir . basename($_FILES['profilePicture']['name']);
+
+                // Move uploaded file to the target directory
+                if (move_uploaded_file($_FILES['profilePicture']['tmp_name'], $profilePicture)) {
+                    // File uploaded successfully
+                } else {
+                    $error[] = 'Error uploading profile picture.';
+                }
+            } else {
+                $profilePicture = '';  // Default profile picture if not uploaded
+            }
+
+            $insert = "INSERT INTO professor (fullname, username, email, password, profile_picture) VALUES ('$fullname', '$username', '$email', '$hashedPassword', '$profilePicture')";
             mysqli_query($conn, $insert);
+
+      
 
             // Display Sweet Alert after successful registration
             $showSweetAlert = true;
@@ -43,12 +62,12 @@ if (isset($_POST['submit'])) {
 </head>
 <body>
     <div class="form-container">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             <h3 class="title">Register Now</h3>
             <?php
             if (isset($error)) {
-                foreach ($error as $error) {
-                    echo '<span class="error-msg">' . $error . '</span>';
+                foreach ($error as $err) {
+                    echo '<span class="error-msg">' . $err . '</span>';
                 }
             }
             ?>
@@ -57,6 +76,7 @@ if (isset($_POST['submit'])) {
             <input type="email" name="usermail" placeholder="Enter Email" class="box" required>
             <input type="password" name="password" placeholder="Enter Password" class="box" required>
             <input type="password" name="cpassword" placeholder="Confirm Password" class="box" required>
+            <input type="file" name="profilePicture" accept="image/*" class="box" required>
             <input type="submit" value="Register Now" class="form-btn" name="submit">
             <p>Already have an account? <a href="login_form.php">Login now!</a></p>
         </form>

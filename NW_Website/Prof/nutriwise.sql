@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 14, 2023 at 06:37 AM
+-- Generation Time: Aug 16, 2023 at 10:51 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,8 +40,8 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `professor_id`, `class_name`, `class_code`, `description`) VALUES
-(108, 31, '1', 'z71iQSUt', '1'),
-(109, 31, '2', 'W7hljgEt', '2');
+(110, 31, 'CLASSROOM !', 'OlGrk9cP', 'IT-121331'),
+(111, 31, 'CLASSROOM 2', 'gbHziedr', 'IT-BA-4101');
 
 -- --------------------------------------------------------
 
@@ -62,8 +62,8 @@ CREATE TABLE `class_schedule` (
 --
 
 INSERT INTO `class_schedule` (`id`, `class_id`, `schedule_day`, `start_time`, `end_time`) VALUES
-(2, 108, 'Monday', '00:00:00', '00:00:00'),
-(3, 109, 'Wednesday', '00:00:00', '00:00:00');
+(4, 110, 'Wednesday', '08:54:00', '01:56:00'),
+(5, 111, 'Saturday', '11:42:00', '03:43:00');
 
 -- --------------------------------------------------------
 
@@ -223,6 +223,14 @@ CREATE TABLE `materials` (
   `links` varchar(150) NOT NULL,
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `materials`
+--
+
+INSERT INTO `materials` (`id`, `class_id`, `description`, `materials`, `links`, `date`) VALUES
+(93, 110, 'Heres your Material for today', 'uploadedfiles/Letter to USA Embassy-01.docx', '', '2023-08-16'),
+(96, 110, 'TRY PO', 'uploadedfiles/Notice of School Assignment.pdf', 'https://dashboard.honeygain.com', '2023-08-16');
 
 -- --------------------------------------------------------
 
@@ -412,13 +420,13 @@ ALTER TABLE `student_class`
 -- AUTO_INCREMENT for table `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `class_schedule`
 --
 ALTER TABLE `class_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `foods`
@@ -430,7 +438,7 @@ ALTER TABLE `foods`
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `professor`

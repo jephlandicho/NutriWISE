@@ -9,9 +9,22 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Check if the $username variable is set, otherwise set it to 'Guest'
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+// Fetch the user's profile picture from the database based on their username
+$selectProfilePicture = "SELECT profile_picture FROM professor WHERE username = '$username'";
+$resultProfilePicture = mysqli_query($conn, $selectProfilePicture);
 
-// Get the current page filename
-$currentPage = basename($_SERVER['PHP_SELF']);
+if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
+    $row = mysqli_fetch_assoc($resultProfilePicture);
+    $profile_picture = $row['profile_picture'];
+    // Check if the profile picture file exists
+    if (file_exists("profile_pictures/$profile_picture")) {
+        $profile_picture = "profile_pictures/$profile_picture";
+    } else {
+        $profile_picture = 'profile_pictures/defaultprofile.png'; // Provide the path to a default image
+    }
+} else {
+    $profile_picture = 'profile_pictures/defaultprofile.png'; // Provide the path to a default image
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,8 +38,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="" rel="">
-  <link href="" rel="">
+  <link rel="icon" href="assets/img/nutrilogo.png" type="">
+  <link rel="shortcut icon" href="assets/img/nutrilogo.png" type="image/x-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -71,76 +84,83 @@ $currentPage = basename($_SERVER['PHP_SELF']);
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.php" class="logo d-flex align-items-center">
+<div class="d-flex align-items-center justify-content-between">
+    <a href="index.php" class="logo d-flex align-items-center">
         <img src="assets\img\nutrilogo.png" alt="">
         <span class="d-none d-lg-block" style="color: black">NutriWise</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+</div><!-- End Logo -->
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+<nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
 
         <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
+            <a class="nav-link nav-icon search-bar-toggle " href="#">
+                <i class="bi bi-search"></i>
+            </a>
         </li><!-- End Search Icon-->
 
         <li class="nav-item dropdown pe-3">
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo $username; ?></span>
-          </a><!-- End Profile Image Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <img src="<?php echo htmlspecialchars($profile_picture); ?>" alt="Profile" class="rounded-circle" width="40" height="40">
+            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo htmlspecialchars($username); ?></span>
+        </a>
+    
+            <!-- End Profile Image Icon -->
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6><?php echo $username; ?></h6>
-              <span>Prof</span>
+            <div class="d-flex align-items-center">
+                <div class="rounded-circle overflow-hidden me-2">
+                    <img src="<?php echo $profile_picture; ?>" alt="Profile" class="rounded-circle" width="40" height="40">
+                </div>
+                <div>
+                    <h6><?php echo $username; ?></h6>
+                    <span>Prof</span>
+                </div>
+            </div>
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+                    <hr class="dropdown-divider">
+                </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="profile.php">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="profile.php">
+                        <i class="bi bi-person"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="user_profile.php">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="user_profile.php">
+                        <i class="bi bi-gear"></i>
+                        <span>Account Settings</span>
+                    </a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="login/login_form.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="login/login_form.php">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </li>
 
-          </ul><!-- End Profile Dropdown Items -->
+            </ul><!-- End Profile Dropdown Items -->
         </li><!-- End Profile Nav -->
 
-      </ul>
-    </nav><!-- End Icons Navigation -->
+    </ul>
+</nav><!-- End Icons Navigation -->
 
-  </header><!-- End Header -->
+</header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
