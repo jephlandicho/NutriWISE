@@ -10,16 +10,15 @@ const db = SQLite.openDatabase('mydatabase.db');
 const PMSnacks = () => {
   const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState('Vegetable');
+  const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { PMSnack, setPMSnack } = useContext(ResultContext);
-  const { AvegetablesPMSnacks, AfruitPMSnacks, AriceAPMSnacks, AriceBPMSnacks, AriceCPMSnacks, AMilkPMSnacks, ALFPMSnacks, AMFPMSnacks, AFatPMSnacks, ASugarPMSnacks,
+  const { AvegetablesPMSnacks, AfruitPMSnacks, AriceAPMSnacks, AriceBPMSnacks, AriceCPMSnacks, AMilkPMSnacks, ALFPMSnacks, AMFPMSnacks,AHFPMSnacks, AFatPMSnacks, ASugarPMSnacks,
     setAvegetablesPMSnacks,
     setAfruitPMSnacks,
     setAriceAPMSnacks,
@@ -28,8 +27,10 @@ const PMSnacks = () => {
     setAMilkPMSnacks,
     setALFPMSnacks,
     setAMFPMSnacks,
+    setAHFPMSnacks,
     setAFatPMSnacks,
     setASugarPMSnacks} = useContext(ResultContext);
+
   const { menuPmSnacks, setmenuPmSnacks ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks }= useContext(ResultContext);
 
   const fetchData = () => {
@@ -39,6 +40,21 @@ const PMSnacks = () => {
       setFilteredFoods(sectionData);
     }
   };
+
+  const sectionsWithVal = [
+    { name: 'Food Group', value: 'Exchange' },
+    { name: 'Vegetable', value: AvegetablesPMSnacks },
+    { name: 'Fruit', value: AfruitPMSnacks },
+    { name: 'Rice A', value: AriceAPMSnacks },
+    { name: 'Rice B', value: AriceBPMSnacks },
+    { name: 'Rice C', value: AriceCPMSnacks },
+    { name: 'Milk', value: AMilkPMSnacks },
+    { name: 'Low Fat Meat', value: ALFPMSnacks },
+    { name: 'Medium Fat Meat', value: AMFPMSnacks },
+    { name: 'High Fat Meat', value: AHFPMSnacks },
+    { name: 'Fat', value: AFatPMSnacks },
+    { name: 'Sugar', value: ASugarPMSnacks },
+  ].filter(section => section.value !== 0);
 
   useEffect(() => {
     fetchData();
@@ -82,6 +98,9 @@ const PMSnacks = () => {
                 break;
               case 'MF Meat':
                 setAMFPMSnacks(pm_snacks);
+                break;
+              case 'HF Meat':
+                setAHFPMSnacks(pm_snacks);
                 break;
               case 'Fat':
                 setAFatPMSnacks(pm_snacks);
@@ -183,56 +202,21 @@ const PMSnacks = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Alertcontainer}>
-        <Text style={styles.exchangesText}>Exchanges</Text>
-        <TouchableOpacity onPress={() => {
-          let alertContent = '';
-
-          if (AvegetablesPMSnacks !== 0) {
-            alertContent += `Vegetables: ${AvegetablesPMSnacks}\n`;
-          }
-          if (AfruitPMSnacks !== 0) {
-            alertContent += `Fruit: ${AfruitPMSnacks}\n`;
-          }
-          if (AriceAPMSnacks !== 0) {
-            alertContent += `Rice A: ${AriceAPMSnacks}\n`;
-          }
-          if (AriceBPMSnacks !== 0) {
-            alertContent += `Rice B: ${AriceBPMSnacks}\n`;
-          }
-          if (AriceCPMSnacks !== 0) {
-            alertContent += `Rice C: ${AriceCPMSnacks}\n`;
-          }
-          if (AMilkPMSnacks !== 0) {
-            alertContent += `Milk: ${AMilkPMSnacks}\n`;
-          }
-          if (ALFPMSnacks !== 0) {
-            alertContent += `LF Meat: ${ALFPMSnacks}\n`;
-          }
-          if (AMFPMSnacks !== 0) {
-            alertContent += `MF Meat: ${AMFPMSnacks}\n`;
-          }
-          if (AFatPMSnacks !== 0) {
-            alertContent += `Fat: ${AFatPMSnacks}\n`;
-          }
-          if (ASugarPMSnacks !== 0) {
-            alertContent += `Sugar: ${ASugarPMSnacks}\n`;
-          }
-
-          if (alertContent !== '') {
-            Alert.alert(
-              'Exchanges',
-              alertContent.trim(),
-              [
-                { text: 'Close', style: 'cancel' }
-              ],
-              { cancelable: true }
-            );
-          }
-        }}>
-          <Ionicons name="ios-help-circle-outline" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.inputContainer}>
+        <View>
+        </View>
+        <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedSection}
+            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
+          >
+            {sectionsWithVal.map((section) => (
+              <Picker.Item key={section.name} label={`${section.name}   (${section.value})`} value={section.name} />
+            ))}
+          </Picker>
+        </View>
+      </View>      
       <View style={styles.inputContainer}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -242,19 +226,7 @@ const PMSnacks = () => {
             placeholder="Search here..."
           />
         </View>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedSection}
-            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
-          >
-            {sections.map((section) => (
-              <Picker.Item key={section} label={section} value={section} />
-            ))}
-          </Picker>
-        </View>
       </View>
-
       <FlatList
         style={styles.foodsContainer}
         data={filteredFoods}
@@ -340,8 +312,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pickerContainer: {
-    marginLeft: 5,
-    width: 120,
+    width: 227,
+    marginTop: 10,
+    marginBottom: 10
   },
   picker: {
     flex: 1,

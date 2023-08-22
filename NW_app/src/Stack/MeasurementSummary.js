@@ -50,11 +50,13 @@ function MeasurementSummary() {
     riceCEx,
     LFmeatEx,
     MFmeatEx,
+    HFmeatEx,
     fatEx,
     totalCarbs,
     totalProtein,
     totalFat,
     totalKcal,
+
     AvegetablesBreakfast,
     AvegetablesAMSnacks,
     AvegetablesLunch,
@@ -95,6 +97,11 @@ function MeasurementSummary() {
     AMFLunch,
     AMFPMSnacks,
     AMFDinner,
+    AHFBreakfast,
+    AHFAMSnacks,
+    AHFLunch,
+    AHFPMSnacks,
+    AHFDinner,
     AFatBreakfast,
     AFatAMSnacks,
     AFatLunch,
@@ -251,6 +258,7 @@ function MeasurementSummary() {
                 riceC REAL,
                 lfMeat REAL,
                 mfMeat REAL,
+                hfMeat REAL,
                 fat REAL,
                 TER REAL,
                 carbohydrates REAL,
@@ -398,7 +406,7 @@ function MeasurementSummary() {
         (tx, resultSet) => {
           const measurementId = resultSet.insertId;
           tx.executeSql(
-            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, fat, TER, carbohydrates, protein, fats,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)',
             [
               C_exchangesID,
               measurementId,
@@ -411,6 +419,7 @@ function MeasurementSummary() {
               riceCEx,
               LFmeatEx,
               MFmeatEx,
+              HFmeatEx,
               fatEx,
               totalKcal,
               totalCarbs,
@@ -485,6 +494,14 @@ function MeasurementSummary() {
                   lunch: AMFLunch,
                   pm_snacks: AMFPMSnacks,
                   dinner: AMFDinner,
+                },
+                {
+                  food_group: 'HF Meat',
+                  breakfast: AHFBreakfast,
+                  am_snacks: AHFAMSnacks,
+                  lunch: AHFLunch,
+                  pm_snacks: AHFPMSnacks,
+                  dinner: AHFDinner,
                 },
                 {
                   food_group: 'Fat',
@@ -686,6 +703,10 @@ function MeasurementSummary() {
         <View style={styles.column}>
           <Text>MF Meat</Text>
           <Text> {MFmeatEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>HF Meat</Text>
+          <Text> {HFmeatEx} </Text>
         </View>
         <View style={styles.column}>
           <Text>Fat</Text>

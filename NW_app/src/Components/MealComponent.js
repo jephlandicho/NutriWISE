@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataTable } from 'react-native-paper';
 import { Text,StyleSheet } from 'react-native';
-const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMeat, AMFMeat, AriceA, AriceB, AriceC, AFat, householdMeasure }) => {
+const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMeat, AMFMeat,AHFMeat, AriceA, AriceB, AriceC, AFat, householdMeasure }) => {
   let previousGroup = null;
 
   return (
@@ -29,6 +29,7 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMea
                       {item.meal_group === 'Milk' && <Text>{AMilk}</Text>}
                       {item.meal_group === 'Low Fat Meat' && <Text>{ALFMeat}</Text>}
                       {item.meal_group === 'Medium Fat Meat' && <Text>{AMFMeat}</Text>}
+                      {item.meal_group === 'High Fat Meat' && <Text>{AHFMeat}</Text>}
                       {item.meal_group === 'Rice A' && <Text>{AriceA}</Text>}
                       {item.meal_group === 'Rice B' && <Text>{AriceB}</Text>}
                       {item.meal_group === 'Rice C' && <Text>{AriceC}</Text>}

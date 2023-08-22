@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const windowWidth = Dimensions.get('window').width;
 const ExchangeDistribution = () => {
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
-  const { vegetableEx, fruitEx, milkEx, sugarEx, riceAEx, riceBEx, riceCEx, LFmeatEx, MFmeatEx, fatEx ,setAvegetablesBreakfast ,setAvegetablesAMSnacks,setAvegetablesLunch,setAvegetablesPMSnacks,setAvegetablesDinner,setAfruitBreakfast,setAfruitAMSnacks,setAfruitLunch,setAfruitPMSnacks,setAfruitDinner,setAriceABreakfast,setAriceAAMSnacks,setAriceALunch,setAriceAPMSnacks,setAriceADinner,setAriceBBreakfast,setAriceBAMSnacks,setAriceBLunch,setAriceBPMSnacks,setAriceBDinner,setAriceCBreakfast,setAriceCAMSnacks,setAriceCLunch,setAriceCPMSnacks,setAriceCDinner,setAMilkBreakfast,setAMilkAMSnacks,setAMilkLunch,setAMilkPMSnacks,setAMilkDinner,setALFBreakfast,setALFAMSnacks,setALFLunch,setALFPMSnacks,setALFDinner,setAMFBreakfast,setAMFAMSnacks,setAMFLunch,setAMFPMSnacks,setAMFDinner,setAFatBreakfast,setAFatAMSnacks,setAFatLunch,setAFatPMSnacks,setAFatDinner,setASugarBreakfast,setASugarAMSnacks,setASugarLunch,setASugarPMSnacks,setASugarDinner} = useContext(ResultContext);
+  const { vegetableEx, fruitEx, milkEx, sugarEx, riceAEx, riceBEx, riceCEx, LFmeatEx, MFmeatEx,HFmeatEx, fatEx ,setAvegetablesBreakfast ,setAvegetablesAMSnacks,setAvegetablesLunch,setAvegetablesPMSnacks,setAvegetablesDinner,setAfruitBreakfast,setAfruitAMSnacks,setAfruitLunch,setAfruitPMSnacks,setAfruitDinner,setAriceABreakfast,setAriceAAMSnacks,setAriceALunch,setAriceAPMSnacks,setAriceADinner,setAriceBBreakfast,setAriceBAMSnacks,setAriceBLunch,setAriceBPMSnacks,setAriceBDinner,setAriceCBreakfast,setAriceCAMSnacks,setAriceCLunch,setAriceCPMSnacks,setAriceCDinner,setAMilkBreakfast,setAMilkAMSnacks,setAMilkLunch,setAMilkPMSnacks,setAMilkDinner,setALFBreakfast,setALFAMSnacks,setALFLunch,setALFPMSnacks,setALFDinner,setAMFBreakfast,setAMFAMSnacks,setAMFLunch,setAMFPMSnacks,setAMFDinner,setAFatBreakfast,setAFatAMSnacks,setAFatLunch,setAFatPMSnacks,setAFatDinner,setASugarBreakfast,setASugarAMSnacks,setASugarLunch,setASugarPMSnacks,setASugarDinner,setAHFBreakfast,setAHFAMSnacks,setAHFLunch,setAHFPMSnacks,setAHFDinner} = useContext(ResultContext);
 
   const [vegetableTotal, setVegetableTotal] = useState(0);
 
@@ -25,6 +25,8 @@ const ExchangeDistribution = () => {
   const [LFTotal, setLFTotal] = useState(0);
 
   const [MFTotal, setMFTotal] = useState(0);
+
+  const [HFTotal, setHFTotal] = useState(0);
 
   const [fatTotal, setFatTotal] = useState(0);
 
@@ -78,6 +80,12 @@ const ExchangeDistribution = () => {
   const MFPMSnacks = parseFloat(watch('MFPMSnacks') || 0);
   const MFDinner = parseFloat(watch('MFDinner') || 0);
 
+  const HFBreakfast = parseFloat(watch('HFBreakfast') || 0);
+  const HFAMSnacks = parseFloat(watch('HFAMSnacks') || 0);
+  const HFLunch = parseFloat(watch('HFLunch') || 0);
+  const HFPMSnacks = parseFloat(watch('HFPMSnacks') || 0);
+  const HFDinner = parseFloat(watch('HFDinner') || 0);
+
   const FatBreakfast = parseFloat(watch('FatBreakfast') || 0);
   const FatAMSnacks = parseFloat(watch('FatAMSnacks') || 0);
   const FatLunch = parseFloat(watch('FatLunch') || 0);
@@ -118,6 +126,9 @@ const ExchangeDistribution = () => {
     const totalMF = MFBreakfast + MFAMSnacks + MFLunch + MFPMSnacks + MFDinner;
     setMFTotal(totalMF);
 
+    const totalHF = HFBreakfast + HFAMSnacks + HFLunch + HFPMSnacks + HFDinner;
+    setHFTotal(totalHF);
+
     const totalFat = FatBreakfast + FatAMSnacks + FatLunch + FatPMSnacks + FatDinner;
     setFatTotal(totalFat);
 
@@ -125,7 +136,7 @@ const ExchangeDistribution = () => {
     setSugarTotal(totalSugar);
 
   }, [vegetableEx, vegetablesBreakfast, vegetablesAMSnacks, vegetablesLunch, vegetablesPMSnacks, vegetablesDinner,fruitBreakfast,fruitAMSnacks,fruitLunch,fruitPMSnacks,fruitDinner,riceABreakfast,riceAAMSnacks,riceALunch,riceAPMSnacks,riceADinner,riceBBreakfast,riceBAMSnacks,riceBLunch,riceBPMSnacks,riceBDinner,riceCBreakfast,riceCAMSnacks,riceCLunch,riceCPMSnacks,riceCDinner,MilkBreakfast,MilkAMSnacks,MilkLunch,MilkPMSnacks,
-    MilkDinner,LFBreakfast,LFAMSnacks,LFLunch,LFPMSnacks,LFDinner,MFBreakfast,MFAMSnacks,MFLunch,MFPMSnacks,MFDinner,FatBreakfast,FatAMSnacks,FatLunch,FatPMSnacks,FatDinner,SugarBreakfast,SugarAMSnacks,SugarLunch,SugarPMSnacks,SugarDinner]);
+    MilkDinner,LFBreakfast,LFAMSnacks,LFLunch,LFPMSnacks,LFDinner,MFBreakfast,MFAMSnacks,MFLunch,MFPMSnacks,MFDinner,FatBreakfast,FatAMSnacks,FatLunch,FatPMSnacks,FatDinner,SugarBreakfast,SugarAMSnacks,SugarLunch,SugarPMSnacks,SugarDinner,HFBreakfast,HFAMSnacks,HFLunch,HFPMSnacks,HFDinner]);
 
     const assigned = () => {
         setAvegetablesBreakfast(vegetablesBreakfast)
@@ -170,6 +181,13 @@ const ExchangeDistribution = () => {
         setAMFLunch(MFLunch)
         setAMFPMSnacks(MFPMSnacks)
         setAMFDinner(MFDinner)
+
+        setAHFBreakfast(HFBreakfast)
+        setAHFAMSnacks(HFAMSnacks)
+        setAHFLunch(HFLunch)
+        setAHFPMSnacks(HFPMSnacks)
+        setAHFDinner(HFDinner)
+
         setAFatBreakfast(FatBreakfast)
         setAFatAMSnacks(FatAMSnacks)
         setAFatLunch(FatLunch)
@@ -335,6 +353,24 @@ const ExchangeDistribution = () => {
                         </View>
                         <View style={styles.input}>
                             <CustomInput control={control} numeric={true} name="MFDinner" />
+                        </View>
+                    </View>
+
+                    <Text>HF Meat: {HFmeatEx}</Text><View style={styles.row}>
+                        <View style={styles.input}>
+                            <CustomInput control={control} numeric={true} name="HFBreakfast" />
+                        </View>
+                        <View style={styles.input}>
+                            <CustomInput control={control} numeric={true} name="HFAMSnacks" />
+                        </View>
+                        <View style={styles.input}>
+                            <CustomInput control={control} numeric={true} name="HFLunch" />
+                        </View>
+                        <View style={styles.input}>
+                            <CustomInput control={control} numeric={true} name="HFPMSnacks" />
+                        </View>
+                        <View style={styles.input}>
+                            <CustomInput control={control} numeric={true} name="HFDinner" />
                         </View>
                     </View>
 

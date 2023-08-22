@@ -22,6 +22,8 @@ const MealPlanResult = () => {
   const {householdMeasureBreakfast,householdMeasureAmSnacks,householdMeasureLunch,householdMeasurePmSnacks,householdMeasureDinner} = useContext(ResultContext);
 
   const { AvegetablesBreakfast,AvegetablesAMSnacks,AvegetablesLunch,AvegetablesPMSnacks,AvegetablesDinner,AfruitBreakfast,AfruitAMSnacks,AfruitLunch,AfruitPMSnacks,AfruitDinner,AriceABreakfast,AriceAAMSnacks,AriceALunch,AriceAPMSnacks,AriceADinner,AriceBBreakfast,AriceBAMSnacks,AriceBLunch,AriceBPMSnacks,AriceBDinner,AriceCBreakfast,AriceCAMSnacks,AriceCLunch,AriceCPMSnacks,AriceCDinner,AMilkBreakfast,AMilkAMSnacks,AMilkLunch,AMilkPMSnacks,AMilkDinner,ALFBreakfast,ALFAMSnacks,ALFLunch,ALFPMSnacks,ALFDinner,AMFBreakfast,AMFAMSnacks,AMFLunch,AMFPMSnacks,AMFDinner,AFatBreakfast,AFatAMSnacks,AFatLunch,AFatPMSnacks,AFatDinner,ASugarBreakfast,ASugarAMSnacks,ASugarLunch,ASugarPMSnacks,ASugarDinner, MeasurementID } = useContext(ResultContext);
+  const { AHFBreakfast,AHFAMSnacks,AHFLunch,AHFPMSnacks,AHFDinner } = useContext(ResultContext);
+
 
   const parsedbreakfast = typeof breakfast === 'string' ? JSON.parse(breakfast) : breakfast;
   const parsedAMSnacks = typeof AMSnack === 'string' ? JSON.parse(AMSnack) : AMSnack;
@@ -44,6 +46,7 @@ const MealPlanResult = () => {
     return code;
   }
   React.useEffect(() => {
+    createTables();
     const b_ID = generateUniqueSixDigitCode();
     const a_ID = generateUniqueSixDigitCode();
     const l_ID = generateUniqueSixDigitCode();
@@ -55,6 +58,48 @@ const MealPlanResult = () => {
     setMealPMSnacksID(p_ID)
     setMealDinnerID(d_ID)
   }, []);
+
+  const createTables = () => {
+    db.transaction((tx) => {
+
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS meal (
+          id INTEGER PRIMARY KEY,
+          meal_title_id INTEGER,
+          meal_name TEXT,
+          meal_time TEXT,
+          syncData INTEGER,
+          FOREIGN KEY (meal_title_id) REFERENCES meal_title (id)
+        )`,
+        [],
+        () => {
+          console.log('meal table created successfully.');
+        },
+        (error) => {
+          console.log('Error creating meal table: ', error);
+        }
+      );
+
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS meal_plan (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          meal_name_id INTEGER,
+          exchange_distribution FLOAT,
+          food_id INTEGER,
+          household_measurement TEXT,
+          syncData INTEGER,
+          FOREIGN KEY (meal_name_id) REFERENCES meal (id)
+        )`,
+        [],
+        () => {
+          console.log('meal_plan table created successfully.');
+        },
+        (error) => {
+          console.log('Error creating meal_plan table: ', error);
+        }
+      );
+    });
+  };
 
   const insertMealPlan = (
     parsedData,
@@ -105,6 +150,8 @@ const MealPlanResult = () => {
         return AriceCBreakfast;
       case "Medium Fat Meat":
         return AMFBreakfast;
+      case "High Fat Meat":
+        return AHFBreakfast
       case "Fat":
         return AFatBreakfast;
       case "Sugar":
@@ -132,6 +179,8 @@ const MealPlanResult = () => {
         return AriceCAMSnacks;
       case "Medium Fat Meat":
         return AMFAMSnacks;
+      case "High Fat Meat":
+        return AHFAMSnacks
       case "Fat":
         return AFatAMSnacks;
       case "Sugar":
@@ -159,6 +208,8 @@ const MealPlanResult = () => {
         return AriceCLunch;
       case "Medium Fat Meat":
         return AMFLunch;
+      case "High Fat Meat":
+        return AHFLunch
       case "Fat":
         return AFatLunch;
       case "Sugar":
@@ -186,6 +237,8 @@ const MealPlanResult = () => {
         return AriceCPMSnacks;
       case "Medium Fat Meat":
         return AMFPMSnacks;
+      case "High Fat Meat":
+        return AHFPMSnacks;
       case "Fat":
         return AFatPMSnacks;
       case "Sugar":
@@ -212,6 +265,8 @@ const MealPlanResult = () => {
         return AriceCDinner;
       case "Medium Fat Meat":
         return AMFDinner;
+      case "High Fat Meat":
+        return AHFDinner;
       case "Fat":
         return AFatDinner;
       case "Sugar":
@@ -245,31 +300,6 @@ const MealPlanResult = () => {
           }
         );
       });
-      // Inserting breakfast
-      // Object.keys(parsedbreakfast).forEach((mealGroup) => {
-      //   parsedbreakfast[mealGroup].forEach((mealData) => {
-      //     const { id, household_measure: householdMeasurement } = mealData;
-    
-      //     // Get the exchange distribution for the current meal group
-      //     const exchangeDistribution = getEDBreakfast(mealGroup);
-    
-      //     // Determine the household_measurement to be used
-      //     const finalHouseholdMeasurement = householdMeasurement || householdMeasureBreakfast;
-    
-      //     tx.executeSql(
-      //       "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
-      //       [MealBreakfastID, exchangeDistribution, id, finalHouseholdMeasurement, 0],
-      //       (txObj, resultSet) => {
-      //         // Handle success if needed
-      //         console.log("Insertion successful:", resultSet);
-      //       },
-      //       (txObj, error) => {
-      //         // Handle error if needed
-      //         console.log("Error during insertion:", error);
-      //       }
-      //     );
-      //   });
-      // });
       insertMealPlan(
         parsedbreakfast,
         householdMeasureBreakfast,
@@ -309,7 +339,7 @@ const MealPlanResult = () => {
       )
 
     })
-    navigation.navigate('MealInfo');
+    navigation.navigate('Client');
   }
   return (
     <>
@@ -338,6 +368,7 @@ const MealPlanResult = () => {
       AMilk={AMilkBreakfast}
       ALFMeat={ALFBreakfast}
       AMFMeat={AMFBreakfast}
+      AHFMeat={AHFBreakfast}
       AriceA={AriceABreakfast}
       AriceB={AriceBBreakfast}
       AriceC={AriceCBreakfast}
@@ -362,6 +393,7 @@ const MealPlanResult = () => {
       AMilk={AMilkAMSnacks}
       ALFMeat={ALFAMSnacks}
       AMFMeat={AMFAMSnacks}
+      AHFMeat={AHFAMSnacks}
       AriceA={AriceAAMSnacks}
       AriceB={AriceBAMSnacks}
       AriceC={AriceCAMSnacks}
@@ -387,6 +419,7 @@ const MealPlanResult = () => {
       AMilk={AMilkLunch}
       ALFMeat={ALFLunch}
       AMFMeat={AMFLunch}
+      AHFMeat={AHFLunch}
       AriceA={AriceALunch}
       AriceB={AriceBLunch}
       AriceC={AriceCLunch}
@@ -411,6 +444,7 @@ const MealPlanResult = () => {
       AMilk={AMilkPMSnacks}
       ALFMeat={ALFPMSnacks}
       AMFMeat={AMFPMSnacks}
+      AHFMeat={AHFPMSnacks}
       AriceA={AriceAPMSnacks}
       AriceB={AriceBPMSnacks}
       AriceC={AriceCPMSnacks}
@@ -436,6 +470,7 @@ const MealPlanResult = () => {
       AMilk={AMilkDinner}
       ALFMeat={ALFDinner}
       AMFMeat={AMFDinner}
+      AHFMeat={AHFDinner}
       AriceA={AriceADinner}
       AriceB={AriceBDinner}
       AriceC={AriceCDinner}

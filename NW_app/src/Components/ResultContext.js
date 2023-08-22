@@ -31,6 +31,7 @@ export const ResultProvider = ({ children }) => {
   const [riceCEx,setriceCEx] = useState('');
   const [LFmeatEx,setLFmeatEx] = useState('');
   const [MFmeatEx,setMFmeatEx] = useState('');
+  const [HFmeatEx,setHFmeatEx] = useState('');
   const [fatEx,setfatEx] = useState('');
   const [totalCarbs,settotalCarbs] = useState('');
   const [totalProtein,settotalProtein] = useState('');
@@ -105,6 +106,12 @@ export const ResultProvider = ({ children }) => {
   const [AMFPMSnacks,setAMFPMSnacks] = useState('');
   const [AMFDinner,setAMFDinner] = useState('');
 
+  const [AHFBreakfast,setAHFBreakfast] = useState('');
+  const [AHFAMSnacks,setAHFAMSnacks] = useState('');
+  const [AHFLunch,setAHFLunch] = useState('');
+  const [AHFPMSnacks,setAHFPMSnacks] = useState('');
+  const [AHFDinner,setAHFDinner] = useState('');
+
   const [AFatBreakfast,setAFatBreakfast] = useState('');
   const [AFatAMSnacks,setAFatAMSnacks] = useState('');
   const [AFatLunch,setAFatLunch] = useState('');
@@ -126,7 +133,7 @@ export const ResultProvider = ({ children }) => {
 
 
   return (
-    <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
+    <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
       MeasurementID,setMeasurementID,
       isLoggedIn, setLoggedIn,
       breakfast, setBreakfast,
@@ -178,6 +185,11 @@ export const ResultProvider = ({ children }) => {
       ,AMFLunch
       ,AMFPMSnacks
       ,AMFDinner
+      ,AHFBreakfast,setAHFBreakfast
+      ,AHFAMSnacks,setAHFAMSnacks
+      ,AHFLunch,setAHFLunch
+      ,AHFPMSnacks,setAHFPMSnacks
+      ,AHFDinner,setAHFDinner
       ,AFatBreakfast
       ,AFatAMSnacks
       ,AFatLunch

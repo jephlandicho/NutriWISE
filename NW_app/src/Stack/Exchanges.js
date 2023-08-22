@@ -23,6 +23,7 @@ function Exchanges() {
     riceCEx,
     LFmeatEx,
     MFmeatEx,
+    HFmeatEx,
     fatEx,
     totalCarbs,
     totalProtein,
@@ -259,6 +260,10 @@ function Exchanges() {
                 <View style={styles.cell}>
                 <Text style={styles.header}>MF Meat</Text>
                 <Text>{item.mfMeat}</Text>
+                </View>
+                <View style={styles.cell}>
+                <Text style={styles.header}>HF Meat</Text>
+                <Text>{item.hfMeat}</Text>
                 </View>
                 <View style={styles.cell}>
                 <Text style={styles.header}>Fat</Text>

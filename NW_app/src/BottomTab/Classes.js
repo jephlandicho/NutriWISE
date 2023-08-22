@@ -1,161 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
-import * as FileSystem from 'expo-file-system';
-import { printToFileAsync } from 'expo-print';
-import { shareAsync } from 'expo-sharing';
+import React from 'react';
+import { View, TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import * as SQLite from 'expo-sqlite';
-import { useIsFocused } from '@react-navigation/native';
+import SyncButton from '../Components/SyncButton';
 
+// Open or create a new database
 const db = SQLite.openDatabase('mydatabase.db');
 
+const handleDeleteTables = () => {
+  db.transaction((tx) => {
+    // Replace 'table1', 'table2', 'table3', ... with the actual table names in your database.
+    // Add more table names if you have additional tables to delete.
+    
+    const tablesToDelete = ['client', 'client_measurements', 'exchanges','distribution_exchange','meal','meal_plan'];
+
+    tablesToDelete.forEach((table) => {
+      const query = `DROP TABLE IF EXISTS ${table};`;
+
+      tx.executeSql(query, [], (_, resultSet) => {
+        // Table successfully deleted
+        console.log(`Table ${table} deleted.`);
+      }, (error) => {
+        // An error occurred while deleting the table
+        console.error(`Error deleting ${table}:`, error);
+      });
+    });
+  }, (error) => {
+    // Transaction error
+    console.error('Transaction error:', error);
+  }, () => {
+    // Transaction successful
+    Alert.alert('Tables Deleted', 'All tables have been deleted.');
+  });
+};
+const handleUpdateTables = () => {
+  db.transaction((tx) => {
+    // Add your ALTER TABLE statement here to update the syncData column
+    // const updateQuery = `UPDATE client SET syncData = 0;`;
+    const tablesToUpdate = ['client', 'client_measurements', 'exchanges','distribution_exchange'];
+    tablesToUpdate.forEach((table) => {
+      const query = `UPDATE ${table} SET syncData = 0;;`;
+
+      tx.executeSql(query, [], (_, resultSet) => {
+        // Table successfully deleted
+        console.log(`Table ${table} updated.`);
+      }, (error) => {
+        // An error occurred while deleting the table
+        console.error(`Error deleting ${table}:`, error);
+      });
+    });
+  }, (error) => {
+    // Transaction error
+    console.error('Transaction error:', error);
+  }, () => {
+    // Transaction successful
+    Alert.alert('Table Updated', 'Client table has been updated. syncData set to 0.');
+  });
+};
+
+
+
 const Classes = () => {
-  const [dataFromDB, setDataFromDB] = useState([]);
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    if (isFocused) {
-      displayData();
-    }
-  }, [isFocused]);
-
-  const displayData = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `SELECT DISTINCT c.name, c.birthdate, c.sex, m.*, mt.meal_title, mp.*
-        FROM client AS c
-        INNER JOIN client_measurements AS cm ON c.id = cm.client_id
-        INNER JOIN exchanges AS e ON cm.id = e.measurement_id
-        INNER JOIN meal_title AS mt ON e.id = mt.exchanges_id
-        INNER JOIN meal AS m ON mt.id = m.meal_title_id
-        INNER JOIN meal_plan AS mp ON m.id = mp.meal_name_id
-        WHERE m.meal_title_id = ?
-        `,
-        ['3953192'], // Replace with your desired meal_name_id
-        (_, { rows }) => {
-          const content = [];
-          for (let i = 0; i < rows.length; i++) {
-            content.push(rows.item(i));
-          }
-          setDataFromDB(content);
-        },
-        (error) => {
-          console.log('Error while fetching data: ', error);
-        }
-      );
-    });
-  };
-
-  const generateHtml = () => {
-    let htmlContent = `
-      <html>
-        <head>
-          <style>
-            h1 {
-              text-align: center;
-            }
-            table {
-              width: 100%;
-              border-collapse: collapse;
-            }
-            th, td {
-              border: 1px solid black;
-              padding: 8px;
-              text-align: left;
-            }
-          </style>
-        </head>
-        <body>
-          <h1>Data from Database</h1>
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Birthdate</th>
-              <th>Sex</th>
-              <th>Meal Time</th>
-              <th>Food ID</th>
-              <th>Exchange Distribution</th>
-              <th>Household Measure</th>
-            </tr>
-    `;
-
-    dataFromDB.forEach((item) => {
-      htmlContent += `
-        <tr>
-          <td>${item.name}</td>
-          <td>${item.birthdate}</td>
-          <td>${item.sex}</td>
-          <td>${item.meal_time}</td>
-          <td>${item.food_id}</td>
-          <td>${item.exchange_distribution}</td>
-          <td>${item.household_measurement}</td>
-        </tr>
-      `;
-    });
-
-    htmlContent += `
-          </table>
-        </body>
-      </html>
-    `;
-
-    return htmlContent;
-  };
-
-  const generatePdf = async () => {
-    if (dataFromDB.length === 0) {
-      console.log('No data to generate PDF');
-      return;
-    }
-
-    const html = generateHtml();
-    const timestamp = new Date().getTime(); // Get current timestamp
-    const fileUri = `${FileSystem.documentDirectory}data_${timestamp}.pdf`;
-
-    try {
-      const file = await printToFileAsync({
-        html: html,
-        width: 612,
-        height: 792,
-        base64: false,
-      });
-
-      await FileSystem.moveAsync({
-        from: file.uri,
-        to: fileUri,
-      });
-
-      await shareAsync(fileUri);
-    } catch (error) {
-      console.log('Error while generating PDF: ', error);
-    }
-  };
-
   return (
     <View style={styles.container}>
+      <Text>Classes</Text>
+      <TouchableOpacity onPress={handleDeleteTables}>
+        <Text>Delete All Tables</Text>
+      </TouchableOpacity>
+      {/* <TouchableOpacity onPress={handleUpdateTables}>
+        <Text>Update Tables</Text>
+      </TouchableOpacity> */}
+      {/* <SyncButton/> */}
     </View>
-  );
-};
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 16,
-    paddingBottom: 100
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  contentText: {
-    marginBottom: 4,
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 16,
-  },
-});
+  )
+}
 
-export default Classes;
+export default Classes
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
