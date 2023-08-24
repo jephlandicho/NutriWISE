@@ -266,7 +266,7 @@ function StackNavigator() {
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
-                Client Measurements
+                Client Data
               </Text>
             </View>
           ),

@@ -3,8 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Alert, TextInput, ScrollView 
 import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation,useIsFocused  } from '@react-navigation/native';
-import { Provider as PaperProvider, DataTable, Button, Divider } from 'react-native-paper';
-import Modal from 'react-native-modal';
+import { Provider as PaperProvider, DataTable,Avatar } from 'react-native-paper';
 import MyTheme from '../Components/MyTheme';
 
 const db = SQLite.openDatabase('mydatabase.db');
@@ -12,8 +11,6 @@ const db = SQLite.openDatabase('mydatabase.db');
 function Client() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItemId, setSelectedItemId] = useState(null);
   const [page, setPage] = useState(0);
   const [numberOfItemsPerPageList] = useState([10, 20, 30]);
   const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
@@ -26,12 +23,6 @@ function Client() {
       refreshTableData();
     }
   }, [isFocused]);
-
-  const handleUpdate = (id) => {
-    // Handle the update logic here using the item id
-    console.log('Update item with id:', id);
-    setModalVisible(false);
-  };
 
   const handleDelete = (id) => {
     
@@ -51,12 +42,10 @@ function Client() {
         }
       );
     });
-    setModalVisible(false);
   };
 
   const handleView = (id) => {
     navigation.navigate('ClientMeasurements', { id });
-    setModalVisible(false);
   };
 
   const refreshTableData = () => {
@@ -92,14 +81,6 @@ function Client() {
     });
   };
 
-  const openMenu = (id) => {
-    setSelectedItemId(id);
-    setModalVisible(true);
-  };
-
-  const closeMenu = () => {
-    setModalVisible(false);
-  };
 
   const from = page * itemsPerPage;
   const to = from + itemsPerPage;
@@ -114,43 +95,46 @@ function Client() {
           value={searchQuery}
           onChangeText={handleSearch}
         />
-        <View>
-
-          <DataTable.Header>
-            <DataTable.Title style={styles.cell}>ID</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Name</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Birthdate</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Sex</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Actions</DataTable.Title>
-          </DataTable.Header>
-        </View>
         <ScrollView style={styles.tableBodyContainer}>
-          <DataTable>
-            {displayedData.length > 0 ? (
-              displayedData.map((item) => (
-                <DataTable.Row key={item.id}>
-                  <DataTable.Cell style={styles.cell}>{item.id}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.name}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.birthdate}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.sex}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => openMenu(item.id)}
-                    >
-                      <Ionicons name="md-reorder-three" size={20} />
-                    </TouchableOpacity>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))
-            ) : (
-              <DataTable.Row>
-                <DataTable.Cell style={styles.noDataCell} colSpan={5}>
-                  No Client found
-                </DataTable.Cell>
-              </DataTable.Row>
-            )}
-          </DataTable>
+          {displayedData.length > 0 ? (
+            displayedData.map((item) => (
+              <View key={item.id} style={styles.contactContainer}>
+                <TouchableOpacity onPress={() => handleView(item.id)}>
+                <View style={styles.avatarContainer}>
+                <Avatar.Text size={50} label={item.name.charAt(0).toUpperCase()} color={MyTheme.colors.background}/>
+                </View>
+                </TouchableOpacity>
+                <View style={styles.contactInfo}>
+                <Text>ID: {item.id}</Text>
+                <TouchableOpacity onPress={() => handleView(item.id)}>
+                  <Text style={styles.contactName}>{item.name}</Text>
+                </TouchableOpacity>
+                  {(() => {
+                  const today = new Date();
+                  const birthdateArray = item.birthdate.split('-');
+                  const birthdateObj = new Date(
+                    birthdateArray[0],
+                    birthdateArray[1] - 1,
+                    birthdateArray[2]
+                  );
+                  const ageDiff = today - birthdateObj;
+                  const ageDate = new Date(ageDiff);
+                  const years = Math.abs(ageDate.getUTCFullYear() - 1970);
+                  const age = years.toString();
+                  return <Text>{age} | {item.sex}</Text>;
+                })()}
+                  
+                </View>
+                <View style={styles.contactActions}>
+                  <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
+                    <Ionicons name="md-trash" size={20} />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noDataText}>No Clients found</Text>
+          )}
         </ScrollView>
         <DataTable.Pagination
           page={page}
@@ -161,28 +145,8 @@ function Client() {
           }`}
           numberOfItemsPerPageList={numberOfItemsPerPageList}
           numberOfItemsPerPage={itemsPerPage}
-          onItemsPerPageChange={onItemsPerPageChange}
-          showFastPaginationControls
           selectPageDropdownLabel={'Rows per page'}
         />
-        <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
-          <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
-              <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Update</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
-              <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>View</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
       </View>
     </PaperProvider>
   );
@@ -207,36 +171,41 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  noDataCell: {
+  tableBodyContainer: {
+    maxHeight: '73%', // Adjust the height as needed
+  },
+  contactContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#fefdfd',
+    borderRadius: 10,
+    shadowColor: '#aaaaaa',
+    shadowOffset: { width: 0, height: 2 }, // Adjust the shadow offset as needed
+    shadowOpacity: 0.2, // Adjust the shadow opacity as needed
+    shadowRadius: 100, // Adjust the shadow radius as needed
+    elevation: 5, // Android shadow elevation
+  },
+  avatarContainer: {
+    marginRight: 12,
+  },
+  contactInfo: {
+    flex: 1,
+  },
+  contactName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  contactActions: {
+    justifyContent: 'center',
+  },
+  noDataText: {
     textAlign: 'center',
     fontStyle: 'italic',
     color: '#888',
   },
-  tableBodyContainer: {
-    maxHeight: 300, // Adjust the height as needed
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    padding: 16,
-    borderRadius: 5,
-  },
-  modalButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
-  modalIcon: {
-    marginRight: 10,
-  },
-  modalText: {
-    fontSize: 16,
-    color: 'black',
-  },
-  cell: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#ffffff'
-  }
 });
 
 export default Client;

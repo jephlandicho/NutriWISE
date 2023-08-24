@@ -168,11 +168,11 @@ function MealPlanName() {
           <td colspan="2" class="cells3"><b>Body Mass Index: </b> ${bmi} kg/m²</td>
         </tr>
         <tr>
-        <td colspan="2" class="cells3"><b>Height (m): </b> ${height}</td>
+        <td colspan="2" class="cells3"><b>Height: </b> ${height} m</td>
         <td colspan="2" class="cells3"><b>Nutritional Status: </b> ${remarks}</td>
         </tr>
         <tr>
-        <td colspan="2" class="cells3"><b>Weight (kg): </b> ${weight}</td>
+        <td colspan="2" class="cells3"><b>Weight: </b> ${weight} kg </td>
         <td colspan="2" class="cells3"><b>Desirable Body Weight: </b> ${DBW} kg</td>
         </tr>
         <tr>

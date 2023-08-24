@@ -131,36 +131,6 @@ function Exchanges() {
   };
 
   const saveExchanges = () => {
-    // const [ZvegetableEx, setZvegetableEx] = useState(); 
-    // const [ZfruitEx, setZfruitEx] = useState();
-    // const [ZmilkEx, setZmilkEx] = useState();
-    // const [ZsugarEx, setZsugarEx] = useState();
-    // const [ZriceAEx, setZriceAEx] = useState();
-    // const [ZriceBEx, setZriceBEx] = useState();
-    // const [ZriceCEx, setZriceCEx] = useState();
-    // const [ZLFmeatEx, setZLFmeatEx] = useState();
-    // const [ZMFmeatEx, setZMFmeatEx] = useState();
-    // const [ZfatEx, setZfatEx] = useState();
-    // const [ZCarbs, setZCarbs] = useState();
-    // const [ZProtein, setZProtein] = useState();
-    // const [ZFat, setZFat] = useState();
-    // const [ZKcal, setZKcal] = useState();
-
-    // const vegCarbs = vegetableEx * 3;
-    // const vegProtein = vegetableEx * 1;
-    // const vegKcal = vegetableEx * 16;
-
-    // const fruitCarbs = fruitEx * 10;
-    // const fruitKcal = fruitEx * 40;
-
-    // const milkCarbs = milkEx * 12;
-    // const milkProtein = milkEx * 8;
-    // const milkFat = milkEx * 10;
-    // const milkKcal = milkEx * 170;
-
-    // const sugarCarbs = sugarEx * 5;
-    // const sugarKcal = sugarEx * 20;
-    // saved
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO exchanges (measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, fat, TER, carbohydrates, protein, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
