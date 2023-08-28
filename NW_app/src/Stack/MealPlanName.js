@@ -4,15 +4,15 @@ import * as SQLite from 'expo-sqlite';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
-import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider, TextInput as PaperTextInput } from 'react-native-paper';
+import { Provider as PaperProvider, DataTable, Button, Divider, Portal, Provider, TextInput as PaperTextInput, Avatar } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
 import MyTheme from '../Components/MyTheme';
 import * as FileSystem from 'expo-file-system';
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { ResultContext } from '../Components/ResultContext';
-import { set } from 'date-fns';
 import foods from '../meals/foods.json';
+
 const db = SQLite.openDatabase('mydatabase.db');
 
 function MealPlanName() {
@@ -429,73 +429,75 @@ function MealPlanName() {
           <br>
           `;
 
-    htmlContent += `
-    </table>
-    <br>
-    <h3> Meal Plan </h3>
-    <h5> ${meal_title} </h5>
-    <!-- Third Table -->
-    <table class="table">
-      <tr class="cells">
-        <th class="cells">Meal</th>
-        <th class="cells">Food Group List</th>
-        <th class="cells">No of Exchange</th>
-        <th class="cells">Sample Menu</th>
-        <th class="cells">Household Measure</th>
-      </tr>
-`;
-let previousMealName = '';
-let previousMealTime = '';
-let mealTimeRows = {};
+          htmlContent += `
+          </table>
+          <br>
+          <h3> Meal Plan </h3>
+          <h5> ${meal_title} </h5>
+          <!-- Third Table -->
+          <table class="table">
+            <tr class="cells">
+              <th class="cells">Meal</th>
+              <th class="cells">Food Group List</th>
+              <th class="cells">No of Exchange</th>
+              <th class="cells">Sample Menu</th>
+              <th class="cells">Household Measure</th>
+            </tr>
+      `;
+      
+      let mealTimeGroups = {};
+      let meal_group = '';
 
-dataFromDB.forEach((item) => {
-  if (!mealTimeRows[item.meal_time]) {
-    mealTimeRows[item.meal_time] = 1;
-  } else {
-    mealTimeRows[item.meal_time]++;
-  }
-});
-dataFromDB.forEach((item) => {
-  const foodInfo = foods.find((food) => food.id === item.food_id);
+      dataFromDB.forEach((item) => {
+        if (!mealTimeGroups[item.meal_time]) {
+          mealTimeGroups[item.meal_time] = [];
+        }
+        mealTimeGroups[item.meal_time].push(item);
+      });
+      
+      for (const mealTime in mealTimeGroups) {
+        const mealTimeData = mealTimeGroups[mealTime];
+        
+        const mealTimeTableRows = mealTimeData.map((item, index) => {
+          const foodInfo = foods.find((food) => food.id === item.food_id);
+          if (!foodInfo) {
+            console.error(`Food info not found for food_id: ${item.food_id}`);
+            return ''; // Return an empty string if food info is not found
+          }
+          const rowspan = mealTimeData.length + 1;
 
-  if (!foodInfo) {
-    console.error(`Food info not found for food_id: ${item.food_id}`);
-    return; // Skip this iteration if food info is not found
-  }
-
-  if (item.meal_name !== previousMealName && item.meal_time !== previousMealTime) {
-    const rowspan = mealTimeRows[item.meal_time] + 1;
-    // Only display the meal name if it's different from the previous one
-    htmlContent += `
-        <tr>
-        <td class="cells" rowspan="${rowspan}">${item.meal_time}</td>
-        <td class="cells"></td>
-        <td class="cells"></td>
-        <td class="cells">${item.meal_name}</td>
-        <td class="cells"></td>
-      </tr>
-      <tr>
-      <td class="cells">${foodInfo.meal_group}</td>
-        <td class="cells">${item.exchange_distribution}</td>
-        <td class="cells">${foodInfo.meal_name}</td>
-        <td class="cells">${item.household_measurement}</td>
-      </tr>
-    `;
-
-    previousMealName = item.meal_name; // Update the previous meal name
-    previousMealTime = item.meal_time;
-  } else {
-    // If the meal name is the same as the previous one, don't display the meal name
-    htmlContent += `
-      <tr>
-      <td class="cells">${foodInfo.meal_group}</td>
-        <td class="cells">${item.exchange_distribution}</td>
-        <td class="cells">${foodInfo.meal_name}</td>
-        <td class="cells">${item.household_measurement}</td>
-      </tr>
-    `;
-  }
-});
+          const mealNameCell =
+            index === 0
+              ? `<td class="cells" rowspan="${rowspan}">${mealTime}</td><td class="cells"></td><td class="cells"></td><td class="cells">${item.meal_name}</td><td class="cells"></td>`
+              : '';
+      
+              let rowData = `
+              ${mealNameCell}
+              <tr>`;
+            if (foodInfo.meal_group === meal_group) {
+              rowData += `<td class="cells"></td>`;
+              rowData += `<td class="cells"></td>`;
+            } 
+             else {
+              rowData += `<td class="cells">${foodInfo.meal_group}</td>`;
+              rowData += `<td class="cells">${item.exchange_distribution}</td>`;
+              meal_group = foodInfo.meal_group
+            }
+            rowData += `
+              <td class="cells">${foodInfo.meal_name}</td>`;
+            
+            if (foodInfo.meal_group === 'Vegetable' && index === 0) {
+              rowData += `<td class="cells">${item.household_measurement}</td>`;
+            } else {
+              rowData += `<td class="cells">${foodInfo.household_measure}</td>`;
+            }
+            
+            rowData += '</tr>';
+            return rowData;
+        });
+      
+        htmlContent += mealTimeTableRows.join('');
+      }
   
   
     htmlContent += `
@@ -753,37 +755,32 @@ dataFromDB.forEach((item) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <DataTable.Header>
-          <DataTable.Title style={styles.cell}>ID</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Meal Title</DataTable.Title>
-            <DataTable.Title style={styles.cell}>Actions</DataTable.Title>
-          </DataTable.Header>
         </View>
         <ScrollView style={styles.tableBodyContainer}>
-          <DataTable>
-            {displayedData.length > 0 ? (
-              displayedData.map((item) => (
-                <DataTable.Row key={item.id}>
-                  <DataTable.Cell style={styles.cell}>{item.id}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>{item.meal_title}</DataTable.Cell>
-                  <DataTable.Cell style={styles.cell}>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => openMenu(item.id,item.exchanges_id)}
-                    >
-                      <Ionicons name="md-reorder-three" size={20} />
-                    </TouchableOpacity>
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))
-            ) : (
-              <DataTable.Row>
-                <DataTable.Cell style={styles.noDataCell} colSpan={5}>
-                  No Meal Plan Name found
-                </DataTable.Cell>
-              </DataTable.Row>
-            )}
-          </DataTable>
+          {displayedData.length > 0 ? (
+            displayedData.map((item) => (
+              <View key={item.id} style={styles.contactContainer}>
+                <View style={styles.contactInfo}>
+                <TouchableOpacity onPress={() => handleView(item.id)}>
+                  <Text style={styles.contactName}>{item.meal_title}</Text>
+                </TouchableOpacity>
+                </View>
+                <View style={styles.contactActions}>
+                  <TouchableOpacity style={styles.button} onPress={() => handleUpdate(item.id)}>
+                    <Ionicons name="md-pencil" size={20} color="black" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
+                    <Ionicons name="md-trash" size={20} />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.button} onPress={() => handleSaveasPDF(item.id)}>
+                  <Ionicons name="md-save" size={20} color="black" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text style={styles.noDataText}>No Meal Plan found</Text>
+          )}
         </ScrollView>
         <DataTable.Pagination
           page={page}
@@ -792,41 +789,12 @@ dataFromDB.forEach((item) => {
           label={`${from + 1}-${Math.min((page + 1) * itemsPerPage, tableData.length)} of ${
             tableData.length
           }`}
-          numberOfItemsPerPageList={numberOfItemsPerPageList}
-          numberOfItemsPerPage={itemsPerPage}
-          onItemsPerPageChange={onItemsPerPageChange}
-          showFastPaginationControls
-          selectPageDropdownLabel={'Rows per page'}
+        //   numberOfItemsPerPageList={numberOfItemsPerPageList}
+        //   numberOfItemsPerPage={itemsPerPage}
+        //   onItemsPerPageChange={onItemsPerPageChange}
+        //   showFastPaginationControls
+        //   selectPageDropdownLabel={'Rows per page'}
         />
-        <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
-          <View style={styles.modalContainer}>
-          {/* <TouchableOpacity style={styles.modalButton} onPress={() => handleAdd(selectedItemId,selectedExchangesId)}>
-              <Ionicons name="md-add" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Add Meal Plan</Text>
-            </TouchableOpacity> */}
-
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleSaveasPDF(selectedItemId)}>
-              <Ionicons name="md-save" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Save as PDF</Text>
-              </TouchableOpacity>
-              <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
-              <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Update</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId,selectedExchangesId)}>
-              <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>View Meal Plan</Text>
-            </TouchableOpacity>
-            
-          </View>
-        </Modal>
         <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Create a Meal Title</Text>
@@ -878,7 +846,7 @@ const styles = StyleSheet.create({
     color: '#888',
   },
   tableBodyContainer: {
-    maxHeight: 300, // Adjust the height as needed
+    maxHeight: '70%', // Adjust the height as needed
   },
   modalContainer: {
     backgroundColor: 'white',
@@ -939,6 +907,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#78B878',
     borderWidth: 1,
     alignItems: 'center',
+  },
+  contactContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: '#fefdfd',
+    borderRadius: 10,
+    shadowColor: '#aaaaaa',
+    shadowOffset: { width: 0, height: 2 }, // Adjust the shadow offset as needed
+    shadowOpacity: 0.2, // Adjust the shadow opacity as needed
+    shadowRadius: 100, // Adjust the shadow radius as needed
+    elevation: 5, // Android shadow elevation
+  },
+  avatarContainer: {
+    marginRight: 12,
+  },
+  contactInfo: {
+    flex: 1,
+  },
+  contactName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  contactActions: {
+    flexDirection: 'row', // This sets the direction to row
+    alignItems: 'center', // This centers the buttons vertically
+    justifyContent: 'space-between'
   },
 });
 

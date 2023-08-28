@@ -275,13 +275,6 @@ function Exchanges() {
         <View style={styles.Maincontainer}>
       <View style={styles.container}>
         <View>
-        {/* <View style={styles.meabuttonContainer}>
-        <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
-          <Text style={styles.buttonText}>
-            <Ionicons name="add-circle-outline" size={20} color="black" /> Add
-          </Text>
-        </TouchableOpacity>
-      </View> */}
         </View>
         <FlatList
         data={displayedData}

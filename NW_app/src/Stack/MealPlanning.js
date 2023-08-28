@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation, UIManager } from 'react-native';
 import { Card, Text, Provider as PaperProvider, Divider } from 'react-native-paper';
@@ -59,6 +60,7 @@ const MealPlanning = () => {
         return 6;
     }
   };
+  
   const getMealDataFromId = (foodId) => {
     const meal = meals.find((m) => m.id === foodId);
     return meal ? { mealName: meal.meal_name, mealGroup: meal.meal_group, mealMeasure: meal.household_measure } : { mealName: '', mealGroup: '', mealMeasure: '' };
@@ -115,6 +117,7 @@ const MealPlanning = () => {
 
       return acc;
     }, {});
+
     const colorIndex = Object.values(groupedFoods).length % titleColors.length;
     return (
       <Card style={styles.card}>
