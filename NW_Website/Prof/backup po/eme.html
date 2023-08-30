@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Creation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .schedule {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button id="openModalBtn">Open Class Creation Form</button>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="classCreationModal">
+        <h2>Create Class</h2>
+        <form id="classCreationForm">
+            <label for="className">Class Name:</label>
+            <input type="text" id="className" name="className" required><br><br>
+
+            <label for="classCode">Class Code:</label>
+            <input type="text" id="classCode" name="classCode" value="Auto-generated" readonly><br><br>
+
+            <label for="classSection">Class Section:</label>
+            <input type="text" id="classSection" name="classSection" required><br><br>
+
+            <h3>Schedules:</h3>
+            <div id="scheduleContainer">
+                <!-- Schedules will be dynamically added here -->
+            </div>
+
+            <button type="button" id="addScheduleBtn">Add Schedule</button><br><br>
+
+            <button type="submit">Create Class</button>
+        </form>
+    </div>
+
+    <script>
+        const openModalBtn = document.getElementById('openModalBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const classCreationModal = document.getElementById('classCreationModal');
+        const addScheduleBtn = document.getElementById('addScheduleBtn');
+        const scheduleContainer = document.getElementById('scheduleContainer');
+        const classCreationForm = document.getElementById('classCreationForm');
+
+        openModalBtn.addEventListener('click', () => {
+            modalOverlay.style.display = 'block';
+            classCreationModal.style.display = 'block';
+        });
+
+        modalOverlay.addEventListener('click', () => {
+            modalOverlay.style.display = 'none';
+            classCreationModal.style.display = 'none';
+        });
+
+        let scheduleCount = 0;
+
+        addScheduleBtn.addEventListener('click', () => {
+            scheduleCount++;
+
+            const scheduleDiv = document.createElement('div');
+            scheduleDiv.classList.add('schedule');
+
+            scheduleDiv.innerHTML = `
+                <h4>Schedule ${scheduleCount}</h4>
+                <label for="day${scheduleCount}">Day:</label>
+                <input type="text" id="day${scheduleCount}" name="day${scheduleCount}" required><br><br>
+                
+                <label for="startTime${scheduleCount}">Start Time:</label>
+                <input type="time" id="startTime${scheduleCount}" name="startTime${scheduleCount}" required><br><br>
+                
+                <label for="endTime${scheduleCount}">End Time:</label>
+                <input type="time" id="endTime${scheduleCount}" name="endTime${scheduleCount}" required><br><br>
+            `;
+
+            scheduleContainer.appendChild(scheduleDiv);
+        });
+
+        classCreationForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const className = document.getElementById('className').value;
+            const classCode = document.getElementById('classCode').value;
+            const classSection = document.getElementById('classSection').value;
+
+            const schedules = [];
+
+            for (let i = 1; i <= scheduleCount; i++) {
+                const day = document.getElementById(`day${i}`).value;
+                const startTime = document.getElementById(`startTime${i}`).value;
+                const endTime = document.getElementById(`endTime${i}`).value;
+
+                schedules.push({ day, startTime, endTime });
+            }
+
+            console.log('Class Name:', className);
+            console.log('Class Code:', classCode);
+            console.log('Class Section:', classSection);
+            console.log('Schedules:', schedules);
+
+            // You can perform further processing, validation, or send data to the server here
+        });
+    </script>
+</body>
+</html>

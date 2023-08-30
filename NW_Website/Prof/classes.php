@@ -40,7 +40,8 @@ $result = mysqli_stmt_get_result($stmt);
     <div class="row">
       <!-- Left side columns -->
       <div class="col-lg-12">
-      <div class="class-container">
+      
+<div class="class-container">
   <?php
   // Check if any classes are found
   if (mysqli_num_rows($result) > 0) {
@@ -57,29 +58,36 @@ $result = mysqli_stmt_get_result($stmt);
       mysqli_stmt_bind_param($stmt_schedule, "i", $classId);
       mysqli_stmt_execute($stmt_schedule);
       $result_schedule = mysqli_stmt_get_result($stmt_schedule);
-      $schedule_row = mysqli_fetch_assoc($result_schedule);
 
       // Generate the HTML for the class card including schedule information
       echo '
-      <div class="card">
-        <a href="class_details.php?class_id=' . $classId . '">
-          <div class="card-body">
-            <h5 class="card-title">' . $className . '</h5>
-            <p class="card-text"><strong>Class Code:</strong> ' . $classCode . '</p>
-            <p class="card-text"><strong>Section:</strong> ' . $description . '</p>
-            <p class="card-text">
-              <strong>Schedule:</strong> ' . $schedule_row['schedule_day'] . ' | ' . $schedule_row['start_time'] . ' - ' . $schedule_row['end_time'] . '
-            </p>
+        <div class="card">
+          <a href="class_details.php?class_id=' . $classId . '">
+            <div class="card-body">
+              <h5 class="card-title">' . $className . '</h5>
+              <h6 class="card-subtitle mb-2 text-muted"><strong>Class Code:</strong> ' . $classCode . '</h6>
+              <p class="card-text"><strong>Description:</strong> ' . $description . '</p>
+              <p class="card-text"><strong>Schedule:</strong></p>
+              <ul class="schedule-list">';
+      
+      // Loop through the schedule entries and display them
+      while ($schedule_row = mysqli_fetch_assoc($result_schedule)) {
+        echo '<li>' . $schedule_row['schedule_day'] . ' | ' . $schedule_row['start_time'] . ' - ' . $schedule_row['end_time'] . '</li>';
+      }
+
+      echo '</ul>
+            </div>
+          </a>
+
+
+          <div class="card-footer">
+            <form action="delete_class.php" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this class?\');">
+              <input type="hidden" name="class_id" value="' . $classId . '">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
           </div>
-        </a>
-        <div class="card-footer">
-          <form action="delete_class.php" method="POST" onsubmit="return confirm(\'Are you sure you want to delete this class?\');">
-            <input type="hidden" name="class_id" value="' . $classId . '">
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
         </div>
-      </div>
-  ';
+      ';
     }
   } else {
     // No classes found
@@ -110,11 +118,15 @@ $result = mysqli_stmt_get_result($stmt);
         </div>
         <div class="form-group">
           <label for="descriptionInput">Section</label>
-          <textarea id="descriptionInput" class="form-control" placeholder="Enter Class Section" rows="4" required></textarea>
+          <textarea id="descriptionInput" class="form-control" placeholder="Enter the class section" rows="4" required></textarea>
         </div>
+          
+    <div id="scheduleEntries">
+      <!-- Initial schedule entry fields -->
+      <div class="schedule-entry">
         <div class="form-group">
           <label for="scheduleDayInput">Schedule Day</label>
-          <select id="scheduleDayInput" class="form-control" required>
+          <select class="form-control schedule-day" name="scheduleDay" required>
             <option value="Monday">Monday</option>
             <option value="Tuesday">Tuesday</option>
             <option value="Wednesday">Wednesday</option>
@@ -122,19 +134,24 @@ $result = mysqli_stmt_get_result($stmt);
             <option value="Friday">Friday</option>
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
+            <!-- Other options -->
           </select>
         </div>
         <div class="form-group">
           <label for="startTimeInput">Start Time</label>
-          <input type="time" id="startTimeInput" class="form-control" required>
+          <input type="time" class="form-control start-time" name="startTime" required>
         </div>
         <div class="form-group">
           <label for="endTimeInput">End Time</label>
-          <input type="time" id="endTimeInput" class="form-control" required>
+          <input type="time" class="form-control end-time" name="endTime" required>
         </div>
+        <button type="button" class="btn btn-danger remove-schedule">Remove</button>
+      </div>
+    </div>
       </form>
     </div>
     <div class="modal-footer">
+    <button type="button" class="btn btn-secondary add-schedule">Add Schedule Entry</button>
       <button id="saveClassBtn" class="btn btn-primary">Save Class</button>
     </div>
   </div>
@@ -373,6 +390,23 @@ body {
   const addClassBtn = document.getElementById('add-class-btn');
   const closeBtn = document.getElementsByClassName('close')[0];
   const classContainer = document.querySelector('.class-container'); // Get the class container element
+  const addScheduleBtn = document.querySelector('.add-schedule');
+  const scheduleEntries = document.getElementById('scheduleEntries');
+
+  addScheduleBtn.addEventListener('click', function() {
+    const newScheduleEntry = document.querySelector('.schedule-entry').cloneNode(true);
+    newScheduleEntry.querySelector('.schedule-day').value = ''; // Reset select value
+    newScheduleEntry.querySelector('.start-time').value = ''; // Reset input value
+    newScheduleEntry.querySelector('.end-time').value = ''; // Reset input value
+    scheduleEntries.appendChild(newScheduleEntry);
+  });
+
+  // Remove schedule entry
+  scheduleEntries.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-schedule')) {
+      event.target.parentElement.remove();
+    }
+  });
 
   // Function to fetch and update the class list
   function updateClassList() {
@@ -447,9 +481,22 @@ body {
     // Retrieve form data
     const className = document.getElementById('classNameInput').value.trim();
     const description = document.getElementById('descriptionInput').value.trim();
-    const scheduleDay = document.getElementById('scheduleDayInput').value;
-    const startTime = document.getElementById('startTimeInput').value;
-    const endTime = document.getElementById('endTimeInput').value;
+
+    // Gather schedule entry data
+    const scheduleEntries = document.querySelectorAll('.schedule-entry');
+    const scheduleDays = [];
+    const startTimes = [];
+    const endTimes = [];
+
+    scheduleEntries.forEach(entry => {
+      const scheduleDay = entry.querySelector('.schedule-day').value;
+      const startTime = entry.querySelector('.start-time').value;
+      const endTime = entry.querySelector('.end-time').value;
+
+      scheduleDays.push(scheduleDay);
+      startTimes.push(startTime);
+      endTimes.push(endTime);
+    });
 
     // Create an AJAX request to save the class data
     const xhr = new XMLHttpRequest();
@@ -468,9 +515,11 @@ body {
             // Reset the form fields
             document.getElementById('classNameInput').value = '';
             document.getElementById('descriptionInput').value = '';
-            document.getElementById('scheduleDayInput').value = 'Monday';
-            document.getElementById('startTimeInput').value = '';
-            document.getElementById('endTimeInput').value = '';
+
+            // Clear schedule entries
+            scheduleEntries.forEach(entry => {
+              entry.remove();
+            });
 
             // Display Sweet Alert success message with the "Done" button
             showSweetAlert(
@@ -494,14 +543,16 @@ body {
 
     // Send the class data to the server for saving
     xhr.send('class_name=' + encodeURIComponent(className) + '&description=' + encodeURIComponent(description) +
-      '&schedule_day=' + encodeURIComponent(scheduleDay) + '&start_time=' + encodeURIComponent(startTime) +
-      '&end_time=' + encodeURIComponent(endTime));
+      '&schedule_days=' + encodeURIComponent(JSON.stringify(scheduleDays)) +
+      '&start_times=' + encodeURIComponent(JSON.stringify(startTimes)) +
+      '&end_times=' + encodeURIComponent(JSON.stringify(endTimes)));
   });
 
   // Initial fetch and update of class list on page load
   updateClassList();
 });
 </script>
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

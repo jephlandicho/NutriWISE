@@ -6,10 +6,10 @@ include "config.php"; // Include the config.php file
 $class_name = $_POST['class_name'];
 $description = $_POST['description'];
 
-// Retrieve the class schedule data
-$schedule_day = $_POST['schedule_day'];
-$start_time = $_POST['start_time'];
-$end_time = $_POST['end_time'];
+// Retrieve the class schedule data arrays
+$schedule_days = json_decode($_POST['schedule_days']);
+$start_times = json_decode($_POST['start_times']);
+$end_times = json_decode($_POST['end_times']);
 
 // Generate a unique class code
 $class_code = generateUniqueCode($conn);
@@ -37,28 +37,34 @@ mysqli_stmt_bind_param($stmt, "sssi", $class_name, $class_code, $description, $p
 // Execute the statement for class details
 $result_class = mysqli_stmt_execute($stmt);
 
-// Close the statement for class details
-mysqli_stmt_close($stmt);
-
 // Check if class details insertion was successful
 if ($result_class) {
     // Get the last inserted class ID
     $class_id = mysqli_insert_id($conn);
 
-    // Prepare the SQL statement for inserting class schedule
-    $query_schedule = "INSERT INTO class_schedule (class_id, schedule_day, start_time, end_time) VALUES (?, ?, ?, ?)";
+    // Loop through each schedule entry and insert into the database
+    $result_schedule = true; // Assume success for now
 
-    // Prepare the statement for class schedule
-    $stmt_schedule = mysqli_prepare($conn, $query_schedule);
+    for ($i = 0; $i < count($schedule_days); $i++) {
+        $schedule_day = $schedule_days[$i];
+        $start_time = $start_times[$i];
+        $end_time = $end_times[$i];
+    
+        // Prepare the SQL statement for inserting class schedule
+        $query_schedule = "INSERT INTO class_schedule (class_id, schedule_day, start_time, end_time) VALUES (?, ?, ?, ?)";
 
-    // Bind the parameters for class schedule
-    mysqli_stmt_bind_param($stmt_schedule, "isss", $class_id, $schedule_day, $start_time, $end_time);
+        // Prepare the statement for class schedule
+        $stmt_schedule = mysqli_prepare($conn, $query_schedule);
 
-    // Execute the statement for class schedule
-    $result_schedule = mysqli_stmt_execute($stmt_schedule);
+        // Bind the parameters for class schedule
+        mysqli_stmt_bind_param($stmt_schedule, "isss", $class_id, $schedule_day, $start_time, $end_time);
 
-    // Close the statement for class schedule
-    mysqli_stmt_close($stmt_schedule);
+        // Execute the statement for class schedule
+        $result_schedule = mysqli_stmt_execute($stmt_schedule) && $result_schedule;
+
+        // Close the statement for class schedule
+        mysqli_stmt_close($stmt_schedule);
+    }
 
     if ($result_schedule) {
         echo 'success'; // Return a success message to the client
@@ -68,6 +74,9 @@ if ($result_class) {
 } else {
     echo mysqli_error($conn); // Return the database error message to the client
 }
+
+// Close the statement for class details
+mysqli_stmt_close($stmt);
 
 // Close the database connection
 mysqli_close($conn);

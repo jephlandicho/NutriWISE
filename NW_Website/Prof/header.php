@@ -25,6 +25,8 @@ if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
 } else {
     $profile_picture = 'profile_pictures/defaultprofile.png'; // Provide the path to a default image
 }
+// Get the current page filename
+$currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,27 +61,29 @@ if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
   <link href="C:\xampp\htdocs\NutriWISE\NW_Website\Prof\assets\bootstrap-5.3.0-dist" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
-</head>
-
-<style>
+  
+  <style>
   .header {
     background-color: whitesmoke;
   }
 
-  /* Add active class to the current page in the sidebar */
-  .sidebar-nav .nav-link.active {
-    color: #fff;
-    background-color: darkcyan;
-  }
-  .sidebar-nav .nav-content a.active i {
-  background-color: whitesmoke;
+  .sidebar-nav .nav-item .nav-link.active {
+  color: #fff;
+  background-color: darkcyan;
 }
+  
 .sidebar-nav .nav-link:hover i {
   color: lightgreen;
 }
 </style>
 
+</head>
+
 <body>
+
+
+
+
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -114,10 +118,10 @@ if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
                 <div class="rounded-circle overflow-hidden me-2">
                     <img src="<?php echo $profile_picture; ?>" alt="Profile" class="rounded-circle" width="40" height="40">
                 </div>
-                <div>
-                    <h6><?php echo $username; ?></h6>
-                    <span>Prof</span>
-                </div>
+                  <div>
+                      <h6><?php echo $username; ?></h6>
+                      <span>Prof</span>
+                  </div>
             </div>
             </li>
                     <hr class="dropdown-divider">
@@ -161,9 +165,8 @@ if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
 </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
-
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
       <li class="nav-item">
         <a class="nav-link <?php if ($currentPage == 'index.php') echo 'active'; ?>" href="index.php">
@@ -196,7 +199,6 @@ if ($resultProfilePicture && mysqli_num_rows($resultProfilePicture) > 0) {
       </li><!-- End Profile Page Nav -->
     </ul>
   </aside><!-- End Sidebar -->
-  <!--kukunin for header-->
 
 </body>
 
