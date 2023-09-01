@@ -477,96 +477,115 @@ body {
   <!---Display Announcement-->
   <section class="section dashboard">
   <div class="container">
-    <?php
-    include "config.php"; // Include the config.php file
+  <?php
+include "config.php"; // Include the config.php file
 
-    // Check if the class ID is stored in the session
-    if (isset($_SESSION['class_id'])) {
-      // Retrieve the class ID from the session
-      $classId = $_SESSION['class_id'];
+// Check if the class ID is stored in the session
+if (isset($_SESSION['class_id'])) {
+    // Retrieve the class ID from the session
+    $classId = $_SESSION['class_id'];
 
-      // Fetch the stream content for the current class ID from the database
-      $query = "SELECT * FROM materials WHERE class_id = '$classId' ORDER BY date DESC"; 
+    // Fetch the stream content for the current class ID from the database
+    $query = "SELECT * FROM materials WHERE class_id = '$classId' ORDER BY date DESC";
 
-      $result = mysqli_query($conn, $query);
+    $result = mysqli_query($conn, $query);
 
-      // Check if there is any stream content
-      if (mysqli_num_rows($result) > 0) {
+    // Check if there is any stream content
+    if (mysqli_num_rows($result) > 0) {
         $currentDescription = null;
 
         while ($row = mysqli_fetch_assoc($result)) {
-          if ($row['description'] !== $currentDescription) {
-            if ($currentDescription !== null) {
-              echo '</div>'; // Close the file-preview
-              echo '</div>'; // Close the card
+            if ($row['description'] !== $currentDescription) {
+                if ($currentDescription !== null) {
+                    // Display the links below the uploaded files as clickable links
+                    if (!empty($currentLinks)) {
+                        echo '<p class="uploaded-files"><a href="' . $currentLinks . '" class="link" target="_blank">' . $currentLinks . '</a></p>';
+                    }
+                    // Close the file-preview
+                    echo '</div>';
+                }
+
+                $currentDescription = $row['description'];
+
+                // Open a new card
+                echo '<div class="card">';
+                echo '<p class="announcement"><strong>' . $row['title'] . '</strong><br>' . $currentDescription . '</p>';
+                echo '<div class="file-preview">';
+                // Initialize the links for this announcement
+                $currentLinks = '';
             }
 
-            $currentDescription = $row['description'];
+            // Display the uploaded files and icons
+            $fileNames = explode(',', $row['materials']);
+            foreach ($fileNames as $fileName) {
+                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+                $fileIconClass = getFileIconClass($fileExtension);
+                echo '<div class="file-preview-item">';
+                echo '<a href="' . $baseUrl . $fileName . '" class="file-link" target="_blank">';
+                echo '<span class="file-icon ' . $fileIconClass . '"></span>';
+                echo '<span class="file-title">' . basename($fileName) . '</span>';
+                echo '</a>';
+                echo '</div>';
+            }
 
-            echo '<div class="card">';
-            echo '<p class="announcement">' . $currentDescription . '</p>';
-            echo '<p class="uploaded-files"></p>';
-            echo '<div class="file-preview">';
-          }
-
-          // Display the uploaded files and icons
-          $fileNames = explode(',', $row['materials']);
-          foreach ($fileNames as $fileName) {
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $fileIconClass = getFileIconClass($fileExtension);
-            echo '<div class="file-preview-item">';
-            echo '<a href="' . $baseUrl .$fileName . '" class="file-link" target="_blank">';
-            echo '<span class="file-icon ' . $fileIconClass . '"></span>';
-            echo '<span class="file-title">' . basename($fileName) . '</span>';
-            echo '</a>';
-            echo '</div>';
-          }
+            // Collect the links for this announcement
+            if (!empty($row['links'])) {
+                $currentLinks = $row['links'];
+            }
         }
 
-        echo '</div>'; // Close the file-preview
-        echo '</div>'; // Close the card
-      }
-    } else {
-      echo "<p>Class ID not specified.</p>";
+        // Display the links for the last announcement, if any
+        if (!empty($currentLinks)) {
+            echo '<p class="uploaded-files"><a href="' . $currentLinks . '" class="link" target="_blank">' . $currentLinks . '</a></p>';
+        }
+
+        // Close the final card and file-preview
+        echo '</div>';
+        echo '</div>';
     }
+} else {
+    echo "<p>Class ID not specified.</p>";
+}
 
-    // Helper function to get the file icon class based on the file extension
-    function getFileIconClass($extension)
-    {
-      $iconClass = 'file-icon'; // Default file icon class
+// Helper function to get the file icon class based on the file extension
+function getFileIconClass($extension)
+{
+    $iconClass = 'file-icon'; // Default file icon class
 
-      // Define additional file icons based on the file extension
-      switch ($extension) {
+    // Define additional file icons based on the file extension
+    switch ($extension) {
         case 'pdf':
-          $iconClass = 'file-icon-pdf';
-          break;
+            $iconClass = 'file-icon-pdf';
+            break;
         case 'doc':
         case 'docx':
-          $iconClass = 'file-icon-doc';
-          break;
+            $iconClass = 'file-icon-doc';
+            break;
         case 'xls':
         case 'xlsx':
-          $iconClass = 'file-icon-xls';
-          break;
+            $iconClass = 'file-icon-xls';
+            break;
         case 'ppt':
         case 'pptx':
-          $iconClass = 'file-icon-ppt';
-          break;
+            $iconClass = 'file-icon-ppt';
+            break;
         case 'zip':
         case 'rar':
-          $iconClass = 'file-icon-zip';
-          break;
+            $iconClass = 'file-icon-zip';
+            break;
         case 'jpg':
         case 'jpeg':
         case 'png':
         case 'gif':
-          $iconClass = 'file-icon-img';
-          break;
-      }
-
-      return $iconClass;
+            $iconClass = 'file-icon-img';
+            break;
     }
-    ?>
+
+    return $iconClass;
+}
+?>
+
+
   </div>
 </section>
 
@@ -599,14 +618,18 @@ body {
       </div>
       <div class="modal-body">
       <form action="process_announcement.php?class_id=<?php echo $classDetails['id']; ?>" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter Title" required>
+          </div>
   <div class="form-group">
     <label for="announcement">Announcement</label>
     <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
   </div>
   <div class="form-group">
-    <label for="links">Link</label>
-    <input type="text" class="form-control" id="links" name="links" placeholder="Enter Link">
-  </div>
+    <label for="links">Links</label>
+    <input type="text" class="form-control" id="links" name="links" placeholder="Enter Links">
+</div>
   <div class="form-group">
     <label for="file">Upload Files</label>
     <input type="file" class="form-control-file" id="file" name="files[]" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif" multiple>

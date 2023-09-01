@@ -6,9 +6,10 @@ include 'config.php';
 
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
-    // Escape and sanitize the announcement text and other input fields
+    // Escape and sanitize the title, announcement text, and other input fields
+    $title = $_POST['title'];
     $description = $_POST['description'];
-    $youtubeLink = $_POST['links'];
+    $links = $_POST['links'];
 
     // Get the class ID from the session variable
     $classId = $_SESSION['class_id'];
@@ -62,15 +63,14 @@ if (isset($_POST['submit'])) {
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         // Prepare and execute the database query for each uploaded file
-foreach ($uploadedFiles as $uploadedFilePath) {
-    // Remove the "uploadedfiles/" directory from the file path
-    $relativeFilePath = str_replace('uploadedfiles/', '', $uploadedFilePath);
-    
-    $stmt = $conn->prepare("INSERT INTO materials (class_id, description, links, materials, date) VALUES (?, ?, ?, ?, NOW())");
-    $stmt->execute([$classId, $description, $youtubeLink, $relativeFilePath]);
-}
+        foreach ($uploadedFiles as $uploadedFilePath) {
+            // Remove the "uploadedfiles/" directory from the file path
+            $relativeFilePath = str_replace('uploadedfiles/', '', $uploadedFilePath);
 
-       
+            $stmt = $conn->prepare("INSERT INTO materials (class_id, title, description, links, materials, date) VALUES (?, ?, ?, ?, ?, NOW())");
+            $stmt->execute([$classId, $title, $description, $links, $relativeFilePath]);
+        }
+
         // Close the database connection
         $conn = null;
 
