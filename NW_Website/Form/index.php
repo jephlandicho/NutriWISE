@@ -56,6 +56,7 @@
               <option value="Rice C">Rice C</option>
               <option value="Low Fat Meat">Low Fat Meat</option>
               <option value="Medium Fat Meat">Medium Fat Meat</option>
+              <option value="High Fat Meat">High Fat Meat</option>
               <option value="Fat">Fat</option>
               <option value="Sugar">Sugar</option>
             </select>
@@ -86,7 +87,7 @@
             }
 
          
-            $sql = "SELECT * FROM foods";
+            $sql = "SELECT * FROM food";
             $result = mysqli_query($conn, $sql);
 
             while ($row = mysqli_fetch_assoc($result)) {

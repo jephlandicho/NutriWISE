@@ -1,4 +1,5 @@
 <?php
+$baseUrl = 'http://localhost/NutriWISE/NW_Website/Prof/uploadedfiles/'; // Update with your actual project folder path
 session_start();
 include "config.php"; // Include the config.php file
 
@@ -474,7 +475,6 @@ body {
   </section>
 
   <!---Display Announcement-->
-
   <section class="section dashboard">
   <div class="container">
     <?php
@@ -486,37 +486,45 @@ body {
       $classId = $_SESSION['class_id'];
 
       // Fetch the stream content for the current class ID from the database
-      $query = "SELECT * FROM materials WHERE class_id = '$classId'";
+      $query = "SELECT * FROM materials WHERE class_id = '$classId' ORDER BY date DESC"; 
+
       $result = mysqli_query($conn, $query);
 
       // Check if there is any stream content
       if (mysqli_num_rows($result) > 0) {
-        // Iterate through the stream content and generate a card for each item
+        $currentDescription = null;
+
         while ($row = mysqli_fetch_assoc($result)) {
-          // Generate the card layout using HTML and CSS
-          echo '<div class="card">';
-          echo '<p class="announcement">' . $row['description'] . '</p>';
-          echo '<p class="uploaded-files">Uploaded Files:</p>';
-          
-          echo '<div class="file-preview">';
+          if ($row['description'] !== $currentDescription) {
+            if ($currentDescription !== null) {
+              echo '</div>'; // Close the file-preview
+              echo '</div>'; // Close the card
+            }
+
+            $currentDescription = $row['description'];
+
+            echo '<div class="card">';
+            echo '<p class="announcement">' . $currentDescription . '</p>';
+            echo '<p class="uploaded-files"></p>';
+            echo '<div class="file-preview">';
+          }
+
           // Display the uploaded files and icons
           $fileNames = explode(',', $row['materials']);
           foreach ($fileNames as $fileName) {
             $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
             $fileIconClass = getFileIconClass($fileExtension);
             echo '<div class="file-preview-item">';
-            echo '<a href="' . $fileName . '" class="file-link" target="_blank">';
+            echo '<a href="' . $baseUrl .$fileName . '" class="file-link" target="_blank">';
             echo '<span class="file-icon ' . $fileIconClass . '"></span>';
             echo '<span class="file-title">' . basename($fileName) . '</span>';
             echo '</a>';
             echo '</div>';
           }
-          echo '</div>';
-
-          echo '</div>';
         }
-      } else {
-        echo "<p>No stream content available.</p>";
+
+        echo '</div>'; // Close the file-preview
+        echo '</div>'; // Close the card
       }
     } else {
       echo "<p>Class ID not specified.</p>";
@@ -563,6 +571,14 @@ body {
 </section>
 
 
+
+
+
+
+
+
+
+
  
 
 
@@ -582,21 +598,21 @@ body {
         </button>
       </div>
       <div class="modal-body">
-        <form action="process_announcement.php?class_id=<?php echo $classDetails['id']; ?>" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <label for="announcement">Announcement</label>
-            <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="links">Link</label>
-            <input type="text" class="form-control" id="links" name="links" placeholder="Enter Link">
-          </div>
-          <div class="form-group">
-            <label for="file">Upload File</label>
-            <input type="file" class="form-control-file" id="file" name="file" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif">
-          </div>
-          <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-        </form>
+      <form action="process_announcement.php?class_id=<?php echo $classDetails['id']; ?>" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="announcement">Announcement</label>
+    <textarea class="form-control" id="announcement" name="description" rows="3"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="links">Link</label>
+    <input type="text" class="form-control" id="links" name="links" placeholder="Enter Link">
+  </div>
+  <div class="form-group">
+    <label for="file">Upload Files</label>
+    <input type="file" class="form-control-file" id="file" name="files[]" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif" multiple>
+  </div>
+  <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+</form>
       </div>
     </div>
   </div>

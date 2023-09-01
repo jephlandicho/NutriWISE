@@ -66,7 +66,7 @@ $result = mysqli_stmt_get_result($stmt);
             <div class="card-body">
               <h5 class="card-title">' . $className . '</h5>
               <h6 class="card-subtitle mb-2 text-muted"><strong>Class Code:</strong> ' . $classCode . '</h6>
-              <p class="card-text"><strong>Description:</strong> ' . $description . '</p>
+              <p class="card-text"><strong>Section:</strong> ' . $description . '</p>
               <p class="card-text"><strong>Schedule:</strong></p>
               <ul class="schedule-list">';
       

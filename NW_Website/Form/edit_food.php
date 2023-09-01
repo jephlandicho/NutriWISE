@@ -52,6 +52,7 @@ if (isset($_GET['id'])) {
               <option value="Rice C" ' . ($row['meal_group'] == 'Rice C' ? 'selected' : '') . '>Rice C</option>
               <option value="Low Fat Meat" ' . ($row['meal_group'] == 'Low Fat Meat' ? 'selected' : '') . '>Low Fat Meat</option>
               <option value="Medium Fat Meat" ' . ($row['meal_group'] == 'Medium Fat Meat' ? 'selected' : '') . '>Medium Fat Meat</option>
+              <option value="High Fat Meat" ' . ($row['meal_group'] == 'High Fat Meat' ? 'selected' : '') . '>High Fat Meat</option>
               <option value="Fat" ' . ($row['meal_group'] == 'Fat' ? 'selected' : '') . '>Fat</option>
               <option value="Sugar" ' . ($row['meal_group'] == 'Sugar' ? 'selected' : '') . '>Sugar</option>
             </select>
