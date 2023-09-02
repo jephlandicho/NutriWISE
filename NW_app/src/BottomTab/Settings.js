@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SQLite from 'expo-sqlite';
+const db = SQLite.openDatabase('mydatabase.db');
+
 import { useNavigation } from '@react-navigation/native';
+
  const Settings = () => {
   const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
@@ -35,6 +39,18 @@ import { useNavigation } from '@react-navigation/native';
       console.error('Error:', error);
     }
   };
+
+  const deleteTable = () => {
+        const createClassesTableQuery = `
+        DROP TABLE classes;`;
+
+      return new Promise((resolve, reject) => {
+        db.transaction((transaction) => {
+          transaction.executeSql(createClassesTableQuery, [], resolve, (_, error) => reject(error));
+        });
+      });
+  };
+
    const toggleNotifications = async () => {
     try {
       const newNotificationsEnabled = !notificationsEnabled;
@@ -70,6 +86,9 @@ import { useNavigation } from '@react-navigation/native';
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
           <Text style={styles.settingLabel}>Privacy Settings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={deleteTable}>
+          <Text style={styles.settingLabel}>Reset</Text>
         </TouchableOpacity>
       </View>
     </View>

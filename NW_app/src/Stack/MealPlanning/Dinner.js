@@ -11,16 +11,15 @@ const db = SQLite.openDatabase('mydatabase.db');
 const Dinner = () => {
   const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState('Vegetable');
+  const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { Dinner, setDinner } = useContext(ResultContext);
-  const { AvegetablesDinner, AfruitDinner, AriceADinner, AriceBDinner, AriceCDinner, AMilkDinner, ALFDinner, AMFDinner, AFatDinner, ASugarDinner,
+  const { AvegetablesDinner, AfruitDinner, AriceADinner, AriceBDinner, AriceCDinner, AMilkDinner, ALFDinner, AMFDinner, AHFDinner, AFatDinner, ASugarDinner,
     setAvegetablesDinner,
     setAfruitDinner,
     setAriceADinner,
@@ -29,6 +28,7 @@ const Dinner = () => {
     setAMilkDinner,
     setALFDinner,
     setAMFDinner,
+    setAHFDinner,
     setAFatDinner,
     setASugarDinner } = useContext(ResultContext);
 
@@ -41,6 +41,21 @@ const Dinner = () => {
       setFilteredFoods(sectionData);
     }
   };
+
+  const sectionsWithVal = [
+    { name: 'Food Group', value: 'Exchange' },
+    { name: 'Vegetable', value: AvegetablesDinner},
+    { name: 'Fruit', value: AfruitDinner},
+    { name: 'Rice A', value: AriceADinner},
+    { name: 'Rice B', value: AriceBDinner},
+    { name: 'Rice C', value: AriceCDinner},
+    { name: 'Milk', value: AMilkDinner},
+    { name: 'Low Fat Meat', value: ALFDinner},
+    { name: 'Medium Fat Meat', value: AMFDinner},
+    { name: 'High Fat Meat', value: AHFDinner},
+    { name: 'Fat', value: AFatDinner},
+    { name: 'Sugar', value: ASugarDinner},
+  ].filter(section => section.value !== 0);
 
   useEffect(() => {
     fetchData();
@@ -84,6 +99,9 @@ const Dinner = () => {
                 break;
               case 'MF Meat':
                 setAMFDinner(dinner);
+                break;
+              case 'HF Meat':
+                setAHFDinner(dinner);
                 break;
               case 'Fat':
                 setAFatDinner(dinner);
@@ -185,56 +203,21 @@ const Dinner = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Alertcontainer}>
-        <Text style={styles.exchangesText}>Exchanges</Text>
-        <TouchableOpacity onPress={() => {
-          let alertContent = '';
-
-          if (AvegetablesDinner !== 0) {
-            alertContent += `Vegetables: ${AvegetablesDinner}\n`;
-          }
-          if (AfruitDinner !== 0) {
-            alertContent += `Fruit: ${AfruitDinner}\n`;
-          }
-          if (AriceADinner !== 0) {
-            alertContent += `Rice A: ${AriceADinner}\n`;
-          }
-          if (AriceBDinner !== 0) {
-            alertContent += `Rice B: ${AriceBDinner}\n`;
-          }
-          if (AriceCDinner !== 0) {
-            alertContent += `Rice C: ${AriceCDinner}\n`;
-          }
-          if (AMilkDinner !== 0) {
-            alertContent += `Milk: ${AMilkDinner}\n`;
-          }
-          if (ALFDinner !== 0) {
-            alertContent += `LF Meat: ${ALFDinner}\n`;
-          }
-          if (AMFDinner !== 0) {
-            alertContent += `MF Meat: ${AMFDinner}\n`;
-          }
-          if (AFatDinner !== 0) {
-            alertContent += `Fat: ${AFatDinner}\n`;
-          }
-          if (ASugarDinner !== 0) {
-            alertContent += `Sugar: ${ASugarDinner}\n`;
-          }
-
-          if (alertContent !== '') {
-            Alert.alert(
-              'Exchanges',
-              alertContent.trim(),
-              [
-                { text: 'Close', style: 'cancel' }
-              ],
-              { cancelable: true }
-            );
-          }
-        }}>
-          <Ionicons name="ios-help-circle-outline" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.inputContainer}>
+        <View>
+        </View>
+        <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedSection}
+            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
+          >
+            {sectionsWithVal.map((section) => (
+              <Picker.Item key={section.name} label={`${section.name}   (${section.value})`} value={section.name} />
+            ))}
+          </Picker>
+        </View>
+      </View>      
       <View style={styles.inputContainer}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -243,17 +226,6 @@ const Dinner = () => {
             onChangeText={handleSearch}
             placeholder="Search here..."
           />
-        </View>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedSection}
-            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
-          >
-            {sections.map((section) => (
-              <Picker.Item key={section} label={section} value={section} />
-            ))}
-          </Picker>
         </View>
       </View>
 
@@ -342,8 +314,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pickerContainer: {
-    marginLeft: 5,
-    width: 120,
+    width: 227,
+    marginTop: 10,
+    marginBottom: 10
   },
   picker: {
     flex: 1,

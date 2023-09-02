@@ -43,11 +43,13 @@ const ExchangeComputation = () => {
   const riceC = watch('riceC');
   const LFmeat = watch('LFmeat');
   const MFmeat = watch('MFmeat');
+  const HFmeat = watch('HFmeat');
 
 
   const { result, otherValue } = useContext(ResultContext);
-  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
+  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
 
+  const [riceExchange, setriceExchange] = useState('');
 
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const ExchangeComputation = () => {
     {
       compute2();
     }
-    if (LFmeat && MFmeat)
+    if (LFmeat && MFmeat && HFmeat)
     {
       compute3();
     }
@@ -67,7 +69,7 @@ const ExchangeComputation = () => {
       totalCompute();
     }
     
-  }, [vegetables, fruit, milk, sugar, riceA,riceB, riceC, LFmeat, MFmeat,fatEx,kcal3]);
+  }, [vegetables, fruit, milk, sugar, riceA,riceB, riceC, LFmeat, MFmeat,HFmeat,fatEx,kcal3]);
 
   const computePressed = () => {
     const vegCarbs = vegetables * 3;
@@ -92,10 +94,10 @@ const ExchangeComputation = () => {
 
     const carbsPartial = vegCarbs + fruitCarbs + milkCarbs + sugarCarbs;
     setCarbs1(carbsPartial)
-    const riceExchange = Math.round((245 - carbsPartial) / 23);
+    const riceExchange = Math.round((carbs - carbsPartial) / 23);
 
-    const riceRes = `(${riceExchange})`;
-    setRiceExResult(riceRes);
+    // const riceRes = `${riceExchange}`;
+    setRiceExResult(riceExchange);
     setShowInputField(true);
 
     setVegEx(vegetables)
@@ -124,15 +126,31 @@ const ExchangeComputation = () => {
 
     const proteinPartial = protein1 + riceBProtein + riceCProtein;
     setProtein2(riceBProtein + riceCProtein)
-    const meatExchange = Math.round((55 - proteinPartial) / 8);
+    const meatExchange = Math.round((protein - proteinPartial) / 8);
 
-    const riceMeat = `(${meatExchange})`;
-    setMeatExResult(riceMeat);
-    setShowInputField2(true);
+    const var_RiceA = parseInt(riceA)
+    const var_riceB = parseInt(riceB)
+    const var_riceC = parseInt(riceC)
+    const sumRiceEx = var_RiceA + var_riceB + var_riceC;
+    console.log("sumRiceEx:", sumRiceEx);
+    console.log("riceExResult:", riceExResult);
+      if (sumRiceEx === riceExResult){
+        // const riceMeat = `${meatExchange}`;
+        setMeatExResult(meatExchange);
+        setShowInputField2(true);
+        console.log(sumRiceEx)
+        console.log(riceExResult)
+        console.log(showInputField2)
+      }
+
+    // setriceExchange(sumRiceEx)
+    
 
     setriceAEx(riceA)
     setriceBEx(riceB);
     setriceCEx(riceC);
+
+
 
     const kcal2 = riceAKcal + riceBKcal + riceCKcal
     setKcal2(kcal2);
@@ -147,23 +165,29 @@ const ExchangeComputation = () => {
     const mfmeatFat = MFmeat * 6
     const MFKcal = MFmeat * 86
 
-    const proteinPartial2 = lfmeatProtein + mfmeatProtein
+    const hfmeatProtein = HFmeat * 8
+    const hfmeatFat = HFmeat * 10
+    const HFKcal = HFmeat * 122
+
+    const proteinPartial2 = lfmeatProtein + mfmeatProtein + hfmeatProtein
     setProtein3(proteinPartial2)
 
-    const fatPartial = fat1 + lfmeatFat + mfmeatFat
-    const fatExchange =  Math.round((35 - fatPartial) / 5);
+    const fatPartial = fat1 + lfmeatFat + mfmeatFat + hfmeatFat
+    const fatExchange =  Math.round((fats - fatPartial) / 5);
+
     setShowInputField3(true)
 
     setLFmeatEx(LFmeat)
     setMFmeatEx(MFmeat)
+    setHFmeatEx(HFmeat)
     setfatEx(fatExchange)
 
     const fatFat = fatEx * 5
-    const fatSum = lfmeatFat + mfmeatFat + fatFat
+    const fatSum = lfmeatFat + mfmeatFat + hfmeatFat + fatFat
     setfat2(fatSum)
     const fatKcal = fatEx * 45
 
-    const sumkcal3 = LFKcal + MFKcal + fatKcal
+    const sumkcal3 = LFKcal + MFKcal + HFKcal + fatKcal
     setKcal3(sumkcal3)
   }
 
@@ -179,24 +203,25 @@ const ExchangeComputation = () => {
     settotalKcal(t_kcal)
   }
 
+  
   return (
     <View style={styles.mainCon}>
-<View style={{ flexDirection: 'row', marginLeft: 30, marginTop: 10 }}>
-  <View style={{ flex: 1 }}>
-        <Text style={styles.result1}>Carbohydrates: {carbs} g</Text>
-        <Text style={styles.result1}>Protein: {protein} g</Text>
-        <Text style={styles.result1}>Fats: {fats} g</Text>
-        <Text style={styles.result1}>TER: {TER} kcal</Text>
-  </View>
-  {kcal3 !== '' && showInputField3 && (
-    <View style={{ flex: 1 }}>
-      <Text>Carbohydrates: {totalCarbs} g</Text>
-      <Text>Protein: {totalProtein} g</Text>
-      <Text>Fats: {totalFat} g</Text>
-      <Text>TER: {totalKcal} kcal</Text>
-    </View>
-  )}
-</View>
+      <View style={{ flexDirection: 'row', marginLeft: 30, marginTop: 10 }}>
+        <View style={{ flex: 1 }}>
+              <Text style={styles.result1}>Carbohydrates: {carbs} g</Text>
+              <Text style={styles.result1}>Protein: {protein} g</Text>
+              <Text style={styles.result1}>Fats: {fats} g</Text>
+              <Text style={styles.result1}>TER: {TER} kcal</Text>
+        </View>
+        {kcal3 !== '' && showInputField3 && (
+          <View style={{ flex: 1 }}>
+            <Text>Carbohydrates: {totalCarbs} g</Text>
+            <Text>Protein: {totalProtein} g</Text>
+            <Text>Fats: {totalFat} g</Text>
+            <Text>TER: {totalKcal} kcal</Text>
+          </View>
+        )}
+      </View>
 
     
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -255,7 +280,7 @@ const ExchangeComputation = () => {
                   placeholder="Rice A"
                   numeric={true}
                   control={control}
-                  rules={{ required: 'Rice A is required!' }} />
+                   />
                 </View>
                 <View style={styles.item}>
                 <CustomInput
@@ -264,7 +289,7 @@ const ExchangeComputation = () => {
                   placeholder="Rice B"
                   numeric={true}
                   control={control}
-                  rules={{ required: 'Rice B is required!' }} />
+                   />
                 </View>
                 <View style={styles.item}>
                 <CustomInput
@@ -273,7 +298,7 @@ const ExchangeComputation = () => {
                   placeholder="Rice C"
                   numeric={true}
                   control={control}
-                  rules={{ required: 'Rice C is required!' }} />
+                   />
                 </View>
               </View>
             )}
@@ -292,7 +317,7 @@ const ExchangeComputation = () => {
                   placeholder="Low Fat Meat"
                   numeric={true}
                   control={control}
-                  rules={{ required: 'Low Fat Meat is required!' }} />
+                   />
                 </View>
                 <View style={styles.item}>
                 <CustomInput
@@ -301,8 +326,19 @@ const ExchangeComputation = () => {
                   placeholder="Medium Fat Meat"
                   numeric={true}
                   control={control}
-                  rules={{ required: 'Medium Fat Meat is required!' }} />
-                </View>
+                   />
+                  </View>
+                  <View style={styles.item}>
+                  <CustomInput
+                  title="High Fat Meat"
+                  name="HFmeat"
+                  placeholder="High Fat Meat"
+                  numeric={true}
+                  control={control}
+                  />
+                  </View>
+
+                
               </View>
             )}
           </View>

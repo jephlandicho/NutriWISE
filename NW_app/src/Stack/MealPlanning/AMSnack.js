@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
-import { Ionicons } from '@expo/vector-icons';
 import foodsData from '../../meals/foods.json';
 
 import * as SQLite from 'expo-sqlite';
@@ -11,16 +10,15 @@ const db = SQLite.openDatabase('mydatabase.db');
 const AMSnack = () => {
   const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState('Vegetable');
+  const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
   
   const { AMSnack, setAMSnack } = useContext(ResultContext);
-  const { AvegetablesAMSnacks, AfruitAMSnacks, AriceAAMSnacks, AriceBAMSnacks, AriceCAMSnacks, AMilkAMSnacks, ALFAMSnacks, AMFAMSnacks, AFatAMSnacks, ASugarAMSnacks,
+  const { AvegetablesAMSnacks, AfruitAMSnacks, AriceAAMSnacks, AriceBAMSnacks, AriceCAMSnacks, AMilkAMSnacks, ALFAMSnacks, AMFAMSnacks,AHFAMSnacks, AFatAMSnacks, ASugarAMSnacks,
     setAvegetablesAMSnacks,
     setAfruitAMSnacks,
     setAriceAAMSnacks,
@@ -29,6 +27,7 @@ const AMSnack = () => {
     setAMilkAMSnacks,
     setALFAMSnacks,
     setAMFAMSnacks,
+    setAHFAMSnacks,
     setAFatAMSnacks,
     setASugarAMSnacks} = useContext(ResultContext);
 
@@ -41,6 +40,22 @@ const AMSnack = () => {
       setFilteredFoods(sectionData);
     }
   };
+
+  const sectionsWithVal = [
+    { name: 'Food Group', value: 'Exchange' },
+    { name: 'Vegetable', value: AvegetablesAMSnacks },
+    { name: 'Fruit', value: AfruitAMSnacks },
+    { name: 'Rice A', value: AriceAAMSnacks },
+    { name: 'Rice B', value: AriceBAMSnacks },
+    { name: 'Rice C', value: AriceCAMSnacks },
+    { name: 'Milk', value: AMilkAMSnacks },
+    { name: 'Low Fat Meat', value: ALFAMSnacks },
+    { name: 'Medium Fat Meat', value: AMFAMSnacks },
+    { name: 'High Fat Meat', value: AHFAMSnacks },
+    { name: 'Fat', value: AFatAMSnacks },
+    { name: 'Sugar', value: ASugarAMSnacks },
+  ].filter(section => section.value !== 0);
+
 
   useEffect(() => {
     fetchData();
@@ -84,6 +99,9 @@ const AMSnack = () => {
                 break;
               case 'MF Meat':
                 setAMFAMSnacks(am_snacks);
+                break;
+              case 'HF Meat':
+                setAHFAMSnacks(am_snacks);
                 break;
               case 'Fat':
                 setAFatAMSnacks(am_snacks);
@@ -186,56 +204,21 @@ const AMSnack = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Alertcontainer}>
-        <Text style={styles.exchangesText}>Exchanges</Text>
-        <TouchableOpacity onPress={() => {
-          let alertContent = '';
-
-          if (AvegetablesAMSnacks !== 0) {
-            alertContent += `Vegetables: ${AvegetablesAMSnacks}\n`;
-          }
-          if (AfruitAMSnacks !== 0) {
-            alertContent += `Fruit: ${AfruitAMSnacks}\n`;
-          }
-          if (AriceAAMSnacks !== 0) {
-            alertContent += `Rice A: ${AriceAAMSnacks}\n`;
-          }
-          if (AriceBAMSnacks !== 0) {
-            alertContent += `Rice B: ${AriceBAMSnacks}\n`;
-          }
-          if (AriceCAMSnacks !== 0) {
-            alertContent += `Rice C: ${AriceCAMSnacks}\n`;
-          }
-          if (AMilkAMSnacks !== 0) {
-            alertContent += `Milk: ${AMilkAMSnacks}\n`;
-          }
-          if (ALFAMSnacks !== 0) {
-            alertContent += `LF Meat: ${ALFAMSnacks}\n`;
-          }
-          if (AMFAMSnacks !== 0) {
-            alertContent += `MF Meat: ${AMFAMSnacks}\n`;
-          }
-          if (AFatAMSnacks !== 0) {
-            alertContent += `Fat: ${AFatAMSnacks}\n`;
-          }
-          if (ASugarAMSnacks !== 0) {
-            alertContent += `Sugar: ${ASugarAMSnacks}\n`;
-          }
-
-          if (alertContent !== '') {
-            Alert.alert(
-              'Exchanges',
-              alertContent.trim(),
-              [
-                { text: 'Close', style: 'cancel' }
-              ],
-              { cancelable: true }
-            );
-          }
-        }}>
-          <Ionicons name="ios-help-circle-outline" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
+      <View style={styles.inputContainer}>
+        <View>
+        </View>
+        <View style={styles.pickerContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedSection}
+            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
+          >
+            {sectionsWithVal.map((section) => (
+              <Picker.Item key={section.name} label={`${section.name}   (${section.value})`} value={section.name} />
+            ))}
+          </Picker>
+        </View>
+      </View>      
       <View style={styles.inputContainer}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -244,17 +227,6 @@ const AMSnack = () => {
             onChangeText={handleSearch}
             placeholder="Search here..."
           />
-        </View>
-        <View style={styles.pickerContainer}>
-          <Picker
-            style={styles.picker}
-            selectedValue={selectedSection}
-            onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
-          >
-            {sections.map((section) => (
-              <Picker.Item key={section} label={section} value={section} />
-            ))}
-          </Picker>
         </View>
       </View>
 
@@ -343,8 +315,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pickerContainer: {
-    marginLeft: 5,
-    width: 120,
+    width: 227,
+    marginTop: 10,
+    marginBottom: 10
   },
   picker: {
     flex: 1,

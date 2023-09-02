@@ -87,16 +87,10 @@ function FloatingTabIcon({ name, size, focused, style, label }) {
   return (
     <Animated.View style={[styles.floatingTabIconContainer, shadowStyle, { transform: [{ translateY }, { scale }] }]}>
       <Ionicons name={name} size={iconSize} color={iconColor} style={style} />
-      {focused && (
-        <Ionicons name="ios-arrow-up" size={12} color="#78B878" style={styles.fruitIcon} />
-      )}
       <Text style={[styles.tabLabel, { color: labelColor }]}>{label}</Text>
     </Animated.View>
   );
 }
-
-
-
 
 function TabNavigator() {
   return (
@@ -272,7 +266,7 @@ function StackNavigator() {
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
-                Client Measurements
+                Client Data
               </Text>
             </View>
           ),

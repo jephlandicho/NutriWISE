@@ -107,7 +107,7 @@ const MealPlan = () => {
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <CustomInput
-            title="Client Name"
+            title="Client Full Name"
             name="Client_name"
             placeholder="Client name"
             control={control}
@@ -148,25 +148,25 @@ const MealPlan = () => {
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Waist Circumference"
+              title="Waist Circum (cm)"
               name="waistCircumference"
               numeric={true}
-              placeholder="Waist Circumference (cm)"
+              placeholder="Waist (Inches)"
               rules={{ required: 'Waist Circumference is required' }} />
           </View>
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Hip Circumference"
+              title="Hip Circum (cm)"
               name="hipCircumference"
               numeric={true}
-              placeholder="Hip Circumference (cm)"
+              placeholder="Hip (Inches)"
               rules={{ required: 'Hip Circumference is required' }} />
           </View>
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Weight"
+              title="Weight (kg)"
               name="weight"
               numeric={true}
               placeholder="Weight (kg)"
@@ -174,7 +174,7 @@ const MealPlan = () => {
           </View>
           <View style={styles.item}>
             <CustomInput
-              title="Height"
+              title="Height (m)"
               control={control}
               name="height"
               numeric={true}
