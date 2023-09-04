@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, ScrollView,Alert, FlatList } from 'react-native';
+import { View, Text, StyleSheet, ScrollView,Alert, FlatList,Linking } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation,useIsFocused  } from '@react-navigation/native';
-import { Card, Title, Paragraph, Provider as PaperProvider, } from 'react-native-paper';
+import { Card, Title, Paragraph, Provider as PaperProvider, DataTable} from 'react-native-paper';
 import MyTheme from '../Components/MyTheme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -10,8 +10,19 @@ const Stream = () => {
     const navigation = useNavigation();
   const route = useRoute();
   const { classID } = route.params;
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPageList] = useState([3, 6, 8]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
 
   const [classStreams, setClassStreams] = useState([]);
+
+  const openFileInDefaultViewer = (link) => {
+    const fileUrl = link;
+
+    Linking.openURL(fileUrl).catch((err) => {
+      console.error('Error opening URL:', err);
+    });
+  };
 
   useEffect(() => {
     fetch(`https://nutriwise.website/api/stream.php?classID=${classID}`)
@@ -19,6 +30,7 @@ const Stream = () => {
       .then((data) => {
         if (data.success) {
           setClassStreams(data.classStreams);
+          console.log(data.classStreams);
         } else {
         Alert.alert('No post yet', 'Wait for your instructor to post something.');
         //   console.error(data.message);
@@ -28,23 +40,37 @@ const Stream = () => {
   }, [classID]);
 
   const handleView = (material) => {
+    console.log(material)
     navigation.navigate('Materials', { material });
   };
+
+  const from = page * itemsPerPage;
+  const to = from + itemsPerPage;
+  const displayedData = classStreams.slice(from, to);
   return (
     <PaperProvider theme={MyTheme}>
     <ScrollView style={styles.container1}> 
     <View style={styles.container}>
-      {classStreams.length > 0 ? (
-        classStreams.map((classStream) => (
+      {displayedData.length > 0 ? (
+        displayedData.map((classStream) => (
           <Card key={classStream.id} style={styles.card}>
             <Card.Content>
-              <Title style={styles.cardTitle}>{classStream.description}</Title>
-              <TouchableOpacity onPress={() => handleView(classStream.materials)}>
-              <Paragraph>{classStream.materials}</Paragraph>
+              <Title style={styles.cardTitle}>{classStream.title}</Title>
+              <Paragraph>{classStream.description}</Paragraph>
+              <TouchableOpacity onPress={() => openFileInDefaultViewer(classStream.links)}>
+                <Paragraph>{classStream.links}</Paragraph>
               </TouchableOpacity>
-              {/* <WebView
-                source={{ uri: `https://nutriwise.website/Prof/${classStream.materials}` }}
-            /> */}
+              
+              {classStream.materials.length > 0 ? (
+                classStream.materials.map((material, index) => (
+                  <TouchableOpacity key={index} onPress={() => handleView(material)}>
+                    <Paragraph>{material}</Paragraph>
+                    {console.log(classStream.materials)}
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text>No materials available</Text>
+              )}
               {/* Display other classStream properties as needed */}
             </Card.Content>
           </Card>
@@ -52,6 +78,17 @@ const Stream = () => {
       ) : (
         <Text style={styles.noPostText}>No posts yet.</Text>
       )}
+      <DataTable.Pagination
+          page={page}
+          numberOfPages={Math.ceil(classStreams.length / itemsPerPage)}
+          onPageChange={(page) => setPage(page)}
+          label={`${from + 1}-${Math.min((page + 1) * itemsPerPage, classStreams.length)} of ${
+            classStreams.length
+          }`}
+          numberOfItemsPerPageList={numberOfItemsPerPageList}
+          numberOfItemsPerPage={itemsPerPage}
+          selectPageDropdownLabel={'Rows per page'}
+        />
     </View>
     </ScrollView>
     </PaperProvider>

@@ -686,8 +686,8 @@ function MealPlanName() {
     setSearchQuery(query);
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT id, meal_title FROM meal_title
-        WHERE meal_title LIKE '%${query}%'`,
+        `SELECT * FROM meal_title
+        WHERE meal_title LIKE '%${query}%' AND exchanges_id='${e_ID}'`,
         [],
         (_, { rows }) => {
           const data = rows._array;
@@ -767,13 +767,13 @@ function MealPlanName() {
                 </View>
                 <View style={styles.contactActions}>
                   <TouchableOpacity style={styles.button} onPress={() => handleUpdate(item.id)}>
-                    <Ionicons name="md-pencil" size={20} color="black" />
+                    <Ionicons name="md-create-outline" size={20} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
-                    <Ionicons name="md-trash" size={20} />
+                    <Ionicons name="md-trash-outline" size={20} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleSaveasPDF(item.id)}>
-                  <Ionicons name="md-save" size={20} color="black" />
+                  <Ionicons name="md-save-outline" size={20} color="black" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -881,9 +881,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#aaaaaa',
+    color: '#000000',
     marginLeft: 5,
   },
   inputContainer: {

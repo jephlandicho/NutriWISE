@@ -232,7 +232,7 @@ function ClientMeasurements() {
                   </>
                   <TouchableOpacity onPress={() => viewExchanges(item.id)}>
                   <Text style={styles.header2}>Exchanges <Ionicons
-                    name={showExchanges ? 'md-arrow-up' : 'md-arrow-down'}
+                    name={showExchanges ? 'md-arrow-up-outline' : 'md-arrow-down-outline'}
                     size={18}
                   />
                   </Text>
@@ -318,20 +318,20 @@ function ClientMeasurements() {
                     style={styles.button}
                     onPress={() => handleUpdate(item.id)}
                   >
-                    <Ionicons name="md-pencil" size={25} />
+                    <Ionicons name="md-create-outline" size={25} />
                     
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleDelete(item.id)}
                   >
-                    <Ionicons name="md-trash" size={25} />
+                    <Ionicons name="md-trash-outline" size={25} />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleViewMeal(item.e_ID)}
                   >
-                    <Ionicons name="md-restaurant" size={25} />
+                    <Ionicons name="md-restaurant-outline" size={25} />
                   </TouchableOpacity>
                 </Card.Actions>
               </Card>
