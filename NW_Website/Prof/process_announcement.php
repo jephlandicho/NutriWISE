@@ -62,13 +62,21 @@ if (isset($_POST['submit'])) {
         $conn = new PDO("mysql:host=$hostname;dbname=$database", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        // Prepare and execute the database query to insert the announcement details
+        $stmt = $conn->prepare("INSERT INTO announcement (class_id, title, description, links, date) VALUES (?, ?, ?, ?, NOW())");
+        $stmt->execute([$classId, $title, $description, $links]);
+
+        // Get the announcement_id of the newly inserted announcement
+        $announcementId = $conn->lastInsertId();
+
         // Prepare and execute the database query for each uploaded file
         foreach ($uploadedFiles as $uploadedFilePath) {
             // Remove the "uploadedfiles/" directory from the file path
             $relativeFilePath = str_replace('uploadedfiles/', '', $uploadedFilePath);
 
-            $stmt = $conn->prepare("INSERT INTO materials (class_id, title, description, links, materials, date) VALUES (?, ?, ?, ?, ?, NOW())");
-            $stmt->execute([$classId, $title, $description, $links, $relativeFilePath]);
+            // Prepare and execute the database query to insert into the 'materials' column
+            $stmt = $conn->prepare("INSERT INTO materials (announcement_id, materials) VALUES (?, ?)");
+            $stmt->execute([$announcementId, $relativeFilePath]);
         }
 
         // Close the database connection

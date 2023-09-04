@@ -381,6 +381,26 @@ body {
     right: 20px;
     z-index: 9999;
   }
+  /* Default styles for larger screens */
+.class-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Media query for screens smaller than 768px (e.g., tablets and mobiles) */
+@media (max-width: 768px) {
+  .class-container {
+    justify-content: center; /* Center-align the cards */
+  }
+  .card {
+    width: 100%; /* Make the cards full width on smaller screens */
+  }
+  /* Adjust other styles as needed for smaller screens */
+}
+
 </style>
 
 <script>
