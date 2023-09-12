@@ -30,12 +30,13 @@ import Stream from '../Stack/Stream';
 import Materials from '../Stack/Materials';
 
 import SignInScreen from '../Auth/SignInScreen';
+import SignUpScreen from '../Auth/SignUpScreen';
 
 import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
+const AuthStack = createStackNavigator();
 
 function FloatingTabIcon({ name, size, focused, style, label }) {
   const sizeIncrease = focused ? 10 : 0; // Increase size by 10 when focused
@@ -441,6 +442,47 @@ function StackNavigator() {
     </Stack.Navigator>
   );
 }
+
+// function AuthNavigator() {
+//   return (
+//     <AuthStack.Navigator
+//       screenOptions={{
+//         headerTintColor: '#fff',
+//         headerTitleStyle: {
+//           fontWeight: 'bold',
+//         },
+//         headerTitleAlign: 'center',
+//       }}
+//     >
+//       <AuthStack.Screen
+//         name='SignIn'
+//         component={SignInScreen}
+//         options={({ navigation }) => ({
+//           headerTitle: () => (
+//             <View style={styles.headerTitleCon}>
+//               <Text style={styles.headerTitle}>
+//                 Sign In
+//               </Text>
+//             </View>
+//           ),
+//         })}
+//       />
+//       <AuthStack.Screen
+//         name='SignUp'
+//         component={SignUpScreen}
+//         options={({ navigation }) => ({
+//           headerTitle: () => (
+//             <View style={styles.headerTitleCon}>
+//               <Text style={styles.headerTitle}>
+//                 Sign Up
+//               </Text>
+//             </View>
+//           ),
+//         })}
+//       />
+//     </AuthStack.Navigator>
+//   );
+// }
 
 function ClassesScreen(){
   return(

@@ -1,24 +1,19 @@
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Alert,Modal,TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import Logo from '../../assets/icon.png';
 import CustomInput from '../Components/CustomInput';
 import CustomButton from '../Components/CustomButton';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SignUpScreen from './SignUpScreen';
 
 const SignInScreen = ({ setLoggedIn }) => {
   React.useEffect(() => {
-    // Your refresh or reload logic here (if needed)
-    // For example, you can reset form fields or clear any data on the screen.
-    // If you need to fetch new data, you can do it here.
-
-    // For instance, you can reset the form on each mount:
-    // reset();
   }, []);
   const { height } = useWindowDimensions();
 
   const { control, handleSubmit, formState: { errors } } = useForm();
-
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
   const onSignInPressed = async (data) => {
     try {
       const response = await fetch('https://nutriwise.website/api/login.php', {
@@ -32,7 +27,7 @@ const SignInScreen = ({ setLoggedIn }) => {
   
       console.log('Result:', result);
       if (result.success) {
-        await AsyncStorage.setItem('userAccountss', JSON.stringify({ username: data.username, password: data.password }));
+        await AsyncStorage.setItem('userAccountsss', JSON.stringify({ username: data.username, password: data.password }));
         await AsyncStorage.setItem('userData', JSON.stringify(result.userData));
         setLoggedIn(true); // Update the isLoggedIn state
       } else {
@@ -49,12 +44,13 @@ const SignInScreen = ({ setLoggedIn }) => {
     // Handle forgot password action
   };
 
-  const onSignInGoogle = () => {
-    // Handle sign in with Google action
-  };
 
   const onSignUpPressed = () => {
-    // navigation.navigate('SignUp');
+    setShowSignUpModal(true); // Open the sign-up modal
+  };
+
+  const closeSignUpModal = () => {
+    setShowSignUpModal(false); // Close the sign-up modal
   };
 
   return (
@@ -64,6 +60,9 @@ const SignInScreen = ({ setLoggedIn }) => {
         <Text style={styles.appname}>
           NutriWISE
         </Text>
+        <Text style={styles.title}>
+        Sign In your Account
+      </Text>
         <CustomInput
           name="username"
           placeholder="Username"
@@ -86,25 +85,26 @@ const SignInScreen = ({ setLoggedIn }) => {
           text="Sign In"
           onPress={handleSubmit(onSignInPressed)}
         />
-
-        <CustomButton
+        <View style={styles.line}></View>
+        {/* <CustomButton
           text="Forgot Password?"
           onPress={onForgotPassPressed}
           type="tertiary"
-        />
-
+        /> */}
         <CustomButton
-          text="Sign In with Google"
-          onPress={onSignInGoogle}
-          bgColor="#FAE9EA"
-          fgColor="#DD4D44"
-        />
-
-        <CustomButton
-          text="Don't have an account? Sign Up"
-          onPress={onSignUpPressed}
-          type="tertiary"
-        />
+            text="Don't have an account? Sign Up"
+            onPress={onSignUpPressed}
+            type="tertiary"
+          />
+      {/* Sign-up Modal */}
+        <Modal
+          animationType="fade" // You can choose other animation types
+          transparent={false}
+          visible={showSignUpModal}
+          onRequestClose={closeSignUpModal}
+        >
+          <SignUpScreen closeSignInModal={closeSignUpModal}/>
+        </Modal>    
       </View>
     </ScrollView>
   );
@@ -127,9 +127,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000000',
     textAlign: 'center',
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 20,
   },
+  title:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#051C60',
+    margin: 10,
+}
 });
 
 export default SignInScreen;
