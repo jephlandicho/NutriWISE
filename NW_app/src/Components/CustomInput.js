@@ -4,7 +4,9 @@ import { Feather } from '@expo/vector-icons';
 import { Controller } from 'react-hook-form';
 import { TextInput, Provider as PaperProvider } from 'react-native-paper';
 import MyTheme from './MyTheme';
- const CustomInput = ({
+import { Ionicons } from '@expo/vector-icons';
+
+const CustomInput = ({
   control,
   name,
   rules = {},
@@ -14,6 +16,12 @@ import MyTheme from './MyTheme';
   numeric,
   title,
 }) => {
+  const [passwordVisible, setPasswordVisible] = React.useState(secureTextEntry);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
   return (
     <Controller
       control={control}
@@ -29,19 +37,37 @@ import MyTheme from './MyTheme';
               onChangeText={onChange}
               onBlur={onBlur}
               style={styles.input}
-              label = {title}
-              secureTextEntry={secureTextEntry}
+              label={title}
+              secureTextEntry={passwordVisible}
               theme={MyTheme}
               keyboardType={numeric ? 'numeric' : 'default'}
             />
+            {/* Toggle password visibility */}
+            {secureTextEntry && (
+              <Ionicons
+              name={passwordVisible ? 'eye-off' : 'eye'}
+              size={20}
+              color="#333"
+              style={styles.toggleIcon}
+              onPress={togglePasswordVisibility}
+            />
+              // <Feather
+              //   name={passwordVisible ? 'eye' : 'eye-off'}
+              //   size={18}
+              //   color="#666666"
+              //   style={styles.toggleIcon}
+                
+              // />
+            )}
           </View>
-          {error && <Text style={{ color: 'red', alignSelf: 'stretch' }}>{error.message || 'Error'}</Text>}
+          {error && <Text style={{ color: 'red', alignSelf: 'flex-end' }}>{error.message || 'Error'}</Text>}
         </>
       )}
     />
   );
 };
- const styles = StyleSheet.create({
+
+const styles = StyleSheet.create({
   container: {
     width: '100%',
     borderRadius: 5,
@@ -52,9 +78,15 @@ import MyTheme from './MyTheme';
   icon: {
     marginRight: 8,
   },
+  toggleIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 13,
+  },
   input: {
     flex: 1,
     backgroundColor: 'white'
   },
 });
- export default CustomInput;
+
+export default CustomInput;

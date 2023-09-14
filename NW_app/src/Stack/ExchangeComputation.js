@@ -6,6 +6,7 @@ import CustomButton from '../Components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { ResultContext } from '../Components/ResultContext';
 import CustomInput from '../Components/CustomInput';
+import { Picker } from '@react-native-picker/picker';
 
 
 const ExchangeComputation = () => {
@@ -44,10 +45,11 @@ const ExchangeComputation = () => {
   const LFmeat = watch('LFmeat');
   const MFmeat = watch('MFmeat');
   const HFmeat = watch('HFmeat');
+  // const [milkChoice, setMilkChoice] = useState('');
 
 
   const { result, otherValue } = useContext(ResultContext);
-  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal } = useContext(ResultContext);
+  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,milkChoice, setMilkChoice } = useContext(ResultContext);
 
   const [riceExchange, setriceExchange] = useState('');
 
@@ -79,11 +81,29 @@ const ExchangeComputation = () => {
     const fruitCarbs = fruit * 10;
     const fruitKcal = fruit * 40;
 
-    const milkCarbs = milk * 12;
-    const milkProtein = milk * 8;
-    const milkFat = milk * 10;
-    const milkKcal = milk * 170;
+    let milkCarbs;
+    let milkProtein;
+    let milkFat;
+    let milkKcal;
+    // let milkCarbs, milkProtein, milkFat, milkKcal;
 
+    if (milkChoice === 'Whole') {
+      milkCarbs = milk * 12;
+      milkProtein = milk * 8;
+      milkFat = milk * 10;
+      milkKcal = milk * 170;
+    } else if (milkChoice === 'Low Fat') {
+      milkCarbs = milk * 12;
+      milkProtein = milk * 8;
+      milkFat = milk * 5;
+      milkKcal = milk * 125;
+    } else if (milkChoice === 'Non-Fat') {
+      milkCarbs = milk * 12;
+      milkProtein = milk * 8;
+      milkFat = milk * 0;
+      milkKcal = milk * 80;
+    }
+    console.log(milkChoice, milkCarbs, milkProtein, milkFat, milkKcal);
     const sugarCarbs = sugar * 5;
     const sugarKcal = sugar * 20;
 
@@ -95,8 +115,13 @@ const ExchangeComputation = () => {
     const carbsPartial = vegCarbs + fruitCarbs + milkCarbs + sugarCarbs;
     setCarbs1(carbsPartial)
     const riceExchange = Math.round((carbs - carbsPartial) / 23);
-
+    console.log(vegCarbs,fruitCarbs,milkCarbs,sugarCarbs)
+    console.log(carbs)
+    console.log(proteinSum)
+    console.log(carbsPartial)
+    console.log(riceExchange)
     // const riceRes = `${riceExchange}`;
+
     setRiceExResult(riceExchange);
     setShowInputField(true);
 
@@ -248,13 +273,32 @@ const ExchangeComputation = () => {
             rules={{ required: 'Fruit is required!' }} />
           </View>
           <View style={styles.item}>
-          <CustomInput
-            title="Milk"
-            name="milk"
-            placeholder="Milk"
-            numeric={true}
-            control={control}
-            rules={{ required: 'Milk is required!' }} />
+            {/* Add a dropdown for milk choice */}
+              
+              {/* Conditionally render CustomInput based on milkChoice */}
+              {milkChoice && (
+                <CustomInput
+                  title="Milk"
+                  name="milk"
+                  placeholder="Milk"
+                  numeric={true}
+                  control={control}
+                  rules={{ required: 'Milk is required!' }}
+                />
+              )}
+              <Picker
+                selectedValue={milkChoice}
+                onValueChange={(itemValue) => {
+                  setMilkChoice(itemValue);
+                }}
+                style={{ width: '100%' }}
+              >
+                <Picker.Item label="Milk" value="" />
+                <Picker.Item label="Whole" value="Whole" />
+                <Picker.Item label="Low Fat" value="Low Fat" />
+                <Picker.Item label="Non-Fat" value="Non-Fat" />
+              </Picker>
+            
           </View>
           <View style={styles.item}>
           <CustomInput
@@ -265,6 +309,7 @@ const ExchangeComputation = () => {
             control={control}
             rules={{ required: 'Sugar is required!' }} />
           </View>
+
         </View>
       </View>
       <View style={styles.resultContainer}>
@@ -407,6 +452,10 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   item: {
+    width: '50%',
+    paddingLeft: 10,
+  },
+    item2: {
     width: '50%',
     paddingLeft: 10,
   },

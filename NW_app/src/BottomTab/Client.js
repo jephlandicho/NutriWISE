@@ -127,7 +127,7 @@ function Client() {
                 </View>
                 <View style={styles.contactActions}>
                   <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
-                    <Ionicons name="md-trash" size={20} />
+                    <Ionicons name="md-trash-outline" size={20} />
                   </TouchableOpacity>
                 </View>
               </View>

@@ -26,14 +26,17 @@ import Lunch from '../Stack/MealPlanning/Lunch';
 import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
 import MealPlanning from '../Stack/MealPlanning';
+import Stream from '../Stack/Stream';
+import Materials from '../Stack/Materials';
 
 import SignInScreen from '../Auth/SignInScreen';
+import SignUpScreen from '../Auth/SignUpScreen';
 
 import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-
+const AuthStack = createStackNavigator();
 
 function FloatingTabIcon({ name, size, focused, style, label }) {
   const sizeIncrease = focused ? 10 : 0; // Increase size by 10 when focused
@@ -150,7 +153,7 @@ function TabNavigator() {
             options={{
               headerShown: false,
             }}/> */}
-      <Tab.Screen name='Classes' component={Classes} 
+      <Tab.Screen name='Classes' component={ClassesScreen} 
         options={{
           headerShown: false,
         }}/>
@@ -180,7 +183,7 @@ function StackNavigator() {
         options={({ navigation }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Anthro')}>
-              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="person-add-outline"/>
             </TouchableOpacity>
           ),
           headerTitle: () => (
@@ -440,172 +443,91 @@ function StackNavigator() {
   );
 }
 
-// function MealPlanScreens() {
+// function AuthNavigator() {
 //   return (
-//     <Stack.Navigator
+//     <AuthStack.Navigator
 //       screenOptions={{
 //         headerTintColor: '#fff',
 //         headerTitleStyle: {
 //           fontWeight: 'bold',
 //         },
-//         headerTitleAlign: 'center', // Center-align the header title
-//         headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
+//         headerTitleAlign: 'center',
 //       }}
-
 //     >
-//       <Stack.Screen
-//         name='MealInfo'
-//         component={MealPlan}
+//       <AuthStack.Screen
+//         name='SignIn'
+//         component={SignInScreen}
 //         options={({ navigation }) => ({
-//           // headerRight: () => (
-//           //   <TouchableOpacity onPress={() => navigation.navigate('Breakfast')}>
-//           //     <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//           //   </TouchableOpacity>
-//           // ),
 //           headerTitle: () => (
 //             <View style={styles.headerTitleCon}>
 //               <Text style={styles.headerTitle}>
-//                 Meal Information
+//                 Sign In
 //               </Text>
 //             </View>
 //           ),
 //         })}
 //       />
-//     <Stack.Screen
-//         name='Breakfast'
-//         component={Breakfast}
+//       <AuthStack.Screen
+//         name='SignUp'
+//         component={SignUpScreen}
 //         options={({ navigation }) => ({
-//           headerRight: () => (
-//             <TouchableOpacity onPress={() => navigation.navigate('AMSnacks')}>
-//               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//             </TouchableOpacity>
-//           ),
 //           headerTitle: () => (
 //             <View style={styles.headerTitleCon}>
 //               <Text style={styles.headerTitle}>
-//                 Breakfast
+//                 Sign Up
 //               </Text>
 //             </View>
 //           ),
 //         })}
 //       />
-//       <Stack.Screen
-//         name='AMSnacks'
-//         component={AMSnacks}
-//         options={({ navigation }) => ({
-//           headerRight: () => (
-//             <TouchableOpacity onPress={() => navigation.navigate('Lunch')}>
-//               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//             </TouchableOpacity>
-//           ),
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 AM Snacks
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <Stack.Screen
-//         name='Lunch'
-//         component={Lunch}
-//         options={({ navigation }) => ({
-//           headerRight: () => (
-//             <TouchableOpacity onPress={() => navigation.navigate('PMSnacks')}>
-//               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//             </TouchableOpacity>
-//           ),
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Lunch
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <Stack.Screen
-//         name='PMSnacks'
-//         component={PMSnacks}
-//         options={({ navigation }) => ({
-//           headerRight: () => (
-//             <TouchableOpacity onPress={() => navigation.navigate('Dinner')}>
-//               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//             </TouchableOpacity>
-//           ),
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 PM Snacks
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <Stack.Screen
-//         name='Dinner'
-//         component={Dinner}
-//         options={({ navigation }) => ({
-//           headerRight: () => (
-//             <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
-//               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
-//             </TouchableOpacity>
-//           ),
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Dinner
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <Stack.Screen
-//         name='MealPlanResult'
-//         component={MealPlanResult}
-//         options={({ navigation }) => ({
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Meal Plan
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <Stack.Screen
-//         name='MealPlanName'
-//         component={MealPlanName}
-//         options={({ navigation }) => ({
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Meal Plan Title
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-
-//       <Stack.Screen
-//         name='MealPlanning'
-//         component={MealPlanning}
-//         options={({ navigation }) => ({
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Meal Plan List
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-
-
-//     </Stack.Navigator>
-//   )
+//     </AuthStack.Navigator>
+//   );
 // }
+
+function ClassesScreen(){
+  return(
+    <Stack.Navigator
+    screenOptions={{
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      headerTitleAlign: 'center', // Center-align the header title
+      headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
+    }}>
+      <Stack.Screen
+        name='Class'
+        component={Classes}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Classes
+              </Text>
+            </View>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='Stream'
+        component={Stream}
+        options={({ navigation }) => ({
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+                Stream
+              </Text>
+            </View>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='Materials'
+        component={Materials}
+      />
+    </Stack.Navigator>
+  )
+}
 
 function SettingsScreen(){
   return(

@@ -151,7 +151,7 @@ const MealPlan = () => {
               title="Waist Circum (cm)"
               name="waistCircumference"
               numeric={true}
-              placeholder="Waist (Inches)"
+              placeholder="Waist (cm)"
               rules={{ required: 'Waist Circumference is required' }} />
           </View>
           <View style={styles.item}>
@@ -160,7 +160,7 @@ const MealPlan = () => {
               title="Hip Circum (cm)"
               name="hipCircumference"
               numeric={true}
-              placeholder="Hip (Inches)"
+              placeholder="Hip (cm)"
               rules={{ required: 'Hip Circumference is required' }} />
           </View>
           <View style={styles.item}>

@@ -51,6 +51,51 @@ import { useNavigation } from '@react-navigation/native';
       });
   };
 
+  const syncTable = () => {
+    markRecordsAsSynced();
+  //   const createClassesTableQuery = `
+  //   DROP TABLE classes;`;
+
+  // return new Promise((resolve, reject) => {
+  //   db.transaction((transaction) => {
+  //     transaction.executeSql(createClassesTableQuery, [], resolve, (_, error) => reject(error));
+  //   });
+  // });
+};
+
+const markRecordsAsSynced = async () => {
+  try {
+    // await updateTable('client');
+    // await updateTable('client_measurements');
+    // await updateTable('exchanges');
+    await updateTable('distribution_exchange');
+    await updateTable('meal_title');
+    await updateTable('meal');
+    await updateTable('meal_plan');
+    console.log('All records marked as synced');
+  } catch (error) {
+    console.log('Error marking records as synced:', error);
+  }
+};
+
+const updateTable = async (tableName) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `UPDATE ${tableName} SET syncData = 0 WHERE syncData = 1;`,
+        [],
+        (_, { rowsAffected }) => {
+          console.log(`${rowsAffected} records in ${tableName} marked as synced`);
+          resolve();
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
    const toggleNotifications = async () => {
     try {
       const newNotificationsEnabled = !notificationsEnabled;
@@ -89,6 +134,9 @@ import { useNavigation } from '@react-navigation/native';
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={deleteTable}>
           <Text style={styles.settingLabel}>Reset</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={syncTable}>
+          <Text style={styles.settingLabel}>Reset Sync</Text>
         </TouchableOpacity>
       </View>
     </View>

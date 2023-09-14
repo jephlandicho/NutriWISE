@@ -38,7 +38,7 @@ export const ResultProvider = ({ children }) => {
   const [totalFat,settotalFat] = useState('');
   const [totalKcal,settotalKcal] = useState('');
   const [normal,setNormal] = useState('');
-
+  const [milkChoice, setMilkChoice] = useState('');
   const [breakfast, setBreakfast] = useState({});
   const [AMSnack, setAMSnack] = useState({});
   const [lunch, setLunch] = useState({});
@@ -264,7 +264,8 @@ export const ResultProvider = ({ children }) => {
       ,householdMeasureLunch, setHouseholdMeasureLunch
       ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks
       ,householdMeasureDinner, setHouseholdMeasureDinner,
-      birthdate,setbirthdate
+      birthdate,setbirthdate,
+      milkChoice, setMilkChoice
       }}>
       {children}
     </ResultContext.Provider>
