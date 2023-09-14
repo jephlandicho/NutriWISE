@@ -44,9 +44,9 @@ const Measurements = () => {
     const tenPercent = heightInCm - 100;
     const desirableWeight = tenPercent - tenPercent * 0.1;
     const ter = Math.round((desirableWeight * parseFloat(kcal)) / 50) * 50;
-    const protein = Math.round(((ter * 0.65) / 4) / 5) * 5;
-    const carbs = Math.round(((ter * 0.15) / 4) / 5) * 5;
-    const fats = Math.round(((ter * 0.2) / 9) / 5) * 5;
+    const carbs = Math.round(((ter * 0.65) / 4) / 5) * 5;
+    const protein = Math.round(((ter * 0.15) / 4) / 5) * 5;
+    const fats = Math.round(((ter * 0.20) / 9) / 5) * 5;
 
     const resultText = `(${bmiCategory})\n\nWHR: ${whr.toFixed(2)} cm\nBMI: ${bmi.toFixed(1)} kg/m²\nDesirable Body Weight: ${desirableWeight.toFixed(2)} kg`;
     setResult(resultText);
@@ -78,27 +78,27 @@ const Measurements = () => {
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Waist Circumference"
+              title="Waist Circum (cm)"
               name="waistCircumference"
               numeric={true}
-              placeholder="Waist Circumference (cm)"
+              placeholder="Waist Circum (cm)"
               rules={{ required: 'Waist Circumference is required' }}
             />
           </View>
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Hip Circumference"
+              title="Hip Circum (cm)"
               name="hipCircumference"
               numeric={true}
-              placeholder="Hip Circumference (cm)"
+              placeholder="Hip Circum (cm)"
               rules={{ required: 'Hip Circumference is required' }}
             />
           </View>
           <View style={styles.item}>
             <CustomInput
               control={control}
-              title="Weight"
+              title="Weight (kg)"
               name="weight"
               numeric={true}
               placeholder="Weight (kg)"
@@ -107,7 +107,7 @@ const Measurements = () => {
           </View>
           <View style={styles.item}>
             <CustomInput
-              title="Height"
+              title="Height (m)"
               control={control}
               name="height"
               numeric={true}

@@ -8,6 +8,7 @@ import Modal from 'react-native-modal';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Measurements from '../Components/Measurements';
+import ExchangeComputation from '../Stack/ExchangeComputation';
 import { ResultContext } from '../Components/ResultContext';
 import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
@@ -15,7 +16,7 @@ const db = SQLite.openDatabase('mydatabase.db');
 
 function ClientMeasurements() {
     const {waistC,hipC,varweight,varheight,pal,whr,bmi,dbw,carbs,protein,fats,TER,normal,
-      } = useContext(ResultContext);
+      vegetableEx,fruitEx,milkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat} = useContext(ResultContext);
       let palText;
       if (pal === '30') {
         palText = 'Sedentary';
@@ -28,6 +29,7 @@ function ClientMeasurements() {
       }
 
       const [userData, setUserData] = useState(null);
+      const [isInExchangeStep, setIsInExchangeStep] = useState(false);
       const getUserData = async () => {
         try {
           const userData = await AsyncStorage.getItem('userData');
@@ -50,7 +52,8 @@ function ClientMeasurements() {
       const [numberOfItemsPerPageList] = useState([2, 4, 6]);
       const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
       const [tableData, setTableData] = useState([]);
-    
+      const [C_MeasurementID,setC_MeasurementID] = useState('');
+      const [C_exchangesID,setC_exchangesID] = useState('');
       const route = useRoute();
       const { id } = route.params;
     
@@ -66,56 +69,114 @@ function ClientMeasurements() {
         setModalVisible(false);
       };
     
-      const handleDelete = (id) => {
-        
-        db.transaction((tx) => {
-          tx.executeSql(
-            'DELETE FROM client_measurements WHERE id = ?',
-            [id],
-            (_, { rowsAffected }) => {
-              if (rowsAffected > 0) {
-                Alert.alert('Success', 'Item deleted successfully');
-                console.log('Item deleted successfully');
-                refreshTableData(); // Call a function to refresh the table data
-              }
-            },
-            (error) => {
-              console.log('Error deleting item:', error);
-            }
-          );
-        });
-        setModalVisible(false);
-      };
     
-      const handleView = (id) => {
-        navigation.navigate('Exchanges', { id });
-        setModalVisible(false);
-      };
     
       const handleViewMeal = (e_ID) => {
         navigation.navigate('MealPlanName', { e_ID });
         setModalVisible(false);
       }
+      let generatedCodes = [];
+      function generateUniqueSixDigitCode() {
+        let code = '';
+    
+        do {
+          code = Math.floor(100000 + Math.random() * 900000).toString();
+        } while (generatedCodes.includes(code));
+    
+        generatedCodes.push(code);
+    
+        return code;
+      }
 
+      const toggleStep = () => {
+        setIsInExchangeStep(!isInExchangeStep);
+      };
+
+      const handleModalClose = () => {
+        setIsInExchangeStep(false); // Reset to "Add Measurement" step when the modal is closed
+      };
+
+      const goBack = () => {
+        setIsInExchangeStep(false); // Set isInExchangeStep to false to go back to the "Add Measurement" step
+      };
       const saveMeasurement = () => {
-        // saved
-        db.transaction((tx) => {
-          tx.executeSql(
-            'INSERT INTO client_measurements (client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
-            [
-              id,userData.id,waistC,hipC,varweight,varheight,palText,whr,bmi,normal,dbw,TER,protein,carbs,fats,
-            ],
-            () => {
-              refreshTableData()
-              Alert.alert('New client measurements added')
-              console.log('Data inserted into client_measurements successfully.');
-              setAnotherModalVisible(false);
-            },
-            (error) => {
-              console.log('Error inserting data into distribution_exchange: ', error);
-            }
-            )
-        })
+        if (isInExchangeStep) {
+          const m_ID = generateUniqueSixDigitCode();
+          const finalm_ID = '01' + m_ID;
+          setC_MeasurementID(finalm_ID);
+      
+          const e_ID = generateUniqueSixDigitCode();
+          const finale_ID = '02' + e_ID;
+          setC_exchangesID(finale_ID);
+      
+          db.transaction((tx) => {
+            tx.executeSql(
+              'INSERT INTO client_measurements (id,client_id, student_id, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats,syncData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)',
+              [
+                C_MeasurementID,
+                id,
+                userData.id,
+                waistC,
+                hipC,
+                varweight,
+                varheight,
+                palText,
+                whr,
+                bmi,
+                normal,
+                dbw,
+                TER,
+                protein,
+                carbs,
+                fats,
+                0
+              ],
+              () => {
+                // Inserted client measurements
+                console.log('Data inserted into client_measurements successfully.');
+              },
+              (error) => {
+                console.log('Error inserting data into client_measurements: ', error);
+              }
+            );
+      
+            tx.executeSql(
+              'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+              [
+                C_exchangesID,
+                C_MeasurementID,
+                vegetableEx,
+                fruitEx,
+                milkEx,
+                sugarEx,
+                riceAEx,
+                riceBEx,
+                riceCEx,
+                LFmeatEx,
+                MFmeatEx,
+                HFmeatEx,
+                fatEx,
+                totalKcal,
+                totalCarbs,
+                totalProtein,
+                totalFat,
+                0, // You may adjust syncData as needed
+              ],
+              () => {
+                // Inserted exchanges data
+                refreshTableData();
+                Alert.alert('New client measurements added');
+                console.log('Data inserted into exchanges successfully.');
+                setAnotherModalVisible(false);
+              },
+              (error) => {
+                console.log('Error inserting data into exchanges: ', error);
+              }
+            );
+          });
+        } else {
+          toggleStep();
+        }
       };
     
       const refreshTableData = () => {
@@ -124,7 +185,7 @@ function ClientMeasurements() {
             `SELECT cm.*,e.*,e.TER AS exchange_TER,
             e.carbohydrates AS exchange_carbohydrates,
             e.protein AS exchange_protein,
-            e.fats AS exchange_fats, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ?`,
+            e.fats AS exchange_fats, cm.TER AS cmTER, cm.protein AS cmPro, cm.fats AS cmFats, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ?`,
             [id],
             (_, { rows }) => {
               const data = rows._array;
@@ -147,11 +208,16 @@ function ClientMeasurements() {
     setModalVisible(false);
   };
 
-  const [showExchanges, setShowExchanges] = useState(false);
+  const initialShowExchanges = displayedData ? Array(displayedData.length).fill(false) : [];
+
+  const [showExchanges, setShowExchanges] = useState(initialShowExchanges);
 
 
-  const viewExchanges = () => {
-    setShowExchanges(!showExchanges); 
+
+  const viewExchanges = (index) => {
+    const updatedShowExchanges = [...showExchanges];
+    updatedShowExchanges[index] = !updatedShowExchanges[index];
+    setShowExchanges(updatedShowExchanges);
   };
 
   const from = page * itemsPerPage;
@@ -171,9 +237,16 @@ function ClientMeasurements() {
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
+      <View style={styles.meabuttonContainer}>
+            <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
+              <Text style={styles.buttonText}>
+                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
+              </Text>
+            </TouchableOpacity>
+          </View>
         <ScrollView style={styles.cardContainer}>
           {displayedData.length > 0 ? (
-            displayedData.map((item) => (
+            displayedData.map((item,index) => (
               <Card key={item.id} style={styles.card}>
                 <Card.Content>
                   <Paragraph style={styles.cardTitle}>Date: {item.assessment_date}</Paragraph>
@@ -218,27 +291,28 @@ function ClientMeasurements() {
                       </View>
                       <View style={styles.cell}>
                       <Text style={styles.header}>Protein</Text>
-                      <Text>{item.protein} g</Text>
+                      <Text>{item.cmPro} g</Text>
                       </View>
                       <View style={styles.cell}>
                       <Text style={styles.header}>Fats</Text>
-                      <Text>{item.fats} g</Text>
+                      <Text>{item.cmFats} g</Text>
                       </View>
                       <View style={styles.cell}>
                       <Text style={styles.header}>KCAL</Text>
-                      <Text>{item.TER} kcal</Text>
+                      <Text>{item.cmTER} kcal</Text>
                       </View>
                   </View>
                   </>
-                  <TouchableOpacity onPress={() => viewExchanges(item.id)}>
+                  <TouchableOpacity onPress={() => viewExchanges(index)}>
+                    {console.log(index)}
                   <Text style={styles.header2}>Exchanges <Ionicons
-                    name={showExchanges ? 'md-arrow-up-outline' : 'md-arrow-down-outline'}
+                    name={showExchanges[index] ? 'md-arrow-up-outline' : 'md-arrow-down-outline'}
                     size={18}
                   />
                   </Text>
                   </TouchableOpacity>
                   
-                  {showExchanges && (
+                  {showExchanges[index] && (
                     <View>
                   <View style={{ flexDirection: 'row' }}>
                   <View style={styles.cell}>
@@ -314,19 +388,13 @@ function ClientMeasurements() {
                 </Card.Content>
                 <Card.Actions style={styles.cardActions}>
                   
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleUpdate(item.id)}
                   >
                     <Ionicons name="md-create-outline" size={25} />
                     
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handleDelete(item.id)}
-                  >
-                    <Ionicons name="md-trash-outline" size={25} />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleViewMeal(item.e_ID)}
@@ -355,43 +423,34 @@ function ClientMeasurements() {
           numberOfItemsPerPage={itemsPerPage}
           selectPageDropdownLabel={'Rows per page'}
         />
-        <Modal isVisible={modalVisible} onBackdropPress={closeMenu}>
-          <View style={styles.modalContainer}>
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleUpdate(selectedItemId)}>
-              <Ionicons name="md-create" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Update</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleDelete(selectedItemId)}>
-              <Ionicons name="md-trash" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>Delete</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleView(selectedItemId)}>
-              <Ionicons name="md-eye" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>View</Text>
-            </TouchableOpacity>
-            <Divider />
-            <TouchableOpacity style={styles.modalButton} onPress={() => handleViewMeal(selectedExchangeID)}>
-              <Ionicons name="md-restaurant" size={20} color="black" style={styles.modalIcon} />
-              <Text style={styles.modalText}>View MealPlan</Text>
-            </TouchableOpacity>
-            <Divider />
-          </View>
-        </Modal>
 
         <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Another Modal</Text>
-            <Measurements/>
-            <View style={styles.savebuttonContainer}>
-        <TouchableOpacity style={styles.savebutton} onPress={saveMeasurement}>
-          <Text style={styles.savebuttonText}>
-            <Ionicons name="save-outline" size={25} color="black" /> Save
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>
+            {/* Measurement & Exchanges */}
+            {isInExchangeStep ? 'Exchange Computation' : 'Add Measurement'}
           </Text>
-        </TouchableOpacity>
-        </View>
+          <ScrollView>
+          {isInExchangeStep ? (
+            <ExchangeComputation />
+          ) : (
+            <Measurements />
+          )}
+          </ScrollView>
+          <View style={styles.savebuttonContainer}>
+            <TouchableOpacity style={styles.savebutton} onPress={saveMeasurement}>
+              <Text style={styles.savebuttonText}>
+                {/* Save */}
+                {isInExchangeStep ? 'Save' : 'Next'}
+              </Text>
+            </TouchableOpacity>
           </View>
+          {isInExchangeStep && (
+        <TouchableOpacity onPress={goBack}>
+          <Text style={styles.savebuttonText}>Back</Text>
+            </TouchableOpacity>
+        )}
+        </View>
         </Modal>
       </View>
     </PaperProvider>
@@ -443,7 +502,6 @@ const styles = StyleSheet.create({
   },
   savebutton: {
     width: '25%',
-    marginVertical: 5,
     alignItems: 'center',
     flexDirection: 'row', // Add flexDirection: 'row' to align items horizontally
     justifyContent: 'center', // Add justifyContent: 'center' to align items vertically
@@ -500,6 +558,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: 5,
     fontSize: 18,
+  },
+  meabutton: {
+    width: '25%',
+    marginVertical: 5,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    borderRadius: 5,
+  },
+  meabuttonContainer: {
+    alignItems: 'flex-end',
   },
 });
 

@@ -93,8 +93,8 @@ const MealPlanning = () => {
 
   const titleColors = generateSequentialColors('#044D15', 12);
 
-  const renderMealPlanCard = ({ mealGroup, mealTime, mealName },index) => {
-    const cardKey = `${mealTime}_${mealName}`;
+  const renderMealPlanCard = ({ mealGroup, mealTime, mealMenu },index) => {
+    const cardKey = `${mealTime}_${mealMenu}`;
     const isCardExpanded = expandedStates[cardKey] || false;
 
     const groupedFoods = mealGroup.reduce((acc, item) => {
@@ -138,7 +138,7 @@ const MealPlanning = () => {
             }}
           />
         </TouchableOpacity>
-
+        
         <Animated.View style={{ height: isCardExpanded ? null : 0, overflow: 'hidden' }}>
           <Card.Content>
             {Object.values(groupedFoods).map((groupedFood, index) => {
@@ -148,6 +148,13 @@ const MealPlanning = () => {
 
               return (
                 <View key={index}>
+                  {mealMenu && index === 0 && (
+                    <>
+                    <Text style={styles.mealTitle}>Menu: {mealMenu}</Text>
+                    <Divider />
+                    </>
+                  )}
+                  
                   <Text style={styles.mealTitle}>Food Group: {mealGroup}</Text>
                   {showExchangeDistribution && (
                     <View style={styles.row}>
@@ -220,7 +227,7 @@ const MealPlanning = () => {
           ) : (
             groupedMealData.map((mealGroup, index) => (
               <View key={index}>
-                {renderMealPlanCard({ mealGroup, mealTime: mealGroup[0].meal_time, mealName: mealGroup[0].meal_name },index)}
+                {renderMealPlanCard({ mealGroup, mealTime: mealGroup[0].meal_time, mealMenu: mealGroup[0].meal_name },index)}
               </View>
             ))
           )}
