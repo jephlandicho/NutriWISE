@@ -16,7 +16,7 @@ const db = SQLite.openDatabase('mydatabase.db');
 
 function ClientMeasurements() {
     const {waistC,hipC,varweight,varheight,pal,whr,bmi,dbw,carbs,protein,fats,TER,normal,
-      vegetableEx,fruitEx,milkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat} = useContext(ResultContext);
+      vegetableEx,fruitEx,milkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat,milkChoice} = useContext(ResultContext);
       let palText;
       if (pal === '30') {
         palText = 'Sedentary';
@@ -129,6 +129,7 @@ function ClientMeasurements() {
                 protein,
                 carbs,
                 fats,
+                
                 0
               ],
               () => {
@@ -140,8 +141,40 @@ function ClientMeasurements() {
               }
             );
       
+            // tx.executeSql(
+            //   'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+            //   [
+            //     C_exchangesID,
+            //     C_MeasurementID,
+            //     vegetableEx,
+            //     fruitEx,
+            //     milkEx,
+            //     sugarEx,
+            //     riceAEx,
+            //     riceBEx,
+            //     riceCEx,
+            //     LFmeatEx,
+            //     MFmeatEx,
+            //     HFmeatEx,
+            //     fatEx,
+            //     totalKcal,
+            //     totalCarbs,
+            //     totalProtein,
+            //     totalFat,
+            //     milkChoice,
+            //     0, // You may adjust syncData as needed
+            //   ],
+            //   () => {
+            //     // Inserted exchanges data
+            //     console.log('Data inserted into exchanges successfully.');
+            //   },
+            //   (error) => {
+            //     console.log('Error inserting data into exchanges: ', error);
+            //   }
+            // );
+
             tx.executeSql(
-              'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+              'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
               [
                 C_exchangesID,
                 C_MeasurementID,
@@ -160,12 +193,13 @@ function ClientMeasurements() {
                 totalCarbs,
                 totalProtein,
                 totalFat,
+                milkChoice,
                 0, // You may adjust syncData as needed
               ],
               () => {
                 // Inserted exchanges data
                 refreshTableData();
-                Alert.alert('New client measurements added');
+                Alert.alert('New client measurements and Exchanges added');
                 console.log('Data inserted into exchanges successfully.');
                 setAnotherModalVisible(false);
               },
@@ -381,6 +415,10 @@ function ClientMeasurements() {
                       <Text style={styles.header}>KCAL</Text>
                       <Text>{item.exchange_TER} kcal</Text>
                       </View>
+                      {/* <View style={styles.cell}>
+                      <Text style={styles.header}>Milk Choice</Text>
+                      <Text>{item.milkChoice}</Text>
+                      </View> */}
                   </View>
                     </View>
                   )}

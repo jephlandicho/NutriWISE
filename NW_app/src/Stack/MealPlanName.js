@@ -12,10 +12,12 @@ import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { ResultContext } from '../Components/ResultContext';
 import foods from '../meals/foods.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
 function MealPlanName() {
+  const [userData, setUserData] = useState(null);
   const [dataFromDB, setDataFromDB] = useState([]);
   const [exchangeData, setexchangeData] = useState([]);
   const navigation = useNavigation();
@@ -31,6 +33,19 @@ function MealPlanName() {
   const [selectedExchangesId, setSelectedExchangesId] = useState(null);
   const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
 
+  const getUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        setUserData(parsedUserData);
+      } else {
+        // User data doesn't exist in local storage
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   const generateHtml = (dataFromDB) => {
     const name = dataFromDB.length > 0 ? dataFromDB[0].name : "";
     const birthdate = dataFromDB.length > 0 ? dataFromDB[0].birthdate : "";
@@ -155,6 +170,7 @@ function MealPlanName() {
         <div class="header"> <b>Nutritional and Dietetics Department</b></div>
         <div class="header"><b>Nutritional Assessment</b></div>
         <br>
+        <div><b>Student Name:</b>${userData.fullName}</div>
         <div class="table-container">
         <table>
         <tr class="marginBottom">
@@ -566,6 +582,7 @@ function MealPlanName() {
     return code;
   }
   React.useEffect(() => {
+    getUserData();
     setPage(0);
     refreshTableData();
     getExchangeData();

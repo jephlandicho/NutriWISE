@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
     getUserData();
     getNotificationSettings();
   }, []);
+
    const getUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('userData');
@@ -38,6 +39,27 @@ import { useNavigation } from '@react-navigation/native';
     } catch (error) {
       console.error('Error:', error);
     }
+  };
+  const handleDeleteTables = () => {
+    db.transaction((tx) => {
+      
+      const tablesToDelete = ['client','client_measurements','exchanges','meal_title','meal','meal_plan'];
+  
+      tablesToDelete.forEach((table) => {
+        const query = `DROP TABLE IF EXISTS ${table};`;
+  
+        tx.executeSql(query, [], (_, resultSet) => {
+          console.log(`Table ${table} deleted.`);
+        }, (error) => {
+          console.error(`Error deleting ${table}:`, error);
+        });
+      });
+    }, (error) => {
+      console.error('Transaction error:', error);
+    }, () => {
+      // Transaction successful
+      Alert.alert('Tables Deleted', 'All tables have been deleted.');
+    });
   };
 
   const deleteTable = () => {
@@ -132,7 +154,7 @@ const updateTable = async (tableName) => {
         <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
           <Text style={styles.settingLabel}>Privacy Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingItem} onPress={deleteTable}>
+        <TouchableOpacity style={styles.settingItem} onPress={handleDeleteTables}>
           <Text style={styles.settingLabel}>Reset</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={syncTable}>

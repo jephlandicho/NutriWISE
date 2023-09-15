@@ -117,6 +117,7 @@ function MeasurementSummary() {
     C_MeasurementID,setC_MeasurementID,
     C_exchangesID,setC_exchangesID,
     C_meal_titleID,setC_meal_titleID,
+    milkChoice
   } = useContext(ResultContext);
 
   let palText;
@@ -264,6 +265,7 @@ function MeasurementSummary() {
                 carbohydrates REAL,
                 protein REAL,
                 fats REAL,
+                milkChoice TEXT,
                 syncData INTEGER,
                 FOREIGN KEY (measurement_id) REFERENCES client_measurements (id)
               )`,
@@ -368,7 +370,7 @@ function MeasurementSummary() {
   
 
   const insertData = () => {
-    
+    console.log(milkChoice)
     db.transaction((tx) => {
       tx.executeSql(
         'INSERT INTO client (id, name, birthdate, sex,syncData) VALUES (?, ?, ?, ?,?)',
@@ -406,7 +408,7 @@ function MeasurementSummary() {
         (tx, resultSet) => {
           const measurementId = resultSet.insertId;
           tx.executeSql(
-            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)',
+            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)',
             [
               C_exchangesID,
               measurementId,
@@ -425,6 +427,7 @@ function MeasurementSummary() {
               totalCarbs,
               totalProtein,
               totalFat,
+              milkChoice,
               0
             ],
             (tx, resultSet) => {
