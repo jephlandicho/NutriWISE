@@ -8,7 +8,7 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const PMSnacks = () => {
-  const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
+  const {C_meal_titleID,C_exchangesID,milkChoice} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
@@ -48,7 +48,7 @@ const PMSnacks = () => {
     { name: 'Rice A', value: AriceAPMSnacks },
     { name: 'Rice B', value: AriceBPMSnacks },
     { name: 'Rice C', value: AriceCPMSnacks },
-    { name: 'Milk', value: AMilkPMSnacks },
+    { name: milkChoice, value: AMilkPMSnacks },
     { name: 'Low Fat Meat', value: ALFPMSnacks },
     { name: 'Medium Fat Meat', value: AMFPMSnacks },
     { name: 'High Fat Meat', value: AHFPMSnacks },
@@ -127,9 +127,32 @@ const PMSnacks = () => {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
         return;
       }
-      updatedMealPlan[section].push(food);
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasurePmSnacks
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      
+      updatedMealPlan[section].push({...food,measurementInfo});
     } else {
-      updatedMealPlan[section] = [food];
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasurePmSnacks
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      updatedMealPlan[section] = [{...food,measurementInfo}];
     }
   
     if (!food.household_measure) {
@@ -285,7 +308,7 @@ const PMSnacks = () => {
                   >
                     <Text>
                       {food.meal_name}
-                      {food.household_measure ? ` - ${food.household_measure}` : ''}
+                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
                     </Text>
                   </TouchableOpacity>
                 </View>

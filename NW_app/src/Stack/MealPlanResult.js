@@ -109,13 +109,18 @@ const MealPlanResult = () => {
       db.transaction((tx)=>{
         Object.keys(parsedData).forEach((mealGroup) => {
           parsedData[mealGroup].forEach((mealData) => {
-            const { id, household_measure: householdMeasurementData } = mealData;
+
+            const { id, measurement, label } = mealData;
       
             // Get the exchange distribution for the current meal group
             const exchangeDistribution = getExchangeDistribution(mealGroup);
-      
+
+            const h_measure = measurement.map((measure, index) =>
+            `${measure * exchangeDistribution} ${label[index]}`
+          ).join(' or ');
+  
             // Determine the household_measurement to be used
-            const finalHouseholdMeasurement = householdMeasurementData || householdMeasurement;
+            const finalHouseholdMeasurement = h_measure || householdMeasurement;
       
             tx.executeSql(
               "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
@@ -132,7 +137,6 @@ const MealPlanResult = () => {
           });
         });
       })
-
   }
   function getEDBreakfast(mealGroup) {
     switch (mealGroup) {

@@ -8,7 +8,9 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const AMSnack = () => {
-  const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
+  
+  const {C_meal_titleID,C_exchangesID,milkChoice,breakfast} = useContext(ResultContext);
+  const parsedbreakfast = typeof breakfast === 'string' ? JSON.parse(breakfast) : breakfast;
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
@@ -48,7 +50,7 @@ const AMSnack = () => {
     { name: 'Rice A', value: AriceAAMSnacks },
     { name: 'Rice B', value: AriceBAMSnacks },
     { name: 'Rice C', value: AriceCAMSnacks },
-    { name: 'Milk', value: AMilkAMSnacks },
+    { name: milkChoice, value: AMilkAMSnacks },
     { name: 'Low Fat Meat', value: ALFAMSnacks },
     { name: 'Medium Fat Meat', value: AMFAMSnacks },
     { name: 'High Fat Meat', value: AHFAMSnacks },
@@ -60,6 +62,7 @@ const AMSnack = () => {
   useEffect(() => {
     fetchData();
     fetchDataFromDatabase();
+    console.log("BF",parsedbreakfast)
   }, [selectedSection]);
 
   const fetchDataFromDatabase = () => {
@@ -70,7 +73,6 @@ const AMSnack = () => {
         (_, { rows }) => {
           const data = rows._array;
           setTableData(data);
-          console.log(data)
           // Assign the fetched data to the respective variables
           data.forEach((item) => {
             const { am_snacks, food_group, id } = item;
@@ -129,9 +131,32 @@ const AMSnack = () => {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
         return;
       }
-      updatedMealPlan[section].push(food);
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureAmSnacks
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      
+      updatedMealPlan[section].push({...food,measurementInfo});
     } else {
-      updatedMealPlan[section] = [food];
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureAmSnacks
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      updatedMealPlan[section] = [{...food,measurementInfo}];
     }
   
     if (!food.household_measure) {
@@ -201,6 +226,7 @@ const AMSnack = () => {
     );
     setFilteredFoods(filteredList);
   };
+
 
   return (
     <View style={styles.container}>
@@ -288,7 +314,7 @@ const AMSnack = () => {
                   >
                     <Text>
                       {food.meal_name}
-                      {food.household_measure ? ` - ${food.household_measure}` : ''}
+                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
                     </Text>
                   </TouchableOpacity>
                 </View>

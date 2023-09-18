@@ -338,7 +338,6 @@ function ClientMeasurements() {
                   </View>
                   </>
                   <TouchableOpacity onPress={() => viewExchanges(index)}>
-                    {console.log(index)}
                   <Text style={styles.header2}>Exchanges <Ionicons
                     name={showExchanges[index] ? 'md-arrow-up-outline' : 'md-arrow-down-outline'}
                     size={18}
