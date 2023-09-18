@@ -741,7 +741,8 @@
         "meal_group": "Fruit",
         "meal_name": "Bayabas, pula",
         "meal_weight": 61,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label": ["pcs"]
     },
     {
         "household_measure": "3 pcs",

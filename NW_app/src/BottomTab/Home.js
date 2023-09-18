@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { Avatar, Button, Card, Divider, Provider as PaperProvider } from 'react-native-paper';
+import { Avatar, Card, Provider as PaperProvider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MyTheme from '../Components/MyTheme';
-import { LineChart } from 'react-native-chart-kit';
+import * as SQLite from 'expo-sqlite';
+
+const db = SQLite.openDatabase('mydatabase.db');
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
+  const [upcomingClasses, setUpcomingClasses] = useState([]);
+  const [todayDay, setTodayDay] = useState('');
+
   useEffect(() => {
     getUserData();
+    const today = new Date();
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const currentDay = daysOfWeek[today.getDay()];
+    setTodayDay(currentDay); // Set today's day
+
+    fetchUpcomingClasses(currentDay); // Pass the currentDay to fetchUpcomingClasses
   }, []);
 
   const getUserData = async () => {
@@ -25,15 +36,40 @@ const Home = () => {
     }
   };
 
-  const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-      },
-    ],
+  const fetchUpcomingClasses = (currentDay) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT classes.*, schedule.start_time AS s_time ,GROUP_CONCAT(DISTINCT schedule.schedule_day || ' ' || (CASE WHEN substr(schedule.start_time, 1, 2) < '12' THEN printf('%02d:%02d AM', substr(schedule.start_time, 1, 2), substr(schedule.start_time, 4, 2)) WHEN substr(schedule.start_time, 1, 2) = '12' THEN printf('%02d:%02d PM', substr(schedule.start_time, 1, 2), substr(schedule.start_time, 4, 2)) ELSE printf('%02d:%02d PM', substr(schedule.start_time, 1, 2) - 12, substr(schedule.start_time, 4, 2)) END) || '-' || (CASE WHEN substr(schedule.end_time, 1, 2) < '12' THEN printf('%02d:%02d AM', substr(schedule.end_time, 1, 2), substr(schedule.end_time, 4, 2)) WHEN substr(schedule.end_time, 1, 2) = '12' THEN printf('%02d:%02d PM', substr(schedule.end_time, 1, 2), substr(schedule.end_time, 4, 2)) ELSE printf('%02d:%02d PM', substr(schedule.end_time, 1, 2) - 12, substr(schedule.end_time, 4, 2)) END)) AS schedule_info FROM classes INNER JOIN schedule ON classes.id = schedule.class_id WHERE schedule.schedule_day = ? GROUP BY classes.id;`,
+        [currentDay], // Pass the currentDay as a parameter
+        (_, { rows }) => {
+          const data = rows._array.filter(classData => isClassTimeUpcoming(classData));
+          setUpcomingClasses(data); // Update the state with the filtered data
+        },
+        (error) => {
+          console.error('Error fetching upcoming classes:', error);
+        }
+      );
+    });
   };
 
+  const isClassTimeUpcoming = (classData) => {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
+    const classStartTimeString = classData.s_time; // Use the alias 's_time' for class start time
+    
+    // Ensure both times are in the same 24-hour format with two digits for the hour
+    const formattedCurrentTime = currentTime.replace(/\s/g, '');
+    const formattedClassStartTime = classStartTimeString.padStart(5, '0').replace(/\s/g, ''); // Ensure two digits for the hour
+  
+    console.log("formattedCurrentTime", formattedCurrentTime);
+    console.log("formattedClassStartTime", formattedClassStartTime);
+    console.log(classData);
+  
+    return formattedCurrentTime < formattedClassStartTime;
+  };
+  
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
@@ -49,38 +85,16 @@ const Home = () => {
             <Card.Title title="Upcoming Classes" />
             <Card.Content>
               {/* Display a list of upcoming classes */}
-              <Text>Class 1 - ComProg (9:00 AM)</Text>
-              <Text>Class 2 - Application Development (11:00 AM)</Text>
-              <Text>Class 3 - Integration of Application (2:00 PM)</Text>
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.card}>
-            <Card.Title title="Assignments/Exams" />
-            <Card.Content>
-              {/* Display a list of pending assignments/exams */}
-              <Text>ComProg Assignment (Due: July 25)</Text>
-              <Text>Integration of Application Exam (Date: July 30)</Text>
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.card}>
-            <Card.Title title="Chart" />
-            <Card.Content>
-              {/* Display a line chart */}
-              <LineChart
-                data={chartData}
-                width={300}
-                height={200}
-                chartConfig={{
-                  backgroundColor: '#FFFFFF',
-                  backgroundGradientFrom: '#FFFFFF',
-                  backgroundGradientTo: '#FFFFFF',
-                  decimalPlaces: 0,
-                  color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                }}
-                bezier
-              />
+              {upcomingClasses.map((classData, index) => (
+                <View key={index}>
+                  <Text>{`Class: ${classData.class_name}`}</Text>
+                  {classData.schedule_info.split(',').map((schedule, scheduleIndex) => (
+                    <Text key={scheduleIndex}>
+                      {schedule}
+                    </Text>
+                  ))}
+                </View>
+              ))}
             </Card.Content>
           </Card>
 
@@ -95,7 +109,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 30
+    paddingTop: 30,
   },
   header: {
     flexDirection: 'row',
@@ -112,12 +126,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     elevation: 4,
     backgroundColor: '#FFFFFF',
-  },
-  cardActions: {
-    justifyContent: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
-    padding: 16,
   },
 });
 
