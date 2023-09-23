@@ -58,6 +58,89 @@ include 'header.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/icons/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="cssprof/style.css">
 </head>
+<style>
+  /* Add this CSS to your existing stylesheet or a new one */
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.kebab-menu {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.menu-options {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: none;
+  z-index: 1;
+}
+
+.menu-options a {
+  display: block;
+  margin: 5px 0;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-options a:hover {
+  color: #007bff;
+}
+
+.show-menu {
+  display: block;
+}
+
+/* Improved font readability */
+.card h2 {
+  color: #007bff; /* Blue color for heading */
+  margin-bottom: 10px;
+  font-size: 20px; /* Larger font size for headings */
+  font-weight: bold; /* Bold font weight for headings */
+  line-height: 1.3; /* Improved line height for better readability */
+}
+
+.card p {
+  color: #333; /* Dark gray color for text */
+  line-height: 1.6; /* Enhanced line height for text */
+  font-size: 16px; /* Standard font size for text */
+  margin-bottom: 10px; /* Added margin for better spacing between paragraphs */
+}
+
+  </style>
 
 <body>
   <?php include "header.php"; ?>
@@ -92,98 +175,100 @@ include 'header.php';
 
     <section class="section">
 
-     <div class="card text-center mb-3" data-toggle="modal" data-target="#myModal">
-  <div class="card-body">
-    <p class="card-text">Announce Something to your Class....</p>
-  </div>
-</div>
+      <!-- Clickable card section -->
+      <div class="card" data-toggle="modal" data-target="#myModal">
+        <p class="card-text">Announce Something to your Class....</p>
+      </div>
+    </section>
 
     <!-- Display Announcements and Associated Materials -->
     <section class="section dashboard">
-      <div class="container">
+    <div class="container">
         <?php
         include "config.php";
 
         if (isset($_SESSION['class_id'])) {
-          $classId = $_SESSION['class_id'];
+            $classId = $_SESSION['class_id'];
 
-          // Fetch announcements and associated materials for the current class ID from the database
-          $query = "SELECT a.id AS announcement_id, a.title AS announcement_title, a.description AS announcement_description, a.links AS announcement_links, a.date AS announcement_date,
-          GROUP_CONCAT(m.materials) AS material_files
-          FROM announcement a
-          LEFT JOIN materials m ON a.id = m.announcement_id
-          WHERE a.class_id = '$classId'
-          GROUP BY a.id
-          ORDER BY announcement_date DESC";
+            // Fetch announcements and associated materials for the current class ID from the database
+            $query = "SELECT a.id AS announcement_id, a.title AS announcement_title, a.description AS announcement_description, a.links AS announcement_links, a.date AS announcement_date,
+            GROUP_CONCAT(m.materials) AS material_files
+            FROM announcement a
+            LEFT JOIN materials m ON a.id = m.announcement_id
+            WHERE a.class_id = '$classId'
+            GROUP BY a.id
+            ORDER BY announcement_date DESC";
 
-          $result = mysqli_query($conn, $query);
+            $result = mysqli_query($conn, $query);
 
-          if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-              echo '<div class="card">';
-              echo '<p class="announcement"><strong>' . $row['announcement_title'] . '</strong><br>';
-              echo ' ' . $row['announcement_description'] . '<br>';
-              echo ' <a href="' . $row['announcement_links'] . '" target="_blank">' . $row['announcement_links'] . '</a></p>';
-              // echo '<p class="announcement-date">Announcement Date: ' . $row['announcement_date'] . '</p>';
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<div class="card mb-3">';
+                    echo '<div class="card-body">';
+                    echo '<h5 class="card-title">' . $row['announcement_title'] . '</h5>';
+                    echo '<p class="card-text">' . $row['announcement_description'] . '</p>';
+                    echo '<p class="card-text">Link: <a href="' . $row['announcement_links'] . '" target="_blank">' . $row['announcement_links'] . '</a></p>';
+                  
 
-              // Display the uploaded files and icons
-              $fileNames = explode(',', $row['material_files']);
-              foreach ($fileNames as $fileName) {
-                $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-                $fileIconClass = getFileIconClass($fileExtension);
-                echo '<div class="file-preview-item">';
-                echo '<a href="' . $baseUrl . $fileName . '" class="file-link" target="_blank">';
-                echo '<span class="file-icon ' . $fileIconClass . '"></span>';
-                echo '<span class="file-title">' . basename($fileName) . '</span>';
-                echo '</a>';
-                echo '</div>';
-              }
+                    // Display the uploaded files and icons
+                    $fileNames = explode(',', $row['material_files']);
+                    foreach ($fileNames as $fileName) {
+                        $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+                        $fileIconClass = getFileIconClass($fileExtension);
+                        echo '<div class="file-preview-item">';
+                        echo '<a href="' . $baseUrl . $fileName . '" class="file-link" target="_blank">';
+                        echo '<span class="file-icon ' . $fileIconClass . '"></span>';
+                        echo '<span class="file-title">' . basename($fileName) . '</span>';
+                        echo '</a>';
+                        echo '</div>';
+                    }
 
-              echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "<p class='text-muted'>No announcements or materials available for this class.</p>";
             }
-          } else {
-            echo "<p>No announcements or materials available for this class.</p>";
-          }
         } else {
-          echo "<p>Class ID not specified.</p>";
+            echo "<p class='text-muted'>Class ID not specified.</p>";
         }
 
         function getFileIconClass($extension) {
-          $iconClass = 'file-icon';
+            $iconClass = 'bi-file-earmark-text';
 
-          switch ($extension) {
-            case 'pdf':
-              $iconClass = 'file-icon-pdf';
-              break;
-            case 'doc':
-            case 'docx':
-              $iconClass = 'file-icon-doc';
-              break;
-            case 'xls':
-            case 'xlsx':
-              $iconClass = 'file-icon-xls';
-              break;
-            case 'ppt':
-            case 'pptx':
-              $iconClass = 'file-icon-ppt';
-              break;
-            case 'zip':
-            case 'rar':
-              $iconClass = 'file-icon-zip';
-              break;
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-            case 'gif':
-              $iconClass = 'file-icon-img';
-              break;
-          }
+            switch ($extension) {
+                case 'pdf':
+                    $iconClass = 'bi-file-pdf';
+                    break;
+                case 'doc':
+                case 'docx':
+                    $iconClass = 'bi-file-word';
+                    break;
+                case 'xls':
+                case 'xlsx':
+                    $iconClass = 'bi-file-excel';
+                    break;
+                case 'ppt':
+                case 'pptx':
+                    $iconClass = 'bi-file-ppt';
+                    break;
+                case 'zip':
+                case 'rar':
+                    $iconClass = 'bi-file-zip';
+                    break;
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                    $iconClass = 'bi-image';
+                    break;
+            }
 
-          return $iconClass;
+            return $iconClass;
         }
         ?>
-      </div>
-    </section>
+    </div>
+</section>
 
   </main><!-- End #main -->
   <!-- Modal -->
@@ -213,6 +298,7 @@ include 'header.php';
             <div class="form-group">
               <label for="file">Upload Files</label>
               <input type="file" class="form-control-file" id="file" name="files[]" accept=".pdf, .doc, .docx, .txt, .csv, .xlsx, .pptx, .jpg, .jpeg, .png, .gif" multiple>
+
             </div>
             <button type="submit" class="btn btn-primary" name="submit">Submit</button>
           </form>

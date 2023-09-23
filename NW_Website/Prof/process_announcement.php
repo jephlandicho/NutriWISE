@@ -30,10 +30,10 @@ if (isset($_POST['submit'])) {
         // Check if a file is selected for upload
         if (!empty($_FILES["files"]["name"][$key])) {
             // Check if the file is a valid file
-            $allowedFileTypes = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'gif', 'pptx'];
+            $allowedFileTypes = ['pdf', 'doc', 'docx', 'txt', 'jpg', 'jpeg', 'png', 'gif', 'pptx'];
 
             if (!in_array($fileType, $allowedFileTypes)) {
-                echo '<script>alert("Only PDF, DOC, DOCX, JPG, JPEG, PNG, GIF, and PPTX files are allowed.");</script>';
+                echo '<script>alert("Only PDF, DOC, DOCX, TXT, JPG, JPEG, PNG, GIF, and PPTX files are allowed.");</script>';
                 $uploadOk = 0;
             }
 

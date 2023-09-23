@@ -1,0 +1,82 @@
+AALISIN MUNA MGA SCHEDULE THINGS
+
+
+      // // Fetch schedule information from class_schedule table
+      // $query_schedule = "SELECT schedule_day, start_time, end_time FROM class_schedule WHERE class_id = ?";
+      // $stmt_schedule = mysqli_prepare($conn, $query_schedule);
+      // mysqli_stmt_bind_param($stmt_schedule, "i", $classId);
+      // mysqli_stmt_execute($stmt_schedule);
+      // $result_schedule = mysqli_stmt_get_result($stmt_schedule);
+      // $schedule_row = mysqli_fetch_assoc($result_schedule);
+
+Schedule form
+<div class="form-group">
+          <label for="scheduleDayInput">Schedule Day</label>
+          <select id="scheduleDayInput" class="form-control" required>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="startTimeInput">Start Time</label>
+          <input type="time" id="startTimeInput" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="endTimeInput">End Time</label>
+          <input type="time" id="endTimeInput" class="form-control" required>
+        </div>
+
+
+
+Sa retrive form data
+const startTime = document.getElementById('startTimeInput').value;
+    const endTime = document.getElementById('endTimeInput').value;
+
+sa reset the form field
+ document.getElementById('scheduleDayInput').value = 'Monday';
+            document.getElementById('startTimeInput').value = '';
+            document.getElementById('endTimeInput').value = '';
+
+sa send the class data to the server for saving
+
++
+      '&schedule_day=' + encodeURIComponent(scheduleDay) + '&start_time=' + encodeURIComponent(startTime) +
+      '&end_time=' + encodeURIComponent(endTime)
+
+SAVE CLASS TO NA FILE 
+
+sa retrive the class data from thr post request
+$schedules = json_decode($_POST['schedules'], true); // Decode the JSON array
+
+sa if
+// Get the last inserted class ID
+    $class_id = mysqli_insert_id($conn);
+
+    // Prepare the SQL statement for inserting class schedules
+    $query_schedule = "INSERT INTO class_schedule (class_id, schedule_day, start_time, end_time) VALUES (?, ?, ?, ?)";
+    $stmt_schedule = mysqli_prepare($conn, $query_schedule);
+
+    // Loop through the array of schedule data and insert each schedule
+    foreach ($schedules as $schedule) {
+        $schedule_day = $schedule['schedule_day'];
+        $start_time = $schedule['start_time'];
+        $end_time = $schedule['end_time'];
+
+        // Bind the parameters for class schedule
+        mysqli_stmt_bind_param($stmt_schedule, "ssss", $class_id, $schedule_day, $start_time, $end_time);
+
+        // Execute the statement for class schedule
+        $result_schedule = mysqli_stmt_execute($stmt_schedule);
+
+        if (!$result_schedule) {
+            echo mysqli_error($conn); // Return the database error message to the client
+            break; // Exit the loop in case of an error
+        }
+    }
+
+
