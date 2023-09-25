@@ -1,7 +1,7 @@
 import React, { useContext,useState } from 'react';
 import { DataTable } from 'react-native-paper';
 import { ResultContext } from '../Components/ResultContext';
-import { Text, View, StyleSheet, ScrollView, Button } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Button,Alert } from 'react-native';
 import MealComponent from '../Components/MealComponent';
 import { useNavigation } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
@@ -101,50 +101,80 @@ const MealPlanResult = () => {
     });
   };
 
-  const insertMealPlan = (
+  let isAlertDisplayed = false;
+
+  const insertMealPlan = async (
     parsedData,
     householdMeasurement,
     setMealID,
-    getExchangeDistribution) => {
-      db.transaction((tx)=>{
-        Object.keys(parsedData).forEach((mealGroup) => {
-          parsedData[mealGroup].forEach((mealData) => {
-
-            const { id, measurement, label } = mealData;
-      
-            // Get the exchange distribution for the current meal group
-            const exchangeDistribution = getExchangeDistribution(mealGroup);
-
-            const h_measure = measurement.map((measure, index) =>
-            `${measure * exchangeDistribution} ${label[index]}`
-          ).join(' or ');
+    getExchangeDistribution
+  ) => {
+    try {
+      await new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          let insertionCount = 0;
+          const totalInsertions = Object.keys(parsedData).reduce(
+            (count, mealGroup) => count + parsedData[mealGroup].length,
+            0
+          );
   
-            // Determine the household_measurement to be used
-            const finalHouseholdMeasurement = h_measure || householdMeasurement;
-      
-            tx.executeSql(
-              "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
-              [setMealID, exchangeDistribution, id, finalHouseholdMeasurement, 0],
-              (txObj, resultSet) => {
-                // Handle success if needed
-                console.log("Insertion successful:", resultSet);
-              },
-              (txObj, error) => {
-                // Handle error if needed
-                console.log("Error during insertion:", error);
-              }
-            );
+          Object.keys(parsedData).forEach((mealGroup) => {
+            parsedData[mealGroup].forEach((mealData) => {
+              const { id, measurementInfo } = mealData;
+  
+              // Get the exchange distribution for the current meal group
+              const exchangeDistribution = getExchangeDistribution(mealGroup);
+  
+              // Determine the household_measurement to be used
+              const finalHouseholdMeasurement =
+                measurementInfo || householdMeasurement;
+  
+              tx.executeSql(
+                "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
+                [setMealID, exchangeDistribution, id, finalHouseholdMeasurement, 0],
+                (txObj, resultSet) => {
+                  insertionCount++;
+                  if (insertionCount === totalInsertions) {
+                    // All insertions are completed
+                    resolve();
+                  }
+                },
+                (txObj, error) => {
+                  // Handle error if needed
+                  console.log("Error during insertion:", error);
+                  reject(error);
+                }
+              );
+            });
           });
         });
-      })
-  }
+      });
+  
+      // Display the alert once when all insertions are successful
+      if (!isAlertDisplayed) {
+        console.log("All insertions successful");
+        Alert.alert("Success","Meal Plan Created");
+        isAlertDisplayed = true;
+      }
+    } catch (error) {
+      // Handle any errors here
+      Alert.alert("Error","Meal Plan Creation Failed");
+      console.log("An error occurred during insertions:", error);
+    }
+  };
+  
+  
   function getEDBreakfast(mealGroup) {
     switch (mealGroup) {
       case "Fruit":
         return AfruitBreakfast;
       case "Low Fat Meat":
         return ALFBreakfast;
-      case "Milk":
+      case "Whole Milk":
+        return AMilkBreakfast;
+      case "Non-Fat Milk":
+        return AMilkBreakfast;
+      case "Low-Fat Milk":
         return AMilkBreakfast;
       case "Rice A":
         return AriceABreakfast;
@@ -173,7 +203,11 @@ const MealPlanResult = () => {
         return AfruitAMSnacks;
       case "Low Fat Meat":
         return ALFAMSnacks;
-      case "Milk":
+      case "Whole Milk":
+        return AMilkAMSnacks;
+      case "Non-Fat Milk":
+        return AMilkAMSnacks;
+      case "Low-Fat Milk":
         return AMilkAMSnacks;
       case "Rice A":
         return AriceAAMSnacks;
@@ -201,8 +235,12 @@ const MealPlanResult = () => {
       case "Fruit":
         return AfruitLunch;
       case "Low Fat Meat":
-        return ALFLunch;
-      case "Milk":
+        return ALFLunch
+      case "Whole Milk":
+        return AMilkLunch;
+      case "Non-Fat Milk":
+        return AMilkLunch;
+      case "Low-Fat Milk":
         return AMilkLunch;
       case "Rice A":
         return AriceALunch;
@@ -231,7 +269,11 @@ const MealPlanResult = () => {
         return AfruitPMSnacks;
       case "Low Fat Meat":
         return ALFPMSnacks;
-      case "Milk":
+      case "Whole Milk":
+        return AMilkPMSnacks;
+      case "Non-Fat Milk":
+        return AMilkPMSnacks;
+      case "Low-Fat Milk":
         return AMilkPMSnacks;
       case "Rice A":
         return AriceAPMSnacks;
@@ -259,7 +301,11 @@ const MealPlanResult = () => {
         return AfruitDinner;
       case "Low Fat Meat":
         return ALFDinner;
-      case "Milk":
+      case "Whole Milk":
+        return AMilkDinner;
+      case "Non-Fat Milk":
+        return AMilkDinner;
+      case "Low-Fat Milk":
         return AMilkDinner;
       case "Rice A":
         return AriceADinner;

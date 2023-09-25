@@ -8,7 +8,8 @@ import foodsData from '../../meals/foods.json';
 import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 const Lunch = () => {
-  const {C_meal_titleID,C_exchangesID,milkChoice} = useContext(ResultContext);
+  const {C_meal_titleID,C_exchangesID,milkChoice,AMSnack} = useContext(ResultContext);
+  const parsedAMSnack = typeof AMSnack === 'string' ? JSON.parse(AMSnack) : AMSnack;
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
@@ -59,6 +60,7 @@ const Lunch = () => {
   useEffect(() => {
     fetchData();
     fetchDataFromDatabase()
+    console.log("AM",parsedAMSnack)
   }, [selectedSection]);
 
   const fetchDataFromDatabase = () => {

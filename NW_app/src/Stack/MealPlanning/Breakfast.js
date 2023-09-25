@@ -339,17 +339,6 @@ const Breakfast = () => {
                     <Text>
                       {food.meal_name}
                       {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
-                      {/* {food.measurement && food.measurement.length > 0
-                        ? ` - ${
-                            food.measurement
-                              .map((measure, index) =>
-                                `${measure * sectionsWithVal.find(
-                                  (section) => section.name === selectedSection
-                                )?.value} ${food.label[index]}`
-                              )
-                              .join(' or ')
-                          }`
-                        : ''} */}
                     </Text>
                   </TouchableOpacity>
                 </View>

@@ -501,12 +501,7 @@ function MealPlanName() {
             }
             rowData += `
               <td class="cells">${foodInfo.meal_name}</td>`;
-            
-            if (foodInfo.meal_group === 'Vegetable' && index === 0) {
               rowData += `<td class="cells">${item.household_measurement}</td>`;
-            } else {
-              rowData += `<td class="cells">${foodInfo.household_measure}</td>`;
-            }
             
             rowData += '</tr>';
             return rowData;

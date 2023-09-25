@@ -180,7 +180,7 @@ const MealPlanning = () => {
                       ) : (
                         <View style={styles.column}>
                           <Text style={styles.headerText}>Household Measurement</Text>
-                          <Text style={styles.exchangeText}>{food.mealMeasure}</Text>
+                          <Text style={styles.exchangeText}>{food.item.household_measurement}</Text>
                         </View>
                       )}
                     </View>

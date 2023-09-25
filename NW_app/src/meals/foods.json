@@ -32,7 +32,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Broccoli",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -41,7 +41,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Carrot",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -50,7 +50,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Gabi, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -59,7 +59,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Himbaba-o, bulaklak",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -68,7 +68,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Himbaba-o, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -77,7 +77,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kabuti, sariwa",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -86,7 +86,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kadyos, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -95,7 +95,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kalabasa, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -104,7 +104,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kalabasa, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -113,7 +113,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kamansi, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -122,7 +122,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kamansi, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -131,7 +131,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Katuray, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -140,7 +140,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Langka, hilaw",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -149,7 +149,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Malunggay, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -158,7 +158,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Paayap, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -167,7 +167,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Patani, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -176,7 +176,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Remolacha",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -185,7 +185,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Rimas, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -194,7 +194,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Saluyot, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -203,7 +203,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sibuyas, ulo (Bombay, Tagalog)",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -212,7 +212,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Singkamas, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -221,7 +221,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sitaw, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -230,7 +230,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sitsaro",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -239,7 +239,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Togue",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -248,7 +248,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Ubod, niyog",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -257,7 +257,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Yakon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -266,7 +266,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Asparagus, de lata",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label": ["cup"]
     },
     {
         "household_measure": "2 pcs (8x1.5cm)",
@@ -274,7 +275,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Mais, del lata",
         "meal_weight": 75,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label": ["pcs"]
     },
     {
         "household_measure": "1 tbsp",
@@ -282,7 +284,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Garbansos, de lata",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label": ["tbsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -290,7 +293,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Gisantes(de lata, frozen)",
         "meal_weight": 25,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label": ["tbsp"]
     },
     {
         "household_measure": "2 tbsp",
@@ -307,7 +311,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Kabuti, de lata",
         "meal_weight": 110,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label": ["cup"]
     },
     {
         "household_measure": "3 tbsp",
@@ -315,7 +320,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Kamatis, de lata",
         "meal_weight": 50,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label": ["tbsp"]
     },
     {
         "household_measure": "¼ cup",
@@ -323,7 +329,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Tomato Juice, de lata",
         "meal_weight": 65,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label": ["cup"]
     },
     {
         "household_measure": "4 pcs (2 cm diameter)",
@@ -331,7 +338,8 @@
         "meal_group": "Vegetable",
         "meal_name": "Apulid, de lata",
         "meal_weight": 40,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label": ["pcs"]
     },
     {
         "household_measure": "",
@@ -339,7 +347,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Abitsuwelas, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -348,7 +356,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Alfalfa sprouts",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -357,7 +365,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Alugbati, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -366,7 +374,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Ampalaya, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -375,7 +383,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Arugula",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -384,7 +392,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Asparagus",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -393,7 +401,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Baby corn/young corn",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -402,7 +410,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Baby corn/young corn",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -411,7 +419,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Bataw, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -420,7 +428,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Bok choy",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -429,7 +437,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Caulliflower",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -438,7 +446,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kalabasa, bulaklak",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -447,7 +455,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kale",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -456,7 +464,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kamatis",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -465,7 +473,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kamote, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -474,7 +482,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Kangkong, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -483,7 +491,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Katuray, bulaklak",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -492,7 +500,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Labanos",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -501,7 +509,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Labong",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -510,7 +518,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Letsugas, dahon at tangkay",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -519,7 +527,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Malunggay, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -528,7 +536,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Mustasa, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -537,7 +545,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Okra",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -546,7 +554,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Pako, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -555,7 +563,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Papaya, bunga, hilaw",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -564,7 +572,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Patola, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -573,7 +581,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Pechay Baguio",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -582,7 +590,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Pechay, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -591,7 +599,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Pipino",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -600,7 +608,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Puso ng saging, Butuan",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -609,7 +617,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Repolyo (berde, pula)",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -618,7 +626,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sayote, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -627,7 +635,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sayote, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -636,7 +644,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Seaweed (balbalulang, kulot, lato, lukot, pokpoklo)",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -645,7 +653,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sigarilyas, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -654,7 +662,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sili, lara",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -663,7 +671,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Singkamas, ugat",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -672,7 +680,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Sitaw, talbos",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -681,7 +689,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Spinach, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -690,7 +698,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Upo, bunga",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -699,7 +707,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Talinum, dahon",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -708,7 +716,7 @@
         "meal_group": "Vegetable",
         "meal_name": "Talong",
         "meal_weight": 0,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -717,7 +725,8 @@
         "meal_group": "Fruit",
         "meal_name": "Alimuran",
         "meal_weight": 119,
-        "measurement": 13.0
+        "measurement": [13.0],
+        "label":[]
     },
     {
         "household_measure": "1 pc",
@@ -725,7 +734,8 @@
         "meal_group": "Fruit",
         "meal_name": "Atis",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label": ["pc"]
     },
     {
         "household_measure": "4 ½ pcs",
@@ -733,7 +743,8 @@
         "meal_group": "Fruit",
         "meal_name": "Balimbing",
         "meal_weight": 182,
-        "measurement": 4.5
+        "measurement": [4.5],
+        "label": ["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -750,7 +761,8 @@
         "meal_group": "Fruit",
         "meal_name": "Bayabas, puti",
         "meal_weight": 81,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label": ["pcs"]
     },
     {
         "household_measure": "2 cups",
@@ -758,7 +770,8 @@
         "meal_group": "Fruit",
         "meal_name": "Bignay",
         "meal_weight": 299,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label": ["cups"]
     },
     {
         "household_measure": "½ cup",
@@ -766,7 +779,8 @@
         "meal_group": "Fruit",
         "meal_name": "Blueberries",
         "meal_weight": 84,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label": ["cup"]
     },
     {
         "household_measure": "7 pods",
@@ -774,7 +788,8 @@
         "meal_group": "Fruit",
         "meal_name": "Camachili",
         "meal_weight": 110,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label": ["pods"]
     },
     {
         "household_measure": "7 pcs",
@@ -782,7 +797,8 @@
         "meal_group": "Fruit",
         "meal_name": "Cherries, hinog",
         "meal_weight": 76,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label": ["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -790,7 +806,8 @@
         "meal_group": "Fruit",
         "meal_name": "Chico",
         "meal_weight": 54,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label": ["pc"]
     },
     {
         "household_measure": "¼ cup",
@@ -798,7 +815,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, kalabaw",
         "meal_weight": 200,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label": ["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -806,7 +824,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, baka",
         "meal_weight": 250,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "½ cup",
@@ -814,7 +833,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, evaporada",
         "meal_weight": 125,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label": ["cup"]
     },
     {
         "household_measure": "½ cup",
@@ -822,7 +842,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, evaporada, filled",
         "meal_weight": 125,
-        "measurement": 0.5
+        "measurement": 0.5,
+        "label": ["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -830,7 +851,9 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, kambing",
         "meal_weight": 250,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
+
     },
     {
         "household_measure": "¼ cup",
@@ -838,7 +861,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, recombined",
         "meal_weight": 200,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "5 tbsp, level",
@@ -846,7 +870,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, pulbos, filled, instant",
         "meal_weight": 35,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["tbsp, level"]
     },
     {
         "household_measure": "5 tbsp, level",
@@ -854,7 +879,8 @@
         "meal_group": "Whole Milk",
         "meal_name": "Gatas, pulbos, full cream",
         "meal_weight": 35,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["tbsp, level"]
     },
     {
         "household_measure": "1 cup",
@@ -862,7 +888,8 @@
         "meal_group": "Low-Fat Milk",
         "meal_name": "Gatas, low fat",
         "meal_weight": 250,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "½ cup",
@@ -870,7 +897,8 @@
         "meal_group": "Low-Fat Milk",
         "meal_name": "Yogurt",
         "meal_weight": 150,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "¼ cup",
@@ -878,7 +906,8 @@
         "meal_group": "Non-Fat Milk",
         "meal_name": "Buttermilk",
         "meal_weight": 180,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -886,7 +915,8 @@
         "meal_group": "Non-Fat Milk",
         "meal_name": "Gatas, skim",
         "meal_weight": 250,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "4 tbsp, level",
@@ -894,7 +924,8 @@
         "meal_group": "Non-Fat Milk",
         "meal_name": "Gatas, pulbos, skim",
         "meal_weight": 25,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tbsp, level"]
     },
     {
         "household_measure": "4 tbsp, level",
@@ -902,7 +933,8 @@
         "meal_group": "Non-Fat Milk",
         "meal_name": "Gatas, pulbos, non-fat, instant",
         "meal_weight": 25,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tbsp, level"]
     },
     {
         "household_measure": "½ cup",
@@ -910,7 +942,8 @@
         "meal_group": "Non-Fat Milk",
         "meal_name": "Yogurt, plain, skim",
         "meal_weight": 150,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/3 cup",
@@ -918,7 +951,8 @@
         "meal_group": "Rice A",
         "meal_name": "Kanin, “protein-reduced”",
         "meal_weight": 55,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "2 pcs",
@@ -926,7 +960,8 @@
         "meal_group": "Rice A",
         "meal_name": "Ampaw, pinipig",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -934,7 +969,8 @@
         "meal_group": "Rice A",
         "meal_name": "Biko",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "6 pcs",
@@ -942,7 +978,8 @@
         "meal_group": "Rice A",
         "meal_name": "Cuchinta",
         "meal_weight": 60,
-        "measurement": 6.0
+        "measurement": [6.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -950,7 +987,8 @@
         "meal_group": "Rice A",
         "meal_name": "Sapin-Sapin",
         "meal_weight": 75,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1/4 cup",
@@ -958,7 +996,8 @@
         "meal_group": "Rice A",
         "meal_name": "Cornstarch",
         "meal_weight": 25,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 slice",
@@ -966,7 +1005,8 @@
         "meal_group": "Rice A",
         "meal_name": "Maja Blanca",
         "meal_weight": 65,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -974,7 +1014,8 @@
         "meal_group": "Rice A",
         "meal_name": "Maja Mais",
         "meal_weight": 75,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 cup",
@@ -982,7 +1023,8 @@
         "meal_group": "Rice A",
         "meal_name": "Bihon",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -990,7 +1032,8 @@
         "meal_group": "Rice A",
         "meal_name": "Misua",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -998,7 +1041,8 @@
         "meal_group": "Rice A",
         "meal_name": "Sotanghon",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -1006,7 +1050,8 @@
         "meal_group": "Rice A",
         "meal_name": "Sweet potato noodles",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -1014,7 +1059,8 @@
         "meal_group": "Rice B",
         "meal_name": "Bigas, maputi, sinaing",
         "meal_weight": 80,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -1022,7 +1068,8 @@
         "meal_group": "Rice B",
         "meal_name": "Bigas, mapula, sinaing",
         "meal_weight": 80,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -1030,7 +1077,8 @@
         "meal_group": "Rice B",
         "meal_name": "Pinawa, sinaing",
         "meal_weight": 80,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "3 cups",
@@ -1038,7 +1086,8 @@
         "meal_group": "Rice B",
         "meal_name": "Medium Consistency Lugaw (1/2 cup cooked rice + 3 cups water)",
         "meal_weight": 435,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["cups"]
     },
     {
         "household_measure": "4 1/2 cups",
@@ -1046,7 +1095,8 @@
         "meal_group": "Rice B",
         "meal_name": "Thin Consistency Lugaw (1/2 cup cooked rice + 5 cups water)",
         "meal_weight": 705,
-        "measurement": 4.5
+        "measurement": [4.5],
+        "label":["cups"]
     },
     {
         "household_measure": "1 1/2 cups",
@@ -1054,7 +1104,8 @@
         "meal_group": "Rice B",
         "meal_name": "Thick Consistency Lugaw (1/2 cup cooked rice + 2 cups water)",
         "meal_weight": 250,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["cups"]
     },
     {
         "household_measure": "2 pcs",
@@ -1062,7 +1113,8 @@
         "meal_group": "Rice B",
         "meal_name": "Ampaw, rice",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 slice",
@@ -1070,7 +1122,8 @@
         "meal_group": "Rice B",
         "meal_name": "Bibingka, galapong",
         "meal_weight": 45,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 slice",
@@ -1078,7 +1131,8 @@
         "meal_group": "Rice B",
         "meal_name": "Bibingka, malagkit",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1086,7 +1140,8 @@
         "meal_group": "Rice B",
         "meal_name": "Bibingka, pinipig",
         "meal_weight": 50,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1094,7 +1149,8 @@
         "meal_group": "Rice B",
         "meal_name": "Espasol",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1102,7 +1158,8 @@
         "meal_group": "Rice B",
         "meal_name": "Kalamay, may latik",
         "meal_weight": 50,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1110,7 +1167,8 @@
         "meal_group": "Rice B",
         "meal_name": "Kalamay, ube",
         "meal_weight": 60,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "3 pcs",
@@ -1118,7 +1176,8 @@
         "meal_group": "Rice B",
         "meal_name": "Palitaw, walang Niyog",
         "meal_weight": 50,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1126,7 +1185,8 @@
         "meal_group": "Rice C",
         "meal_name": "Bread, wheat",
         "meal_weight": 40,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -1134,7 +1194,8 @@
         "meal_group": "Rice C",
         "meal_name": "Ensaymada",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1142,7 +1203,8 @@
         "meal_group": "Rice C",
         "meal_name": "Hamburger bun",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1150,7 +1212,8 @@
         "meal_group": "Rice C",
         "meal_name": "Hotdog roll",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1158,7 +1221,8 @@
         "meal_group": "Rice C",
         "meal_name": "Loaf bread/Pan Amerikano",
         "meal_weight": 35,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1166,7 +1230,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pan de bonete",
         "meal_weight": 35,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1174,7 +1239,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pan de leche",
         "meal_weight": 35,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -1182,7 +1248,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pan de limon",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -1190,7 +1257,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pan de monay",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1198,7 +1266,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pan de sal",
         "meal_weight": 35,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -1206,7 +1275,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pita bread, white (enriched/unenriched)",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -1214,7 +1284,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pita bread, whole wheat",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -1222,7 +1293,8 @@
         "meal_group": "Rice C",
         "meal_name": "Tinapay, tostado",
         "meal_weight": 30,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 cup",
@@ -1230,7 +1302,8 @@
         "meal_group": "Rice C",
         "meal_name": "Couscous",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -1238,7 +1311,8 @@
         "meal_group": "Rice C",
         "meal_name": "Pasta (enriched/unenriched)",
         "meal_weight": 70,
-        "measurement": 0.5
+        "measurement":[0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -1246,7 +1320,8 @@
         "meal_group": "Rice C",
         "meal_name": "Udon",
         "meal_weight": 100,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "7 pcs",
@@ -1254,7 +1329,8 @@
         "meal_group": "Rice C",
         "meal_name": "Balat ng lumpia",
         "meal_weight": 35,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "14 pcs",
@@ -1262,7 +1338,8 @@
         "meal_group": "Rice C",
         "meal_name": "Langka, buto",
         "meal_weight": 75,
-        "measurement": 14.0
+        "measurement": [14.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 cup",
@@ -1270,7 +1347,8 @@
         "meal_group": "Rice C",
         "meal_name": "Quinoa",
         "meal_weight": 95,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1278,7 +1356,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef kenchi",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1286,7 +1365,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef laman",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1294,7 +1374,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef pierna corta at pierca larga",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1302,7 +1383,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef solomilyo",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1310,7 +1392,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef tagiliran, gitna",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1318,7 +1401,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Beef tagiliran, hulihan",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1326,7 +1410,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef hita",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1334,7 +1419,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef kenchi",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1342,7 +1428,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef laman, bahagyang taba",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1350,7 +1437,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef paypay",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1358,7 +1446,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef pierta corta at pierna larga",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1366,7 +1455,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Carabeef Tapadera",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1374,7 +1464,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Pork lomo",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice",
@@ -1382,7 +1473,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat balikat",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1390,7 +1482,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat binti",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1398,7 +1491,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat biyas",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1406,7 +1500,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat dibdib",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice",
@@ -1414,7 +1509,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat leeg",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -1422,7 +1518,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat likod",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1430,7 +1527,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat lomo",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice",
@@ -1438,7 +1536,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Goat tadyang",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1446,7 +1545,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Beef paypay, laman",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1454,7 +1554,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Beef punta y pecho",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1462,7 +1563,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Pork pata",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 pc",
@@ -1470,7 +1572,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Chicken binti",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1478,7 +1581,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Chicken hita",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1486,7 +1590,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Chicken pakpak",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -1494,7 +1599,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Chicken ulo",
         "meal_weight": 50,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -1502,7 +1608,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Duck hita",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 slice",
@@ -1510,7 +1617,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Duck likod",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1518,7 +1626,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Duck pitso",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -1526,7 +1635,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Goat tiyan",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1/4 cup",
@@ -1534,7 +1644,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Carabeef bitukang maliit",
         "meal_weight": 35,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup",
@@ -1542,7 +1653,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Beef goto",
         "meal_weight": 85,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup",
@@ -1550,7 +1662,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Pork/Beef/carabeef utak",
         "meal_weight": 45,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1 pc medium",
@@ -1558,7 +1671,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Chicken whole egg",
         "meal_weight": 55,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc medium"]
     },
     {
         "household_measure": "1 pc medium",
@@ -1566,7 +1680,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Duck whole salted egg",
         "meal_weight": 55,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc medium"]
     },
     {
         "household_measure": "7 pcs small",
@@ -1574,7 +1689,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Quail egg",
         "meal_weight": 55,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs small"]
     },
     {
         "household_measure": "1/2 pc",
@@ -1582,7 +1698,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Fish karpa",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "",
@@ -1590,7 +1707,7 @@
         "meal_group": "Fat",
         "meal_name": "Avocado",
         "meal_weight": 65,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -1599,7 +1716,8 @@
         "meal_group": "Fat",
         "meal_name": "Olive oil",
         "meal_weight": 6,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "7 pcs",
@@ -1607,7 +1725,8 @@
         "meal_group": "Fat",
         "meal_name": "Almond nuts",
         "meal_weight": 8,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "6 pcs, whole",
@@ -1615,7 +1734,8 @@
         "meal_group": "Fat",
         "meal_name": "Kasoy",
         "meal_weight": 9,
-        "measurement": 6.0
+        "measurement": [6.0],
+        "label":["pcs, whole"]
     },
     {
         "household_measure": "5 pcs",
@@ -1623,7 +1743,8 @@
         "meal_group": "Fat",
         "meal_name": "Macadamia",
         "meal_weight": 7,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 tbsp",
@@ -1631,7 +1752,8 @@
         "meal_group": "Fat",
         "meal_name": "Mixed nuts",
         "meal_weight": 7,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "5 pcs",
@@ -1639,7 +1761,8 @@
         "meal_group": "Fat",
         "meal_name": "Pili nut",
         "meal_weight": 7,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 tbsp",
@@ -1647,7 +1770,8 @@
         "meal_group": "Fat",
         "meal_name": "Peanut Butter",
         "meal_weight": 10,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -1655,7 +1779,8 @@
         "meal_group": "Fat",
         "meal_name": "Sunflower seeds",
         "meal_weight": 8,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "5 pcs",
@@ -1663,7 +1788,8 @@
         "meal_group": "Fat",
         "meal_name": "Patani seeds",
         "meal_weight": 10,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 tsp",
@@ -1671,7 +1797,8 @@
         "meal_group": "Fat",
         "meal_name": "Shortening",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1679,7 +1806,8 @@
         "meal_group": "Sugar",
         "meal_name": "Arnibal",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1687,7 +1815,8 @@
         "meal_group": "Sugar",
         "meal_name": "Asukal (muscovado, pula, puti)",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 pcs",
@@ -1695,7 +1824,8 @@
         "meal_group": "Sugar",
         "meal_name": "Banana chips",
         "meal_weight": 5,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc (2 cm diameter)",
@@ -1703,7 +1833,8 @@
         "meal_group": "Sugar",
         "meal_name": "Bukayo",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1711,7 +1842,8 @@
         "meal_group": "Sugar",
         "meal_name": "Candy (caramel, hard, toffee)",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc (2 cm diameter)",
@@ -1719,7 +1851,8 @@
         "meal_group": "Sugar",
         "meal_name": "Champoy",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "5 pcs",
@@ -1727,7 +1860,8 @@
         "meal_group": "Sugar",
         "meal_name": "Cherry, in syrup",
         "meal_weight": 20,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1-2 pcs",
@@ -1744,7 +1878,8 @@
         "meal_group": "Sugar",
         "meal_name": "Chocolate",
         "meal_weight": 5,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 tsp",
@@ -1752,7 +1887,8 @@
         "meal_group": "Sugar",
         "meal_name": "Coco sugar",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1760,7 +1896,8 @@
         "meal_group": "Sugar",
         "meal_name": "Coco syrup",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 pc",
@@ -1768,7 +1905,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dates, pitted",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1776,7 +1914,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dikyam",
         "meal_weight": 10,
-        "measurement": 1.0
+        "measurement":[1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1784,7 +1923,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dried jackfruit",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1792,7 +1932,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dried kiwi",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1800,7 +1941,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dried papaya chunks",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1808,7 +1950,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dried pineapple",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -1816,7 +1959,8 @@
         "meal_group": "Sugar",
         "meal_name": "Dulce de Leche",
         "meal_weight": 5,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 tsp",
@@ -1824,7 +1968,8 @@
         "meal_group": "Sugar",
         "meal_name": "Gatas, sweetened, kondensada, filled",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 pc",
@@ -1832,7 +1977,8 @@
         "meal_group": "Sugar",
         "meal_name": "Gulaman, may lasang prutas",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 tsp",
@@ -1840,7 +1986,8 @@
         "meal_group": "Sugar",
         "meal_name": "Jam at jellies",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 pcs",
@@ -1848,7 +1995,8 @@
         "meal_group": "Sugar",
         "meal_name": "Kiamoy",
         "meal_weight": 15,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -1856,7 +2004,8 @@
         "meal_group": "Sugar",
         "meal_name": "Leche Flan",
         "meal_weight": 10,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -1864,7 +2013,8 @@
         "meal_group": "Sugar",
         "meal_name": "Lokum",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "3 pcs",
@@ -1872,7 +2022,9 @@
         "meal_group": "Sugar",
         "meal_name": "Marshmallow",
         "meal_weight": 5,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
+
     },
     {
         "household_measure": "1 tsp",
@@ -1880,7 +2032,8 @@
         "meal_group": "Sugar",
         "meal_name": "Matamis na bao",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -1888,7 +2041,8 @@
         "meal_group": "Sugar",
         "meal_name": "Nata de coco/ nata de pina, sweetened",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1896,7 +2050,8 @@
         "meal_group": "Sugar",
         "meal_name": "Pakaskas/Panocha",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1904,7 +2059,8 @@
         "meal_group": "Sugar",
         "meal_name": "Pasas",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 pc",
@@ -1912,7 +2068,8 @@
         "meal_group": "Sugar",
         "meal_name": "Pastilyas (durian, gatas, langka)",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -1920,7 +2077,8 @@
         "meal_group": "Sugar",
         "meal_name": "Prunes",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 tsp",
@@ -1928,7 +2086,8 @@
         "meal_group": "Sugar",
         "meal_name": "Pulot",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -1936,7 +2095,8 @@
         "meal_group": "Sugar",
         "meal_name": "Pulot-pukyutan",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 pcs",
@@ -1944,7 +2104,8 @@
         "meal_group": "Sugar",
         "meal_name": "Sampalok, candied",
         "meal_weight": 5,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/4 cup",
@@ -1952,7 +2113,8 @@
         "meal_group": "Sugar",
         "meal_name": "Taho na may arnibal at sago",
         "meal_weight": 40,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1 pc",
@@ -1960,7 +2122,8 @@
         "meal_group": "Sugar",
         "meal_name": "Tira-tira",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1968,7 +2131,8 @@
         "meal_group": "Sugar",
         "meal_name": "Ice candy",
         "meal_weight": 75,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1976,7 +2140,8 @@
         "meal_group": "Sugar",
         "meal_name": "Ice drop",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1984,7 +2149,8 @@
         "meal_group": "Sugar",
         "meal_name": "Kundol, candied",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -1992,7 +2158,8 @@
         "meal_group": "Sugar",
         "meal_name": "Polvoron",
         "meal_weight": 10,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "3 pcs",
@@ -2000,7 +2167,8 @@
         "meal_group": "Sugar",
         "meal_name": "Rimas, candied",
         "meal_weight": 35,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2008,7 +2176,8 @@
         "meal_group": "Sugar",
         "meal_name": "Ubedol",
         "meal_weight": 20,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2016,7 +2185,8 @@
         "meal_group": "Sugar",
         "meal_name": "Yema",
         "meal_weight": 25,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "3 pcs",
@@ -2024,7 +2194,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dalandan, (ladu,/szinkom)",
         "meal_weight": 344,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/4 cup or 25 pcs",
@@ -2059,7 +2230,8 @@
         "meal_group": "Fruit",
         "meal_name": "Durian",
         "meal_weight": 150,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["segments"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2067,7 +2239,8 @@
         "meal_group": "Fruit",
         "meal_name": "Granada",
         "meal_weight": 182,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 slice",
@@ -2075,7 +2248,8 @@
         "meal_group": "Fruit",
         "meal_name": "Guyabano",
         "meal_weight": 107,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "2 pcs",
@@ -2083,7 +2257,8 @@
         "meal_group": "Fruit",
         "meal_name": "Kasuy, bunga",
         "meal_weight": 78,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2091,7 +2266,8 @@
         "meal_group": "Fruit",
         "meal_name": "Kaymito, berde",
         "meal_weight": 123,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2099,7 +2275,8 @@
         "meal_group": "Fruit",
         "meal_name": "Kaymito, murado",
         "meal_weight": 103,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2107,7 +2284,8 @@
         "meal_group": "Fruit",
         "meal_name": "Kiwifruit, berde",
         "meal_weight": 99,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 1/2 segments",
@@ -2115,7 +2293,8 @@
         "meal_group": "Fruit",
         "meal_name": "Langka, hinog",
         "meal_weight": 118,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["segments"]
     },
     {
         "household_measure": "5 pcs",
@@ -2123,7 +2302,8 @@
         "meal_group": "Fruit",
         "meal_name": "Lansones",
         "meal_weight": 118,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "4 pcs",
@@ -2131,7 +2311,8 @@
         "meal_group": "Fruit",
         "meal_name": "Lechiyas/litchi",
         "meal_weight": 77,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "13 pcs",
@@ -2139,7 +2320,8 @@
         "meal_group": "Fruit",
         "meal_name": "Longan",
         "meal_weight": 113,
-        "measurement": 13.0
+        "measurement": [13.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2147,7 +2329,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mabolo",
         "meal_weight": 100,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "9 pcs",
@@ -2155,7 +2338,8 @@
         "meal_group": "Fruit",
         "meal_name": "Makopa",
         "meal_weight": 188,
-        "measurement": 9.0
+        "measurement": [9.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 cup or 1 pc",
@@ -2190,7 +2374,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangga, paho/pahutan, hilaw",
         "meal_weight": 79,
-        "measurement": 9.0
+        "measurement": [9.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -2198,7 +2383,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangga, piko, hilaw",
         "meal_weight": 82,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -2206,7 +2392,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangga, piko, hinog",
         "meal_weight": 103,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -2214,7 +2401,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangga, piko, manibalang",
         "meal_weight": 85,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -2222,7 +2410,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangga, supsupin, hinog",
         "meal_weight": 94,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -2230,7 +2419,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mangosteen",
         "meal_weight": 212,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2238,7 +2428,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mansanas, berde",
         "meal_weight": 97,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2246,7 +2437,8 @@
         "meal_group": "Fruit",
         "meal_name": "Mansanas, pula",
         "meal_weight": 99,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "10 pcs",
@@ -2254,7 +2446,8 @@
         "meal_group": "Fruit",
         "meal_name": "Marang",
         "meal_weight": 121,
-        "measurement": 10.0
+        "measurement": [10.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/4 cup or 1 slice",
@@ -2280,7 +2473,8 @@
         "meal_group": "Fruit",
         "meal_name": "Orange, Florida",
         "meal_weight": 135,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2288,7 +2482,8 @@
         "meal_group": "Fruit",
         "meal_name": "Orange, kiat kiat",
         "meal_weight": 108,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2296,7 +2491,8 @@
         "meal_group": "Fruit",
         "meal_name": "Orange, ponkan",
         "meal_weight": 108,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 cup or 1 slice",
@@ -2340,7 +2536,8 @@
         "meal_group": "Fruit",
         "meal_name": "Persimon",
         "meal_weight": 105,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 cup or 1 slice",
@@ -2357,7 +2554,8 @@
         "meal_group": "Fruit",
         "meal_name": "Rambutan",
         "meal_weight": 153,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2365,7 +2563,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, bungulan",
         "meal_weight": 60,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2373,7 +2572,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, cavendish, hinog",
         "meal_weight": 63,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2381,7 +2581,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, gloria",
         "meal_weight": 65,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2389,7 +2590,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, lakatan",
         "meal_weight": 58,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2397,7 +2599,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, latundan",
         "meal_weight": 55,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2405,7 +2608,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, murado",
         "meal_weight": 60,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2413,7 +2617,8 @@
         "meal_group": "Fruit",
         "meal_name": "Saging, saba",
         "meal_weight": 70,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "12 segments",
@@ -2421,7 +2626,8 @@
         "meal_group": "Fruit",
         "meal_name": "Sampalok, hinog",
         "meal_weight": 34,
-        "measurement": 12.0
+        "measurement": [12.0],
+        "label":["segments"]
     },
     {
         "household_measure": "1 pc",
@@ -2429,7 +2635,8 @@
         "meal_group": "Fruit",
         "meal_name": "Santol",
         "meal_weight": 110,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 cup or 1 1/2 pcs",
@@ -2446,7 +2653,8 @@
         "meal_group": "Fruit",
         "meal_name": "Siniguwelas",
         "meal_weight": 78,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 1/4 cups",
@@ -2454,7 +2662,8 @@
         "meal_group": "Fruit",
         "meal_name": "Strawberry",
         "meal_weight": 168,
-        "measurement": 1.25
+        "measurement": [1.25],
+        "label":["cups"]
     },
     {
         "household_measure": "2 segments or 1/4 pc",
@@ -2489,7 +2698,8 @@
         "meal_group": "Fruit",
         "meal_name": "Fresh lemon juice",
         "meal_weight": 130,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -2497,7 +2707,8 @@
         "meal_group": "Fruit",
         "meal_name": "Fresh Coconut water",
         "meal_weight": 240,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1/3 cup",
@@ -2505,7 +2716,8 @@
         "meal_group": "Fruit",
         "meal_name": "Fresh orange juice",
         "meal_weight": 90,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup",
@@ -2513,7 +2725,8 @@
         "meal_group": "Fruit",
         "meal_name": "Passion fruit juice",
         "meal_weight": 65,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "4 tbsp",
@@ -2521,7 +2734,8 @@
         "meal_group": "Fruit",
         "meal_name": "Canned apple sauce",
         "meal_weight": 60,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1/2 cup",
@@ -2529,7 +2743,8 @@
         "meal_group": "Fruit",
         "meal_name": "Canned apple sauce unsweetened",
         "meal_weight": 100,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup or 9 pcs",
@@ -2555,7 +2770,8 @@
         "meal_group": "Fruit",
         "meal_name": "Fruit cocktail, tropical, in syrup",
         "meal_weight": 45,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "4 pcs",
@@ -2563,7 +2779,8 @@
         "meal_group": "Fruit",
         "meal_name": "Lychee in syrup",
         "meal_weight": 45,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2571,7 +2788,8 @@
         "meal_group": "Fruit",
         "meal_name": "Peach halves in heavy syrup",
         "meal_weight": 65,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/3 cup",
@@ -2579,7 +2797,8 @@
         "meal_group": "Fruit",
         "meal_name": "Pineapple crushed/tidbits/chunks ",
         "meal_weight": 50,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1 ring",
@@ -2587,7 +2806,8 @@
         "meal_group": "Fruit",
         "meal_name": "Pineapple slice",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["ring"]
     },
     {
         "household_measure": "1/4 cup or 26 pcs",
@@ -2613,7 +2833,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried champoy",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -2621,7 +2842,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried Dates",
         "meal_weight": 15,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -2629,7 +2851,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried dikyam",
         "meal_weight": 15,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -2637,7 +2860,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried mango chips",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2645,7 +2869,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried prunes",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 tbsp",
@@ -2653,7 +2878,8 @@
         "meal_group": "Fruit",
         "meal_name": "Dried Raisins",
         "meal_weight": 15,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1/4 cup, cubes",
@@ -2661,7 +2887,8 @@
         "meal_group": "Rice A",
         "meal_name": "Gabi rootcrop",
         "meal_weight": 100,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup, cubes"]
     },
     {
         "household_measure": "1 pc or 1/4 cup, cubed",
@@ -2687,7 +2914,8 @@
         "meal_group": "Rice A",
         "meal_name": "Kamoteng kahoy, bibingka",
         "meal_weight": 55,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -2695,7 +2923,8 @@
         "meal_group": "Rice A",
         "meal_name": "Kamoteng kahoy, linupak",
         "meal_weight": 55,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2703,7 +2932,8 @@
         "meal_group": "Rice A",
         "meal_name": "Kamoteng kahoy, pichi-pichi",
         "meal_weight": 45,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2711,7 +2941,8 @@
         "meal_group": "Rice A",
         "meal_name": "Kamoteng kahoy, suman",
         "meal_weight": 45,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc or 1 1/4 cups, cubed",
@@ -2728,7 +2959,8 @@
         "meal_group": "Rice A",
         "meal_name": "Ubi",
         "meal_weight": 130,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup, cubed"]
     },
     {
         "household_measure": "1 pc",
@@ -2736,7 +2968,8 @@
         "meal_group": "Rice A",
         "meal_name": "Saging na saba, nilaga",
         "meal_weight": 65,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 cup",
@@ -2744,7 +2977,8 @@
         "meal_group": "Rice A",
         "meal_name": "Sago, nilaga",
         "meal_weight": 120,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "3/4 cup",
@@ -2752,7 +2986,8 @@
         "meal_group": "Rice A",
         "meal_name": "Sago, tapioca",
         "meal_weight": 160,
-        "measurement": 0.75
+        "measurement": [0.75],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 slice",
@@ -2760,7 +2995,8 @@
         "meal_group": "Rice B",
         "meal_name": "Puto, brown",
         "meal_weight": 50,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "2 pcs",
@@ -2768,7 +3004,8 @@
         "meal_group": "Rice B",
         "meal_name": "Puto bumbong",
         "meal_weight": 40,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 slice ",
@@ -2776,7 +3013,8 @@
         "meal_group": "Rice B",
         "meal_name": "Puto maya",
         "meal_weight": 60,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "3-4 pcs",
@@ -2793,7 +3031,8 @@
         "meal_group": "Rice B",
         "meal_name": "Puto seko",
         "meal_weight": 25,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "7 pcs",
@@ -2801,7 +3040,8 @@
         "meal_group": "Rice B",
         "meal_name": "Puto seko, may niyog",
         "meal_weight": 25,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2809,7 +3049,8 @@
         "meal_group": "Rice B",
         "meal_name": "Suman marwekos, may niyog",
         "meal_weight": 50,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2817,7 +3058,8 @@
         "meal_group": "Rice B",
         "meal_name": "Suman sa ibos",
         "meal_weight": 60,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 pc ",
@@ -2825,7 +3067,8 @@
         "meal_group": "Rice B",
         "meal_name": "Suman sa lihiya",
         "meal_weight": 55,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs ",
@@ -2833,7 +3076,8 @@
         "meal_group": "Rice B",
         "meal_name": "Tamales",
         "meal_weight": 100,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -2841,7 +3085,8 @@
         "meal_group": "Rice B",
         "meal_name": "Tikoy",
         "meal_weight": 40,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -2849,7 +3094,8 @@
         "meal_group": "Rice B",
         "meal_name": "Tupig",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "7 pcs",
@@ -2857,7 +3103,8 @@
         "meal_group": "Rice B",
         "meal_name": "Apas",
         "meal_weight": 25,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "5 pcs",
@@ -2865,7 +3112,8 @@
         "meal_group": "Rice B",
         "meal_name": "Brohas",
         "meal_weight": 25,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 1/2 pcs",
@@ -2873,7 +3121,8 @@
         "meal_group": "Rice B",
         "meal_name": "Cake, mamon, tostado",
         "meal_weight": 25,
-        "measurement": 2.5
+        "measurement": [2.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2881,7 +3130,8 @@
         "meal_group": "Rice B",
         "meal_name": "Cuapao",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -2889,7 +3139,8 @@
         "meal_group": "Rice B",
         "meal_name": "Hopyang hapon",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "8 pcs",
@@ -2897,7 +3148,8 @@
         "meal_group": "Rice B",
         "meal_name": "Marie",
         "meal_weight": 25,
-        "measurement": 8.0
+        "measurement": [8.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "7 pcs",
@@ -2905,7 +3157,8 @@
         "meal_group": "Rice B",
         "meal_name": "Pasencia",
         "meal_weight": 25,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -2913,7 +3166,8 @@
         "meal_group": "Rice B",
         "meal_name": "Pianono",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -2921,7 +3175,8 @@
         "meal_group": "Rice B",
         "meal_name": "Sponge cake",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 cup",
@@ -2929,7 +3184,8 @@
         "meal_group": "Rice B",
         "meal_name": "Binatog",
         "meal_weight": 90,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -2937,7 +3193,8 @@
         "meal_group": "Rice B",
         "meal_name": "Corn flakes",
         "meal_weight": 25,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -2945,7 +3202,8 @@
         "meal_group": "Rice B",
         "meal_name": "Mais, butil, de lata",
         "meal_weight": 160,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -2953,7 +3211,8 @@
         "meal_group": "Rice B",
         "meal_name": "Mais, cream style, de lata",
         "meal_weight": 130,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 cup",
@@ -2961,7 +3220,8 @@
         "meal_group": "Rice B",
         "meal_name": "Mais, durog (dilaw, puti)",
         "meal_weight": 120,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 pc",
@@ -2969,7 +3229,8 @@
         "meal_group": "Rice B",
         "meal_name": "Mais sa busal",
         "meal_weight": 65,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc or 1 1/4 cups, cubed",
@@ -2986,7 +3247,8 @@
         "meal_group": "Rice B",
         "meal_name": "Kastanyas, binusa",
         "meal_weight": 40,
-        "measurement": 8.0
+        "measurement": [8.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -2994,7 +3256,8 @@
         "meal_group": "Rice B",
         "meal_name": "Plantains",
         "meal_weight": 80,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 slice",
@@ -3002,7 +3265,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Chicken laman",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -3010,7 +3274,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Chciken pitso",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -3018,7 +3283,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Duck pakpak",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc big or 2 pcs small",
@@ -3044,7 +3310,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Baga (pork, beef, carabeef)",
         "meal_weight": 35,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup or 4 pcs",
@@ -3061,7 +3328,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bato(pork, beef, carabeef)",
         "meal_weight": 45,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "2 sticks",
@@ -3069,7 +3337,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bitukang maliit ",
         "meal_weight": 20,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["sticks"]
     },
     {
         "household_measure": "1/4 cup",
@@ -3077,7 +3346,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dugo (pork, beef, chicken",
         "meal_weight": 35,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -3085,7 +3355,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Lapay (pork, beef, carabeef)",
         "meal_weight": 45,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -3093,7 +3364,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Librilyo (beef, carabeef)",
         "meal_weight": 50,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -3101,7 +3373,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Litid (beef)",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1/4 cup",
@@ -3109,7 +3382,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Puso (pork, beef, carabeef)",
         "meal_weight": 25,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 pc",
@@ -3117,7 +3391,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alumahan",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3125,7 +3400,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bakokong moro",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -3133,7 +3409,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bangus",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3141,7 +3418,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dalag ",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 pc",
@@ -3149,7 +3427,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dalagang bukid",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "1/3 cup",
@@ -3157,7 +3436,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dilis, buo",
         "meal_weight": 35,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup",
@@ -3165,7 +3445,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dilis, walang ulo",
         "meal_weight": 25,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 cup",
@@ -3173,7 +3454,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dulong",
         "meal_weight": 50,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 pc",
@@ -3181,7 +3463,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Galunggong",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -3189,7 +3472,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hasa-hasa",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 slice",
@@ -3197,7 +3481,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hito",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3205,7 +3490,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Labahita",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 pc",
@@ -3213,7 +3499,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Matang baka",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -3221,7 +3508,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Sapsap",
         "meal_weight": 35,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -3229,7 +3517,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Saramulyete",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3237,7 +3526,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tambakol",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 1/2 pcs",
@@ -3245,7 +3535,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tamban",
         "meal_weight": 35,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -3253,7 +3544,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tawilis",
         "meal_weight": 30,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3261,7 +3553,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tilapia",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 slice",
@@ -3269,7 +3562,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tulingan",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3277,7 +3571,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alimango, alige",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1/3 cup or 1/2 pc",
@@ -3294,7 +3589,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alimasag, alige",
         "meal_weight": 25,
-        "measurement": 2.5
+        "measurement": [2.5],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1/3 cup or 1 pc",
@@ -3311,7 +3607,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Balatan",
         "meal_weight": 120,
-        "measurement": 6.0
+        "measurement": [6.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "",
@@ -3319,7 +3616,7 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Pugita",
         "meal_weight": 40,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -3328,7 +3625,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Pusit",
         "meal_weight": 50,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "6 pcs",
@@ -3336,7 +3634,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Talangka",
         "meal_weight": 25,
-        "measurement": 6.0
+        "measurement": [6.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/3 cup",
@@ -3344,7 +3643,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hipon, alamang",
         "meal_weight": 40,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1/2 pc",
@@ -3352,7 +3652,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hipon, sugpo",
         "meal_weight": 40,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "4 pcs",
@@ -3360,7 +3661,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hipon, suwahe",
         "meal_weight": 40,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "",
@@ -3368,7 +3670,7 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hipon, tagunton",
         "meal_weight": 40,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -3377,7 +3679,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hipon, ulang",
         "meal_weight": 0,
-        "measurement": 40.0
+        "measurement": [40.0],
+        "label":[""]
     },
     {
         "household_measure": "1/2 cup or 4 pcs",
@@ -3421,7 +3724,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Cottage",
         "meal_weight": 50,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1/4 cup",
@@ -3429,7 +3733,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tuna flakes, in brine",
         "meal_weight": 45,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "8 pcs",
@@ -3437,7 +3742,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alakaak",
         "meal_weight": 25,
-        "measurement": 8.0
+        "measurement": [8.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -3445,7 +3751,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alumahan",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -3453,7 +3760,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bakalaw",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 pc",
@@ -3461,7 +3769,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Bisugo",
         "meal_weight": 25,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "11 pcs small",
@@ -3469,7 +3778,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Biyang puti",
         "meal_weight": 25,
-        "measurement": 11.0
+        "measurement": [11.0],
+        "label":["pcs small"]
     },
     {
         "household_measure": "1 pc",
@@ -3477,7 +3787,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Lapu-lapu",
         "meal_weight": 25,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "3 1/2 pcs",
@@ -3485,7 +3796,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Malasug/Espada",
         "meal_weight": 20,
-        "measurement": 3.5
+        "measurement": [3.5],
+        "label":["pcs"]
     },
     {
         "household_measure": "7 pcs",
@@ -3493,7 +3805,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Sapsap",
         "meal_weight": 25,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -3501,7 +3814,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tamban",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "",
@@ -3509,7 +3823,7 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tanigi/Tangigi",
         "meal_weight": 25,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -3518,7 +3832,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tilapia",
         "meal_weight": 25,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/2 cup",
@@ -3526,7 +3841,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Alamang",
         "meal_weight": 15,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "",
@@ -3534,7 +3850,7 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Ayunin",
         "meal_weight": 15,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -3543,7 +3859,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Dilis",
         "meal_weight": 15,
-        "measurement": 13.0
+        "measurement": [13.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "4 tbsp",
@@ -3551,7 +3868,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Hibe",
         "meal_weight": 25,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "2 pcs",
@@ -3559,7 +3877,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Pusit dried",
         "meal_weight": 15,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "4 pcs",
@@ -3567,7 +3886,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Sapsap dried",
         "meal_weight": 20,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 pcs",
@@ -3575,7 +3895,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Tamban dried",
         "meal_weight": 20,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 pc",
@@ -3583,7 +3904,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Smoked galunggong",
         "meal_weight": 25,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["pc"]
     },
     {
         "household_measure": "3 pcs",
@@ -3591,7 +3913,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Smoked tamban",
         "meal_weight": 25,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "3 pcs",
@@ -3599,7 +3922,8 @@
         "meal_group": "Low Fat Meat",
         "meal_name": "Smoked tunsoy",
         "meal_weight": 25,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -3607,7 +3931,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed cheddar, pasteurized",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -3615,7 +3940,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed/smoked bangus",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "3 slices",
@@ -3623,7 +3949,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Canned salmon sa mantika",
         "meal_weight": 45,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["slices"]
     },
     {
         "household_measure": "2 pcs",
@@ -3631,7 +3958,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Canned sardinas sa tomato",
         "meal_weight": 80,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 tbsp",
@@ -3639,7 +3967,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Canned tuna spread",
         "meal_weight": 25,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1/4 cup",
@@ -3647,7 +3976,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Canned carne norte",
         "meal_weight": 45,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "2 pcs",
@@ -3655,7 +3985,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Canned sausage, ham",
         "meal_weight": 55,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/2 cup",
@@ -3663,7 +3994,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed tofu",
         "meal_weight": 100,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "1 pc",
@@ -3671,7 +4003,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed tokwa",
         "meal_weight": 70,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -3679,7 +4012,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed chick, one day-old, fried",
         "meal_weight": 35,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "4 pcs (CAP)",
@@ -3687,7 +4021,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed manok paa, barbecue",
         "meal_weight": 35,
-        "measurement": 4.0
+        "measurement":[4.0],
+        "label":["pcs (CAP)"]
     },
     {
         "household_measure": "3 pcs",
@@ -3695,7 +4030,8 @@
         "meal_group": "Medium Fat Meat",
         "meal_name": "Processed manok ulo, barbecue",
         "meal_weight": 35,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 tsp",
@@ -3703,7 +4039,8 @@
         "meal_group": "Fat",
         "meal_name": "Aseyte",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3711,7 +4048,8 @@
         "meal_group": "Fat",
         "meal_name": "Fish oil, cod liver",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3719,7 +4057,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantika/langis (canola, corn, flaxseed, sesame,soybean, sunflower",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 pcs",
@@ -3727,7 +4066,8 @@
         "meal_group": "Fat",
         "meal_name": "Walnut",
         "meal_weight": 7,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "2 1/2 tsp",
@@ -3735,7 +4075,8 @@
         "meal_group": "Fat",
         "meal_name": "Flaxseed seeds",
         "meal_weight": 8,
-        "measurement": 2.5
+        "measurement": [2.5],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3743,7 +4084,8 @@
         "meal_group": "Fat",
         "meal_name": "Kalabasa seeds",
         "meal_weight": 10,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3751,7 +4093,8 @@
         "meal_group": "Fat",
         "meal_name": "Linga seeds",
         "meal_weight": 8,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 1/2 tbsp",
@@ -3759,7 +4102,8 @@
         "meal_group": "Fat",
         "meal_name": "Pakwan seeds",
         "meal_weight": 10,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 strip",
@@ -3767,7 +4111,8 @@
         "meal_group": "Fat",
         "meal_name": "Bacon",
         "meal_weight": 10,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["strip"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3775,7 +4120,8 @@
         "meal_group": "Fat",
         "meal_name": "Cream cheese",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3783,7 +4129,8 @@
         "meal_group": "Fat",
         "meal_name": "Cream, all purpose",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3791,7 +4138,8 @@
         "meal_group": "Fat",
         "meal_name": "Cream, fluid, whipping (heavy, light)",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "",
@@ -3799,7 +4147,7 @@
         "meal_group": "Fat",
         "meal_name": "Cream, whipped",
         "meal_weight": 20,
-                "measurement": [],
+        "measurement": [],
         "label": [""]
     },
     {
@@ -3808,7 +4156,8 @@
         "meal_group": "Fat",
         "meal_name": "Krema",
         "meal_weight": 20,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3816,7 +4165,8 @@
         "meal_group": "Fat",
         "meal_name": "Lard",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 tsp",
@@ -3824,7 +4174,8 @@
         "meal_group": "Fat",
         "meal_name": "Latik",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3832,7 +4183,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantekilya",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "2 tsp",
@@ -3840,7 +4192,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantekilya light",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3848,7 +4201,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantika/Langis, niyog",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3856,7 +4210,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantika/Langis, niyog(virgin, extra virgin)",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3864,7 +4219,8 @@
         "meal_group": "Fat",
         "meal_name": "Mantika, palm",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3872,7 +4228,8 @@
         "meal_group": "Fat",
         "meal_name": "Margarine",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3880,7 +4237,8 @@
         "meal_group": "Fat",
         "meal_name": "Mayonnaise",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "4 tsp",
@@ -3888,7 +4246,8 @@
         "meal_group": "Fat",
         "meal_name": "Mayonnaise, diet",
         "meal_weight": 20,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3896,7 +4255,8 @@
         "meal_group": "Fat",
         "meal_name": "Mayonnaise, light",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "4 tsp",
@@ -3904,7 +4264,8 @@
         "meal_group": "Fat",
         "meal_name": "Niyog, magulang",
         "meal_weight": 20,
-        "measurement": 4.0
+        "measurement": [4.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3912,7 +4273,8 @@
         "meal_group": "Fat",
         "meal_name": "Niyog, kakang gata",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "2 tsp",
@@ -3920,7 +4282,8 @@
         "meal_group": "Fat",
         "meal_name": "Salad dressing",
         "meal_weight": 10,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tbsp",
@@ -3928,7 +4291,8 @@
         "meal_group": "Fat",
         "meal_name": "Sandwich spread",
         "meal_weight": 15,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "5 pcs",
@@ -3936,7 +4300,8 @@
         "meal_group": "Fat",
         "meal_name": "Sitsarong baboy/sitsarong balat",
         "meal_weight": 10,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "5 tsp",
@@ -3944,7 +4309,8 @@
         "meal_group": "Fat",
         "meal_name": "Sour cream",
         "meal_weight": 25,
-        "measurement": 5.0
+        "measurement": [5.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 tsp",
@@ -3952,7 +4318,8 @@
         "meal_group": "Fat",
         "meal_name": "Beef tallow",
         "meal_weight": 5,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["tsp"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -3960,7 +4327,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Beef Camto",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -3968,7 +4336,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Beef Tadyang",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice, mbs",
@@ -3976,7 +4345,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Pork Kasim",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice, mbs"]
     },
     {
         "household_measure": "1 slice",
@@ -3984,7 +4354,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Pork Liempo",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -3992,7 +4363,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Pork Pigi",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -4000,7 +4372,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Pork Tadyang",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1 slice",
@@ -4008,7 +4381,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Dila (baboy/baka)",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "1/2 cup",
@@ -4016,7 +4390,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Isang baboy, barbecue",
         "meal_weight": 35,
-        "measurement": 0.5
+        "measurement": [0.5],
+        "label":["cup"]
     },
     {
         "household_measure": "7 pcs",
@@ -4024,7 +4399,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Puso ng manok",
         "meal_weight": 35,
-        "measurement": 7.0
+        "measurement": [7.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1 slice",
@@ -4032,7 +4408,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Tengang baboy, barbecue",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "2 tbsp",
@@ -4040,7 +4417,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Mani, may balok, binusa",
         "meal_weight": 20,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "2 tbsp",
@@ -4048,7 +4426,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Mani, walang balok, binusa",
         "meal_weight": 20,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 pc",
@@ -4056,7 +4435,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Egg Balut",
         "meal_weight": 65,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -4064,7 +4444,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Egg Penoy",
         "meal_weight": 65,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 pc",
@@ -4072,7 +4453,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Egg Pato, buo",
         "meal_weight": 65,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1/3 cup",
@@ -4080,7 +4462,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Cheese Feta",
         "meal_weight": 50,
-        "measurement": 0.33
+        "measurement": [0.33],
+        "label":["cup"]
     },
     {
         "household_measure": "1 1/2 slice",
@@ -4088,7 +4471,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Cheese Gouda",
         "meal_weight": 30,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["slice"]
     },
     {
         "household_measure": "1/4 cup",
@@ -4096,7 +4480,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Cheese Parmesan, Grated",
         "meal_weight": 35,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "2 1/2 tbsp",
@@ -4104,7 +4489,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Cheese Pimiento",
         "meal_weight": 35,
-        "measurement": 2.5
+        "measurement": [2.5],
+        "label":["tbsp"]
     },
     {
         "household_measure": "1 slice",
@@ -4112,7 +4498,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Cheese Keso De Bola",
         "meal_weight": 35,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["slice"]
     },
     {
         "household_measure": "3 pcs",
@@ -4120,7 +4507,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Fish Sardinas, Spanish Style",
         "meal_weight": 30,
-        "measurement": 3.0
+        "measurement": [3.0],
+        "label":["pcs"]
     },
     {
         "household_measure": "1/4 cup",
@@ -4128,7 +4516,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Fish Tuna Flakes in vegetable oil",
         "meal_weight": 45,
-        "measurement": 0.25
+        "measurement": [0.25],
+        "label":["cup"]
     },
     {
         "household_measure": "1 pc",
@@ -4136,7 +4525,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Meat Longganisa, chorizo",
         "meal_weight": 30,
-        "measurement": 1.0
+        "measurement": [1.0],
+        "label":["pc"]
     },
     {
         "household_measure": "1 1/2 pc",
@@ -4144,7 +4534,8 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Meat Sausage, frankfurter",
         "meal_weight": 60,
-        "measurement": 1.5
+        "measurement": [1.5],
+        "label":["pc"]
     },
     {
         "household_measure": "2 pcs",
@@ -4152,6 +4543,7 @@
         "meal_group": "High Fat Meat",
         "meal_name": "Meat Sausage, salami",
         "meal_weight": 50,
-        "measurement": 2.0
+        "measurement": [2.0],
+        "label":["pcs"]
     }
 ]
