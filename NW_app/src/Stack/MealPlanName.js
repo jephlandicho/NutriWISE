@@ -763,7 +763,7 @@ function MealPlanName() {
           <View style={styles.meabuttonContainer}>
             <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
               <Text style={styles.buttonText}>
-                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
+                <Ionicons name="add-circle-outline" size={30} color="black" />
               </Text>
             </TouchableOpacity>
           </View>
@@ -779,13 +779,13 @@ function MealPlanName() {
                 </View>
                 <View style={styles.contactActions}>
                   <TouchableOpacity style={styles.button} onPress={() => handleUpdate(item.id)}>
-                    <Ionicons name="md-create-outline" size={20} color="black" />
+                    <Ionicons name="md-create-outline" size={25} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
-                    <Ionicons name="md-trash-outline" size={20} />
+                    <Ionicons name="md-trash-outline" size={25} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleSaveasPDF(item.id)}>
-                  <Ionicons name="md-save-outline" size={20} color="black" />
+                  <Ionicons name="md-save-outline" size={25} color="black" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -882,7 +882,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   meabutton: {
-    width: '25%',
+    width: '15%',
     marginVertical: 5,
     alignItems: 'center',
     flexDirection: 'row',

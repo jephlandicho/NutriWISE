@@ -4,12 +4,15 @@ import { Avatar, Card, Provider as PaperProvider } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MyTheme from '../Components/MyTheme';
 import * as SQLite from 'expo-sqlite';
-
 const db = SQLite.openDatabase('mydatabase.db');
+import { PieChart } from 'react-native-chart-kit';
+import { Dimensions } from 'react-native';
+
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
   const [upcomingClasses, setUpcomingClasses] = useState([]);
+  const [chartData, setChartData] = useState([]); // State for chart data
   const [todayDay, setTodayDay] = useState('');
 
   useEffect(() => {
@@ -20,6 +23,7 @@ const Home = () => {
     setTodayDay(currentDay); // Set today's day
 
     fetchUpcomingClasses(currentDay); // Pass the currentDay to fetchUpcomingClasses
+    fetchChartData();
   }, []);
 
   const getUserData = async () => {
@@ -33,6 +37,16 @@ const Home = () => {
       }
     } catch (error) {
       console.error('Error:', error);
+    }
+  };
+
+  const fetchChartData = async () => {
+    try {
+      const response = await fetch('https://nutriwise.website/api/chart.php'); // Replace with your server URL
+      const data = await response.json();
+      setChartData(data);
+    } catch (error) {
+      console.error('Error fetching chart data:', error);
     }
   };
 
@@ -69,7 +83,11 @@ const Home = () => {
   
     return formattedCurrentTime < formattedClassStartTime;
   };
-  
+
+
+  const uniqueColors = ['#FF5733', '#33FF57', '#5733FF', '#FF3370', '#33B6FF'];
+  const totalRemarkCount = chartData.reduce((total, data) => total + parseFloat(data.remark_count), 0);
+  console.log(totalRemarkCount)
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
@@ -84,19 +102,46 @@ const Home = () => {
           <Card style={styles.card}>
             <Card.Title title="Upcoming Classes" />
             <Card.Content>
-              {/* Display a list of upcoming classes */}
-              {upcomingClasses.map((classData, index) => (
-                <View key={index}>
-                  <Text>{`Class: ${classData.class_name}`}</Text>
-                  {classData.schedule_info.split(',').map((schedule, scheduleIndex) => (
-                    <Text key={scheduleIndex}>
-                      {schedule}
-                    </Text>
-                  ))}
-                </View>
-              ))}
+              {upcomingClasses.length === 0 ? (
+                <Text>No Upcoming Classes for today</Text>
+              ) : (
+                upcomingClasses.map((classData, index) => (
+                  <View key={index}>
+                    <Text>{`Class: ${classData.class_name}`}</Text>
+                    {classData.schedule_info.split(',').map((schedule, scheduleIndex) => (
+                      <Text key={scheduleIndex}>{schedule}</Text>
+                    ))}
+                  </View>
+                ))
+              )}
             </Card.Content>
           </Card>
+
+          <Card style={styles.card}>
+          <Card.Title title="Nutritional Status" />
+          <Card.Content>
+            {chartData.length > 0 && (
+              <PieChart
+              data={chartData.map((data, index) => ({
+                name: data.remarks,
+                count: parseFloat(data.remark_count) ,
+                color: uniqueColors[index % uniqueColors.length], // Assign unique color based on index
+                legendFontColor: 'black',
+                legendFontSize: 15,
+              }))}
+              width={Dimensions.get('window').width - 50}
+              height={200}
+              chartConfig={{
+                backgroundGradientFrom: '#fff',
+                backgroundGradientTo: '#fff',
+                color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+              }}
+              accessor="count" // Specify the data property to use for the pie slices
+              backgroundColor="transparent"
+            />
+            )}
+          </Card.Content>
+        </Card>
 
           {/* Add more cards or components for the to-do list, announcements, attendance, resources, etc. */}
         </ScrollView>

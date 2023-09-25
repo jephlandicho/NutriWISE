@@ -9,6 +9,9 @@ import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Measurements from '../Components/Measurements';
 import ExchangeComputation from '../Stack/ExchangeComputation';
+import ExchangeDistribution from '../Stack/ExchangeDistribution';
+
+import { LineChart } from 'react-native-chart-kit';
 import { ResultContext } from '../Components/ResultContext';
 import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
@@ -17,6 +20,63 @@ const db = SQLite.openDatabase('mydatabase.db');
 function ClientMeasurements() {
     const {waistC,hipC,varweight,varheight,pal,whr,bmi,dbw,carbs,protein,fats,TER,normal,
       vegetableEx,fruitEx,milkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat,milkChoice} = useContext(ResultContext);
+      const [data, setData] = useState([]);
+      const {AvegetablesBreakfast,
+        AvegetablesAMSnacks,
+        AvegetablesLunch,
+        AvegetablesPMSnacks,
+        AvegetablesDinner,
+        AfruitBreakfast,
+        AfruitAMSnacks,
+        AfruitLunch,
+        AfruitPMSnacks,
+        AfruitDinner,
+        AriceABreakfast,
+        AriceAAMSnacks,
+        AriceALunch,
+        AriceAPMSnacks,
+        AriceADinner,
+        AriceBBreakfast,
+        AriceBAMSnacks,
+        AriceBLunch,
+        AriceBPMSnacks,
+        AriceBDinner,
+        AriceCBreakfast,
+        AriceCAMSnacks,
+        AriceCLunch,
+        AriceCPMSnacks,
+        AriceCDinner,
+        AMilkBreakfast,
+        AMilkAMSnacks,
+        AMilkLunch,
+        AMilkPMSnacks,
+        AMilkDinner,
+        ALFBreakfast,
+        ALFAMSnacks,
+        ALFLunch,
+        ALFPMSnacks,
+        ALFDinner,
+        AMFBreakfast,
+        AMFAMSnacks,
+        AMFLunch,
+        AMFPMSnacks,
+        AMFDinner,
+        AHFBreakfast,
+        AHFAMSnacks,
+        AHFLunch,
+        AHFPMSnacks,
+        AHFDinner,
+        AFatBreakfast,
+        AFatAMSnacks,
+        AFatLunch,
+        AFatPMSnacks,
+        AFatDinner,
+        ASugarBreakfast,
+        ASugarAMSnacks,
+        ASugarLunch,
+        ASugarPMSnacks,
+        ASugarDinner,
+        C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
       let palText;
       if (pal === '30') {
         palText = 'Sedentary';
@@ -30,6 +90,10 @@ function ClientMeasurements() {
 
       const [userData, setUserData] = useState(null);
       const [isInExchangeStep, setIsInExchangeStep] = useState(false);
+      const [isInMeasurementStep, setIsInMeasurementStep] = useState(true);
+      const [isInExchangeComputationStep, setIsInExchangeComputationStep] = useState(false);
+      const [isInExchangeDistributionStep, setIsInExchangeDistributionStep] = useState(false);
+
       const getUserData = async () => {
         try {
           const userData = await AsyncStorage.getItem('userData');
@@ -62,6 +126,25 @@ function ClientMeasurements() {
         refreshTableData();
         getUserData();
       }, []);
+
+      React.useEffect(() => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            `SELECT cm.BMI as cmBMI, cm.assessment_date
+            FROM client_measurements AS cm
+            WHERE cm.client_id = ? 
+            ORDER BY cm.assessment_date DESC`,
+            [id],
+            (_, { rows }) => {
+              const data = rows._array;
+              setData(data);
+            },
+            (_, error) => {
+              console.error('Error fetching data:', error);
+            }
+          );
+        });
+      }, []);
     
       const handleUpdate = (id) => {
         // Handle the update logic here using the item id
@@ -88,19 +171,30 @@ function ClientMeasurements() {
         return code;
       }
 
-      const toggleStep = () => {
-        setIsInExchangeStep(!isInExchangeStep);
+      const goToExchangeComputation = () => {
+        setIsInMeasurementStep(false);
+        setIsInExchangeComputationStep(true);
+        setIsInExchangeDistributionStep(false);
+      };
+      
+      const goToExchangeDistribution = () => {
+        setIsInMeasurementStep(false);
+        setIsInExchangeComputationStep(false);
+        setIsInExchangeDistributionStep(true);
       };
 
-      const handleModalClose = () => {
-        setIsInExchangeStep(false); // Reset to "Add Measurement" step when the modal is closed
+      const goBackMeasurement = () => {
+        setIsInMeasurementStep(true);
+        setIsInExchangeComputationStep(false);
+        setIsInExchangeDistributionStep(false);
       };
-
-      const goBack = () => {
-        setIsInExchangeStep(false); // Set isInExchangeStep to false to go back to the "Add Measurement" step
+      const goBackToExchangeComputation = () => {
+        setIsInMeasurementStep(false);
+        setIsInExchangeComputationStep(true);
+        setIsInExchangeDistributionStep(false);
       };
+      
       const saveMeasurement = () => {
-        if (isInExchangeStep) {
           const m_ID = generateUniqueSixDigitCode();
           const finalm_ID = '01' + m_ID;
           setC_MeasurementID(finalm_ID);
@@ -108,6 +202,10 @@ function ClientMeasurements() {
           const e_ID = generateUniqueSixDigitCode();
           const finale_ID = '02' + e_ID;
           setC_exchangesID(finale_ID);
+
+          const mt_ID = generateUniqueSixDigitCode();
+          const finalmt_ID =  '03' + mt_ID 
+          setC_meal_titleID(finalmt_ID)
       
           db.transaction((tx) => {
             tx.executeSql(
@@ -129,7 +227,6 @@ function ClientMeasurements() {
                 protein,
                 carbs,
                 fats,
-                
                 0
               ],
               () => {
@@ -140,38 +237,6 @@ function ClientMeasurements() {
                 console.log('Error inserting data into client_measurements: ', error);
               }
             );
-      
-            // tx.executeSql(
-            //   'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
-            //   [
-            //     C_exchangesID,
-            //     C_MeasurementID,
-            //     vegetableEx,
-            //     fruitEx,
-            //     milkEx,
-            //     sugarEx,
-            //     riceAEx,
-            //     riceBEx,
-            //     riceCEx,
-            //     LFmeatEx,
-            //     MFmeatEx,
-            //     HFmeatEx,
-            //     fatEx,
-            //     totalKcal,
-            //     totalCarbs,
-            //     totalProtein,
-            //     totalFat,
-            //     milkChoice,
-            //     0, // You may adjust syncData as needed
-            //   ],
-            //   () => {
-            //     // Inserted exchanges data
-            //     console.log('Data inserted into exchanges successfully.');
-            //   },
-            //   (error) => {
-            //     console.log('Error inserting data into exchanges: ', error);
-            //   }
-            // );
 
             tx.executeSql(
               'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
@@ -199,7 +264,6 @@ function ClientMeasurements() {
               () => {
                 // Inserted exchanges data
                 refreshTableData();
-                Alert.alert('New client measurements and Exchanges added');
                 console.log('Data inserted into exchanges successfully.');
                 setAnotherModalVisible(false);
               },
@@ -207,10 +271,137 @@ function ClientMeasurements() {
                 console.log('Error inserting data into exchanges: ', error);
               }
             );
+
+              const distributionExchangeData = [
+                {
+                  food_group: 'Vegetable',
+                  breakfast: AvegetablesBreakfast,
+                  am_snacks: AvegetablesAMSnacks,
+                  lunch: AvegetablesLunch,
+                  pm_snacks: AvegetablesPMSnacks,
+                  dinner: AvegetablesDinner,
+                },
+                {
+                  food_group: 'Fruit',
+                  breakfast: AfruitBreakfast,
+                  am_snacks: AfruitAMSnacks,
+                  lunch: AfruitLunch,
+                  pm_snacks: AfruitPMSnacks,
+                  dinner: AfruitDinner,
+                },
+                {
+                  food_group: 'Rice A',
+                  breakfast: AriceABreakfast,
+                  am_snacks: AriceAAMSnacks,
+                  lunch: AriceALunch,
+                  pm_snacks: AriceAPMSnacks,
+                  dinner: AriceADinner,
+                },
+                {
+                  food_group: 'Rice B',
+                  breakfast: AriceBBreakfast,
+                  am_snacks: AriceBAMSnacks,
+                  lunch: AriceBLunch,
+                  pm_snacks: AriceBPMSnacks,
+                  dinner: AriceBDinner,
+                },
+                {
+                  food_group: 'Rice C',
+                  breakfast: AriceCBreakfast,
+                  am_snacks: AriceCAMSnacks,
+                  lunch: AriceCLunch,
+                  pm_snacks: AriceCPMSnacks,
+                  dinner: AriceCDinner,
+                },
+                {
+                  food_group: 'Milk',
+                  breakfast: AMilkBreakfast,
+                  am_snacks: AMilkAMSnacks,
+                  lunch: AMilkLunch,
+                  pm_snacks: AMilkPMSnacks,
+                  dinner: AMilkDinner,
+                },
+                {
+                  food_group: 'LF Meat',
+                  breakfast: ALFBreakfast,
+                  am_snacks: ALFAMSnacks,
+                  lunch: ALFLunch,
+                  pm_snacks: ALFPMSnacks,
+                  dinner: ALFDinner,
+                },
+                {
+                  food_group: 'MF Meat',
+                  breakfast: AMFBreakfast,
+                  am_snacks: AMFAMSnacks,
+                  lunch: AMFLunch,
+                  pm_snacks: AMFPMSnacks,
+                  dinner: AMFDinner,
+                },
+                {
+                  food_group: 'HF Meat',
+                  breakfast: AHFBreakfast,
+                  am_snacks: AHFAMSnacks,
+                  lunch: AHFLunch,
+                  pm_snacks: AHFPMSnacks,
+                  dinner: AHFDinner,
+                },
+                {
+                  food_group: 'Fat',
+                  breakfast: AFatBreakfast,
+                  am_snacks: AFatAMSnacks,
+                  lunch: AFatLunch,
+                  pm_snacks: AFatPMSnacks,
+                  dinner: AFatDinner,
+                },
+                {
+                  food_group: 'Sugar',
+                  breakfast: ASugarBreakfast,
+                  am_snacks: ASugarAMSnacks,
+                  lunch: ASugarLunch,
+                  pm_snacks: ASugarPMSnacks,
+                  dinner: ASugarDinner,
+                },
+              ];
+      
+              distributionExchangeData.forEach((row,index) => {
+                tx.executeSql(
+                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?)',
+                  [
+                    C_exchangesID,
+                    row.food_group,
+                    row.breakfast,
+                    row.am_snacks,
+                    row.lunch,
+                    row.pm_snacks,
+                    row.dinner,
+                    0
+                  ],
+                  () => {
+                    if (index === distributionExchangeData.length - 1) {
+                      console.log('distributionExchangeData successfully');
+                    }
+                  },
+                  (error) => {
+                    console.log('Error inserting data into distribution_exchange: ', error);
+                  })
+                })
+
+                  tx.executeSql(
+                    'INSERT INTO meal_title (id,exchanges_id, meal_title,syncData) VALUES (?,?, ?,?)',
+                    [C_meal_titleID,C_exchangesID,'One Day Menu',0],
+                    (_, { rowsAffected}) => {
+                      if (rowsAffected > 0) {
+                        console.log('Meal title saved successfully');
+                        Alert.alert('Success', 'New Client Data Saved');
+                      navigation.navigate('Client');
+                      }
+                    },
+                    (error) => {
+                      console.log('Error saving meal title:', error);
+                    }
+                  );
+
           });
-        } else {
-          toggleStep();
-        }
       };
     
       const refreshTableData = () => {
@@ -219,7 +410,7 @@ function ClientMeasurements() {
             `SELECT cm.*,e.*,e.TER AS exchange_TER,
             e.carbohydrates AS exchange_carbohydrates,
             e.protein AS exchange_protein,
-            e.fats AS exchange_fats, cm.TER AS cmTER, cm.protein AS cmPro, cm.fats AS cmFats, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ?`,
+            e.fats AS exchange_fats, cm.TER AS cmTER, cm.protein AS cmPro, cm.fats AS cmFats, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ? ORDER BY cm.assessment_date DESC`,
             [id],
             (_, { rows }) => {
               const data = rows._array;
@@ -246,8 +437,6 @@ function ClientMeasurements() {
 
   const [showExchanges, setShowExchanges] = useState(initialShowExchanges);
 
-
-
   const viewExchanges = (index) => {
     const updatedShowExchanges = [...showExchanges];
     updatedShowExchanges[index] = !updatedShowExchanges[index];
@@ -260,6 +449,7 @@ function ClientMeasurements() {
 
   // Second Modal State and Functions
   const [anotherModalVisible, setAnotherModalVisible] = useState(false);
+  const [analyticsModalVisible, setanalyticsModalVisible] = useState(false);
 
   const openAnotherModal = () => {
     setAnotherModalVisible(true);
@@ -268,16 +458,31 @@ function ClientMeasurements() {
   const closeAnotherModal = () => {
     setAnotherModalVisible(false);
   };
+
+  const openAnalyticsModal = () => {
+    setanalyticsModalVisible(true)
+  }
+  const closeAnalyticsModal = () => {
+    setanalyticsModalVisible(false);
+  };
+
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
       <View style={styles.meabuttonContainer}>
-            <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
-              <Text style={styles.buttonText}>
-                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
-              </Text>
-            </TouchableOpacity>
-          </View>
+        <TouchableOpacity style={styles.meabuttonLeft} onPress={openAnalyticsModal}>
+          <Text style={styles.buttonText}>
+          <Ionicons name="analytics-outline" size={35} color="black" />
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.meabuttonRight} onPress={openAnotherModal}>
+          <Text style={styles.buttonText}>
+            <Ionicons name="add-circle-outline" size={35} color="black" />
+          </Text>
+        </TouchableOpacity>
+      </View>
+
         <ScrollView style={styles.cardContainer}>
           {displayedData.length > 0 ? (
             displayedData.map((item,index) => (
@@ -414,24 +619,12 @@ function ClientMeasurements() {
                       <Text style={styles.header}>KCAL</Text>
                       <Text>{item.exchange_TER} kcal</Text>
                       </View>
-                      {/* <View style={styles.cell}>
-                      <Text style={styles.header}>Milk Choice</Text>
-                      <Text>{item.milkChoice}</Text>
-                      </View> */}
                   </View>
                     </View>
                   )}
 
                 </Card.Content>
                 <Card.Actions style={styles.cardActions}>
-                  
-                  {/* <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handleUpdate(item.id)}
-                  >
-                    <Ionicons name="md-create-outline" size={25} />
-                    
-                  </TouchableOpacity> */}
                   <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleViewMeal(item.e_ID)}
@@ -461,34 +654,94 @@ function ClientMeasurements() {
           selectPageDropdownLabel={'Rows per page'}
         />
 
-        <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
+      <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>
-            {/* Measurement & Exchanges */}
-            {isInExchangeStep ? 'Exchange Computation' : 'Add Measurement'}
+            {isInMeasurementStep
+              ? 'Measurements'
+              : isInExchangeComputationStep
+              ? 'Exchange Computation'
+              : 'Exchange Distribution'}
           </Text>
           <ScrollView>
-          {isInExchangeStep ? (
-            <ExchangeComputation />
-          ) : (
-            <Measurements />
-          )}
+            {isInMeasurementStep ? (
+              <Measurements />
+            ) : isInExchangeComputationStep ? (
+              <ExchangeComputation />
+            ) : (
+              <ExchangeDistribution />
+            )}
           </ScrollView>
           <View style={styles.savebuttonContainer}>
-            <TouchableOpacity style={styles.savebutton} onPress={saveMeasurement}>
-              <Text style={styles.savebuttonText}>
-                {/* Save */}
-                {isInExchangeStep ? 'Save' : 'Next'}
-              </Text>
+            {isInMeasurementStep?(
+              <TouchableOpacity style={styles.savebutton} onPress={goToExchangeComputation}>
+              <Text style={styles.savebuttonText}>Next</Text>
             </TouchableOpacity>
+            ): isInExchangeComputationStep ? (
+              <TouchableOpacity style={styles.savebutton} onPress={goToExchangeDistribution}>
+                <Text style={styles.savebuttonText}>Next</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={styles.savebutton} onPress={saveMeasurement}>
+                <Text style={styles.savebuttonText}>Save</Text>
+              </TouchableOpacity>
+            )}
           </View>
-          {isInExchangeStep && (
-        <TouchableOpacity onPress={goBack}>
-          <Text style={styles.savebuttonText}>Back</Text>
+          {isInExchangeComputationStep && (
+            <TouchableOpacity onPress={goBackMeasurement}>
+              <Text style={styles.savebuttonText}>Back</Text>
             </TouchableOpacity>
-        )}
+          )}
+          {isInExchangeDistributionStep && (
+            <TouchableOpacity onPress={goBackToExchangeComputation}>
+              <Text style={styles.savebuttonText}>Back</Text>
+              </TouchableOpacity>
+          )}
         </View>
-        </Modal>
+      </Modal>
+      <Modal isVisible={analyticsModalVisible} onBackdropPress={closeAnalyticsModal}>
+      <View style={styles.modalContainer}>
+      <LineChart
+      data={{
+        labels: data.map((item) => item.assessment_date),
+        datasets: [
+          {
+            data: data.map((item) => item.cmBMI),
+          },
+        ],
+      }}
+      width={300}
+      height={200}
+      yAxisInterval={1}
+      withInnerLines={false}
+      withOuterLines={false}
+      chartConfig={{
+        backgroundGradientFrom: "#fff",
+        backgroundGradientTo: "#fff",
+        decimalPlaces: 2,
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+        style: {
+          borderRadius: 16,
+        },
+        propsForDots: {
+          r: "6",
+          strokeWidth: "1",
+        },
+        fromZero: true, // Start the y-axis from zero
+        showXAxisLabel: true, // Show x-axis label
+        xAxisLabel: "Date Assessment", // X-axis label text
+        showYAxisLabel: true, // Show y-axis label
+      }}
+      bezier
+      style={{
+        marginVertical: 8,
+        borderRadius: 16,
+      }}
+    />
+
+      </View>
+      </Modal>
       </View>
     </PaperProvider>
   );
@@ -554,7 +807,7 @@ const styles = StyleSheet.create({
     marginLeft: 5, // Add marginLeft to create space between icon and text
   },
   cardContainer: {
-      maxHeight: '80%', // Adjust the height as needed
+      maxHeight: '75%', // Adjust the height as needed
   },
   card: {
       marginBottom: 10,
@@ -597,16 +850,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   meabutton: {
-    width: '25%',
     marginVertical: 5,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
     borderRadius: 5,
   },
-  meabuttonContainer: {
-    alignItems: 'flex-end',
+  meabuttonLeft: {
+    flex: 1,  // This will make the left button expand to fill the available space
+    marginRight: 5, // You can adjust the margin as needed
+    marginLeft: 5,
   },
+  meabuttonRight: {
+    flex: 1,  // This will make the right button expand to fill the available space
+    marginLeft: '80%', // You can adjust the margin as needed
+  },
+  meabuttonContainer: {
+    flexDirection: 'row', // This sets the direction to row
+  },
+  
 });
 
 export default ClientMeasurements;
