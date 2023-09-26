@@ -87,17 +87,17 @@ const ExchangeComputation = () => {
     let milkKcal;
     // let milkCarbs, milkProtein, milkFat, milkKcal;
 
-    if (milkChoice === 'Whole') {
+    if (milkChoice === 'Whole Milk') {
       milkCarbs = milk * 12;
       milkProtein = milk * 8;
       milkFat = milk * 10;
       milkKcal = milk * 170;
-    } else if (milkChoice === 'Low Fat') {
+    } else if (milkChoice === 'Low-Fat Milk') {
       milkCarbs = milk * 12;
       milkProtein = milk * 8;
       milkFat = milk * 5;
       milkKcal = milk * 125;
-    } else if (milkChoice === 'Non-Fat') {
+    } else if (milkChoice === 'Non-Fat Milk') {
       milkCarbs = milk * 12;
       milkProtein = milk * 8;
       milkFat = milk * 0;
@@ -294,9 +294,9 @@ const ExchangeComputation = () => {
                 style={{ width: '100%' }}
               >
                 <Picker.Item label="Milk" value="" />
-                <Picker.Item label="Whole" value="Whole" />
-                <Picker.Item label="Low Fat" value="Low Fat" />
-                <Picker.Item label="Non-Fat" value="Non-Fat" />
+                <Picker.Item label="Whole Milk" value="Whole Milk" />
+                <Picker.Item label="Low-Fat Milk" value="Low-Fat Milk" />
+                <Picker.Item label="Non-Fat Milk" value="Non-Fat Milk" />
               </Picker>
             
           </View>

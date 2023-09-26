@@ -101,24 +101,44 @@ const Classes = () => {
   
 
   const handleDelete = (id) => {
-    
     db.transaction((tx) => {
       tx.executeSql(
-        'DELETE FROM classes WHERE id = ?',
+        'DELETE FROM schedule WHERE class_id = ?',
         [id],
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) {
-            Alert.alert('Success', 'Successfully Unenrolled');
-            console.log('Item deleted successfully');
-            fetchClassesFromDatabase(); // Call a function to refresh the table data
+            // After deleting schedule records, you can proceed to delete the class
+            deleteClass(tx, id);
+          } else {
+            console.log('No schedule records to delete');
+            // If there are no schedule records, you can directly delete the class
+            deleteClass(tx, id);
           }
         },
         (error) => {
-          console.log('Error deleting item:', error);
+          console.log('Error deleting schedule records:', error);
         }
       );
     });
   };
+  
+  const deleteClass = (tx, id) => {
+    tx.executeSql(
+      'DELETE FROM classes WHERE id = ?',
+      [id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          Alert.alert('Success', 'Successfully Unenrolled');
+          console.log('Item deleted successfully');
+          fetchClassesFromDatabase(); // Call a function to refresh the table data
+        }
+      },
+      (error) => {
+        console.log('Error deleting class:', error);
+      }
+    );
+  };
+  
   
   const fetchClassesFromDatabase = async () => {
     try {

@@ -12,10 +12,12 @@ import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { ResultContext } from '../Components/ResultContext';
 import foods from '../meals/foods.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
 function MealPlanName() {
+  const [userData, setUserData] = useState(null);
   const [dataFromDB, setDataFromDB] = useState([]);
   const [exchangeData, setexchangeData] = useState([]);
   const navigation = useNavigation();
@@ -31,6 +33,19 @@ function MealPlanName() {
   const [selectedExchangesId, setSelectedExchangesId] = useState(null);
   const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
 
+  const getUserData = async () => {
+    try {
+      const userData = await AsyncStorage.getItem('userData');
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        setUserData(parsedUserData);
+      } else {
+        // User data doesn't exist in local storage
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   const generateHtml = (dataFromDB) => {
     const name = dataFromDB.length > 0 ? dataFromDB[0].name : "";
     const birthdate = dataFromDB.length > 0 ? dataFromDB[0].birthdate : "";
@@ -155,6 +170,7 @@ function MealPlanName() {
         <div class="header"> <b>Nutritional and Dietetics Department</b></div>
         <div class="header"><b>Nutritional Assessment</b></div>
         <br>
+        <div><b>Student Name:</b>${userData.fullName}</div>
         <div class="table-container">
         <table>
         <tr class="marginBottom">
@@ -485,12 +501,7 @@ function MealPlanName() {
             }
             rowData += `
               <td class="cells">${foodInfo.meal_name}</td>`;
-            
-            if (foodInfo.meal_group === 'Vegetable' && index === 0) {
               rowData += `<td class="cells">${item.household_measurement}</td>`;
-            } else {
-              rowData += `<td class="cells">${foodInfo.household_measure}</td>`;
-            }
             
             rowData += '</tr>';
             return rowData;
@@ -566,6 +577,7 @@ function MealPlanName() {
     return code;
   }
   React.useEffect(() => {
+    getUserData();
     setPage(0);
     refreshTableData();
     getExchangeData();
@@ -751,7 +763,7 @@ function MealPlanName() {
           <View style={styles.meabuttonContainer}>
             <TouchableOpacity style={styles.meabutton} onPress={openAnotherModal}>
               <Text style={styles.buttonText}>
-                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
+                <Ionicons name="add-circle-outline" size={30} color="black" />
               </Text>
             </TouchableOpacity>
           </View>
@@ -767,13 +779,13 @@ function MealPlanName() {
                 </View>
                 <View style={styles.contactActions}>
                   <TouchableOpacity style={styles.button} onPress={() => handleUpdate(item.id)}>
-                    <Ionicons name="md-create-outline" size={20} color="black" />
+                    <Ionicons name="md-create-outline" size={25} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
-                    <Ionicons name="md-trash-outline" size={20} />
+                    <Ionicons name="md-trash-outline" size={25} />
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleSaveasPDF(item.id)}>
-                  <Ionicons name="md-save-outline" size={20} color="black" />
+                  <Ionicons name="md-save-outline" size={25} color="black" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -870,7 +882,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   meabutton: {
-    width: '25%',
+    width: '15%',
     marginVertical: 5,
     alignItems: 'center',
     flexDirection: 'row',

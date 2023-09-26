@@ -9,7 +9,7 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const Dinner = () => {
-  const {C_meal_titleID,C_exchangesID} = useContext(ResultContext);
+  const {C_meal_titleID,C_exchangesID,milkChoice} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
@@ -49,7 +49,7 @@ const Dinner = () => {
     { name: 'Rice A', value: AriceADinner},
     { name: 'Rice B', value: AriceBDinner},
     { name: 'Rice C', value: AriceCDinner},
-    { name: 'Milk', value: AMilkDinner},
+    { name: milkChoice, value: AMilkDinner},
     { name: 'Low Fat Meat', value: ALFDinner},
     { name: 'Medium Fat Meat', value: AMFDinner},
     { name: 'High Fat Meat', value: AHFDinner},
@@ -128,9 +128,32 @@ const Dinner = () => {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
         return;
       }
-      updatedMealPlan[section].push(food);
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureDinner
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      
+      updatedMealPlan[section].push({...food,measurementInfo});
     } else {
-      updatedMealPlan[section] = [food];
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureDinner
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      updatedMealPlan[section] = [{...food,measurementInfo}];
     }
   
     if (!food.household_measure) {
@@ -287,7 +310,7 @@ const Dinner = () => {
                   >
                     <Text>
                       {food.meal_name}
-                      {food.household_measure ? ` - ${food.household_measure}` : ''}
+                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
                     </Text>
                   </TouchableOpacity>
                 </View>

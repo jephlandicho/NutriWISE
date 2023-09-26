@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Animated, LayoutAnimation, UIManager } from 'react-native';
-import { Card, Text, Provider as PaperProvider, Divider } from 'react-native-paper';
+import { Card, Text, Provider as PaperProvider, Divider,Button } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
 import { useRoute } from '@react-navigation/native';
 import MyTheme from '../Components/MyTheme';
@@ -180,7 +180,7 @@ const MealPlanning = () => {
                       ) : (
                         <View style={styles.column}>
                           <Text style={styles.headerText}>Household Measurement</Text>
-                          <Text style={styles.exchangeText}>{food.mealMeasure}</Text>
+                          <Text style={styles.exchangeText}>{food.item.household_measurement}</Text>
                         </View>
                       )}
                     </View>
@@ -212,18 +212,16 @@ const MealPlanning = () => {
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
-        {mealData.length === 0 && (
-          <View style={styles.meabuttonContainer}>
-            <TouchableOpacity style={styles.meabutton} onPress={addMealPlan}>
-              <Text style={styles.buttonText}>
-                <Ionicons name="add-circle-outline" size={20} color="black" /> Add
-              </Text>
-            </TouchableOpacity>
-          </View>
-        )}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           {mealData.length === 0 ? (
+            <>
             <Text style={styles.noPlanText}>Meal Plan not found</Text>
+            <Text style={styles.noPlanText}></Text>
+            <Button mode="contained" onPress={addMealPlan}>
+            Create a Meal Plan
+            </Button>
+            </>
+            
           ) : (
             groupedMealData.map((mealGroup, index) => (
               <View key={index}>
@@ -273,7 +271,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   meabutton: {
-    width: '25%',
+    width: '15%',
     marginVertical: 5,
     alignItems: 'center',
     flexDirection: 'row',

@@ -26,7 +26,7 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMea
                       {item.meal_group === 'Vegetable' && <Text>{Avegetables}</Text>}
                       {item.meal_group === 'Fruit' && <Text>{Afruits}</Text>}
                       {item.meal_group === 'Sugar' && <Text>{ASugar}</Text>}
-                      {item.meal_group === 'Milk' && <Text>{AMilk}</Text>}
+                      {(item.meal_group === 'Milk' || item.meal_group === 'Whole Milk' || item.meal_group === 'Low-Fat Milk' || item.meal_group === 'Non-Fat Milk') && <Text>{AMilk}</Text>}
                       {item.meal_group === 'Low Fat Meat' && <Text>{ALFMeat}</Text>}
                       {item.meal_group === 'Medium Fat Meat' && <Text>{AMFMeat}</Text>}
                       {item.meal_group === 'High Fat Meat' && <Text>{AHFMeat}</Text>}
@@ -58,7 +58,7 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMea
 
                 {item.household_measure && (
                   <DataTable.Title style={styles.cellStyle} numberOfLines={2}>
-                    {item.household_measure}
+                    {item.measurementInfo}
                   </DataTable.Title>
                 )}
               </DataTable.Row>

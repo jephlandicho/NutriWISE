@@ -9,7 +9,7 @@ import foodsData from '../../meals/foods.json';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const Breakfast = () => {
-  const {C_meal_titleID,setC_meal_titleID,C_exchangesID,setC_exchangesID} = useContext(ResultContext);
+  const {C_meal_titleID,setC_meal_titleID,C_exchangesID,setC_exchangesID,milkChoice,setMilkChoice} = useContext(ResultContext);
   const [tableData, setTableData] = useState([]);
   const route = useRoute();
   const { id,e_ID } = route.params;
@@ -51,7 +51,7 @@ const Breakfast = () => {
     { name: 'Rice A', value: AriceABreakfast },
     { name: 'Rice B', value: AriceBBreakfast },
     { name: 'Rice C', value: AriceCBreakfast },
-    { name: 'Milk', value: AMilkBreakfast },
+    { name: milkChoice, value: AMilkBreakfast },
     { name: 'Low Fat Meat', value: ALFBreakfast },
     { name: 'Medium Fat Meat', value: AMFBreakfast },
     { name: 'High Fat Meat', value: AHFBreakfast },
@@ -63,9 +63,29 @@ const Breakfast = () => {
   useEffect(() => {
     fetchData();
     fetchDataFromDatabase();
+    fetchMilkChoice();
     setC_meal_titleID(id)
     setC_exchangesID(e_ID)
   }, [selectedSection]);
+  const fetchMilkChoice = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT milkChoice FROM exchanges WHERE id = ?`,
+        [e_ID],
+        (_, { rows }) => {
+          const data = rows.item(0); // Get the first row of the result
+          if (data) {
+            const { milkChoice } = data;
+            setMilkChoice(milkChoice);
+            console.log(milkChoice);
+          }
+        },
+        (error) => {
+          console.log('Error performing SELECT query:', error);
+        }
+      );
+    });
+  }
 
   const fetchDataFromDatabase = () => {
     db.transaction((tx) => {
@@ -136,9 +156,32 @@ const Breakfast = () => {
         Alert.alert('Duplicate Food', 'You have already selected this food.');
         return;
       }
-      updatedMealPlan[section].push(food);
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureBreakfast
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      
+      updatedMealPlan[section].push({...food,measurementInfo});
     } else {
-      updatedMealPlan[section] = [food];
+      let measurementInfo = '';
+      if(food.household_measure == 0){
+        measurementInfo = householdMeasureBreakfast
+      }
+      else{
+        measurementInfo = food.measurement.map((measure, index) => {
+          const value = measure * sectionsWithVal.find((s) => s.name === selectedSection)?.value;
+          return `${value} ${food.label[index]}`;
+  
+        }).join(' or ');
+      }
+      updatedMealPlan[section] = [{...food,measurementInfo}];
     }
   
     if (!food.household_measure) {
@@ -295,7 +338,7 @@ const Breakfast = () => {
                   >
                     <Text>
                       {food.meal_name}
-                      {food.household_measure ? ` - ${food.household_measure}` : ''}
+                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
                     </Text>
                   </TouchableOpacity>
                 </View>
