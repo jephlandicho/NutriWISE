@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Provider as PaperProvider,Card, Title, Button } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
+import MyTheme from '../Components/MyTheme';
 
 const db = SQLite.openDatabase('client.db');
 
@@ -39,11 +40,13 @@ const MealPlan = () => {
       if (!groupedData[meal_title][meal_time]) {
         groupedData[meal_title][meal_time] = {};
       }
-      if (!groupedData[meal_title][meal_time][meal_group]) {
-        groupedData[meal_title][meal_time][meal_group] = [];
+      if (!groupedData[meal_title][meal_time][meal_name]) {
+        groupedData[meal_title][meal_time][meal_name] = {};
       }
-
-      groupedData[meal_title][meal_time][meal_group][meal_name].push({
+      if (!groupedData[meal_title][meal_time][meal_name][meal_group]) {
+        groupedData[meal_title][meal_time][meal_name][meal_group] = [];
+      }
+      groupedData[meal_title][meal_time][meal_name][meal_group].push({
         food,
         household_measurement,
       });
@@ -69,37 +72,66 @@ const MealPlan = () => {
     }
   };
 
-  // Render the grouped data as cards
-// Render the grouped data as cards
-// Render the grouped data as cards
-const renderMealPlan = () => {
-  const mealTitles = filteredTitle ? [filteredTitle] : Object.keys(mealPlanData);
-
-  return mealTitles.map((title) => (
-    <Card key={title} style={styles.mealTitleContainer}>
-      <Card.Content>
-        <Title style={styles.mealTitle}>{title}</Title>
-        {Object.keys(mealPlanData[title]).sort((a, b) => getMealOrder(a) - getMealOrder(b)).map((time) => (
-          <View key={time} style={styles.mealTimeContainer}>
-            <Title style={styles.mealTime}>{time}</Title>
-            {Object.keys(mealPlanData[title][time]).map((group) => (
-              <View key={group} style={styles.mealGroupContainer}>
-                <Title style={styles.mealGroup}>{group}</Title>
-                {mealPlanData[title][time][group].map((item, index, arr) => (
-                  <View key={index} style={styles.mealItemContainer}>
-                    <Text style={styles.mealItem}>
-                      {item.food} - {item.household_measurement}
-                    </Text>
-                  </View>
-                ))}
+  const renderMealPlan = () => {
+    const mealTitles = filteredTitle ? [filteredTitle] : Object.keys(mealPlanData);
+    
+    return mealTitles.map((title) => (
+      <Card key={title} style={styles.mealTitleContainer}>
+        <Card.Content>
+          <Title style={styles.mealTitle}>{title}</Title>
+          {Object.keys(mealPlanData[title])
+            .sort((a, b) => getMealOrder(a) - getMealOrder(b))
+            .map((time) => (
+              <View key={time}>
+                <Card style={styles.mealTimeContainer}>
+                  <Card.Content>
+                    <Title style={styles.mealTime}>{time}</Title>
+                    {Object.keys(mealPlanData[title][time])
+                      .sort((a, b) => a.localeCompare(b))
+                      .map((group) => (
+                        <View key={group} style={styles.mealGroupContainer}>
+                          {group ? (
+                            <Text style={styles.mealGroup}>Menu: {group}</Text>
+                          ) : (
+                            <></>
+                          )}
+                          {Object.keys(mealPlanData[title][time][group])
+                            .map((meal_name) => (
+                              <View key={meal_name} style={styles.mealItemContainer}>
+                                <Text style={styles.mealName}>{meal_name}</Text>
+                                {mealPlanData[title][time][group][meal_name].map(
+                                  (item, index) => (
+                                    <View key={index} style={styles.mealItemContainer}>
+                                      {meal_name === 'Vegetable' && index === 0 ? (
+                                        <Text style={styles.mealItem}>
+                                          {item.food} - {item.household_measurement}
+                                        </Text>
+                                      ) : meal_name === 'Vegetable' && index >= 1 ? (
+                                        <Text style={styles.mealItem}>
+                                          {item.food}
+                                        </Text>
+                                      ) : (
+                                        <Text style={styles.mealItem}>
+                                          {item.food} - {item.household_measurement}
+                                        </Text>
+                                      )}
+                                    </View>
+                                  )
+                                )}
+                              </View>
+                            ))}
+                        </View>
+                      ))}
+                  </Card.Content>
+                </Card>
               </View>
             ))}
-          </View>
-        ))}
-      </Card.Content>
-    </Card>
-  ));
-};
+        </Card.Content>
+      </Card>
+    ));
+  };
+  
+  
 
   // Render meal title filter buttons
   const renderFilterButtons = () => {
@@ -107,9 +139,10 @@ const renderMealPlan = () => {
     return mealTitles.map((title) => (
       <Button
         key={title}
-        mode="outlined"
+        mode="text"
         style={styles.filterButton}
         onPress={() => setFilteredTitle(title)}
+        disabled={title === filteredTitle} // Disable the button if it's the current selection
       >
         {title}
       </Button>
@@ -117,7 +150,9 @@ const renderMealPlan = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <PaperProvider theme={MyTheme}>
+      <View style={styles.container}>
+      <ScrollView style={styles.scrollcontainer}>
       <View style={styles.filterContainer}>
         {renderFilterButtons()}
         <Button
@@ -125,24 +160,35 @@ const renderMealPlan = () => {
           onPress={() => setFilteredTitle(null)}
           disabled={!filteredTitle}
         >
-          Clear Filter
+          View All
         </Button>
       </View>
       {renderMealPlan()}
     </ScrollView>
+      </View>
+    
+    </PaperProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 20,
+    paddingTop: 50,
+    backgroundColor: '#fff',
+  },
+  scrollcontainer:{
+    flex: 1,
+    backgroundColor: '#fff',
+    marginBottom: 50,
   },
   mealTitleContainer: {
-    marginBottom: 16,
+    marginBottom: 50,
+    backgroundColor: '#fff',
   },
   mealTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -150,7 +196,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   mealTime: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -158,7 +204,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   mealGroup: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 4,
   },
@@ -166,12 +212,12 @@ const styles = StyleSheet.create({
     marginLeft: 16,
   },
   mealName: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 8,
   },
   mealItem: {
-    fontSize: 12,
+    fontSize: 15,
   },
   filterContainer: {
     flexDirection: 'row',

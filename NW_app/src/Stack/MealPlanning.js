@@ -175,7 +175,7 @@ const MealPlanning = () => {
                           <Text style={styles.headerText}>Household Measurement</Text>
                           <Text style={styles.exchangeText}>{food.item.household_measurement}</Text>
                         </View>
-                      ) : mealGroup === 'Vegetable' && foodIndex === 1 ? (
+                      ) : mealGroup === 'Vegetable' && foodIndex >= 1 ? (
                         <View style={styles.column}></View>
                       ) : (
                         <View style={styles.column}>
