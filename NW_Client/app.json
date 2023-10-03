@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "NutriWISE Client",
-    "slug": "nutriwise",
+    "slug": "nutriwise-client",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,10 +15,10 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "80142c2b-dbea-49b1-ac65-9030c0b4d5b6"
+        "projectId": "651e7683-9a1b-49c7-9012-5a70a47f7c01"
       }
     },
-    "owner": "jephlandicho12",
+    "owner": "nutriwiseclient",
     "android": {
       "package": "com.jephjeph12.nutriwise"
     }

@@ -15,7 +15,7 @@ const Home = () => {
 
   const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem('clientDataaaa');
+      const userData = await AsyncStorage.getItem('clientInfoo');
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setUserData(parsedUserData);
@@ -52,13 +52,15 @@ const Home = () => {
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
-        <ScrollView>
+        
           {userData && (
             <View style={styles.header}>
               <Avatar.Text size={64} label={userData.name.charAt(0).toUpperCase()} />
               <Text style={styles.userName}>{userData.name}</Text>
+              <Text>   {userData.sex}</Text>
             </View>
           )}
+        
         <Card style={styles.dietPresCard}>
             <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>Diet Prescription</Text>
@@ -85,6 +87,7 @@ const Home = () => {
                 </View>
             </View>
           </Card>
+          <ScrollView>
           {/* Render the other cards */}
           <View style={styles.cardsRow}>
             {otherData.map((item) => (
@@ -136,14 +139,15 @@ const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: '#abc88f', // Card background color for "Diet Prescription"
     width: 370,
-    height: 200,
+    height: 160,
   },
   card: {
-    margin: 10,
-    borderRadius: 10, // Increase card border radius for a modern look
+    margin: 5,
+    borderRadius: 20, // Increase card border radius for a modern look
     elevation: 4,
     backgroundColor: '#fff', // Card background color
-    width: 175, // Set the width of each card as needed
+    width: 160,
+    height: 90
   },
   cardContent: {
     alignItems: 'center', // Center the content horizontally
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
   nutrientRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 50,
+    marginTop: 20,
   },
   nutrientColumn: {
     flex: 1,
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
   },
   cardsRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   },
 });
 

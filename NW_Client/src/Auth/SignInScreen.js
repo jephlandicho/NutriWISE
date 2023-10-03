@@ -1,20 +1,70 @@
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Alert,Modal,TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import Logo from '../../assets/icon.png';
-import CustomInput from '../Components/CustomInput';
-import CustomButton from '../Components/CustomButton';
+import { View, Text, Image, StyleSheet, ScrollView, Alert, useWindowDimensions } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SQLite from 'expo-sqlite';
+import CustomInput from '../Components/CustomInput';
+import CustomButton from '../Components/CustomButton';
+import Logo from '../../assets/icon.png';
+
+const db = SQLite.openDatabase('client.db');
 
 const SignInScreen = ({ setLoggedIn }) => {
   React.useEffect(() => {
+    // Create the meal_plan table if it doesn't exist
+    db.transaction((tx) => {
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS meal_planned (meal_title,meal_name,meal_time,meal_group ,food, household_measurement);`,
+        [],
+        () => {
+          console.log('meal_plan table created successfully');
+        },
+        (error) => {
+          console.error('Error creating meal_plan table:', error);
+        }
+      );
+    });
   }, []);
-  const { height } = useWindowDimensions();
 
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const onPressed = async (data) => {
     try {
+      // Fetch meal plan data from the API
+      const mealPlanResponse = await fetch('https://nutriwise.website/api/mealplan.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const mealPlanData = await mealPlanResponse.json();
+      console.log(mealPlanData);
+
+      // Insert the fetched data into the meal_plan table using SQLite
+      db.transaction((tx) => {
+        mealPlanData.clientMealPlan.forEach((mealPlanItem) => {
+          tx.executeSql(
+            'INSERT INTO meal_planned (meal_title,meal_name,meal_time,meal_group ,food, household_measurement) VALUES (?,?,?, ?, ?, ?);',
+            [
+              mealPlanItem.meal_title,
+              mealPlanItem.meal_name,
+              mealPlanItem.meal_time,
+              mealPlanItem.meal_group,
+              mealPlanItem.food,
+              mealPlanItem.household_measurement,
+            ],
+            () => {
+              console.log('Meal plan data inserted successfully');
+            },
+            (error) => {
+              console.error('Error inserting meal plan data:', error);
+            }
+          );
+        });
+      });
+
+      // Now, fetch the client ID data
       const response = await fetch('https://nutriwise.website/api/clientID.php', {
         method: 'POST',
         headers: {
@@ -23,10 +73,10 @@ const SignInScreen = ({ setLoggedIn }) => {
         body: JSON.stringify(data),
       });
       const result = await response.json();
-  
+
       console.log('Result:', result);
       if (result.success) {
-        await AsyncStorage.setItem('clientDataaaa', JSON.stringify(result.userData));
+        await AsyncStorage.setItem('clientInfoo', JSON.stringify(result.userData));
         setLoggedIn(true); // Update the isLoggedIn state
       } else {
         throw new Error(result.message); // Throw an error with the error message from the API response
@@ -35,11 +85,8 @@ const SignInScreen = ({ setLoggedIn }) => {
       Alert.alert('Wrong Details', 'It seems like your client ID is incorrect, Please try again.');
     }
   };
-  
 
-  const onForgotPassPressed = () => {
-    // Handle forgot password action
-  };
+  const { height } = useWindowDimensions();
 
   return (
     <ScrollView>
@@ -49,8 +96,8 @@ const SignInScreen = ({ setLoggedIn }) => {
           NutriWISE Client
         </Text>
         <Text style={styles.title}>
-        Enter your ClientID to view your meal plan
-      </Text>
+          Enter your ClientID to view your meal plan
+        </Text>
         <CustomInput
           name="ClientID"
           placeholder="ClientID"
@@ -95,7 +142,10 @@ const styles = StyleSheet.create({
     color: '#051C60',
     margin: 10,
     marginBottom: '50%',
-}
+  },
+  line: {
+    // Define your line styles here
+  },
 });
 
 export default SignInScreen;

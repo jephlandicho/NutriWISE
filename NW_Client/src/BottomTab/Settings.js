@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,Alert } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SQLite from 'expo-sqlite';
@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 
    const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem('clientDataaaa');
+      const userData = await AsyncStorage.getItem('clientInfoo');
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setUserData(parsedUserData);
@@ -43,7 +43,7 @@ import { useNavigation } from '@react-navigation/native';
   const handleDeleteTables = () => {
     db.transaction((tx) => {
       
-      const tablesToDelete = ['client','client_measurements','exchanges','meal_title','meal','meal_plan'];
+      const tablesToDelete = ['meal_plan'];
   
       tablesToDelete.forEach((table) => {
         const query = `DROP TABLE IF EXISTS ${table};`;
@@ -62,6 +62,16 @@ import { useNavigation } from '@react-navigation/native';
     });
   };
 
+  const clearClientInfo = async () => {
+    try {
+      await AsyncStorage.removeItem('clientInfoo');
+      // After removing the item, you can set the userData state to null
+      setUserData(null);
+      console.log('clientInfoo cleared');
+    } catch (error) {
+      console.error('Error clearing clientInfoo:', error);
+    }
+  };
   const deleteTable = () => {
         const createClassesTableQuery = `
         DROP TABLE classes;`;
@@ -124,7 +134,7 @@ const updateTable = async (tableName) => {
       {userData && (
         <View style={styles.userDataContainer}>
           <Text style={styles.label}>User Data:</Text>
-          <Text style={styles.userDataItem}>ID: {userData.id}</Text>
+          <Text style={styles.userDataItem}>ID: {userData.ClientID}</Text>
           <Text style={styles.userDataItem}>Name: {userData.name}</Text>
           <Text style={styles.userDataItem}>Birthdate: {userData.birthdate}</Text>
           <Text style={styles.userDataItem}>Sex: {userData.sex}</Text>
@@ -154,6 +164,9 @@ const updateTable = async (tableName) => {
         <TouchableOpacity style={styles.settingItem} onPress={syncTable}>
           <Text style={styles.settingLabel}>Reset Sync</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={clearClientInfo}>
+        <Text style={styles.settingLabel}>Clear clientInfoo</Text>
+      </TouchableOpacity>
       </View>
     </View>
   );
