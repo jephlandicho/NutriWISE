@@ -9,6 +9,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Home from '../BottomTab/Home';
 import Settings from '../BottomTab/Settings';
+import MealPlan from '../BottomTab/MealPlan'
 import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
@@ -94,6 +95,8 @@ function TabNavigator() {
 
           if (route.name === 'Home') {
             iconName = focused ? 'ios-home' : 'ios-home-outline';
+          } else if (route.name === 'MealPlan') {
+            iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline';
           }
@@ -115,6 +118,10 @@ function TabNavigator() {
       options={{
           headerShown: false,
         }} />
+        <Tab.Screen name='MealPlan' component={MealPlan} 
+      options={{
+        headerShown: false,
+      }}/>
       <Tab.Screen name='Settings' component={SettingsScreen} 
       options={{
         headerShown: false,

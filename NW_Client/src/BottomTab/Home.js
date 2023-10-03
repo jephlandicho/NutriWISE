@@ -1,21 +1,174 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, FlatList } from 'react-native';
-import { Avatar, Card, Provider as PaperProvider } from 'react-native-paper';
+import { Avatar, Card, Provider as PaperProvider,Title, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MyTheme from '../Components/MyTheme';
 import * as SQLite from 'expo-sqlite';
-const db = SQLite.openDatabase('mydatabase.db');
+const db = SQLite.openDatabase('client.db');
+import { Ionicons } from '@expo/vector-icons';
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
+  const [mealPlanData, setMealPlanData] = useState([]);
+  const [filteredTitle, setFilteredTitle] = useState(null);
+  const [currentMeal, setCurrentMeal] = useState(null);
 
   useEffect(() => {
     getUserData();
+    setCurrentMeal(getCurrentMealTime());
   }, []);
 
+  useEffect(() => {
+    // Fetch the data from the SQLite database
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT * FROM meal_planned WHERE meal_time = ?',
+        [currentMeal],
+        (_, { rows }) => {
+          const data = rows._array;
+          // Group the data by meal_title, meal_time, and meal_group
+          const groupedData = groupMealData(data);
+          setMealPlanData(groupedData);
+        },
+        
+      );
+    });
+  }, []);
+
+  const getCurrentMealTime = () => {
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour >= 6 && hour < 10) {
+      return 'Breakfast';
+    } else if (hour >= 10 && hour < 11) {
+      return 'AMSnacks';
+    } else if (hour >= 12 && hour < 13) {
+      return 'Lunch';
+    } else if (hour >= 15 && hour < 16) {
+      return 'PMSnacks';
+    } else if (hour >= 18 && hour < 20) {
+      return 'Dinner';
+    } else {
+      return null;
+    }
+  };
+
+
+  const groupMealData = (data) => {
+    const groupedData = {};
+    data.forEach((item) => {
+      const { meal_title, meal_time, meal_name, meal_group, food, household_measurement } = item;
+      if (!groupedData[meal_title]) {
+        groupedData[meal_title] = {};
+      }
+      if (!groupedData[meal_title][meal_time]) {
+        groupedData[meal_title][meal_time] = {};
+      }
+      if (!groupedData[meal_title][meal_time][meal_name]) {
+        groupedData[meal_title][meal_time][meal_name] = {};
+      }
+      if (!groupedData[meal_title][meal_time][meal_name][meal_group]) {
+        groupedData[meal_title][meal_time][meal_name][meal_group] = [];
+      }
+      groupedData[meal_title][meal_time][meal_name][meal_group].push({
+        food,
+        household_measurement,
+      });
+    });
+    return groupedData;
+  };
+
+  const renderMealPlan = () => {
+    const mealTitles = filteredTitle ? [filteredTitle] : Object.keys(mealPlanData);
+    
+    return mealTitles.map((title) => (
+      <Card key={title} style={styles.mealTitleContainer}>
+        <Card.Content>
+          <Title style={styles.mealTitle}>{title}</Title>
+          {Object.keys(mealPlanData[title])
+            .map((time) => (
+              <View key={time}>
+                <Card style={styles.mealTimeContainer}>
+                  <Card.Content>
+                    {Object.keys(mealPlanData[title][time])
+                      .sort((a, b) => a.localeCompare(b))
+                      .map((group) => (
+                        <View key={group} style={styles.mealGroupContainer}>
+                          {group ? (
+                            <Text style={styles.mealGroup}>Menu: {group}</Text>
+                          ) : (
+                            <></>
+                          )}
+                          {Object.keys(mealPlanData[title][time][group])
+                            .map((meal_name) => (
+                              <View key={meal_name} style={styles.mealItemContainer}>
+                                <Text style={styles.mealName}>{meal_name}</Text>
+                                {mealPlanData[title][time][group][meal_name].map(
+                                  (item, index) => (
+                                    <View key={index} style={styles.mealItemContainer}>
+                                      {meal_name === 'Vegetable' && index === 0 ? (
+                                        <Text style={styles.mealItem}>
+                                          {item.food} - {item.household_measurement}
+                                        </Text>
+                                      ) : meal_name === 'Vegetable' && index >= 1 ? (
+                                        <Text style={styles.mealItem}>
+                                          {item.food}
+                                        </Text>
+                                      ) : (
+                                        <Text style={styles.mealItem}>
+                                          {item.food} - {item.household_measurement}
+                                        </Text>
+                                      )}
+                                    </View>
+                                  )
+                                )}
+                              </View>
+                            ))}
+                        </View>
+                      ))}
+                  </Card.Content>
+                </Card>
+              </View>
+            ))}
+        </Card.Content>
+      </Card>
+    ));
+  };
+
+  const renderFilterButtons = () => {
+    const mealTitles = Object.keys(mealPlanData);
+    return mealTitles.map((title) => (
+      <Button
+        key={title}
+        mode="text"
+        style={styles.filterButton}
+        onPress={() => setFilteredTitle(title)}
+        disabled={title === filteredTitle} // Disable the button if it's the current selection
+      >
+        {title}
+      </Button>
+    ));
+  };
+  const noMealMessage = (
+    <Card style={styles.noMealMessage}>
+        <Text style={styles.noMealMessageText}> 
+        No meal at the moment
+      </Text>
+      <View style={styles.noMealMessageIcon}>
+      <Ionicons name="restaurant" size={50} color="green" />
+      </View>
+      
+      <Text style={styles.noMealMessageDesc}> 
+        See the Meal Plan section for the complete plan.
+      </Text>  
+    </Card>
+  );
+
+  
   const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem('clientDataaaa');
+      const userData = await AsyncStorage.getItem('clientInfoo');
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setUserData(parsedUserData);
@@ -52,13 +205,15 @@ const Home = () => {
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
-        <ScrollView>
+        
           {userData && (
             <View style={styles.header}>
               <Avatar.Text size={64} label={userData.name.charAt(0).toUpperCase()} />
               <Text style={styles.userName}>{userData.name}</Text>
+              <Text>   {userData.sex}</Text>
             </View>
           )}
+        
         <Card style={styles.dietPresCard}>
             <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>Diet Prescription</Text>
@@ -85,6 +240,7 @@ const Home = () => {
                 </View>
             </View>
           </Card>
+          <ScrollView>
           {/* Render the other cards */}
           <View style={styles.cardsRow}>
             {otherData.map((item) => (
@@ -107,7 +263,31 @@ const Home = () => {
             ))}
             </View>
           {/* Add more cards or components for the to-do list, announcements, attendance, resources, etc. */}
+          
+        {currentMeal === null && Object.keys(mealPlanData).length === 0 ? (
+
+          noMealMessage
+        ) : (
+          <Card style={styles.mealCard}>
+            <Text style={styles.mealCardTitle}>Meal Plan for {currentMeal}</Text>
+        <ScrollView style={styles.scrollcontainer}>
+          <View style={styles.filterContainer}>
+            {renderFilterButtons()}
+            <Button
+              mode="outlined"
+              onPress={() => setFilteredTitle(null)}
+              disabled={!filteredTitle}
+            >
+              View All
+            </Button>
+          </View>
+          {renderMealPlan()}
         </ScrollView>
+          </Card>
+          
+        )}
+        </ScrollView>
+        
       </View>
     </PaperProvider>
   );
@@ -136,14 +316,56 @@ const styles = StyleSheet.create({
     elevation: 4,
     backgroundColor: '#abc88f', // Card background color for "Diet Prescription"
     width: 370,
-    height: 200,
+    height: 160,
   },
   card: {
-    margin: 10,
-    borderRadius: 10, // Increase card border radius for a modern look
+    margin: 5,
+    borderRadius: 20, // Increase card border radius for a modern look
     elevation: 4,
     backgroundColor: '#fff', // Card background color
-    width: 175, // Set the width of each card as needed
+    width: 160,
+    height: 90,
+  },
+  mealCard:{
+    marginTop: 10,
+    margin: 5,
+    padding: 10,
+    borderRadius: 20, // Increase card border radius for a modern look
+    elevation: 4,
+    backgroundColor: '#fff', // Card background color
+    width: '100%', //
+  },
+  mealCardTitle:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignContent: 'center',
+    textAlign: 'center',
+    color: 'green'
+  },
+  noMealMessage: {
+    margin: 5,
+    padding: 20,
+    borderRadius: 20, // Increase card border radius for a modern look
+    elevation: 4,
+    backgroundColor: '#fff', // Card background color
+    width: '100%', //
+    height: 150,
+  },
+  noMealMessageIcon:{
+    alignContent: 'center',
+    alignItems: 'center',
+    padding: 15
+  },
+  noMealMessageText:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignContent: 'center',
+    textAlign: 'center',
+    color: 'green'
+  },
+  noMealMessageDesc:{
+    fontSize: 15,
+    textAlign: 'center',
   },
   cardContent: {
     alignItems: 'center', // Center the content horizontally
@@ -170,7 +392,7 @@ const styles = StyleSheet.create({
   nutrientRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 50,
+    marginTop: 20,
   },
   nutrientColumn: {
     flex: 1,
@@ -186,7 +408,58 @@ const styles = StyleSheet.create({
   },
   cardsRow: {
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  scrollcontainer:{
+    flex: 1,
+    backgroundColor: '#fff',
+    marginBottom: 50,
+  },
+  mealTitleContainer: {
+    marginBottom: 20,
+    backgroundColor: '#fff',
+  },
+  mealTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  mealTimeContainer: {
+    marginBottom: 8,
+  },
+  mealTime: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  mealGroupContainer: {
+    marginBottom: 4,
+  },
+  mealGroup: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  mealItemContainer: {
+    marginLeft: 16,
+  },
+  mealName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  mealItem: {
+    fontSize: 15,
+  },
+  filterContainer: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  filterButton: {
+    flex: 1,
+    marginHorizontal: 4,
   },
 });
 
