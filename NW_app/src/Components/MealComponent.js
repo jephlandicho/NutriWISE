@@ -1,7 +1,7 @@
 import React from 'react';
 import { DataTable } from 'react-native-paper';
 import { Text,StyleSheet } from 'react-native';
-const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMeat, AMFMeat,AHFMeat, AriceA, AriceB, AriceC, AFat, householdMeasure }) => {
+const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AWholeMilk,ALFMilk,ANFMilk, ALFMeat, AMFMeat,AHFMeat, AriceA, AriceB, AriceC, AFat, householdMeasure }) => {
   let previousGroup = null;
 
   return (
@@ -26,7 +26,9 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AMilk, ALFMea
                       {item.meal_group === 'Vegetable' && <Text>{Avegetables}</Text>}
                       {item.meal_group === 'Fruit' && <Text>{Afruits}</Text>}
                       {item.meal_group === 'Sugar' && <Text>{ASugar}</Text>}
-                      {(item.meal_group === 'Milk' || item.meal_group === 'Whole Milk' || item.meal_group === 'Low-Fat Milk' || item.meal_group === 'Non-Fat Milk') && <Text>{AMilk}</Text>}
+                      {item.meal_group === 'Whole Milk' && <Text>{AWholeMilk}</Text>}
+                      {item.meal_group === 'Low-Fat Milk' && <Text>{ALFMilk}</Text>}
+                      {item.meal_group === 'Non-Fat Milk' && <Text>{ANFMilk}</Text>}
                       {item.meal_group === 'Low Fat Meat' && <Text>{ALFMeat}</Text>}
                       {item.meal_group === 'Medium Fat Meat' && <Text>{AMFMeat}</Text>}
                       {item.meal_group === 'High Fat Meat' && <Text>{AHFMeat}</Text>}

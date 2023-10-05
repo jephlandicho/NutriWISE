@@ -22,17 +22,21 @@ const Breakfast = () => {
   
   const { breakfast, setBreakfast } = useContext(ResultContext);
   // AHFDinner,setAHFDinner
-  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, AMilkBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast,AHFBreakfast,setAvegetablesBreakfast,
+  const { AvegetablesBreakfast, AfruitBreakfast, ASugarBreakfast, ALFBreakfast, AMFBreakfast, AriceABreakfast, AriceBBreakfast, AriceCBreakfast, AFatBreakfast,AHFBreakfast,setAvegetablesBreakfast,
     setAfruitBreakfast,
     setAriceABreakfast,
     setAriceBBreakfast,
     setAriceCBreakfast,
-    setAMilkBreakfast,
     setALFBreakfast,
     setAMFBreakfast,
     setAHFBreakfast,
     setAFatBreakfast,
-    setASugarBreakfast } = useContext(ResultContext);
+    setASugarBreakfast,
+    AWholeMilkBreakfast,
+    ALFMilkBreakfast,
+    ANFMilkBreakfast,setAWholeMilkBreakfast,
+    setALFMilkBreakfast,
+    setANFMilkBreakfast } = useContext(ResultContext);
 
   const { menuBreakfast, setmenuBreakfast ,householdMeasureBreakfast, setHouseholdMeasureBreakfast }= useContext(ResultContext);
 
@@ -51,7 +55,9 @@ const Breakfast = () => {
     { name: 'Rice A', value: AriceABreakfast },
     { name: 'Rice B', value: AriceBBreakfast },
     { name: 'Rice C', value: AriceCBreakfast },
-    { name: milkChoice, value: AMilkBreakfast },
+    { name: 'Whole Milk', value: AWholeMilkBreakfast },
+    { name: 'Low-Fat Milk', value: ALFMilkBreakfast },
+    { name: 'Non-Fat Milk', value: ANFMilkBreakfast },
     { name: 'Low Fat Meat', value: ALFBreakfast },
     { name: 'Medium Fat Meat', value: AMFBreakfast },
     { name: 'High Fat Meat', value: AHFBreakfast },
@@ -63,29 +69,9 @@ const Breakfast = () => {
   useEffect(() => {
     fetchData();
     fetchDataFromDatabase();
-    fetchMilkChoice();
     setC_meal_titleID(id)
     setC_exchangesID(e_ID)
   }, [selectedSection]);
-  const fetchMilkChoice = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `SELECT milkChoice FROM exchanges WHERE id = ?`,
-        [e_ID],
-        (_, { rows }) => {
-          const data = rows.item(0); // Get the first row of the result
-          if (data) {
-            const { milkChoice } = data;
-            setMilkChoice(milkChoice);
-            console.log(milkChoice);
-          }
-        },
-        (error) => {
-          console.log('Error performing SELECT query:', error);
-        }
-      );
-    });
-  }
 
   const fetchDataFromDatabase = () => {
     db.transaction((tx) => {
@@ -117,9 +103,15 @@ const Breakfast = () => {
               case 'Rice C':
                 setAriceCBreakfast(breakfast);
                 break;
-              case 'Milk':
-                setAMilkBreakfast(breakfast);
+              case 'Whole Milk':
+                setAWholeMilkBreakfast(breakfast);
                 break;
+              case 'Low-Fat Milk':
+                setALFMilkBreakfast(breakfast);
+                break
+              case 'Non-Fat Milk':
+                setANFMilkBreakfast(breakfast);
+                break
               case 'LF Meat':
                 setALFBreakfast(breakfast);
                 break;

@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "NutriWISE Client",
+    "slug": "nw_app_client",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "feb70799-1b2f-4810-aa8e-45230c52d693"
+      }
+    },
+    "owner": "nutriwisewebsite",
+    "android": {
+      "package": "com.jephjeph12.nutriwiseClient"
+    }
+  }
+}

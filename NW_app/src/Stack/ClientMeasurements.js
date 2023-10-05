@@ -562,16 +562,26 @@ function ClientMeasurements() {
                       <Text>{item.fruit}</Text>
                       </View>
                       <View style={styles.cell}>
-                      <Text style={styles.header}>Milk</Text>
-                      <Text>{item.milk}</Text>
-                      </View>
-                      <View style={styles.cell}>
                       <Text style={styles.header}>Sugar</Text>
                       <Text>{item.sugar}</Text>
                       </View>
                       <View style={styles.cell}>
                       <Text style={styles.header}>Fat</Text>
                       <Text>{item.fat}</Text>
+                      </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.cell}>
+                      <Text style={styles.header}>Whole Milk</Text>
+                      <Text>{item.wholeMilk}</Text>
+                      </View>
+                      <View style={styles.cell}>
+                      <Text style={styles.header}>Low-Fat Milk</Text>
+                      <Text>{item.lfMilk}</Text>
+                      </View>
+                      <View style={styles.cell}>
+                      <Text style={styles.header}>Non-Fat Milk</Text>
+                      <Text>{item.nfMilk}</Text>
                       </View>
                   </View>
                   <View style={{ flexDirection: 'row' }}>

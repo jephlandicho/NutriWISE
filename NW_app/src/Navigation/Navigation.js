@@ -25,6 +25,7 @@ import AMSnacks from '../Stack/MealPlanning/AMSnack';
 import Lunch from '../Stack/MealPlanning/Lunch';
 import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
+import MidSnacks from '../Stack/MealPlanning/MidSnacks';
 import MealPlanning from '../Stack/MealPlanning';
 import Stream from '../Stack/Stream';
 import Materials from '../Stack/Materials';
@@ -384,7 +385,7 @@ function StackNavigator() {
         component={Dinner}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
+            <TouchableOpacity onPress={() => navigation.navigate('MidnightSnacks')}>
               <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
             </TouchableOpacity>
           ),
@@ -392,6 +393,24 @@ function StackNavigator() {
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
                 Dinner
+              </Text>
+            </View>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name='MidnightSnacks'
+        component={MidSnacks}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('MealPlanResult')}>
+              <Ionicons style={{ marginRight: 15 }} size={24} name="arrow-forward"/>
+            </TouchableOpacity>
+          ),
+          headerTitle: () => (
+            <View style={styles.headerTitleCon}>
+              <Text style={styles.headerTitle}>
+              Midnight Snacks
               </Text>
             </View>
           ),

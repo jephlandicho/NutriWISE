@@ -24,7 +24,12 @@ export const ResultProvider = ({ children }) => {
   const [TER,setTER] = useState('');
   const [vegetableEx,setVegEx] = useState('');
   const [fruitEx, setfruitEx] = useState('');
+
   const [milkEx, setmilkEx] = useState('');
+
+  const [WholeMilkEx, setWholeMilkEx] = useState('');
+  const [LFMilkEx, setLFMilkEx] = useState('');
+  const [NFMilkEx, setNFMilkEx] = useState('');
   const [sugarEx, setsugarEx] = useState('');
   const [riceAEx,setriceAEx] = useState('');
   const [riceBEx,setriceBEx] = useState('');
@@ -39,23 +44,27 @@ export const ResultProvider = ({ children }) => {
   const [totalKcal,settotalKcal] = useState('');
   const [normal,setNormal] = useState('');
   const [milkChoice, setMilkChoice] = useState('');
+
   const [breakfast, setBreakfast] = useState({});
   const [AMSnack, setAMSnack] = useState({});
   const [lunch, setLunch] = useState({});
   const [PMSnack, setPMSnack] = useState({});
   const [Dinner, setDinner] = useState({});
+  const [MidnightSnacks, setMidnightSnacks] = useState({});
 
   const [menuBreakfast, setmenuBreakfast] = useState('');
   const [menuAmSnacks, setmenuAmSnacks] = useState('');
   const [menuLunch, setmenuLunch] = useState('');
   const [menuPmSnacks, setmenuPmSnacks] = useState('');
   const [menuDinner, setmenuDinner] = useState('');
+  const [menuMidnightSnacks, setmenuMidnightSnacks] = useState('');
 
   const [householdMeasureBreakfast, setHouseholdMeasureBreakfast] = useState('');
   const [householdMeasureAmSnacks, setHouseholdMeasureAmSnacks] = useState('');
   const [householdMeasureLunch, setHouseholdMeasureLunch] = useState('');
   const [householdMeasurePmSnacks, setHouseholdMeasurePmSnacks] = useState('');
   const [householdMeasureDinner, setHouseholdMeasureDinner] = useState('');
+  const [householdMeasureMidnightSnacks, setHouseholdMeasureMidnightSnacks] = useState('');
   
 
   const [AvegetablesBreakfast,setAvegetablesBreakfast] = useState('');
@@ -63,66 +72,92 @@ export const ResultProvider = ({ children }) => {
   const [AvegetablesLunch,setAvegetablesLunch] = useState('');
   const [AvegetablesPMSnacks,setAvegetablesPMSnacks] = useState('');
   const [AvegetablesDinner,setAvegetablesDinner] = useState('');
+  const [AvegetablesMidnightSnacks,setAvegetablesMidnightSnacks] = useState('');
 
   const [AfruitBreakfast,setAfruitBreakfast] = useState('');
   const [AfruitAMSnacks,setAfruitAMSnacks] = useState('');
   const [AfruitLunch,setAfruitLunch] = useState('');
   const [AfruitPMSnacks,setAfruitPMSnacks] = useState('');
   const [AfruitDinner,setAfruitDinner] = useState('');
+  const [AfruitMidnightSnacks,setAfruitMidnightSnacks] = useState('');
 
   const [AriceABreakfast,setAriceABreakfast] = useState('');
   const [AriceAAMSnacks,setAriceAAMSnacks] = useState('');
   const [AriceALunch,setAriceALunch] = useState('');
   const [AriceAPMSnacks,setAriceAPMSnacks] = useState('');
   const [AriceADinner,setAriceADinner] = useState('');
+  const [AriceAMidnightSnacks,setAriceAMidnightSnacks] = useState('');
 
   const [AriceBBreakfast,setAriceBBreakfast] = useState('');
   const [AriceBAMSnacks,setAriceBAMSnacks] = useState('');
   const [AriceBLunch,setAriceBLunch] = useState('');
   const [AriceBPMSnacks,setAriceBPMSnacks] = useState('');
   const [AriceBDinner,setAriceBDinner] = useState('');
+  const [AriceBMidnightSnacks,setAriceBMidnightSnacks] = useState('');
 
   const [AriceCBreakfast,setAriceCBreakfast] = useState('');
   const [AriceCAMSnacks,setAriceCAMSnacks] = useState('');
   const [AriceCLunch,setAriceCLunch] = useState('');
   const [AriceCPMSnacks,setAriceCPMSnacks] = useState('');
   const [AriceCDinner,setAriceCDinner] = useState('');
+  const [AriceCMidnightSnacks,setAriceCMidnightSnacks] = useState('');
 
-  const [AMilkBreakfast,setAMilkBreakfast] = useState('');
-  const [AMilkAMSnacks,setAMilkAMSnacks] = useState('');
-  const [AMilkLunch,setAMilkLunch] = useState('');
-  const [AMilkPMSnacks,setAMilkPMSnacks] = useState('');
-  const [AMilkDinner,setAMilkDinner] = useState('');
+  const [AWholeMilkBreakfast,setAWholeMilkBreakfast] = useState('');
+  const [AWholeMilkAMSnacks,setAWholeMilkAMSnacks] = useState('');
+  const [AWholeMilkLunch,setAWholeMilkLunch] = useState('');
+  const [AWholeMilkPMSnacks,setAWholeMilkPMSnacks] = useState('');
+  const [AWholeMilkDinner,setAWholeMilkDinner] = useState('');
+  const [AWholeMilkMidnightSnacks,setAWholeMilkMidnightSnacks] = useState('');
+
+  const [ALFMilkBreakfast,setALFMilkBreakfast] = useState('');
+  const [ALFMilkAMSnacks,setALFMilkAMSnacks] = useState('');
+  const [ALFMilkLunch,setALFMilkLunch] = useState('');
+  const [ALFMilkPMSnacks,setALFMilkPMSnacks] = useState('');
+  const [ALFMilkDinner,setALFMilkDinner] = useState('');
+  const [ALFMilkMidnightSnacks,setALFMilkMidnightSnacks] = useState('');
+
+  const [ANFMilkBreakfast,setANFMilkBreakfast] = useState('');
+  const [ANFMilkAMSnacks,setANFMilkAMSnacks] = useState('');
+  const [ANFMilkLunch,setANFMilkLunch] = useState('');
+  const [ANFMilkPMSnacks,setANFMilkPMSnacks] = useState('');
+  const [ANFMilkDinner,setANFMilkDinner] = useState('');
+  const [ANFMilkMidnightSnacks,setANFMilkMidnightSnacks] = useState('');
 
   const [ALFBreakfast,setALFBreakfast] = useState('');
   const [ALFAMSnacks,setALFAMSnacks] = useState('');
   const [ALFLunch,setALFLunch] = useState('');
   const [ALFPMSnacks,setALFPMSnacks] = useState('');
   const [ALFDinner,setALFDinner] = useState('');
+  const [ALFMidnightSnacks,setALFMidnightSnacks] = useState('');
 
   const [AMFBreakfast,setAMFBreakfast] = useState('');
   const [AMFAMSnacks,setAMFAMSnacks] = useState('');
   const [AMFLunch,setAMFLunch] = useState('');
   const [AMFPMSnacks,setAMFPMSnacks] = useState('');
   const [AMFDinner,setAMFDinner] = useState('');
+  const [AMFMidnightSnacks,setAMFMidnightSnacks] = useState('');
 
   const [AHFBreakfast,setAHFBreakfast] = useState('');
   const [AHFAMSnacks,setAHFAMSnacks] = useState('');
   const [AHFLunch,setAHFLunch] = useState('');
   const [AHFPMSnacks,setAHFPMSnacks] = useState('');
   const [AHFDinner,setAHFDinner] = useState('');
+  const [AHFMidnightSnacks,setAHFMidnightSnacks] = useState('');
 
   const [AFatBreakfast,setAFatBreakfast] = useState('');
   const [AFatAMSnacks,setAFatAMSnacks] = useState('');
   const [AFatLunch,setAFatLunch] = useState('');
   const [AFatPMSnacks,setAFatPMSnacks] = useState('');
   const [AFatDinner,setAFatDinner] = useState('');
+  const [AFatMidnightSnacks,setAFatMidnightSnacks] = useState('');
 
   const [ASugarBreakfast,setASugarBreakfast] = useState('');
   const [ASugarAMSnacks,setASugarAMSnacks] = useState('');
   const [ASugarLunch,setASugarLunch] = useState('');
   const [ASugarPMSnacks,setASugarPMSnacks] = useState('');
   const [ASugarDinner,setASugarDinner] = useState('');
+  const [ASugarMidnightSnacks,setASugarMidnightSnacks] = useState('');
+
   const [ClientID,setClientID] = useState('');
   const [MeasurementID,setMeasurementID] = useState('');
 
@@ -130,8 +165,6 @@ export const ResultProvider = ({ children }) => {
   const [C_exchangesID,setC_exchangesID] = useState('');
   const [C_meal_titleID,setC_meal_titleID] = useState('');
   
-
-
   return (
     <ResultContext.Provider value={{ result, setResult, otherValue, setOtherValue,vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,
       MeasurementID,setMeasurementID,
@@ -169,12 +202,22 @@ export const ResultProvider = ({ children }) => {
       ,AriceCAMSnacks
       ,AriceCLunch
       ,AriceCPMSnacks
-      ,AriceCDinner
-      ,AMilkBreakfast
-      ,AMilkAMSnacks
-      ,AMilkLunch
-      ,AMilkPMSnacks
-      ,AMilkDinner
+      ,AriceCDinner,
+      AWholeMilkBreakfast,setAWholeMilkBreakfast,
+      AWholeMilkAMSnacks,setAWholeMilkAMSnacks,
+      AWholeMilkLunch,setAWholeMilkLunch,
+      AWholeMilkPMSnacks,setAWholeMilkPMSnacks,
+      AWholeMilkDinner,setAWholeMilkDinner,
+      ALFMilkBreakfast,setALFMilkBreakfast,
+      ALFMilkAMSnacks,setALFMilkAMSnacks,
+      ALFMilkLunch,setALFMilkLunch,
+      ALFMilkPMSnacks,setALFMilkPMSnacks,
+      ALFMilkDinner,setALFMilkDinner,
+      ANFMilkBreakfast,setANFMilkBreakfast,
+      ANFMilkAMSnacks,setANFMilkAMSnacks,
+      ANFMilkLunch,setANFMilkLunch,
+      ANFMilkPMSnacks,setANFMilkPMSnacks,
+      ANFMilkDinner,setANFMilkDinner
       ,ALFBreakfast
       ,ALFAMSnacks
       ,ALFLunch
@@ -225,11 +268,6 @@ export const ResultProvider = ({ children }) => {
       ,setAriceCLunch
       ,setAriceCPMSnacks
       ,setAriceCDinner
-      ,setAMilkBreakfast
-      ,setAMilkAMSnacks
-      ,setAMilkLunch
-      ,setAMilkPMSnacks
-      ,setAMilkDinner
       ,setALFBreakfast
       ,setALFAMSnacks
       ,setALFLunch
@@ -265,7 +303,45 @@ export const ResultProvider = ({ children }) => {
       ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks
       ,householdMeasureDinner, setHouseholdMeasureDinner,
       birthdate,setbirthdate,
-      milkChoice, setMilkChoice
+      milkChoice, setMilkChoice,
+      
+      WholeMilkEx, setWholeMilkEx,
+      LFMilkEx, setLFMilkEx,
+      NFMilkEx, setNFMilkEx,
+
+      MidnightSnacks, setMidnightSnacks,
+      menuMidnightSnacks, setmenuMidnightSnacks,
+      householdMeasureMidnightSnacks, setHouseholdMeasureMidnightSnacks,
+
+      AWholeMilkBreakfast,setAWholeMilkBreakfast,
+      AWholeMilkAMSnacks,setAWholeMilkAMSnacks,
+      AWholeMilkLunch,setAWholeMilkLunch,
+      AWholeMilkPMSnacks,setAWholeMilkPMSnacks,
+      AWholeMilkDinner,setAWholeMilkDinner,
+      ALFMilkBreakfast,setALFMilkBreakfast,
+      ALFMilkAMSnacks,setALFMilkAMSnacks,
+      ALFMilkLunch,setALFMilkLunch,
+      ALFMilkPMSnacks,setALFMilkPMSnacks,
+      ALFMilkDinner,setALFMilkDinner,
+      ANFMilkBreakfast,setANFMilkBreakfast,
+      ANFMilkAMSnacks,setANFMilkAMSnacks,
+      ANFMilkLunch,setANFMilkLunch,
+      ANFMilkPMSnacks,setANFMilkPMSnacks,
+      ANFMilkDinner,setANFMilkDinner,
+
+      AvegetablesMidnightSnacks,setAvegetablesMidnightSnacks,
+      AfruitMidnightSnacks,setAfruitMidnightSnacks,
+      AriceAMidnightSnacks,setAriceAMidnightSnacks,
+      AriceBMidnightSnacks,setAriceBMidnightSnacks,
+      AriceCMidnightSnacks,setAriceCMidnightSnacks,
+      AWholeMilkMidnightSnacks,setAWholeMilkMidnightSnacks,
+      ALFMilkMidnightSnacks,setALFMilkMidnightSnacks,
+      ANFMilkMidnightSnacks,setANFMilkMidnightSnacks,
+      ALFMidnightSnacks,setALFMidnightSnacks,
+      AMFMidnightSnacks,setAMFMidnightSnacks,
+      AHFMidnightSnacks,setAHFMidnightSnacks,
+      AFatMidnightSnacks,setAFatMidnightSnacks,
+      ASugarMidnightSnacks,setASugarMidnightSnacks
       }}>
       {children}
     </ResultContext.Provider>

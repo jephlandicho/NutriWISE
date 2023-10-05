@@ -29,7 +29,10 @@ const PMSnacks = () => {
     setAMFPMSnacks,
     setAHFPMSnacks,
     setAFatPMSnacks,
-    setASugarPMSnacks} = useContext(ResultContext);
+    setASugarPMSnacks,
+    AWholeMilkPMSnacks,setAWholeMilkPMSnacks,
+    ALFMilkPMSnacks,setALFMilkPMSnacks,
+    ANFMilkPMSnacks,setANFMilkPMSnacks,} = useContext(ResultContext);
 
   const { menuPmSnacks, setmenuPmSnacks ,householdMeasurePmSnacks, setHouseholdMeasurePmSnacks }= useContext(ResultContext);
 
@@ -48,7 +51,9 @@ const PMSnacks = () => {
     { name: 'Rice A', value: AriceAPMSnacks },
     { name: 'Rice B', value: AriceBPMSnacks },
     { name: 'Rice C', value: AriceCPMSnacks },
-    { name: milkChoice, value: AMilkPMSnacks },
+    { name: 'Whole Milk', value: AWholeMilkPMSnacks },
+    { name: 'Low-Fat Milk', value: ALFMilkPMSnacks },
+    { name: 'Non-Fat Milk', value: ANFMilkPMSnacks },
     { name: 'Low Fat Meat', value: ALFPMSnacks },
     { name: 'Medium Fat Meat', value: AMFPMSnacks },
     { name: 'High Fat Meat', value: AHFPMSnacks },
@@ -90,9 +95,15 @@ const PMSnacks = () => {
               case 'Rice C':
                 setAriceCPMSnacks(pm_snacks);
                 break;
-              case 'Milk':
-                setAMilkPMSnacks(pm_snacks);
+              case 'Whole Milk':
+                setAWholeMilkPMSnacks(pm_snacks);
                 break;
+              case 'Low-Fat Milk':
+                setALFMilkPMSnacks(pm_snacks);
+                break
+              case 'Non-Fat Milk':
+                setANFMilkPMSnacks(pm_snacks);
+                break
               case 'LF Meat':
                 setALFPMSnacks(pm_snacks);
                 break;

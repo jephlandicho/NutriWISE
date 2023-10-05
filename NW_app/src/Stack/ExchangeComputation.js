@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
-import { useForm, Controller } from 'react-hook-form';
-import CustomButton from '../Components/CustomButton';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { ResultContext } from '../Components/ResultContext';
 import CustomInput from '../Components/CustomInput';
-import { Picker } from '@react-native-picker/picker';
 
 
 const ExchangeComputation = () => {
-  const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
+  const { control, formState: { errors }, watch } = useForm();
   const navigation = useNavigation();
   // total of the 3 food groups per computation
   // compute1
@@ -37,7 +34,9 @@ const ExchangeComputation = () => {
 
   const vegetables = watch('vegetables');
   const fruit = watch('fruit');
-  const milk = watch('milk');
+  const WholeMilk = watch('WholeMilk');
+  const LFMilk = watch('LFMilk');
+  const NFMilk = watch('NFMilk');
   const sugar = watch('sugar');
   const riceA = watch('riceA');
   const riceB = watch('riceB');
@@ -45,17 +44,13 @@ const ExchangeComputation = () => {
   const LFmeat = watch('LFmeat');
   const MFmeat = watch('MFmeat');
   const HFmeat = watch('HFmeat');
-  // const [milkChoice, setMilkChoice] = useState('');
 
 
-  const { result, otherValue } = useContext(ResultContext);
-  const { vegetableEx,setVegEx ,fruitEx, setfruitEx,milkEx, setmilkEx,sugarEx, setsugarEx,riceAEx,setriceAEx,riceBEx,setriceBEx,riceCEx,setriceCEx,LFmeatEx,setLFmeatEx,MFmeatEx,setMFmeatEx,HFmeatEx,setHFmeatEx,fatEx,setfatEx,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,milkChoice, setMilkChoice } = useContext(ResultContext);
-
-  const [riceExchange, setriceExchange] = useState('');
+  const { setVegEx , setfruitEx,setWholeMilkEx,setLFMilkEx,setNFMilkEx, setsugarEx,setriceAEx,setriceBEx,riceCEx,setriceCEx,setLFmeatEx,setMFmeatEx,setHFmeatEx,fatEx,setfatEx,carbs,totalCarbs,settotalCarbs,totalProtein,settotalProtein,totalFat,settotalFat,totalKcal,settotalKcal,protein,fats,setfats,TER } = useContext(ResultContext);
 
 
   useEffect(() => {
-    if (vegetables && fruit && milk && sugar) {
+    if (vegetables && fruit && WholeMilk && LFMilk && NFMilk && sugar) {
       computePressed();
     }
     if (riceA && riceB && riceC)
@@ -71,7 +66,7 @@ const ExchangeComputation = () => {
       totalCompute();
     }
     
-  }, [vegetables, fruit, milk, sugar, riceA,riceB, riceC, LFmeat, MFmeat,HFmeat,fatEx,kcal3]);
+  }, [vegetables, fruit, WholeMilk,LFMilk,NFMilk, sugar, riceA,riceB, riceC, LFmeat, MFmeat,HFmeat,fatEx,kcal3]);
 
   const computePressed = () => {
     const vegCarbs = vegetables * 3;
@@ -81,45 +76,31 @@ const ExchangeComputation = () => {
     const fruitCarbs = fruit * 10;
     const fruitKcal = fruit * 40;
 
-    let milkCarbs;
-    let milkProtein;
-    let milkFat;
-    let milkKcal;
-    // let milkCarbs, milkProtein, milkFat, milkKcal;
+    const WholeMilkCarbs = WholeMilk * 12;
+    const WholeMilkProtein = WholeMilk * 8;
+    const WholeMilkFat = WholeMilk * 10;
+    const WholeMilkKcal = WholeMilk * 170;
 
-    if (milkChoice === 'Whole Milk') {
-      milkCarbs = milk * 12;
-      milkProtein = milk * 8;
-      milkFat = milk * 10;
-      milkKcal = milk * 170;
-    } else if (milkChoice === 'Low-Fat Milk') {
-      milkCarbs = milk * 12;
-      milkProtein = milk * 8;
-      milkFat = milk * 5;
-      milkKcal = milk * 125;
-    } else if (milkChoice === 'Non-Fat Milk') {
-      milkCarbs = milk * 12;
-      milkProtein = milk * 8;
-      milkFat = milk * 0;
-      milkKcal = milk * 80;
-    }
-    console.log(milkChoice, milkCarbs, milkProtein, milkFat, milkKcal);
+    const LFMilkCarbs = LFMilk * 12;
+    const LFMilkProtein = LFMilk * 8;
+    const LFMilkFat = LFMilk * 5;
+    const LFMilkKcal = LFMilk * 125;
+
+    const NFMilkCarbs = NFMilk * 12;
+    const NFMilkProtein = NFMilk * 8;
+    const NFMilkKcal = NFMilk * 80;
+
     const sugarCarbs = sugar * 5;
     const sugarKcal = sugar * 20;
 
-    const proteinSum = vegProtein + milkProtein
-
+    const proteinSum = vegProtein  + WholeMilkProtein + LFMilkProtein + NFMilkProtein
+    const milkFat = WholeMilkFat + LFMilkFat
     setProtein1(proteinSum)
     setFat1(milkFat)
 
-    const carbsPartial = vegCarbs + fruitCarbs + milkCarbs + sugarCarbs;
+    const carbsPartial = vegCarbs + fruitCarbs + WholeMilkCarbs + LFMilkCarbs + NFMilkCarbs + sugarCarbs;
     setCarbs1(carbsPartial)
     const riceExchange = Math.round((carbs - carbsPartial) / 23);
-    console.log(vegCarbs,fruitCarbs,milkCarbs,sugarCarbs)
-    console.log(carbs)
-    console.log(proteinSum)
-    console.log(carbsPartial)
-    console.log(riceExchange)
     // const riceRes = `${riceExchange}`;
 
     setRiceExResult(riceExchange);
@@ -127,10 +108,12 @@ const ExchangeComputation = () => {
 
     setVegEx(vegetables)
     setfruitEx(fruit)
-    setmilkEx(milk)
     setsugarEx(sugar)
+    setWholeMilkEx(WholeMilk)
+    setLFMilkEx(LFMilk)
+    setNFMilkEx(NFMilk)
 
-    const kcal1 = vegKcal + fruitKcal + milkKcal + sugarKcal
+    const kcal1 = vegKcal + fruitKcal + WholeMilkKcal + LFMilkKcal + NFMilkKcal + sugarKcal
     setKcal1(kcal1)
   };
 
@@ -160,17 +143,13 @@ const ExchangeComputation = () => {
     console.log("sumRiceEx:", sumRiceEx);
     console.log("riceExResult:", riceExResult);
       if (sumRiceEx === riceExResult){
-        // const riceMeat = `${meatExchange}`;
         setMeatExResult(meatExchange);
         setShowInputField2(true);
         console.log(sumRiceEx)
         console.log(riceExResult)
         console.log(showInputField2)
       }
-
-    // setriceExchange(sumRiceEx)
     
-
     setriceAEx(riceA)
     setriceBEx(riceB);
     setriceCEx(riceC);
@@ -273,32 +252,28 @@ const ExchangeComputation = () => {
             rules={{ required: 'Fruit is required!' }} />
           </View>
           <View style={styles.item}>
-            {/* Add a dropdown for milk choice */}
-              
-              {/* Conditionally render CustomInput based on milkChoice */}
-              {milkChoice && (
-                <CustomInput
-                  title="Milk"
-                  name="milk"
-                  placeholder="Milk"
-                  numeric={true}
-                  control={control}
-                  rules={{ required: 'Milk is required!' }}
-                />
-              )}
-              <Picker
-                selectedValue={milkChoice}
-                onValueChange={(itemValue) => {
-                  setMilkChoice(itemValue);
-                }}
-                style={{ width: '100%' }}
-              >
-                <Picker.Item label="Milk" value="" />
-                <Picker.Item label="Whole Milk" value="Whole Milk" />
-                <Picker.Item label="Low-Fat Milk" value="Low-Fat Milk" />
-                <Picker.Item label="Non-Fat Milk" value="Non-Fat Milk" />
-              </Picker>
-            
+          <CustomInput
+            title="Whole Milk"
+            name="WholeMilk"
+            placeholder="Whole Milk"
+            numeric={true}
+            control={control} />
+          </View>
+          <View style={styles.item}>
+          <CustomInput
+            title="Low-Fat Milk"
+            name="LFMilk"
+            placeholder="Low-Fat Milk"
+            numeric={true}
+            control={control} />
+          </View>
+          <View style={styles.item}>
+          <CustomInput
+            title="Non-Fat Milk"
+            name="NFMilk"
+            placeholder="Non-Fat Milk"
+            numeric={true}
+            control={control} />
           </View>
           <View style={styles.item}>
           <CustomInput
@@ -382,10 +357,13 @@ const ExchangeComputation = () => {
                   control={control}
                   />
                   </View>
-
-                
               </View>
             )}
+          </View>
+        )}
+      {fatEx !== '' && (
+          <View>
+            <Text style={styles.result}>Fat Exchange: {fatEx}</Text>
           </View>
         )}
       </View>
