@@ -350,13 +350,13 @@ const MealPlanResult = () => {
       case "Fruit":
         return AfruitMidnightSnacks;
       case "Low Fat Meat":
-        return ALFMilkMidnightSnacks;
+        return ALFMidnightSnacks;
       case "Whole Milk":
         return AWholeMilkMidnightSnacks;
       case "Non-Fat Milk":
         return ANFMilkMidnightSnacks;
       case "Low-Fat Milk":
-        return ALFMidnightSnacks;
+        return ALFMilkMidnightSnacks;
       case "Rice A":
         return AriceAMidnightSnacks;
       case "Rice B":

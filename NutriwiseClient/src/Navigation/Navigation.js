@@ -9,7 +9,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import Home from '../BottomTab/Home';
 import Settings from '../BottomTab/Settings';
-import MealPlan from '../BottomTab/MealPlan'
+import MealPlan from '../BottomTab/MealPlan';
+import NewsFeed from '../BottomTab/NewsFeed';
 import { ResultProvider } from '../Components/ResultContext';
 
 const Tab = createBottomTabNavigator();
@@ -97,10 +98,12 @@ function TabNavigator() {
             iconName = focused ? 'ios-home' : 'ios-home-outline';
           } else if (route.name === 'MealPlan') {
             iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
+          }
+          else if (route.name === 'NewsFeed') {
+            iconName = focused ? 'ios-newspaper' : 'ios-newspaper-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-          }
-
+          } 
           return (
             <FloatingTabIcon
               name={iconName}
@@ -122,10 +125,15 @@ function TabNavigator() {
       options={{
         headerShown: false,
       }}/>
+      <Tab.Screen name='NewsFeed' component={NewsFeed} 
+      options={{
+        headerShown: false,
+      }}/>
       <Tab.Screen name='Settings' component={SettingsScreen} 
       options={{
         headerShown: false,
       }}/>
+      
     </Tab.Navigator>
   );
 }

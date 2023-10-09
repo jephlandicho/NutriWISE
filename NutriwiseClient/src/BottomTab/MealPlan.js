@@ -136,17 +136,26 @@ const MealPlan = () => {
   // Render meal title filter buttons
   const renderFilterButtons = () => {
     const mealTitles = Object.keys(mealPlanData);
-    return mealTitles.map((title) => (
-      <Button
-        key={title}
-        mode="text"
-        style={styles.filterButton}
-        onPress={() => setFilteredTitle(title)}
-        disabled={title === filteredTitle} // Disable the button if it's the current selection
+    return (
+      <ScrollView
+        horizontal
+        style={styles.filterButtonsContainer}
+        contentContainerStyle={styles.filterButtonsContent}
       >
-        {title}
-      </Button>
-    ));
+        {mealTitles.map((title) => (
+          <Button
+            key={title}
+            mode="text"
+            style={styles.filterButton}
+            onPress={() => setFilteredTitle(title)}
+            disabled={title === filteredTitle}
+          >
+            {title}
+          </Button>
+        ))}
+      </ScrollView>
+    );
+  
   };
 
   return (
@@ -228,6 +237,12 @@ const styles = StyleSheet.create({
   filterButton: {
     flex: 1,
     marginHorizontal: 4,
+  },
+  filterButtonsContainer: {
+    flexDirection: 'row',
+  },
+  filterButtonsContent: {
+    paddingHorizontal: 8, // Add padding to the content to space out buttons
   },
 });
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState,Alert } from 'react';
 import { StyleSheet, Text, View, Switch, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SQLite from 'expo-sqlite';
-const db = SQLite.openDatabase('mydatabase.db');
+const db = SQLite.openDatabase('client.db');
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -43,7 +43,7 @@ import { useNavigation } from '@react-navigation/native';
   const handleDeleteTables = () => {
     db.transaction((tx) => {
       
-      const tablesToDelete = ['meal_plan'];
+      const tablesToDelete = ['meal_planned'];
   
       tablesToDelete.forEach((table) => {
         const query = `DROP TABLE IF EXISTS ${table};`;
@@ -58,7 +58,7 @@ import { useNavigation } from '@react-navigation/native';
       console.error('Transaction error:', error);
     }, () => {
       // Transaction successful
-      Alert.alert('Tables Deleted', 'All tables have been deleted.');
+      console.log('All tables have been deleted.');
     });
   };
 
