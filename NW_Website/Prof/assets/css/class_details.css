@@ -1,0 +1,101 @@
+/* Add this CSS to your existing stylesheet or a new one */
+.card {
+  margin: auto; /* Center the card */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 15px;
+  background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  background: linear-gradient(to bottom, #ffffff 0%, #f2f2f2 100%);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.kebab-menu {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.menu-options {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: none;
+  z-index: 1;
+}
+
+.menu-options a {
+  display: block;
+  margin: 5px 0;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.menu-options a:hover {
+  color: #007bff;
+}
+
+.show-menu {
+  display: block;
+}
+
+.card h2 {
+  color:green; /* Blue color for heading */
+  margin-bottom: 15px; /* Increased margin for better spacing */
+  font-size: 28px; /* Larger font size for headings */
+  font-weight: bold; /* Bold font weight for headings */
+  font-family: "Arial", sans-serif; /* Change the font family as needed */
+  line-height: 1.4; /* Enhanced line height for better readability */
+}
+
+.card p {
+  color: #333; /* Dark gray color for text */
+  font-size: 20px; /* Larger font size for text */
+  font-family: "Helvetica Neue", sans-serif; /* Change the font family as needed */
+  line-height: 1.6; /* Improved line height for text */
+  margin-bottom: 20px; /* Increased margin for better spacing between paragraphs */
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Add a media query for small screens (up to 767px) */
+@media (max-width: 767px) {
+  .card {
+    margin: 10px auto; /* Center cards on small screens */
+    width: 90%; /* Make cards take up 90% of the available width */
+  }
+}
+
+
+

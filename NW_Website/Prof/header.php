@@ -173,7 +173,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       <li class="nav-item">
         <a class="nav-link <?php if ($currentPage == 'index.php') echo 'active'; ?>" href="index.php">
           <i class="bi bi-bar-chart"></i>
-          <span>Dashboard</span>
+          <span>Home</span>
         </a>
       </li><!-- End Dashboard Nav -->
 

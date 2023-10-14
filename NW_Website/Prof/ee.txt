@@ -1,0 +1,298 @@
+<?php
+include "header.php";
+include "config.php";
+
+// Function to fetch data from the clients table
+function get_client_data($conn) {
+    $sql = "SELECT id, name, birthdate, sex FROM client";
+    $result = $conn->query($sql);
+    $data = array();
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+    }
+
+    return $data;
+}
+
+$client_data = get_client_data($conn); // Fetch data from the client table
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Meals</title>
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+</head>
+<body>
+<main id="main" class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pagetitle">
+                    <h1 style="color: darkcyan;">Meals</h1>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="meals.php">Home</a></li>
+                            <li class="breadcrumb-item active">Meals</li>
+                        </ol>
+                    </nav>
+                </div><!-- End Page Title -->
+            </div>
+        </div>
+
+        <section class="section dashboard">
+            <div class="row">
+                <body>
+          <div>College of Nursing and Alied Health Services</div>
+          <br>
+          <div class="header"> <b>Nutritional and Dietetics Department</b></div>
+          <div class="header"><b>Nutritional Assessment</b></div>
+          <br>
+          <div><b>Student Name:</b>Uzumaki Naruto</div>
+          <div class="table-container">
+          <table>
+          <tr class="marginBottom">
+          <td colspan="4" class="cells"><b>Client Data</b></td>
+          </tr>
+          <tr class="marginBottom">
+            <td colspan="4" class="cells2"><b>FullName: </b> Uchiha Sasuke </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="cells3"><b>Age: </b> 23</td>
+            <td colspan="2" class="cells3"><b>Body Mass Index: </b> 28.31 kg/m²</td>
+          </tr>
+          <tr>
+          <td colspan="2" class="cells3"><b>Height: </b> 1.67 m</td>
+          <td colspan="2" class="cells3"><b>Nutritional Status: </b> OverWeight</td>
+          </tr>
+          <tr>
+          <td colspan="2" class="cells3"><b>Weight: </b> 79 kg </td>
+          <td colspan="2" class="cells3"><b>Desirable Body Weight: </b> 60.3 kg</td>
+          </tr>
+          <tr>
+          <td colspan="2" class="cells3"><b>Waist Circumference:</b> 98 cm</td>
+          <td colspan="2" class="cells3"><b>Hip Circumference:</b> 107 cm</td>
+          </tr>
+          <tr>
+          <td colspan="4" class="cells3"><b>Waist-Hip Ratio:</b> 0.92 cm</td>
+          </tr>
+          <tr>
+            <td colspan="5" class="header"><b> <i> Diet Rx </i></b></td>
+          </tr>
+          <tr>
+            <td><b>KCAL:</b> 2100 kcal</td>
+            <td><b>Carbohydrates:</b> 340 g</td>
+            <td><b>Protein:</b> 80 g</td>
+            <td><b>Fats:</b> 45 g</td>
+          </tr>
+          </table>
+         
+            
+            <!-- Exchanges Table -->
+            <table class="table">
+              <tr class="cells">
+                <th colspan="3" class="foodgroup">Food Groups</th>
+                <th class="othercells">Number of Exchanges</th>
+                <th class="othercells">Breakfast</th>
+                <th class="othercells">Morning Snack</th>
+                <th class="othercells">Lunch</th>
+                <th class="othercells">Afternoon Snack</th>
+                <th class="othercells">Supper</th>
+              </tr>
+              <tr class="cells2">
+              <td colspan="3" class="cells2">Vegetable</td>
+              <td class="cells">3</td>
+              <td class="cells">1</td>
+              <td class="cells">0</td>
+              <td class="cells">0.5</td>
+              <td class="cells">0</td>
+              <td class="cells">1.5</td>
+            </tr>
+            <tr class="cells2">
+            <td colspan="3" class="cells2">Fruit</td>
+            <td class="cells">3</td>
+            <td class="cells">2</td>
+            <td class="cells">0</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            </tr>
+            <tr class="cells2">
+            <td rowspan="4"  class="cells2">Rice</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">A - Low Protein</td>
+            <td class="cells" >4</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">B - Medium Protein </td>
+            <td class="cells">3</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">C - High Protein</td>
+            <td class="cells">4</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            </tr>
+            <tr class="cells2">
+            <td colspan="3" class="cells2">Milk</td>
+            <td class="cells">4</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            </tr>
+            <tr class="cells2">
+            <td rowspan="4" class="cells2">Meat</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">Low Fat</td>
+            <td class="cells">5</td>
+            <td class="cells">2</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">1</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">Medium Fat</td>
+            <td class="cells">4</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">2</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            </tr>
+            <tr class="cells2">
+            <td class="cells2" colspan="2">High Fat</td>
+            <td class="cells">4</td>
+            <td class="cells">2</td>
+            <td class="cells">0</td>
+            <td class="cells">0</td>
+            <td class="cells">2</td>
+            <td class="cells">0</td>
+            </tr>
+            <tr class="cells2">
+            <td colspan="3" class="cells2">Fat</td>
+            <td class="cells">4</td>
+            <td class="cells">2</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            </tr>
+            <tr class="cells2">
+            <td colspan="3" class="cells2">Sugar</td>
+            <td class="cells">4</td>
+            <td class="cells">3</td>
+            <td class="cells">0</td>
+            <td class="cells">1</td>
+            <td class="cells">0</td>
+            <td class="cells">0</td>
+            </tr>
+            </table>
+            <br>
+            <table>
+      
+            <tr>
+            <td colspan="5" class="header"><b> <i> Diet Prescription </i></b></td>
+            </tr>
+            <tr>
+              <td><b>KCAL:</b> 2090 kcal</td>
+              <td><b>Carbohydrates:</b> 345 g</td>
+              <td><b>Protein:</b> 76 g</td>
+              <td><b>Fats:</b> 45 g</td>
+            </tr>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+            
+      
+      
+            </table>
+            <br>
+            <h3> Meal Plan </h3>
+            <h5> MEAL KO</h5>
+            <!-- Third Table -->
+            <table class="table">
+              <tr class="cells">
+                <th class="cells">Meal</th>
+                <th class="cells">Food Group List</th>
+                <th class="cells">No of Exchange</th>
+                <th class="cells">Sample Menu</th>
+                <th class="cells">Household Measure</th>
+              </tr>
+       
+       <td class="cells" rowspan="${rowspan}">BreakFast</td><td class="cells"></td><td class="cells"></td><td class="cells">Manok</td><td class="cells"></td>`
+               
+                <tr>
+            <td class="cells"></td>
+                <td class="cells"></td>
+             
+              <td class="cells">3</td>
+               <td class="cells">5</td>
+               
+             
+                <td class="cells">Adobo</td>
+                <td class="cells">3</td>
+              
+              
+      
+      
+      </table>
+          </div>
+        </body>
+        </section>
+    </div>
+</main>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>

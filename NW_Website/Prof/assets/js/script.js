@@ -92,7 +92,7 @@ function showSweetAlert(title, text, icon) {
   });
 }
 
-  // Save the class when the save button is clicked
+  
   document.getElementById('saveClassBtn').addEventListener('click', function(event) {
     event.preventDefault();
 
@@ -116,30 +116,20 @@ function showSweetAlert(title, text, icon) {
       endTimes.push(endTime);
     });
 
-    // Create an AJAX request to save the class data
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'save_class.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
-          // Handle the response from the server
           const response = xhr.responseText;
-          if (response === 'success') {
-            // Class saved successfully
-            // Close the modal
+          if (response === 'success') { 
             modal.style.display = 'none';
-
-            // Reset the form fields
             document.getElementById('classNameInput').value = '';
             document.getElementById('descriptionInput').value = '';
-
-            // Clear schedule entries
             scheduleEntries.forEach(entry => {
               entry.remove();
             });
-
-            // Display Sweet Alert success message with the "Done" button
             showSweetAlert(
               "Class Added Successfully!",
               "Your new class has been added.",

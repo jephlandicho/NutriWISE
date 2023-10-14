@@ -21,7 +21,7 @@ function get_client_data($conn) {
     return $data;
 }
 
-$client_data = get_client_data($conn); // Fetch data from the client table
+$client_data = get_client_data($conn);  
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +42,8 @@ $client_data = get_client_data($conn); // Fetch data from the client table
                     <nav>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="meals.php">Home</a></li>
-                            <li class="breadcrumb-item active">Meals</li>
+                            <li class="breadcrumb-item">Clients</li>
+                           
                         </ol>
                     </nav>
                 </div><!-- End Page Title -->
@@ -58,22 +59,20 @@ $client_data = get_client_data($conn); // Fetch data from the client table
                         <table class="table table-striped" id="clientTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Name</th>
-                                    <th>Birthdate</th>
-                                    <th>Sex</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($client_data as $client) { ?>
                                     <tr>
-                                        <td><?php echo $client['id']; ?></td>
                                         <td><?php echo $client['name']; ?></td>
-                                        <td><?php echo $client['birthdate']; ?></td>
-                                        <td><?php echo $client['sex']; ?></td>
-                                        <!-- Modify the link to include client_id as a query parameter -->
-                                        <td><a href="client_measurements.php?client_id=<?php echo $client['id']; ?>" class="btn btn-primary">View</a></td>
+                                        <td>
+    <a href="mealplan_date.php?client_id=<?php echo $client['id']; ?>">View Plan</a>
+</td>
+
+                                       
+
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -112,6 +111,22 @@ $client_data = get_client_data($conn); // Fetch data from the client table
         });
     });
 </script>
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.umd.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
 
 </body>
 </html>
