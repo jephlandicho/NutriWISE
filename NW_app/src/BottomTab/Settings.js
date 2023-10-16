@@ -87,16 +87,16 @@ import { useNavigation } from '@react-navigation/native';
 
 const markRecordsAsSynced = async () => {
   try {
-    // await updateTable('client');
-    // await updateTable('client_measurements');
-    // await updateTable('exchanges');
+    await updateTable('client');
+    await updateTable('client_measurements');
+    await updateTable('exchanges');
     await updateTable('distribution_exchange');
     await updateTable('meal_title');
     await updateTable('meal');
     await updateTable('meal_plan');
-    console.log('All records marked as synced');
+    console.log('All records marked as unsynced');
   } catch (error) {
-    console.log('Error marking records as synced:', error);
+    console.log('Error marking records as unsynced:', error);
   }
 };
 

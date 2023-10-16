@@ -77,7 +77,9 @@ function MealPlanName() {
     // exchanges
     const vegetables = dataFromDB.length > 0 ? dataFromDB[0].vegetables: "0";
     const fruit = dataFromDB.length > 0 ? dataFromDB[0].fruit: "0";
-    const milk = dataFromDB.length > 0 ? dataFromDB[0].milk: "0";
+    const wholeMilk = dataFromDB.length > 0 ? dataFromDB[0].wholeMilk: "0";
+    const lfMilk = dataFromDB.length > 0 ? dataFromDB[0].lfMilk: "0";
+    const nfMilk = dataFromDB.length > 0 ? dataFromDB[0].nfMilk: "0";
     const sugar = dataFromDB.length > 0 ? dataFromDB[0].sugar: "0";
     const riceA = dataFromDB.length > 0 ? dataFromDB[0].riceA: "0";
     const riceB = dataFromDB.length > 0 ? dataFromDB[0].riceB: "0";
@@ -215,6 +217,7 @@ function MealPlanName() {
             lunch: vegLunch = '',
             pm_snacks: vegPmSnacks = '',
             dinner: vegDinner = '',
+            midnight_snacks: vegMidnightSnacks = ''
           } = vegetableData;
 
           const FruitData = exchangeData.find((item) => item.food_group === 'Fruit') || {};
@@ -224,6 +227,7 @@ function MealPlanName() {
             lunch: FruitLunch = '',
             pm_snacks: FruitPmSnacks = '',
             dinner: FruitDinner = '',
+            midnight_snacks: FruitMidnightSnacks = ''
           } = FruitData;
 
           const RiceAData = exchangeData.find((item) => item.food_group === 'Rice A') || {};
@@ -233,6 +237,7 @@ function MealPlanName() {
             lunch: RiceALunch = '',
             pm_snacks: RiceAPmSnacks = '',
             dinner: RiceADinner = '',
+            midnight_snacks: RiceAMidnightSnacks = '',
           } = RiceAData;
 
           const RiceBData = exchangeData.find((item) => item.food_group === 'Rice B') || {};
@@ -242,6 +247,7 @@ function MealPlanName() {
             lunch: RiceBLunch = '',
             pm_snacks: RiceBPmSnacks = '',
             dinner: RiceBDinner = '',
+            midnight_snacks: RiceBMidnightSnacks = ''
           } = RiceBData;
 
           const RiceCData = exchangeData.find((item) => item.food_group === 'Rice C') || {};
@@ -251,16 +257,38 @@ function MealPlanName() {
             lunch: RiceCLunch = '',
             pm_snacks: RiceCPmSnacks = '',
             dinner: RiceCDinner = '',
+            midnight_snacks: RiceCMidnightSnacks = '',
           } = RiceCData;
 
-          const MilkData = exchangeData.find((item) => item.food_group === 'Milk') || {};
+          const WholeMilkData = exchangeData.find((item) => item.food_group === 'Whole Milk') || {};
           const {
-            breakfast: MilkBreakfast = '',
-            am_snacks: MilkAMSnacks = '',
-            lunch: MilkLunch = '',
-            pm_snacks: MilkPmSnacks = '',
-            dinner: MilkDinner = '',
-          } = MilkData;
+            breakfast: WholeMilkBreakfast = '',
+            am_snacks: WholeMilkAMSnacks = '',
+            lunch: WholeMilkLunch = '',
+            pm_snacks: WholeMilkPmSnacks = '',
+            dinner: WholeMilkDinner = '',
+            midnight_snacks: WholeMidnightSnacks = '',
+          } = WholeMilkData;
+
+          const LFMilkData = exchangeData.find((item) => item.food_group === 'Low-Fat Milk') || {};
+          const {
+            breakfast: LFMilkBreakfast = '',
+            am_snacks: LFMilkAMSnacks = '',
+            lunch: LFMilkLunch = '',
+            pm_snacks: LFMilkPmSnacks = '',
+            dinner: LFMilkDinner = '',
+            midnight_snacks: LFMilkMidnightSnacks = '',
+          } = LFMilkData;
+
+          const NFMilkData = exchangeData.find((item) => item.food_group === 'Non-Fat Milk') || {};
+          const {
+            breakfast: NFMilkBreakfast = '',
+            am_snacks: NFMilkAMSnacks = '',
+            lunch: NFMilkLunch = '',
+            pm_snacks: NFMilkPmSnacks = '',
+            dinner: NFMilkDinner = '',
+            midnight_snacks: NFMidnightSnacks = '',
+          } = NFMilkData;
 
           const LFMeatData = exchangeData.find((item) => item.food_group === 'LF Meat') || {};
           const {
@@ -269,6 +297,7 @@ function MealPlanName() {
             lunch: LFMeatLunch = '',
             pm_snacks: LFMeatPmSnacks = '',
             dinner: LFMeatDinner = '',
+            midnight_snacks: LFMeatMidnightSnacks = '',
           } = LFMeatData;
 
           const MFMeatData = exchangeData.find((item) => item.food_group === 'MF Meat') || {};
@@ -278,6 +307,7 @@ function MealPlanName() {
             lunch: MFMeatLunch = '',
             pm_snacks: MFMeatPmSnacks = '',
             dinner: MFMeatDinner = '',
+            midnight_snacks: MFMeatMidnightSnacks = '',
           } = MFMeatData;
 
           const HFMeatData = exchangeData.find((item) => item.food_group === 'HF Meat') || {};
@@ -287,6 +317,7 @@ function MealPlanName() {
             lunch: HFMeatLunch = '',
             pm_snacks: HFMeatPmSnacks = '',
             dinner: HFMeatDinner = '',
+            midnight_snacks: HFMeatMidnightSnacks = '',
           } = HFMeatData;
 
           const FatData = exchangeData.find((item) => item.food_group === 'Fat') || {};
@@ -296,6 +327,7 @@ function MealPlanName() {
             lunch: FatLunch = '',
             pm_snacks: FatPmSnacks = '',
             dinner: FatDinner = '',
+            midnight_snacks: FatMidnightSnacks = ''
           } = FatData;
 
           const SugarData = exchangeData.find((item) => item.food_group === 'Sugar') || {};
@@ -305,6 +337,7 @@ function MealPlanName() {
             lunch: SugarLunch = '',
             pm_snacks: SugarPmSnacks = '',
             dinner: SugarDinner = '',
+            midnight_snacks: SugarMidnightSnacks = '',
           } = SugarData;
 
           htmlContent += `
@@ -319,6 +352,7 @@ function MealPlanName() {
               <th class="othercells">Lunch</th>
               <th class="othercells">Afternoon Snack</th>
               <th class="othercells">Supper</th>
+              <th class="othercells">Midnight Snacks</th>
             </tr>
             <tr class="cells2">
             <td colspan="3" class="cells2">Vegetable</td>
@@ -328,6 +362,7 @@ function MealPlanName() {
             <td class="cells">${vegLunch}</td>
             <td class="cells">${vegPmSnacks}</td>
             <td class="cells">${vegDinner}</td>
+            <td class="cells">${vegMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td colspan="3" class="cells2">Fruit</td>
@@ -337,6 +372,7 @@ function MealPlanName() {
           <td class="cells">${FruitLunch}</td>
           <td class="cells">${FruitPmSnacks}</td>
           <td class="cells">${FruitDinner}</td>
+          <td class="cells">${FruitMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td rowspan="4"  class="cells2">Rice</td>
@@ -349,6 +385,7 @@ function MealPlanName() {
           <td class="cells">${RiceALunch}</td>
           <td class="cells">${RiceAPmSnacks}</td>
           <td class="cells">${RiceADinner}</td>
+          <td class="cells">${RiceAMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td class="cells2" colspan="2">B - Medium Protein </td>
@@ -358,6 +395,7 @@ function MealPlanName() {
           <td class="cells">${RiceBLunch}</td>
           <td class="cells">${RiceBPmSnacks}</td>
           <td class="cells">${RiceBDinner}</td>
+          <td class="cells">${RiceBMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td class="cells2" colspan="2">C - High Protein</td>
@@ -367,15 +405,40 @@ function MealPlanName() {
           <td class="cells">${RiceCLunch}</td>
           <td class="cells">${RiceCPmSnacks}</td>
           <td class="cells">${RiceCDinner}</td>
+          <td class="cells">${RiceCMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
-          <td colspan="3" class="cells2">Milk</td>
-          <td class="cells">${milk}</td>
-          <td class="cells">${MilkBreakfast}</td>
-          <td class="cells">${MilkAMSnacks}</td>
-          <td class="cells">${MilkLunch}</td>
-          <td class="cells">${MilkPmSnacks}</td>
-          <td class="cells">${MilkDinner}</td>
+          <td rowspan="4"  class="cells2">Milk</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="2" class="cells2">Whole</td>
+          <td class="cells">${wholeMilk}</td>
+          <td class="cells">${WholeMilkBreakfast}</td>
+          <td class="cells">${WholeMilkAMSnacks}</td>
+          <td class="cells">${WholeMilkLunch}</td>
+          <td class="cells">${WholeMilkPmSnacks}</td>
+          <td class="cells">${WholeMilkDinner}</td>
+          <td class="cells">${WholeMidnightSnacks}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="2" class="cells2">Low-Fat</td>
+          <td class="cells">${lfMilk}</td>
+          <td class="cells">${LFMilkBreakfast}</td>
+          <td class="cells">${LFMilkAMSnacks}</td>
+          <td class="cells">${LFMilkLunch}</td>
+          <td class="cells">${LFMilkPmSnacks}</td>
+          <td class="cells">${LFMilkDinner}</td>
+          <td class="cells">${LFMilkMidnightSnacks}</td>
+          </tr>
+          <tr class="cells2">
+          <td colspan="2" class="cells2">Non-Fat</td>
+          <td class="cells">${nfMilk}</td>
+          <td class="cells">${NFMilkBreakfast}</td>
+          <td class="cells">${NFMilkAMSnacks}</td>
+          <td class="cells">${NFMilkLunch}</td>
+          <td class="cells">${NFMilkPmSnacks}</td>
+          <td class="cells">${NFMilkDinner}</td>
+          <td class="cells">${NFMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td rowspan="4" class="cells2">Meat</td>
@@ -388,6 +451,7 @@ function MealPlanName() {
           <td class="cells">${LFMeatLunch}</td>
           <td class="cells">${LFMeatPmSnacks}</td>
           <td class="cells">${LFMeatDinner}</td>
+          <td class="cells">${LFMeatMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td class="cells2" colspan="2">Medium Fat</td>
@@ -397,6 +461,7 @@ function MealPlanName() {
           <td class="cells">${MFMeatLunch}</td>
           <td class="cells">${MFMeatPmSnacks}</td>
           <td class="cells">${MFMeatDinner}</td>
+          <td class="cells">${MFMeatMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td class="cells2" colspan="2">High Fat</td>
@@ -406,6 +471,7 @@ function MealPlanName() {
           <td class="cells">${HFMeatLunch}</td>
           <td class="cells">${HFMeatPmSnacks}</td>
           <td class="cells">${HFMeatDinner}</td>
+          <td class="cells">${HFMeatMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td colspan="3" class="cells2">Fat</td>
@@ -415,6 +481,7 @@ function MealPlanName() {
           <td class="cells">${FatLunch}</td>
           <td class="cells">${FatPmSnacks}</td>
           <td class="cells">${FatDinner}</td>
+          <td class="cells">${FatMidnightSnacks}</td>
           </tr>
           <tr class="cells2">
           <td colspan="3" class="cells2">Sugar</td>
@@ -424,6 +491,7 @@ function MealPlanName() {
           <td class="cells">${SugarLunch}</td>
           <td class="cells">${SugarPmSnacks}</td>
           <td class="cells">${SugarDinner}</td>
+          <td class="cells">${SugarMidnightSnacks}</td>
           </tr>
           </table>
           <br>
@@ -501,7 +569,14 @@ function MealPlanName() {
             }
             rowData += `
               <td class="cells">${foodInfo.meal_name}</td>`;
-              rowData += `<td class="cells">${item.household_measurement}</td>`;
+              {foodInfo.meal_group === 'Vegetable' && index === 0 ? (
+                  rowData += `<td class="cells">${item.household_measurement}</td>`
+              ) : foodInfo.meal_group === 'Vegetable' && index >= 1 ? (
+                rowData += `<td class="cells"></td>`
+              ) : (
+                rowData += `<td class="cells">${item.household_measurement}</td>`
+              )}
+              
             
             rowData += '</tr>';
             return rowData;

@@ -30,7 +30,10 @@ const Dinner = () => {
     setAMFDinner,
     setAHFDinner,
     setAFatDinner,
-    setASugarDinner } = useContext(ResultContext);
+    setASugarDinner,
+    AWholeMilkDinner,setAWholeMilkDinner,
+    ALFMilkDinner,setALFMilkDinner,
+    ANFMilkDinner,setANFMilkDinner } = useContext(ResultContext);
 
   const { menuDinner, setmenuDinner,householdMeasureDinner, setHouseholdMeasureDinner }= useContext(ResultContext);
 
@@ -49,7 +52,9 @@ const Dinner = () => {
     { name: 'Rice A', value: AriceADinner},
     { name: 'Rice B', value: AriceBDinner},
     { name: 'Rice C', value: AriceCDinner},
-    { name: milkChoice, value: AMilkDinner},
+    { name: 'Whole Milk', value: AWholeMilkDinner },
+    { name: 'Low-Fat Milk', value: ALFMilkDinner },
+    { name: 'Non-Fat Milk', value: ANFMilkDinner },
     { name: 'Low Fat Meat', value: ALFDinner},
     { name: 'Medium Fat Meat', value: AMFDinner},
     { name: 'High Fat Meat', value: AHFDinner},
@@ -91,9 +96,15 @@ const Dinner = () => {
               case 'Rice C':
                 setAriceCDinner(dinner);
                 break;
-              case 'Milk':
-                setAMilkDinner(dinner);
+              case 'Whole Milk':
+                setAWholeMilkDinner(dinner);
                 break;
+              case 'Low-Fat Milk':
+                setALFMilkDinner(dinner);
+                break
+              case 'Non-Fat Milk':
+                setANFMilkDinner(dinner);
+                break
               case 'LF Meat':
                 setALFDinner(dinner);
                 break;

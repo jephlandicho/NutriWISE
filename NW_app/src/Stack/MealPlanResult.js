@@ -16,12 +16,28 @@ const MealPlanResult = () => {
   const [MealLunchID, setMealLunchID] = useState(null);
   const [MealPMSnacksID, setMealPMSnacksID] = useState(null);
   const [MealDinnerID, setMealDinnerID] = useState(null);
-  const { breakfast,AMSnack,lunch,PMSnack,Dinner } = useContext(ResultContext);
+  const [MealMidSnacksID, setMidSnacksID] = useState(null);
+  const { breakfast,AMSnack,lunch,PMSnack,Dinner,MidnightSnacks } = useContext(ResultContext);
 
-  const { menuBreakfast,menuAmSnacks,menuLunch,menuPmSnacks,menuDinner  } = useContext(ResultContext);
-  const {householdMeasureBreakfast,householdMeasureAmSnacks,householdMeasureLunch,householdMeasurePmSnacks,householdMeasureDinner} = useContext(ResultContext);
+  const { menuBreakfast,menuAmSnacks,menuLunch,menuPmSnacks,menuDinner,menuMidnightSnacks  } = useContext(ResultContext);
+  const {householdMeasureBreakfast,householdMeasureAmSnacks,householdMeasureLunch,householdMeasurePmSnacks,householdMeasureDinner,householdMeasureMidnightSnacks} = useContext(ResultContext);
 
-  const { AvegetablesBreakfast,AvegetablesAMSnacks,AvegetablesLunch,AvegetablesPMSnacks,AvegetablesDinner,AfruitBreakfast,AfruitAMSnacks,AfruitLunch,AfruitPMSnacks,AfruitDinner,AriceABreakfast,AriceAAMSnacks,AriceALunch,AriceAPMSnacks,AriceADinner,AriceBBreakfast,AriceBAMSnacks,AriceBLunch,AriceBPMSnacks,AriceBDinner,AriceCBreakfast,AriceCAMSnacks,AriceCLunch,AriceCPMSnacks,AriceCDinner,AMilkBreakfast,AMilkAMSnacks,AMilkLunch,AMilkPMSnacks,AMilkDinner,ALFBreakfast,ALFAMSnacks,ALFLunch,ALFPMSnacks,ALFDinner,AMFBreakfast,AMFAMSnacks,AMFLunch,AMFPMSnacks,AMFDinner,AFatBreakfast,AFatAMSnacks,AFatLunch,AFatPMSnacks,AFatDinner,ASugarBreakfast,ASugarAMSnacks,ASugarLunch,ASugarPMSnacks,ASugarDinner, MeasurementID } = useContext(ResultContext);
+  const { AvegetablesBreakfast,AvegetablesAMSnacks,AvegetablesLunch,AvegetablesPMSnacks,AvegetablesDinner,AfruitBreakfast,AfruitAMSnacks,AfruitLunch,AfruitPMSnacks,AfruitDinner,AriceABreakfast,AriceAAMSnacks,AriceALunch,AriceAPMSnacks,AriceADinner,AriceBBreakfast,AriceBAMSnacks,AriceBLunch,AriceBPMSnacks,AriceBDinner,AriceCBreakfast,AriceCAMSnacks,AriceCLunch,AriceCPMSnacks,AriceCDinner,AMilkBreakfast,AMilkAMSnacks,AMilkLunch,AMilkPMSnacks,AMilkDinner,ALFBreakfast,ALFAMSnacks,ALFLunch,ALFPMSnacks,ALFDinner,AMFBreakfast,AMFAMSnacks,AMFLunch,AMFPMSnacks,AMFDinner,AFatBreakfast,AFatAMSnacks,AFatLunch,AFatPMSnacks,AFatDinner,ASugarBreakfast,ASugarAMSnacks,ASugarLunch,ASugarPMSnacks,ASugarDinner,AvegetablesMidnightSnacks,AfruitMidnightSnacks,AriceAMidnightSnacks,AriceBMidnightSnacks,AriceCMidnightSnacks,AWholeMilkMidnightSnacks,ALFMilkMidnightSnacks,ANFMilkMidnightSnacks,ALFMidnightSnacks,AMFMidnightSnacks,AHFMidnightSnacks,AFatMidnightSnacks,ASugarMidnightSnacks, 
+    AWholeMilkBreakfast,
+    AWholeMilkAMSnacks,
+    AWholeMilkLunch,
+    AWholeMilkPMSnacks,
+    AWholeMilkDinner,
+    ALFMilkBreakfast,
+    ALFMilkAMSnacks,
+    ALFMilkLunch,
+    ALFMilkPMSnacks,
+    ALFMilkDinner,
+    ANFMilkBreakfast,
+    ANFMilkAMSnacks,
+    ANFMilkLunch,
+    ANFMilkPMSnacks,
+    ANFMilkDinner,MeasurementID } = useContext(ResultContext);
   const { AHFBreakfast,AHFAMSnacks,AHFLunch,AHFPMSnacks,AHFDinner } = useContext(ResultContext);
 
 
@@ -30,8 +46,8 @@ const MealPlanResult = () => {
   const parsedLunch = typeof lunch === 'string' ? JSON.parse(lunch) : lunch;
   const parsedPMSnacks = typeof PMSnack === 'string' ? JSON.parse(PMSnack) : PMSnack;
   const parsedDinner = typeof Dinner === 'string' ? JSON.parse(Dinner) : Dinner;
+  const parsedMidSnacks = typeof MidnightSnacks === 'string' ? JSON.parse(MidnightSnacks) : MidnightSnacks;
 
-  console.log(parsedbreakfast)
   let generatedCodes = [];
 
   function generateUniqueSixDigitCode() {
@@ -52,11 +68,13 @@ const MealPlanResult = () => {
     const l_ID = generateUniqueSixDigitCode();
     const p_ID = generateUniqueSixDigitCode();
     const d_ID = generateUniqueSixDigitCode();
+    const m_ID = generateUniqueSixDigitCode();
     setMealBreakfastID(b_ID)
     setMealAMSnacksID(a_ID)
     setMealLunchID(l_ID)
     setMealPMSnacksID(p_ID)
     setMealDinnerID(d_ID)
+    setMidSnacksID(m_ID)
   }, []);
 
   const createTables = () => {
@@ -171,11 +189,11 @@ const MealPlanResult = () => {
       case "Low Fat Meat":
         return ALFBreakfast;
       case "Whole Milk":
-        return AMilkBreakfast;
+        return AWholeMilkBreakfast;
       case "Non-Fat Milk":
-        return AMilkBreakfast;
+        return ANFMilkBreakfast;
       case "Low-Fat Milk":
-        return AMilkBreakfast;
+        return ALFMilkBreakfast;
       case "Rice A":
         return AriceABreakfast;
       case "Rice B":
@@ -204,11 +222,11 @@ const MealPlanResult = () => {
       case "Low Fat Meat":
         return ALFAMSnacks;
       case "Whole Milk":
-        return AMilkAMSnacks;
+        return AWholeMilkAMSnacks;
       case "Non-Fat Milk":
-        return AMilkAMSnacks;
+        return ANFMilkAMSnacks;
       case "Low-Fat Milk":
-        return AMilkAMSnacks;
+        return ALFMilkAMSnacks;
       case "Rice A":
         return AriceAAMSnacks;
       case "Rice B":
@@ -237,11 +255,11 @@ const MealPlanResult = () => {
       case "Low Fat Meat":
         return ALFLunch
       case "Whole Milk":
-        return AMilkLunch;
+        return AWholeMilkLunch;
       case "Non-Fat Milk":
-        return AMilkLunch;
+        return ANFMilkLunch;
       case "Low-Fat Milk":
-        return AMilkLunch;
+        return ALFMilkLunch;
       case "Rice A":
         return AriceALunch;
       case "Rice B":
@@ -270,11 +288,11 @@ const MealPlanResult = () => {
       case "Low Fat Meat":
         return ALFPMSnacks;
       case "Whole Milk":
-        return AMilkPMSnacks;
+        return AWholeMilkPMSnacks;
       case "Non-Fat Milk":
-        return AMilkPMSnacks;
+        return ANFMilkPMSnacks;
       case "Low-Fat Milk":
-        return AMilkPMSnacks;
+        return ALFMilkPMSnacks;
       case "Rice A":
         return AriceAPMSnacks;
       case "Rice B":
@@ -302,11 +320,11 @@ const MealPlanResult = () => {
       case "Low Fat Meat":
         return ALFDinner;
       case "Whole Milk":
-        return AMilkDinner;
+        return AWholeMilkDinner;
       case "Non-Fat Milk":
-        return AMilkDinner;
+        return ANFMilkDinner;
       case "Low-Fat Milk":
-        return AMilkDinner;
+        return ALFMilkDinner;
       case "Rice A":
         return AriceADinner;
       case "Rice B":
@@ -327,6 +345,38 @@ const MealPlanResult = () => {
         return 0; // You can set a default value here
     }
   }
+  function getEDMidSnacks(mealGroup) {
+    switch (mealGroup) {
+      case "Fruit":
+        return AfruitMidnightSnacks;
+      case "Low Fat Meat":
+        return ALFMidnightSnacks;
+      case "Whole Milk":
+        return AWholeMilkMidnightSnacks;
+      case "Non-Fat Milk":
+        return ANFMilkMidnightSnacks;
+      case "Low-Fat Milk":
+        return ALFMilkMidnightSnacks;
+      case "Rice A":
+        return AriceAMidnightSnacks;
+      case "Rice B":
+        return AriceBMidnightSnacks;
+      case "Rice C":
+        return AriceCMidnightSnacks;
+      case "Medium Fat Meat":
+        return AMFMidnightSnacks;
+      case "High Fat Meat":
+        return AHFMidnightSnacks;
+      case "Fat":
+        return AFatMidnightSnacks;
+      case "Sugar":
+        return ASugarMidnightSnacks;
+      case "Vegetable":
+        return AvegetablesMidnightSnacks;
+      default:
+        return 0; // You can set a default value here
+    }
+  }
   const insertData = () => {
     const mealData = [
       { meal_name: menuBreakfast, meal_time: 'Breakfast', id: MealBreakfastID },
@@ -334,6 +384,7 @@ const MealPlanResult = () => {
       { meal_name: menuLunch, meal_time: 'Lunch', id: MealLunchID },
       { meal_name: menuPmSnacks, meal_time: 'PMSnacks', id: MealPMSnacksID },
       { meal_name: menuDinner, meal_time: 'Dinner', id: MealDinnerID },
+      { meal_name: menuMidnightSnacks, meal_time: 'Midnight Snacks', id: MealMidSnacksID },
     ];
 
     db.transaction((tx) => {
@@ -363,7 +414,6 @@ const MealPlanResult = () => {
         MealAMSnacksID,
         getEDAMSnacks
       )
-
       // Lunch
       insertMealPlan(
         parsedLunch,
@@ -371,7 +421,6 @@ const MealPlanResult = () => {
         MealLunchID,
         getEDLunch
       )
-
       // PM Snacks
       insertMealPlan(
         parsedPMSnacks,
@@ -379,13 +428,19 @@ const MealPlanResult = () => {
         MealPMSnacksID,
         getEDPMSnacks
       )
-
       // Dinner
       insertMealPlan(
         parsedDinner,
         householdMeasureDinner,
         MealDinnerID,
         getEDDinner
+      )
+      // Midnight
+      insertMealPlan(
+        parsedMidSnacks,
+        householdMeasureMidnightSnacks,
+        MealMidSnacksID,
+        getEDMidSnacks
       )
 
     })
@@ -415,7 +470,9 @@ const MealPlanResult = () => {
       Avegetables={AvegetablesBreakfast}
       Afruits={AfruitBreakfast}
       ASugar={ASugarBreakfast}
-      AMilk={AMilkBreakfast}
+      AWholeMilk={AWholeMilkBreakfast}
+      ALFMilk={ALFMilkBreakfast}
+      ANFMilk={ANFMilkBreakfast}
       ALFMeat={ALFBreakfast}
       AMFMeat={AMFBreakfast}
       AHFMeat={AHFBreakfast}
@@ -440,7 +497,9 @@ const MealPlanResult = () => {
       Avegetables={AvegetablesAMSnacks}
       Afruits={AfruitAMSnacks}
       ASugar={ASugarAMSnacks}
-      AMilk={AMilkAMSnacks}
+      AWholeMilk={AWholeMilkAMSnacks}
+      ALFMilk={ALFMilkAMSnacks}
+      ANFMilk={ANFMilkAMSnacks}
       ALFMeat={ALFAMSnacks}
       AMFMeat={AMFAMSnacks}
       AHFMeat={AHFAMSnacks}
@@ -466,7 +525,9 @@ const MealPlanResult = () => {
       Avegetables={AvegetablesLunch}
       Afruits={AfruitLunch}
       ASugar={ASugarLunch}
-      AMilk={AMilkLunch}
+      AWholeMilk={AWholeMilkLunch}
+      ALFMilk={ALFMilkLunch}
+      ANFMilk={ANFMilkLunch}
       ALFMeat={ALFLunch}
       AMFMeat={AMFLunch}
       AHFMeat={AHFLunch}
@@ -491,7 +552,9 @@ const MealPlanResult = () => {
       Avegetables={AvegetablesPMSnacks}
       Afruits={AfruitPMSnacks}
       ASugar={ASugarPMSnacks}
-      AMilk={AMilkPMSnacks}
+      AWholeMilk={AWholeMilkPMSnacks}
+      ALFMilk={ALFMilkPMSnacks}
+      ANFMilk={ANFMilkPMSnacks}
       ALFMeat={ALFPMSnacks}
       AMFMeat={AMFPMSnacks}
       AHFMeat={AHFPMSnacks}
@@ -517,7 +580,9 @@ const MealPlanResult = () => {
       Avegetables={AvegetablesDinner}
       Afruits={AfruitDinner}
       ASugar={ASugarDinner}
-      AMilk={AMilkDinner}
+      AWholeMilk={AWholeMilkDinner}
+      ALFMilk={ALFMilkDinner}
+      ANFMilk={ANFMilkDinner}
       ALFMeat={ALFDinner}
       AMFMeat={AMFDinner}
       AHFMeat={AHFDinner}
@@ -526,6 +591,32 @@ const MealPlanResult = () => {
       AriceC={AriceCDinner}
       AFat={AFatDinner}
       householdMeasure={householdMeasureDinner}
+      >
+      </MealComponent>
+
+      <DataTable.Row>
+        <DataTable.Cell colSpan={3} style={styles.cellStyle}>
+          <Text style={styles.mealTime}>Midnight Snacks | </Text>
+          <Text style={styles.meal}>Menu: {menuMidnightSnacks}</Text>
+        </DataTable.Cell>
+      </DataTable.Row>
+      
+      <MealComponent
+      parsedMeal={parsedMidSnacks}
+      Avegetables={AvegetablesMidnightSnacks}
+      Afruits={AfruitMidnightSnacks}
+      ASugar={ASugarMidnightSnacks}
+      AWholeMilk={AWholeMilkMidnightSnacks}
+      ALFMilk={ALFMilkMidnightSnacks}
+      ANFMilk={ANFMilkMidnightSnacks}
+      ALFMeat={ALFMidnightSnacks}
+      AMFMeat={AMFMidnightSnacks}
+      AHFMeat={AHFMidnightSnacks}
+      AriceA={AriceAMidnightSnacks}
+      AriceB={AriceBMidnightSnacks}
+      AriceC={AriceCMidnightSnacks}
+      AFat={AFatMidnightSnacks}
+      householdMeasure={householdMeasureMidnightSnacks}
       >
       </MealComponent>
       <Button title="Save Meal Plan" onPress={insertData} />

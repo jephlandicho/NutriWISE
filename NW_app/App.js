@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <ResultContext.Provider value={{ isLoggedIn, setLoggedIn }}>
-      <SyncComponent/>
+      {/* <SyncComponent/> */}
       <View style={styles.container}>
         {isLoggedIn ? (
           <Navigation isLoggedIn={isLoggedIn} />

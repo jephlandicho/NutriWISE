@@ -56,8 +56,10 @@ const MealPlanning = () => {
         return 4;
       case 'Dinner':
         return 5;
-      default:
+      case 'MidnightSnacks':
         return 6;
+      default:
+        return 7;
     }
   };
   

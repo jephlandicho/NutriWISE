@@ -14,7 +14,6 @@ const Lunch = () => {
   const [selectedSection, setSelectedSection] = useState('');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const sections = ['Vegetable', 'Fruit', 'Rice A', 'Rice B', 'Rice C', 'Milk', 'Low Fat Meat', 'Medium Fat Meat', 'Fat', 'Sugar'];
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
@@ -30,7 +29,10 @@ const Lunch = () => {
     setAMFLunch,
     setAHFLunch,
     setAFatLunch,
-    setASugarLunch } = useContext(ResultContext);
+    setASugarLunch,
+    AWholeMilkLunch,setAWholeMilkLunch,
+    ALFMilkLunch,setALFMilkLunch,
+    ANFMilkLunch,setANFMilkLunch, } = useContext(ResultContext);
 
   const { menuLunch, setmenuLunch,householdMeasureLunch, setHouseholdMeasureLunch }= useContext(ResultContext);
 
@@ -49,7 +51,9 @@ const Lunch = () => {
     { name: 'Rice A', value: AriceALunch },
     { name: 'Rice B', value: AriceBLunch },
     { name: 'Rice C', value: AriceCLunch },
-    { name: milkChoice, value: AMilkLunch },
+    { name: 'Whole Milk', value: AWholeMilkLunch },
+    { name: 'Low-Fat Milk', value: ALFMilkLunch },
+    { name: 'Non-Fat Milk', value: ANFMilkLunch },
     { name: 'Low Fat Meat', value: ALFLunch },
     { name: 'Medium Fat Meat', value: AMFLunch },
     { name: 'High Fat Meat', value: AHFLunch },
@@ -92,9 +96,15 @@ const Lunch = () => {
               case 'Rice C':
                 setAriceCLunch(lunch);
                 break;
-              case 'Milk':
-                setAMilkLunch(lunch);
+              case 'Whole Milk':
+                setAWholeMilkLunch(lunch);
                 break;
+              case 'Low-Fat Milk':
+                setALFMilkLunch(lunch);
+                break
+              case 'Non-Fat Milk':
+                setANFMilkLunch(lunch);
+                break
               case 'LF Meat':
                 setALFLunch(lunch);
                 break;

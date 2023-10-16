@@ -19,7 +19,9 @@ const db = SQLite.openDatabase('mydatabase.db');
 
 function ClientMeasurements() {
     const {waistC,hipC,varweight,varheight,pal,whr,bmi,dbw,carbs,protein,fats,TER,normal,
-      vegetableEx,fruitEx,milkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat,milkChoice} = useContext(ResultContext);
+      vegetableEx,fruitEx,setWholeMilkEx,setLFMilkEx,setNFMilkEx,WholeMilkEx,
+      LFMilkEx,
+      NFMilkEx,sugarEx,riceAEx,riceBEx,riceCEx,LFmeatEx,MFmeatEx,HFmeatEx,fatEx,totalKcal,totalCarbs,totalProtein,totalFat,milkChoice} = useContext(ResultContext);
       const [data, setData] = useState([]);
       const {AvegetablesBreakfast,
         AvegetablesAMSnacks,
@@ -76,6 +78,34 @@ function ClientMeasurements() {
         ASugarLunch,
         ASugarPMSnacks,
         ASugarDinner,
+        AWholeMilkBreakfast,
+        AWholeMilkAMSnacks,
+        AWholeMilkLunch,
+        AWholeMilkPMSnacks,
+        AWholeMilkDinner,
+        ALFMilkBreakfast,
+        ALFMilkAMSnacks,
+        ALFMilkLunch,
+        ALFMilkPMSnacks,
+        ALFMilkDinner,
+        ANFMilkBreakfast,
+        ANFMilkAMSnacks,
+        ANFMilkLunch,
+        ANFMilkPMSnacks,
+        ANFMilkDinner,
+        AvegetablesMidnightSnacks,
+        AfruitMidnightSnacks,
+        AriceAMidnightSnacks,
+        AriceBMidnightSnacks,
+        AriceCMidnightSnacks,
+        AWholeMilkMidnightSnacks,
+        ALFMilkMidnightSnacks,
+        ANFMilkMidnightSnacks,
+        ALFMidnightSnacks,
+        AMFMidnightSnacks,
+        AHFMidnightSnacks,
+        AFatMidnightSnacks,
+        ASugarMidnightSnacks,
         C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
       let palText;
       if (pal === '30') {
@@ -89,7 +119,6 @@ function ClientMeasurements() {
       }
 
       const [userData, setUserData] = useState(null);
-      const [isInExchangeStep, setIsInExchangeStep] = useState(false);
       const [isInMeasurementStep, setIsInMeasurementStep] = useState(true);
       const [isInExchangeComputationStep, setIsInExchangeComputationStep] = useState(false);
       const [isInExchangeDistributionStep, setIsInExchangeDistributionStep] = useState(false);
@@ -239,13 +268,15 @@ function ClientMeasurements() {
             );
 
             tx.executeSql(
-              'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)',
+              'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, wholeMilk, lfMilk,nfMilk, sugar, riceA, riceB, riceC, lfMeat, mfMeat, hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice, syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)',
               [
                 C_exchangesID,
                 C_MeasurementID,
                 vegetableEx,
                 fruitEx,
-                milkEx,
+                WholeMilkEx,
+                LFMilkEx,
+                NFMilkEx,
                 sugarEx,
                 riceAEx,
                 riceBEx,
@@ -272,100 +303,129 @@ function ClientMeasurements() {
               }
             );
 
-              const distributionExchangeData = [
-                {
-                  food_group: 'Vegetable',
-                  breakfast: AvegetablesBreakfast,
-                  am_snacks: AvegetablesAMSnacks,
-                  lunch: AvegetablesLunch,
-                  pm_snacks: AvegetablesPMSnacks,
-                  dinner: AvegetablesDinner,
-                },
-                {
-                  food_group: 'Fruit',
-                  breakfast: AfruitBreakfast,
-                  am_snacks: AfruitAMSnacks,
-                  lunch: AfruitLunch,
-                  pm_snacks: AfruitPMSnacks,
-                  dinner: AfruitDinner,
-                },
-                {
-                  food_group: 'Rice A',
-                  breakfast: AriceABreakfast,
-                  am_snacks: AriceAAMSnacks,
-                  lunch: AriceALunch,
-                  pm_snacks: AriceAPMSnacks,
-                  dinner: AriceADinner,
-                },
-                {
-                  food_group: 'Rice B',
-                  breakfast: AriceBBreakfast,
-                  am_snacks: AriceBAMSnacks,
-                  lunch: AriceBLunch,
-                  pm_snacks: AriceBPMSnacks,
-                  dinner: AriceBDinner,
-                },
-                {
-                  food_group: 'Rice C',
-                  breakfast: AriceCBreakfast,
-                  am_snacks: AriceCAMSnacks,
-                  lunch: AriceCLunch,
-                  pm_snacks: AriceCPMSnacks,
-                  dinner: AriceCDinner,
-                },
-                {
-                  food_group: 'Milk',
-                  breakfast: AMilkBreakfast,
-                  am_snacks: AMilkAMSnacks,
-                  lunch: AMilkLunch,
-                  pm_snacks: AMilkPMSnacks,
-                  dinner: AMilkDinner,
-                },
-                {
-                  food_group: 'LF Meat',
-                  breakfast: ALFBreakfast,
-                  am_snacks: ALFAMSnacks,
-                  lunch: ALFLunch,
-                  pm_snacks: ALFPMSnacks,
-                  dinner: ALFDinner,
-                },
-                {
-                  food_group: 'MF Meat',
-                  breakfast: AMFBreakfast,
-                  am_snacks: AMFAMSnacks,
-                  lunch: AMFLunch,
-                  pm_snacks: AMFPMSnacks,
-                  dinner: AMFDinner,
-                },
-                {
-                  food_group: 'HF Meat',
-                  breakfast: AHFBreakfast,
-                  am_snacks: AHFAMSnacks,
-                  lunch: AHFLunch,
-                  pm_snacks: AHFPMSnacks,
-                  dinner: AHFDinner,
-                },
-                {
-                  food_group: 'Fat',
-                  breakfast: AFatBreakfast,
-                  am_snacks: AFatAMSnacks,
-                  lunch: AFatLunch,
-                  pm_snacks: AFatPMSnacks,
-                  dinner: AFatDinner,
-                },
-                {
-                  food_group: 'Sugar',
-                  breakfast: ASugarBreakfast,
-                  am_snacks: ASugarAMSnacks,
-                  lunch: ASugarLunch,
-                  pm_snacks: ASugarPMSnacks,
-                  dinner: ASugarDinner,
-                },
-              ];
+            const distributionExchangeData = [
+              {
+                food_group: 'Vegetable',
+                breakfast: AvegetablesBreakfast,
+                am_snacks: AvegetablesAMSnacks,
+                lunch: AvegetablesLunch,
+                pm_snacks: AvegetablesPMSnacks,
+                dinner: AvegetablesDinner,
+                midnight_snacks: AvegetablesMidnightSnacks
+              },
+              {
+                food_group: 'Fruit',
+                breakfast: AfruitBreakfast,
+                am_snacks: AfruitAMSnacks,
+                lunch: AfruitLunch,
+                pm_snacks: AfruitPMSnacks,
+                dinner: AfruitDinner,
+                midnight_snacks: AfruitMidnightSnacks
+              },
+              {
+                food_group: 'Rice A',
+                breakfast: AriceABreakfast,
+                am_snacks: AriceAAMSnacks,
+                lunch: AriceALunch,
+                pm_snacks: AriceAPMSnacks,
+                dinner: AriceADinner,
+                midnight_snacks: AriceAMidnightSnacks
+              },
+              {
+                food_group: 'Rice B',
+                breakfast: AriceBBreakfast,
+                am_snacks: AriceBAMSnacks,
+                lunch: AriceBLunch,
+                pm_snacks: AriceBPMSnacks,
+                dinner: AriceBDinner,
+                midnight_snacks: AriceBMidnightSnacks
+              },
+              {
+                food_group: 'Rice C',
+                breakfast: AriceCBreakfast,
+                am_snacks: AriceCAMSnacks,
+                lunch: AriceCLunch,
+                pm_snacks: AriceCPMSnacks,
+                dinner: AriceCDinner,
+                midnight_snacks: AriceCMidnightSnacks
+              },
+              {
+                food_group: 'Whole Milk',
+                breakfast: AWholeMilkBreakfast,
+                am_snacks: AWholeMilkAMSnacks,
+                lunch: AWholeMilkLunch,
+                pm_snacks: AWholeMilkPMSnacks,
+                dinner: AWholeMilkDinner,
+                midnight_snacks: AWholeMilkMidnightSnacks
+              },
+              {
+                food_group: 'Low-Fat Milk',
+                breakfast: ALFMilkBreakfast,
+                am_snacks: ALFMilkAMSnacks,
+                lunch: ALFMilkLunch,
+                pm_snacks: ALFMilkPMSnacks,
+                dinner: ALFMilkDinner,
+                midnight_snacks: ALFMilkMidnightSnacks
+              },
+              {
+                food_group: 'Non-Fat Milk',
+                breakfast: ANFMilkBreakfast,
+                am_snacks: ANFMilkAMSnacks,
+                lunch: ANFMilkLunch,
+                pm_snacks: ANFMilkPMSnacks,
+                dinner: ANFMilkDinner,
+                midnight_snacks: ANFMilkMidnightSnacks
+              },
+              {
+                food_group: 'LF Meat',
+                breakfast: ALFBreakfast,
+                am_snacks: ALFAMSnacks,
+                lunch: ALFLunch,
+                pm_snacks: ALFPMSnacks,
+                dinner: ALFDinner,
+                midnight_snacks: ALFMidnightSnacks
+              },
+              {
+                food_group: 'MF Meat',
+                breakfast: AMFBreakfast,
+                am_snacks: AMFAMSnacks,
+                lunch: AMFLunch,
+                pm_snacks: AMFPMSnacks,
+                dinner: AMFDinner,
+                midnight_snacks: AMFMidnightSnacks
+              },
+              {
+                food_group: 'HF Meat',
+                breakfast: AHFBreakfast,
+                am_snacks: AHFAMSnacks,
+                lunch: AHFLunch,
+                pm_snacks: AHFPMSnacks,
+                dinner: AHFDinner,
+                midnight_snacks: AHFMidnightSnacks
+              },
+              {
+                food_group: 'Fat',
+                breakfast: AFatBreakfast,
+                am_snacks: AFatAMSnacks,
+                lunch: AFatLunch,
+                pm_snacks: AFatPMSnacks,
+                dinner: AFatDinner,
+                midnight_snacks: AFatMidnightSnacks
+              },
+              {
+                food_group: 'Sugar',
+                breakfast: ASugarBreakfast,
+                am_snacks: ASugarAMSnacks,
+                lunch: ASugarLunch,
+                pm_snacks: ASugarPMSnacks,
+                dinner: ASugarDinner,
+                midnight_snacks: ASugarMidnightSnacks
+              },
+            ];
       
               distributionExchangeData.forEach((row,index) => {
                 tx.executeSql(
-                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?)',
+                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,midnight_snacks,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)',
                   [
                     C_exchangesID,
                     row.food_group,
@@ -374,6 +434,7 @@ function ClientMeasurements() {
                     row.lunch,
                     row.pm_snacks,
                     row.dinner,
+                    row.midnight_snacks,
                     0
                   ],
                   () => {
@@ -562,16 +623,26 @@ function ClientMeasurements() {
                       <Text>{item.fruit}</Text>
                       </View>
                       <View style={styles.cell}>
-                      <Text style={styles.header}>Milk</Text>
-                      <Text>{item.milk}</Text>
-                      </View>
-                      <View style={styles.cell}>
                       <Text style={styles.header}>Sugar</Text>
                       <Text>{item.sugar}</Text>
                       </View>
                       <View style={styles.cell}>
                       <Text style={styles.header}>Fat</Text>
                       <Text>{item.fat}</Text>
+                      </View>
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.cell}>
+                      <Text style={styles.header}>Whole Milk</Text>
+                      <Text>{item.wholeMilk}</Text>
+                      </View>
+                      <View style={styles.cell}>
+                      <Text style={styles.header}>Low-Fat Milk</Text>
+                      <Text>{item.lfMilk}</Text>
+                      </View>
+                      <View style={styles.cell}>
+                      <Text style={styles.header}>Non-Fat Milk</Text>
+                      <Text>{item.nfMilk}</Text>
                       </View>
                   </View>
                   <View style={{ flexDirection: 'row' }}>

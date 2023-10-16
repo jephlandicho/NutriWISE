@@ -82,11 +82,6 @@ function MeasurementSummary() {
     AriceCLunch,
     AriceCPMSnacks,
     AriceCDinner,
-    AMilkBreakfast,
-    AMilkAMSnacks,
-    AMilkLunch,
-    AMilkPMSnacks,
-    AMilkDinner,
     ALFBreakfast,
     ALFAMSnacks,
     ALFLunch,
@@ -120,6 +115,41 @@ function MeasurementSummary() {
     milkChoice
   } = useContext(ResultContext);
 
+  const {
+    WholeMilkEx, 
+      LFMilkEx, 
+      NFMilkEx, 
+
+      AWholeMilkBreakfast,
+    AWholeMilkAMSnacks,
+    AWholeMilkLunch,
+    AWholeMilkPMSnacks,
+    AWholeMilkDinner,
+    ALFMilkBreakfast,
+    ALFMilkAMSnacks,
+    ALFMilkLunch,
+    ALFMilkPMSnacks,
+    ALFMilkDinner,
+    ANFMilkBreakfast,
+    ANFMilkAMSnacks,
+    ANFMilkLunch,
+    ANFMilkPMSnacks,
+    ANFMilkDinner,
+
+    AvegetablesMidnightSnacks,
+    AfruitMidnightSnacks,
+    AriceAMidnightSnacks,
+    AriceBMidnightSnacks,
+    AriceCMidnightSnacks,
+    AWholeMilkMidnightSnacks,
+    ALFMilkMidnightSnacks,
+    ANFMilkMidnightSnacks,
+    ALFMidnightSnacks,
+    AMFMidnightSnacks,
+    AHFMidnightSnacks,
+    AFatMidnightSnacks,
+    ASugarMidnightSnacks} = useContext(ResultContext)
+
   let palText;
   if (pal === '30') {
     palText = 'Sedentary';
@@ -150,6 +180,7 @@ function MeasurementSummary() {
 
   useEffect(() => {
     getUserData();
+    consolelog()
     setCAge(calculateAge(birthdate));
     const uniqueCode = generateUniqueSixDigitCode();
     setClientID(uniqueCode);
@@ -165,7 +196,6 @@ function MeasurementSummary() {
     const mt_ID = generateUniqueSixDigitCode();
     const finalmt_ID =  '03' + mt_ID 
     setC_meal_titleID(finalmt_ID)
-
     // Check if the client table exists
     db.transaction((tx) => {
       tx.executeSql(
@@ -252,7 +282,9 @@ function MeasurementSummary() {
                 measurement_id INTEGER,
                 vegetables REAL,
                 fruit REAL,
-                milk REAL,
+                wholeMilk REAL,
+                lfMilk REAL,
+                nfMilk REAL,
                 sugar REAL,
                 riceA REAL,
                 riceB REAL,
@@ -303,6 +335,7 @@ function MeasurementSummary() {
                 lunch REAL,
                 pm_snacks REAL,
                 dinner REAL,
+                midnight_snacks REAL,
                 syncData INTEGER,
                 FOREIGN KEY (exchange_id) REFERENCES exchanges(id)
               )`,
@@ -368,7 +401,87 @@ function MeasurementSummary() {
     return years.toString();
   }
   
+const consolelog = () =>{
+  console.log(    AvegetablesBreakfast,
+    AvegetablesAMSnacks,
+    AvegetablesLunch,
+    AvegetablesPMSnacks,
+    AvegetablesDinner,
+    AfruitBreakfast,
+    AfruitAMSnacks,
+    AfruitLunch,
+    AfruitPMSnacks,
+    AfruitDinner,
+    AriceABreakfast,
+    AriceAAMSnacks,
+    AriceALunch,
+    AriceAPMSnacks,
+    AriceADinner,
+    AriceBBreakfast,
+    AriceBAMSnacks,
+    AriceBLunch,
+    AriceBPMSnacks,
+    AriceBDinner,
+    AriceCBreakfast,
+    AriceCAMSnacks,
+    AriceCLunch,
+    AriceCPMSnacks,
+    AriceCDinner,
+    ALFBreakfast,
+    ALFAMSnacks,
+    ALFLunch,
+    ALFPMSnacks,
+    ALFDinner,
+    AMFBreakfast,
+    AMFAMSnacks,
+    AMFLunch,
+    AMFPMSnacks,
+    AMFDinner,
+    AHFBreakfast,
+    AHFAMSnacks,
+    AHFLunch,
+    AHFPMSnacks,
+    AHFDinner,
+    AFatBreakfast,
+    AFatAMSnacks,
+    AFatLunch,
+    AFatPMSnacks,
+    AFatDinner,
+    ASugarBreakfast,
+    ASugarAMSnacks,
+    ASugarLunch,
+    ASugarPMSnacks,
+    ASugarDinner,
+    AWholeMilkBreakfast,
+    AWholeMilkAMSnacks,
+    AWholeMilkLunch,
+    AWholeMilkPMSnacks,
+    AWholeMilkDinner,
+    ALFMilkBreakfast,
+    ALFMilkAMSnacks,
+    ALFMilkLunch,
+    ALFMilkPMSnacks,
+    ALFMilkDinner,
+    ANFMilkBreakfast,
+    ANFMilkAMSnacks,
+    ANFMilkLunch,
+    ANFMilkPMSnacks,
+    ANFMilkDinner,
 
+    AvegetablesMidnightSnacks,
+    AfruitMidnightSnacks,
+    AriceAMidnightSnacks,
+    AriceBMidnightSnacks,
+    AriceCMidnightSnacks,
+    AWholeMilkMidnightSnacks,
+    ALFMilkMidnightSnacks,
+    ANFMilkMidnightSnacks,
+    ALFMidnightSnacks,
+    AMFMidnightSnacks,
+    AHFMidnightSnacks,
+    AFatMidnightSnacks,
+    ASugarMidnightSnacks)
+}
   const insertData = () => {
     console.log(milkChoice)
     db.transaction((tx) => {
@@ -408,13 +521,15 @@ function MeasurementSummary() {
         (tx, resultSet) => {
           const measurementId = resultSet.insertId;
           tx.executeSql(
-            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, milk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)',
+            'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, wholeMilk, lfMilk,nfMilk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,milkChoice,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)',
             [
               C_exchangesID,
               measurementId,
               vegetableEx,
               fruitEx,
-              milkEx,
+              WholeMilkEx,
+              LFMilkEx,
+              NFMilkEx,
               sugarEx,
               riceAEx,
               riceBEx,
@@ -441,6 +556,7 @@ function MeasurementSummary() {
                   lunch: AvegetablesLunch,
                   pm_snacks: AvegetablesPMSnacks,
                   dinner: AvegetablesDinner,
+                  midnight_snacks: AvegetablesMidnightSnacks
                 },
                 {
                   food_group: 'Fruit',
@@ -449,6 +565,7 @@ function MeasurementSummary() {
                   lunch: AfruitLunch,
                   pm_snacks: AfruitPMSnacks,
                   dinner: AfruitDinner,
+                  midnight_snacks: AfruitMidnightSnacks
                 },
                 {
                   food_group: 'Rice A',
@@ -457,6 +574,7 @@ function MeasurementSummary() {
                   lunch: AriceALunch,
                   pm_snacks: AriceAPMSnacks,
                   dinner: AriceADinner,
+                  midnight_snacks: AriceAMidnightSnacks
                 },
                 {
                   food_group: 'Rice B',
@@ -465,6 +583,7 @@ function MeasurementSummary() {
                   lunch: AriceBLunch,
                   pm_snacks: AriceBPMSnacks,
                   dinner: AriceBDinner,
+                  midnight_snacks: AriceBMidnightSnacks
                 },
                 {
                   food_group: 'Rice C',
@@ -473,14 +592,34 @@ function MeasurementSummary() {
                   lunch: AriceCLunch,
                   pm_snacks: AriceCPMSnacks,
                   dinner: AriceCDinner,
+                  midnight_snacks: AriceCMidnightSnacks
                 },
                 {
-                  food_group: 'Milk',
-                  breakfast: AMilkBreakfast,
-                  am_snacks: AMilkAMSnacks,
-                  lunch: AMilkLunch,
-                  pm_snacks: AMilkPMSnacks,
-                  dinner: AMilkDinner,
+                  food_group: 'Whole Milk',
+                  breakfast: AWholeMilkBreakfast,
+                  am_snacks: AWholeMilkAMSnacks,
+                  lunch: AWholeMilkLunch,
+                  pm_snacks: AWholeMilkPMSnacks,
+                  dinner: AWholeMilkDinner,
+                  midnight_snacks: AWholeMilkMidnightSnacks
+                },
+                {
+                  food_group: 'Low-Fat Milk',
+                  breakfast: ALFMilkBreakfast,
+                  am_snacks: ALFMilkAMSnacks,
+                  lunch: ALFMilkLunch,
+                  pm_snacks: ALFMilkPMSnacks,
+                  dinner: ALFMilkDinner,
+                  midnight_snacks: ALFMilkMidnightSnacks
+                },
+                {
+                  food_group: 'Non-Fat Milk',
+                  breakfast: ANFMilkBreakfast,
+                  am_snacks: ANFMilkAMSnacks,
+                  lunch: ANFMilkLunch,
+                  pm_snacks: ANFMilkPMSnacks,
+                  dinner: ANFMilkDinner,
+                  midnight_snacks: ANFMilkMidnightSnacks
                 },
                 {
                   food_group: 'LF Meat',
@@ -489,6 +628,7 @@ function MeasurementSummary() {
                   lunch: ALFLunch,
                   pm_snacks: ALFPMSnacks,
                   dinner: ALFDinner,
+                  midnight_snacks: ALFMidnightSnacks
                 },
                 {
                   food_group: 'MF Meat',
@@ -497,6 +637,7 @@ function MeasurementSummary() {
                   lunch: AMFLunch,
                   pm_snacks: AMFPMSnacks,
                   dinner: AMFDinner,
+                  midnight_snacks: AMFMidnightSnacks
                 },
                 {
                   food_group: 'HF Meat',
@@ -505,6 +646,7 @@ function MeasurementSummary() {
                   lunch: AHFLunch,
                   pm_snacks: AHFPMSnacks,
                   dinner: AHFDinner,
+                  midnight_snacks: AHFMidnightSnacks
                 },
                 {
                   food_group: 'Fat',
@@ -513,6 +655,7 @@ function MeasurementSummary() {
                   lunch: AFatLunch,
                   pm_snacks: AFatPMSnacks,
                   dinner: AFatDinner,
+                  midnight_snacks: AFatMidnightSnacks
                 },
                 {
                   food_group: 'Sugar',
@@ -521,13 +664,14 @@ function MeasurementSummary() {
                   lunch: ASugarLunch,
                   pm_snacks: ASugarPMSnacks,
                   dinner: ASugarDinner,
+                  midnight_snacks: ASugarMidnightSnacks
                 },
               ];
       
               // Insert multiple rows into the distribution_exchange table
               distributionExchangeData.forEach((row,index) => {
                 tx.executeSql(
-                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?)',
+                  'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,midnight_snacks,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)',
                   [
                     exchangeId,
                     row.food_group,
@@ -536,6 +680,7 @@ function MeasurementSummary() {
                     row.lunch,
                     row.pm_snacks,
                     row.dinner,
+                    row.midnight_snacks,
                     0
                   ],
                   () => {
@@ -550,7 +695,7 @@ function MeasurementSummary() {
 
                   tx.executeSql(
                     'INSERT INTO meal_title (id,exchanges_id, meal_title,syncData) VALUES (?,?, ?,?)',
-                    [C_meal_titleID,exchangeId, clientName +' One Day Menu',0],
+                    [C_meal_titleID,exchangeId, 'One Day Menu',0],
                     (_, { rowsAffected, insertId }) => {
                       if (rowsAffected > 0) {
                         console.log('Meal title saved successfully');
@@ -676,12 +821,22 @@ function MeasurementSummary() {
           <Text> {fruitEx} </Text>
         </View>
         <View style={styles.column}>
-          <Text>Milk</Text>
-          <Text> {milkEx} </Text>
-        </View>
-        <View style={styles.column}>
           <Text>Sugar</Text>
           <Text> {sugarEx}</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text>Whole Milk</Text>
+          <Text> {WholeMilkEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Low-Fat Milk</Text>
+          <Text> {LFMilkEx} </Text>
+        </View>
+        <View style={styles.column}>
+          <Text>Non-Fat Milk</Text>
+          <Text> {NFMilkEx}</Text>
         </View>
       </View>
       <View style={styles.row}>
@@ -700,15 +855,15 @@ function MeasurementSummary() {
       </View>
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text>LF Meat</Text>
+          <Text>L-Fat Meat</Text>
           <Text> {LFmeatEx} </Text>
         </View>
         <View style={styles.column}>
-          <Text>MF Meat</Text>
+          <Text>M-Fat Meat</Text>
           <Text> {MFmeatEx} </Text>
         </View>
         <View style={styles.column}>
-          <Text>HF Meat</Text>
+          <Text>H-Fat Meat</Text>
           <Text> {HFmeatEx} </Text>
         </View>
         <View style={styles.column}>
