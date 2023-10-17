@@ -354,7 +354,8 @@ function MealPlanName() {
               <th class="othercells">Supper</th>
               <th class="othercells">Midnight Snacks</th>
             </tr>
-            <tr class="cells2">
+            
+          <tr class="cells2">
             <td colspan="3" class="cells2">Vegetable</td>
             <td class="cells">${vegetables}</td>
             <td class="cells">${vegBreakfast}</td>
@@ -552,7 +553,7 @@ function MealPlanName() {
 
           const mealNameCell =
             index === 0
-              ? `<td class="cells" rowspan="${rowspan}">${mealTime}</td><td class="cells"></td><td class="cells"></td><td class="cells">${item.meal_name}</td><td class="cells"></td>`
+              ? `<td class="cells" rowspan="${rowspan}">${mealTime}</td><td class="cells" colspan="4" style=" font-weight: bold;">${item.meal_name}</td>`
               : '';
       
               let rowData = `

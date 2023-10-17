@@ -7,7 +7,6 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 import { PieChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
-import SyncComponent from '../Components/SyncComponent';
 
 
 const Home = () => {
@@ -91,7 +90,6 @@ const Home = () => {
   console.log(totalRemarkCount)
   return (
     <PaperProvider theme={MyTheme}>
-      <SyncComponent/>
       <View style={styles.container}>
         <ScrollView>
           {userData && (

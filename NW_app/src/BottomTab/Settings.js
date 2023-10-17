@@ -154,12 +154,6 @@ const updateTable = async (tableName) => {
         <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
           <Text style={styles.settingLabel}>Privacy Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingItem} onPress={handleDeleteTables}>
-          <Text style={styles.settingLabel}>Reset</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.settingItem} onPress={syncTable}>
-          <Text style={styles.settingLabel}>Reset Sync</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
