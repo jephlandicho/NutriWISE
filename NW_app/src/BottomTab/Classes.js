@@ -232,6 +232,7 @@ const Classes = () => {
 
               </View>
               <View>
+              
                 <TouchableOpacity
                   style={styles.actionButton}
                   onPress={() => handleDelete(classroom.id)}
@@ -289,8 +290,9 @@ const Classes = () => {
               classData.class_code,
               classData.description
             );
-            Alert.alert('Classroom Found!', 'Classroom has been added to your list of classes');
             fetchClassesFromDatabase();
+            Alert.alert('Classroom Found!', 'Classroom has been added to your list of classes');
+            
   
           } catch (error) {
             Alert.alert('Error', 'An error occurred while inserting data to the database');
@@ -365,6 +367,13 @@ const Classes = () => {
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
           <View style={styles.meabuttonContainer}>
+                  <TouchableOpacity style={styles.meabutton1}
+                    onPress={() => {
+                      fetchClassesFromDatabase();
+                    }}
+                  >
+                  <Ionicons name="refresh" size={30} color="green" />
+                </TouchableOpacity>
             <TouchableOpacity style={styles.meabutton} onPress={toggleModal}>
               <Text style={styles.buttonText}>
                 <Ionicons name="add-circle-outline" size={20} color="black" /> Add
@@ -419,7 +428,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   classroomCard: {
-    marginBottom: 16,
+    marginBottom: 13,
     borderRadius: 8,
     elevation: 4,
     padding: 10,
@@ -465,6 +474,12 @@ const styles = StyleSheet.create({
   actionButton: {
     flex: 0.45, // Adjust the flex value to control the width of the buttons
   },
+  meabutton1:{
+    width: '25%',
+    marginRight: '50%',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   meabutton: {
     width: '25%',
     marginVertical: 5,
@@ -474,7 +489,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   meabuttonContainer: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    marginBottom: 5
   },
   buttonText: {
     fontSize: 20,

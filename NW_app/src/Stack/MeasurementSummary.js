@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button,Alert } from 'react-native';
+import { StyleSheet, View, Text, Button,Alert,ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { ResultContext } from '../Components/ResultContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -725,6 +725,7 @@ const consolelog = () =>{
   };
 
   return (
+    <ScrollView style={styles.Scrollcontainer}>
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.column}>
@@ -904,12 +905,15 @@ const consolelog = () =>{
       </View>
       <Button title="Save Data" onPress={insertData} />
     </View>
-    
+    </ScrollView>
 
   );
 }
 
 const styles = StyleSheet.create({
+  Scrollcontainer: {
+    backgroundColor: '#FFFF',
+  },
   container: {
     backgroundColor: '#FFFF',
     flex: 1,
