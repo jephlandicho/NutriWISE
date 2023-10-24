@@ -11,7 +11,6 @@ import Home from '../BottomTab/Home';
 import Client from '../BottomTab/Client';
 import MealPlan from '../BottomTab/MealPlan';
 import Anthro from '../Stack/Anthro';
-import Classes from '../BottomTab/Classes';
 import Settings from '../BottomTab/Settings';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
@@ -27,11 +26,6 @@ import PMSnacks from '../Stack/MealPlanning/PMSnacks';
 import Dinner from '../Stack/MealPlanning/Dinner';
 import MidSnacks from '../Stack/MealPlanning/MidSnacks';
 import MealPlanning from '../Stack/MealPlanning';
-import Stream from '../Stack/Stream';
-import Materials from '../Stack/Materials';
-
-import SignInScreen from '../Auth/SignInScreen';
-import SignUpScreen from '../Auth/SignUpScreen';
 
 import { ResultProvider } from '../Components/ResultContext';
 
@@ -123,8 +117,6 @@ function TabNavigator() {
             iconName = focused ? 'ios-people' : 'ios-people-outline';
           } else if (route.name === 'MealPlan') {
             iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
-          } else if (route.name === 'Classes') {
-            iconName = focused ? 'ios-book' : 'ios-book-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'ios-settings' : 'ios-settings-outline';
           }
@@ -150,14 +142,6 @@ function TabNavigator() {
           options={{
         headerShown: false,
       }}/>
-      {/* <Tab.Screen name='MealPlan' component={MealPlanScreens} 
-            options={{
-              headerShown: false,
-            }}/> */}
-      <Tab.Screen name='Classes' component={ClassesScreen} 
-        options={{
-          headerShown: false,
-        }}/>
       <Tab.Screen name='Settings' component={SettingsScreen} 
       options={{
         headerShown: false,
@@ -462,91 +446,6 @@ function StackNavigator() {
   );
 }
 
-// function AuthNavigator() {
-//   return (
-//     <AuthStack.Navigator
-//       screenOptions={{
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//           fontWeight: 'bold',
-//         },
-//         headerTitleAlign: 'center',
-//       }}
-//     >
-//       <AuthStack.Screen
-//         name='SignIn'
-//         component={SignInScreen}
-//         options={({ navigation }) => ({
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Sign In
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//       <AuthStack.Screen
-//         name='SignUp'
-//         component={SignUpScreen}
-//         options={({ navigation }) => ({
-//           headerTitle: () => (
-//             <View style={styles.headerTitleCon}>
-//               <Text style={styles.headerTitle}>
-//                 Sign Up
-//               </Text>
-//             </View>
-//           ),
-//         })}
-//       />
-//     </AuthStack.Navigator>
-//   );
-// }
-
-function ClassesScreen(){
-  return(
-    <Stack.Navigator
-    screenOptions={{
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-      headerTitleAlign: 'center', // Center-align the header title
-      headerLeftContainerStyle: { marginLeft: 10 }, // Add margin to the left of the header left component
-    }}>
-      <Stack.Screen
-        name='Class'
-        component={Classes}
-        options={({ navigation }) => ({
-          headerTitle: () => (
-            <View style={styles.headerTitleCon}>
-              <Text style={styles.headerTitle}>
-                Classes
-              </Text>
-            </View>
-          ),
-        })}
-      />
-      <Stack.Screen
-        name='Stream'
-        component={Stream}
-        options={({ navigation }) => ({
-          headerTitle: () => (
-            <View style={styles.headerTitleCon}>
-              <Text style={styles.headerTitle}>
-                Stream
-              </Text>
-            </View>
-          ),
-        })}
-      />
-      <Stack.Screen
-        name='Materials'
-        component={Materials}
-      />
-    </Stack.Navigator>
-  )
-}
 
 function SettingsScreen(){
   return(

@@ -46,10 +46,57 @@ const Breakfast = () => {
       setFoods(sectionData);
       setFilteredFoods(sectionData);
     }
+    
+    if (selectedSection === 'Recommended') {
+      const criteria = {
+        'Fruit': AfruitBreakfast,
+        'Rice A': AriceABreakfast,
+        'Rice B': AriceBBreakfast,
+        'Rice C': AriceCBreakfast,
+        'Low Fat Meat': ALFBreakfast,
+        'Medium Fat Meat': AMFBreakfast,
+        'High Fat Meat': AHFBreakfast,
+        'Fat': AFatBreakfast,
+        'Sugar': ASugarBreakfast,
+      };
+    
+      const filteredFoods = foodsData.filter((food) => {
+        if (food.recom === 'Recommended') {
+          const exchangeGroups = food.meal_group || [];
+          const exchanges = food.exchange || [];
+    
+          // Check if any of the criteria match
+          const meetsCriteria = Object.entries(criteria).every(([group, requiredValue]) => {
+            const groupIndex = exchangeGroups.indexOf(group);
+            
+            // Check if the group is found in the exchangeGroups
+            if (groupIndex !== -1) {
+              return exchanges[groupIndex] === requiredValue;
+            }
+            
+            // If the group is not found in the exchangeGroups, consider it as a match
+            return true;
+          });
+    
+          return meetsCriteria;
+        }
+        return false;
+      });
+    
+      setFoods(filteredFoods);
+      setFilteredFoods(filteredFoods);
+    }
+     else{
+      const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
+      setFoods(sectionData);
+      setFilteredFoods(sectionData);
+    }
+    
   };
 
   const sectionsWithVal = [
-    { name: 'Food Group', value: 'Exchange' },
+    { name: 'Food Group',value: 'Exchanges'},
+    { name: 'Recommended',value: 1},
     { name: 'Vegetable', value: AvegetablesBreakfast },
     { name: 'Fruit', value: AfruitBreakfast },
     { name: 'Rice A', value: AriceABreakfast },
@@ -81,7 +128,7 @@ const Breakfast = () => {
         (_, { rows }) => {
           const data = rows._array;
           setTableData(data);
-          console.log(data)
+
   
           // Assign the fetched data to the respective variables
           data.forEach((item) => {
@@ -256,8 +303,13 @@ const Breakfast = () => {
             onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
           >
             {sectionsWithVal.map((section) => (
-              <Picker.Item key={section.name} label={`${section.name}   (${section.value})`} value={section.name} />
-            ))}
+            <Picker.Item
+              key={section.name}
+              label={section.name === "Recommended" ? section.name : `${section.name} (${section.value})`}
+              value={section.name}
+            />
+          ))}
+
           </Picker>
         </View>
       </View>      
@@ -286,9 +338,14 @@ const Breakfast = () => {
             onPress={() => addFoodToMeal(selectedSection, food)}
           >
             <Text style={styles.foodButtonText}>
-              {food.meal_name}
-              {food.household_measure ? ` - ${food.household_measure}` : ''}
-            </Text>
+            {food.meal_name}
+            {food.household_measure ? ` - ${food.household_measure}` : ''}
+            {food.recom === 'Recommended' && food.meal_group && food.meal_group.length > 0 ? (
+              ` ( ${food.meal_group.map((group, index) => (
+                `${group} = ${food.exchange[index]}`
+              )).join(', ')} )`
+            ) : ''}
+</Text>
           </TouchableOpacity>
         )}
       />
@@ -305,40 +362,73 @@ const Breakfast = () => {
         </View>
       </View>
       <FlatList
-        style={styles.mealPlanContainer}
-        data={Object.entries(breakfast)}
-        keyExtractor={(item) => item[0]} // Use the section as the key
-        renderItem={({ item }) => (
-          <View style={styles.mealPlanSection}>
-            <Text style={styles.mealPlanSectionTitle}>{item[0]}</Text>
-            <FlatList
-              data={item[1]} // Foods for the section
-              keyExtractor={(food) => food.id.toString()}
-              renderItem={({ item: food, index }) => (
-                <View key={food.id}>
-                  {!food.household_measure && index === 0 && showHouseholdMeasure && (
-                    <TextInput
-                      style={styles.menuBar}
-                      value={householdMeasureBreakfast}
-                      onChangeText={setHouseholdMeasureBreakfast}
-                      placeholder="Household measure"
-                    />
-                  )}
-                  <TouchableOpacity
-                    style={styles.mealPlanFood}
-                    onPress={() => deleteFoodFromMeal(item[0], food)}
-                  >
-                    <Text>
-                      {food.meal_name}
-                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
+  style={styles.mealPlanContainer}
+  data={Object.entries(breakfast)}
+  keyExtractor={(item) =>
+    item[0] === "Recommended"
+      ? item[1][0].meal_group.join(", ")
+      : item[0]
+  }
+  renderItem={({ item }) => (
+    <View style={styles.mealPlanSection}>
+      {item[0] === "Recommended" ? (
+        item[1].map((food) => (
+          <View key={food.id}>
+            <Text style={styles.mealPlanSectionTitle}>
+              {food.meal_group.join(", ")}
+            </Text>
+            {food.household_measure === false && showHouseholdMeasure && (
+              <TextInput
+                style={styles.menuBar}
+                value={householdMeasureBreakfast}
+                onChangeText={setHouseholdMeasureBreakfast}
+                placeholder="Household measure"
+              />
+            )}
+            <TouchableOpacity
+              style={styles.mealPlanFood}
+              onPress={() => deleteFoodFromMeal("Recommended", food)}
+            >
+              <Text>
+                {food.meal_name}
+                {food.measurementInfo ? ` - ${food.measurementInfo}` : ""}
+              </Text>
+            </TouchableOpacity>
           </View>
-        )}
-      />
+        ))
+      ) : (
+        <View>
+          <Text style={styles.mealPlanSectionTitle}>{item[0]}</Text>
+          <FlatList
+            data={item[1]}
+            keyExtractor={(food) => food.id.toString()}
+            renderItem={({ item: food, index }) => (
+              <View key={food.id}>
+                {!food.household_measure && index === 0 && showHouseholdMeasure && (
+                  <TextInput
+                    style={styles.menuBar}
+                    value={householdMeasureBreakfast}
+                    onChangeText={setHouseholdMeasureBreakfast}
+                    placeholder="Household measure"
+                  />
+                )}
+                <TouchableOpacity
+                  style={styles.mealPlanFood}
+                  onPress={() => deleteFoodFromMeal(item[0], food)}
+                >
+                  <Text>
+                    {food.meal_name}
+                    {food.measurementInfo ? ` - ${food.measurementInfo}` : ""}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
+      )}
+    </View>
+  )}
+/>
 
     </View>
   );

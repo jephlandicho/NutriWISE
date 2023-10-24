@@ -75,6 +75,7 @@ const MealPlanResult = () => {
     setMealPMSnacksID(p_ID)
     setMealDinnerID(d_ID)
     setMidSnacksID(m_ID)
+    console.log(parsedbreakfast)
   }, []);
 
   const createTables = () => {

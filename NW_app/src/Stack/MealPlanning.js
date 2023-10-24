@@ -65,7 +65,7 @@ const MealPlanning = () => {
   
   const getMealDataFromId = (foodId) => {
     const meal = meals.find((m) => m.id === foodId);
-    return meal ? { mealName: meal.meal_name, mealGroup: meal.meal_group, mealMeasure: meal.household_measure } : { mealName: '', mealGroup: '', mealMeasure: '' };
+    return meal ? { mealName: meal.meal_name, mealGroup: meal.meal_group, mealMeasure: meal.household_measure, mealExchange: meal.exchange } : { mealName: '', mealGroup: '', mealMeasure: '',mealExchange: '' };
   };
 
   const toggleCardExpansion = (cardKey) => {
@@ -103,6 +103,7 @@ const MealPlanning = () => {
       const mealGroup = getMealDataFromId(item.food_id).mealGroup;
       const mealName = getMealDataFromId(item.food_id).mealName;
       const mealMeasure = getMealDataFromId(item.food_id).mealMeasure;
+      const mealExchange = getMealDataFromId(item.food_id).mealExchange
       const exchangeDistribution = item.exchange_distribution;
       const key = `${mealGroup}`;
 
@@ -111,10 +112,10 @@ const MealPlanning = () => {
       }
 
       if (!acc[key].displayedExchangeDistribution) {
-        acc[key].foods.push({ item, mealName, mealGroup, mealMeasure, exchangeDistribution });
+        acc[key].foods.push({ item, mealName, mealGroup, mealMeasure,mealExchange, exchangeDistribution });
         acc[key].displayedExchangeDistribution = true;
       } else {
-        acc[key].foods.push({ item, mealName, mealGroup, mealMeasure });
+        acc[key].foods.push({ item, mealName,mealExchange, mealGroup, mealMeasure });
       }
 
       return acc;
@@ -146,6 +147,7 @@ const MealPlanning = () => {
             {Object.values(groupedFoods).map((groupedFood, index) => {
               const { mealGroup, mealMeasure } = groupedFood.foods[0];
               const { exchangeDistribution } = groupedFood.foods[0];
+              const { mealExchange } = groupedFood.foods[0];
               const showExchangeDistribution = groupedFood.displayedExchangeDistribution;
 
               return (
@@ -157,12 +159,12 @@ const MealPlanning = () => {
                     </>
                   )}
                   
-                  <Text style={styles.mealTitle}>Food Group: {mealGroup}</Text>
+                  <Text style={styles.mealTitle}>Food Group: {Array.isArray(mealGroup) ? mealGroup.join(', ') : mealGroup}</Text>
                   {showExchangeDistribution && (
                     <View style={styles.row}>
                       <View style={styles.column}>
                         <Text style={styles.headerText}>Exchange Distribution</Text>
-                        <Text style={styles.exchangeText}>{exchangeDistribution}</Text>
+                        <Text style={styles.exchangeText}>{Array.isArray(mealGroup) ? mealExchange.join(', ') : exchangeDistribution}</Text>
                       </View>
                     </View>
                   )}

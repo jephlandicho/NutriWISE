@@ -75,24 +75,10 @@ import { useNavigation } from '@react-navigation/native';
 
   const syncTable = () => {
     markRecordsAsSynced();
-  //   const createClassesTableQuery = `
-  //   DROP TABLE classes;`;
-
-  // return new Promise((resolve, reject) => {
-  //   db.transaction((transaction) => {
-  //     transaction.executeSql(createClassesTableQuery, [], resolve, (_, error) => reject(error));
-  //   });
-  // });
 };
 
 const markRecordsAsSynced = async () => {
   try {
-    await updateTable('client');
-    await updateTable('client_measurements');
-    await updateTable('exchanges');
-    await updateTable('distribution_exchange');
-    await updateTable('meal_title');
-    await updateTable('meal');
     await updateTable('meal_plan');
     console.log('All records marked as unsynced');
   } catch (error) {
@@ -104,7 +90,7 @@ const updateTable = async (tableName) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE ${tableName} SET syncData = 0 WHERE syncData = 1;`,
+        `UPDATE ${tableName} SET syncData = 0 WHERE syncData = 1 AND meal_name_id = '871609';`,
         [],
         (_, { rowsAffected }) => {
           console.log(`${rowsAffected} records in ${tableName} marked as synced`);
@@ -153,6 +139,9 @@ const updateTable = async (tableName) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
           <Text style={styles.settingLabel}>Privacy Settings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={() => syncTable()}>
+          <Text style={styles.settingLabel}>UnSync</Text>
         </TouchableOpacity>
       </View>
     </View>

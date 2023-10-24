@@ -22,10 +22,6 @@ function MealPlan() {
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [anotherModalVisible, setAnotherModalVisible] = useState(false);
-  const [mealTitle, setMealTitle] = useState('');
-  const [selectedExchangesId, setSelectedExchangesId] = useState(null);
-  const [exchangesData, setExchangesData] = useState([]);
-
   const openAnotherModal = () => {
     setAnotherModalVisible(true);
   };

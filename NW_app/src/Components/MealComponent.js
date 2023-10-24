@@ -20,9 +20,18 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AWholeMilk,AL
                 {shouldRenderGroupCell && itemIndex === 0 && (
                   <>
                     <DataTable.Title rowSpan={mealGroupItems.length} style={styles.cellStyle}>
+                    {item.recom ? (
+                      <Text>{item.meal_group.join(', ')}</Text>
+                    ) : (
                       <Text>{item.meal_group}</Text>
-                    </DataTable.Title>
-                    <DataTable.Title style={styles.cellStyle}>
+                    )}
+                  </DataTable.Title>
+                  {item.recom ? (
+                      <DataTable.Title style={styles.cellStyle}>
+                        <Text>{item.exchange.join(', ')}</Text> 
+                      </DataTable.Title>
+                    ) : (
+                      <DataTable.Title style={styles.cellStyle}>
                       {item.meal_group === 'Vegetable' && <Text>{Avegetables}</Text>}
                       {item.meal_group === 'Fruit' && <Text>{Afruits}</Text>}
                       {item.meal_group === 'Sugar' && <Text>{ASugar}</Text>}
@@ -37,12 +46,30 @@ const MealComponent = ({ parsedMeal, Avegetables, Afruits, ASugar, AWholeMilk,AL
                       {item.meal_group === 'Rice C' && <Text>{AriceC}</Text>}
                       {item.meal_group === 'Fat' && <Text>{AFat}</Text>}
                     </DataTable.Title>
+                    )}
+                    
                   </>
                 )}
                 {shouldRenderGroupCell && itemIndex !== 0 && (
                   <>
-                    <DataTable.Title style={{ borderWidthTopWidth: 0 }}></DataTable.Title>
-                    <DataTable.Title style={{ borderWidthTopWidth: 0 }}></DataTable.Title>
+                  {item.recom ? (
+                    <DataTable.Title rowSpan={mealGroupItems.length} style={styles.cellStyle}>
+                    <Text>{item.meal_group.join(', ')}</Text>
+                  </DataTable.Title>
+                    ) : (
+                      <DataTable.Title style={{ borderWidthTopWidth: 0 }}>
+                    </DataTable.Title>
+                    )}
+
+                    {item.recom ? (
+                    <DataTable.Title style={styles.cellStyle}>
+                    <Text>{item.exchange.join(', ')}</Text>
+                  </DataTable.Title>
+                    ) : (
+                      <DataTable.Title style={{ borderWidthTopWidth: 0 }}>
+                    </DataTable.Title>
+                    )}
+                    
                   </>
                 )}
 

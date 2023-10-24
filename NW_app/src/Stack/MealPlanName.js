@@ -167,9 +167,9 @@ function MealPlanName() {
           </style>
         </head>
         <body>
-        <div>College of Nursing and Alied Health Services</div>
+        <div>College of Nursing and Allied Health Sciences</div>
         <br>
-        <div class="header"> <b>Nutritional and Dietetics Department</b></div>
+        <div class="header"> <b>Nutrition and Dietetics Department</b></div>
         <div class="header"><b>Nutritional Assessment</b></div>
         <br>
         <div><b>Student Name:</b>${userData.fullName}</div>
@@ -564,8 +564,17 @@ function MealPlanName() {
               rowData += `<td class="cells"></td>`;
             } 
              else {
-              rowData += `<td class="cells">${foodInfo.meal_group}</td>`;
+              if (Array.isArray(foodInfo.meal_group)) {
+                rowData += `<td class="cells">${foodInfo.meal_group.join(', ')}</td>`;
+            } else {
+                rowData += `<td class="cells">${foodInfo.meal_group}</td>`;
+            }
+            
+            if (Array.isArray(foodInfo.exchange) ) {
+                rowData += `<td class="cells">${foodInfo.exchange.join(', ')}</td>`;
+            } else {
               rowData += `<td class="cells">${item.exchange_distribution}</td>`;
+            }
               meal_group = foodInfo.meal_group
             }
             rowData += `
