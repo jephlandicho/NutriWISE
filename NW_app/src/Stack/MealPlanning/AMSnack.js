@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TextInput, Alert,
 import { Picker } from '@react-native-picker/picker';
 import { ResultContext } from '../../Components/ResultContext';
 import foodsData from '../../meals/foods.json';
-
+import { Ionicons } from "@expo/vector-icons";
 import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
@@ -12,12 +12,14 @@ const AMSnack = () => {
   const {C_meal_titleID,C_exchangesID,milkChoice,breakfast} = useContext(ResultContext);
   const parsedbreakfast = typeof breakfast === 'string' ? JSON.parse(breakfast) : breakfast;
   const [tableData, setTableData] = useState([]);
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState('Food Group');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
+  const [noRecommendedFoods, setNoRecommendedFoods] = useState(false);
+  const [foodGroupSelected, setFoodGroupSelected] = useState(false);
   
   const { AMSnack, setAMSnack } = useContext(ResultContext);
   const { AvegetablesAMSnacks, AfruitAMSnacks, AriceAAMSnacks, AriceBAMSnacks, AriceCAMSnacks, AMilkAMSnacks, ALFAMSnacks, AMFAMSnacks,AHFAMSnacks, AFatAMSnacks, ASugarAMSnacks,
@@ -44,10 +46,62 @@ const AMSnack = () => {
       setFoods(sectionData);
       setFilteredFoods(sectionData);
     }
+    if (selectedSection === 'Recommended') {
+      const criteria = {
+        'Fruit': AfruitAMSnacks,
+        'Rice A': AriceAAMSnacks,
+        'Rice B': AriceBAMSnacks,
+        'Rice C': AriceCAMSnacks,
+        'Low Fat Meat': ALFAMSnacks,
+        'Medium Fat Meat': AMFAMSnacks,
+        'High Fat Meat': AHFAMSnacks,
+        'Fat': AFatAMSnacks,
+        'Sugar': ASugarAMSnacks,
+      };
+    
+      const filteredFoods = foodsData.filter((food) => {
+        if (food.recom === 'Recommended') {
+          const exchangeGroups = food.meal_group || [];
+          const exchanges = food.exchange || [];
+    
+          // Check if any of the criteria match
+          const meetsCriteria = Object.entries(criteria).every(([group, requiredValue]) => {
+            const groupIndex = exchangeGroups.indexOf(group);
+            
+            // Check if the group is found in the exchangeGroups
+            if (groupIndex !== -1) {
+              return exchanges[groupIndex] === requiredValue;
+            }
+            
+            // If the group is not found in the exchangeGroups, consider it as a match
+            return true;
+          });
+    
+          return meetsCriteria;
+        }
+        return false;
+      });
+
+      if (filteredFoods.length === 0) {
+        setNoRecommendedFoods(true); // Step 2: Set the state variable
+      } else {
+        setNoRecommendedFoods(false);
+      }
+      setFoods(filteredFoods);
+      setFilteredFoods(filteredFoods);
+    } else if (selectedSection === 'Food Group') {
+      setFoodGroupSelected(true); // Step 2: Set the state variable
+    }
+    //  else{
+    //   const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
+    //   setFoods(sectionData);
+    //   setFilteredFoods(sectionData);
+    // }
   };
 
   const sectionsWithVal = [
     { name: 'Food Group', value: 'Exchange' },
+    { name: 'Recommended',value: 1},
     { name: 'Vegetable', value: AvegetablesAMSnacks },
     { name: 'Fruit', value: AfruitAMSnacks },
     { name: 'Rice A', value: AriceAAMSnacks },
@@ -67,7 +121,6 @@ const AMSnack = () => {
   useEffect(() => {
     fetchData();
     fetchDataFromDatabase();
-    console.log("BF",parsedbreakfast)
   }, [selectedSection]);
 
   const fetchDataFromDatabase = () => {
@@ -251,7 +304,11 @@ const AMSnack = () => {
             onValueChange={(itemValue, itemIndex) => setSelectedSection(itemValue)}
           >
             {sectionsWithVal.map((section) => (
-              <Picker.Item key={section.name} label={`${section.name}   (${section.value})`} value={section.name} />
+              <Picker.Item
+              key={section.name}
+              label={section.name === "Recommended" ? section.name : `${section.name} (${section.value})`}
+              value={section.name}
+            />
             ))}
           </Picker>
         </View>
@@ -267,26 +324,44 @@ const AMSnack = () => {
         </View>
       </View>
 
-      <FlatList
-        style={styles.foodsContainer}
-        data={filteredFoods}
-        keyExtractor={(food) => food.id.toString()}
-        renderItem={({ item: food }) => (
-          <TouchableOpacity
-            key={food.id}
-            style={[
-              styles.foodButton,
-              selectedFoodIds.includes(food.id) && styles.selectedFood,
-            ]}
-            onPress={() => addFoodToMeal(selectedSection, food)}
-          >
-            <Text style={styles.foodButtonText}>
-              {food.meal_name}
-              {food.household_measure ? ` - ${food.household_measure}` : ''}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+      {selectedSection === 'Recommended' && noRecommendedFoods ? (
+        <>
+        <Text style={styles.noMealMessageText}>No food to recommend</Text>
+      <View style={styles.noMealMessageIcon}>
+        <Ionicons name="restaurant" size={50} color="green" />
+      </View>
+      </>
+      ) : selectedSection === 'Food Group' && foodGroupSelected ? ( // Step 3: Conditional rendering
+        <>
+        <Text style={styles.noMealMessageText}>Choose food group in the dropdown <Ionicons name="caret-down-outline" size={25} color="green" /></Text>
+      </>
+      ): (
+        <FlatList
+          style={styles.foodsContainer}
+          data={filteredFoods}
+          keyExtractor={(food) => food.id.toString()}
+          renderItem={({ item: food }) => (
+            <TouchableOpacity
+              key={food.id}
+              style={[
+                styles.foodButton,
+                selectedFoodIds.includes(food.id) && styles.selectedFood,
+              ]}
+              onPress={() => addFoodToMeal(selectedSection, food)}
+            >
+              <Text style={styles.foodButtonText}>
+                {food.meal_name}
+                {food.household_measure ? ` - ${food.household_measure}` : ''}
+                {food.recom === 'Recommended' && food.meal_group && food.meal_group.length > 0 ? (
+                  ` ( ${food.meal_group.map((group, index) => (
+                    `${group} = ${food.exchange[index]}`
+                  )).join(', ')} )`
+                ) : ''}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
       <View style={styles.mealtextContainer}>
         <Text style={styles.mealPlanText}>Meal Plan:</Text>
         <View style={styles.searchContainer}>
@@ -302,36 +377,69 @@ const AMSnack = () => {
       <FlatList
         style={styles.mealPlanContainer}
         data={Object.entries(AMSnack)}
-        keyExtractor={(item) => item[0]} // Use the section as the key
+        keyExtractor={(item) =>
+          item[0] === "Recommended"
+            ? item[1][0].meal_group.join(", ")
+            : item[0]
+        }
         renderItem={({ item }) => (
           <View style={styles.mealPlanSection}>
-            <Text style={styles.mealPlanSectionTitle}>{item[0]}</Text>
-            <FlatList
-              data={item[1]} // Foods for the section
-              keyExtractor={(food) => food.id.toString()}
-              renderItem={({ item: food, index }) => (
-                <View key={food.id}>
-                  {!food.household_measure && index === 0 && showHouseholdMeasure && (
-                    <TextInput
-                      style={styles.menuBar}
-                      value={householdMeasureAmSnacks}
-                      onChangeText={setHouseholdMeasureAmSnacks}
-                      placeholder="Household measure"
-                    />
-                  )}
-                  <TouchableOpacity
-                    style={styles.mealPlanFood}
-                    onPress={() => deleteFoodFromMeal(item[0], food)}
-                  >
-                    <Text>
-                      {food.meal_name}
-                      {food.measurementInfo ? ` - ${food.measurementInfo}` : ''}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          </View>
+          {item[0] === "Recommended" ? (
+            item[1].map((food) => (
+              <View key={food.id}>
+                <Text style={styles.mealPlanSectionTitle}>
+                  {food.meal_group.join(", ")}
+                </Text>
+                {food.household_measure === false && showHouseholdMeasure && (
+                  <TextInput
+                    style={styles.menuBar}
+                    value={householdMeasureBreakfast}
+                    onChangeText={setHouseholdMeasureBreakfast}
+                    placeholder="Household measure"
+                  />
+                )}
+                <TouchableOpacity
+                  style={styles.mealPlanFood}
+                  onPress={() => deleteFoodFromMeal("Recommended", food)}
+                >
+                  <Text>
+                    {food.meal_name}
+                    {food.measurementInfo ? ` - ${food.measurementInfo}` : ""}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <View>
+              <Text style={styles.mealPlanSectionTitle}>{item[0]}</Text>
+              <FlatList
+                data={item[1]}
+                keyExtractor={(food) => food.id.toString()}
+                renderItem={({ item: food, index }) => (
+                  <View key={food.id}>
+                    {!food.household_measure && index === 0 && showHouseholdMeasure && (
+                      <TextInput
+                        style={styles.menuBar}
+                        value={householdMeasureAmSnacks}
+                        onChangeText={setHouseholdMeasureAmSnacks}
+                        placeholder="Household measure"
+                      />
+                    )}
+                    <TouchableOpacity
+                      style={styles.mealPlanFood}
+                      onPress={() => deleteFoodFromMeal(item[0], food)}
+                    >
+                      <Text>
+                        {food.meal_name}
+                        {food.measurementInfo ? ` - ${food.measurementInfo}` : ""}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              />
+            </View>
+          )}
+        </View>
         )}
       />
     </View>
@@ -449,6 +557,19 @@ const styles = StyleSheet.create({
   mealPlanText: {
   fontSize: 16,
   marginBottom: 8,
+},
+noMealMessageIcon: {
+  alignContent: "center",
+  alignItems: "center",
+  padding: 15,
+},
+noMealMessageText: {
+  fontSize: 20,
+  fontWeight: "bold",
+  alignContent: "center",
+  textAlign: "center",
+  color: "green",
+  marginBottom: 20,
 },
 });
 

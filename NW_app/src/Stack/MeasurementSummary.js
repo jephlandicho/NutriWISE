@@ -25,7 +25,9 @@ function MeasurementSummary() {
   };
   const [userData, setUserData] = useState(null);
   const {
-    clientName,
+    ClientLastName,
+    ClientfirstName,
+    Clientdesignation,
     clientSex,
     waistC,
     hipC,
@@ -56,7 +58,6 @@ function MeasurementSummary() {
     totalProtein,
     totalFat,
     totalKcal,
-
     AvegetablesBreakfast,
     AvegetablesAMSnacks,
     AvegetablesLunch,
@@ -205,7 +206,7 @@ function MeasurementSummary() {
           // If the table doesn't exist, create it
           if (resultSet.rows.length === 0) {
             tx.executeSql(
-              'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, name TEXT, birthdate TEXT, sex TEXT, syncData INTEGER)',
+              'CREATE TABLE IF NOT EXISTS client (id INTEGER PRIMARY KEY, lastName TEXT,firstName TEXT,designation TEXT,birthdate TEXT, sex TEXT, syncData INTEGER)',
               [],
               () => {
                 console.log('client table created successfully.');
@@ -486,11 +487,10 @@ const consolelog = () =>{
     console.log(milkChoice)
     db.transaction((tx) => {
       tx.executeSql(
-        'INSERT INTO client (id, name, birthdate, sex,syncData) VALUES (?, ?, ?, ?,?)',
-        [ClientID, clientName, birthdate, clientSex,0],
+        'INSERT INTO client (id, lastName,firstName,designation, birthdate, sex,syncData) VALUES (?,?,?,?,?,?,?)',
+        [ClientID, ClientLastName, ClientfirstName,Clientdesignation, birthdate, clientSex,0],
         () => {
           console.log('Data inserted into client successfully.');
-          
         },
         (error) => {
           console.log('Error inserting data into client: ', error);
@@ -729,9 +729,17 @@ const consolelog = () =>{
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.column}>
-          <Text>Name: {clientName}</Text>
+          <Text>Full Name</Text>
+          <Text> {ClientLastName}, {ClientfirstName}</Text>
         </View>
         <View style={styles.column}>
+        <Text>Designation</Text>
+          <Text> {Clientdesignation}</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          
           <Text>Age: {CAge}</Text>
         </View>
         <View style={styles.column}>

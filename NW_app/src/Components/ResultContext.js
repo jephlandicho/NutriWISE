@@ -6,6 +6,10 @@ export const ResultProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [otherValue, setOtherValue] = useState('');
   const [clientName,setClientname] = useState('');
+  const [ClientLastName,setClientLastName] = useState('');
+  const [ClientfirstName,setClientfirstName] = useState('');
+  const [Clientdesignation,setClientdesignation] = useState('');
+  const [Clientremarks,setClientremarks] = useState('');
   const [clientAge,setClientAge] = useState('');
   const [birthdate,setbirthdate] = useState('');
   const [clientSex,setClientSex] = useState('');
@@ -341,7 +345,11 @@ export const ResultProvider = ({ children }) => {
       AMFMidnightSnacks,setAMFMidnightSnacks,
       AHFMidnightSnacks,setAHFMidnightSnacks,
       AFatMidnightSnacks,setAFatMidnightSnacks,
-      ASugarMidnightSnacks,setASugarMidnightSnacks
+      ASugarMidnightSnacks,setASugarMidnightSnacks,
+      ClientLastName,setClientLastName,
+      ClientfirstName,setClientfirstName,
+      Clientdesignation,setClientdesignation,
+      Clientremarks,setClientremarks
       }}>
       {children}
     </ResultContext.Provider>

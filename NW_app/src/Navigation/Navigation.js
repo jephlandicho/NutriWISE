@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Animated,Keyboard  } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -91,12 +91,13 @@ function FloatingTabIcon({ name, size, focused, style, label }) {
 }
 
 function TabNavigator() {
+
   return (
     <Tab.Navigator
       screenOptions={({ route, focused }) => ({
         tabBarShowLabel: false,
         tabBarStyle: [
-          {
+          { 
             position: 'absolute',
             bottom: hp('2%'), // Use responsive values
             left: wp('5%'), // Use responsive values

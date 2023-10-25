@@ -5,7 +5,7 @@ import { ResultContext } from '../../Components/ResultContext';
 import { useRoute } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 import foodsData from '../../meals/foods.json';
-
+import { Ionicons } from "@expo/vector-icons";
 const db = SQLite.openDatabase('mydatabase.db');
 
 const Breakfast = () => {
@@ -13,12 +13,14 @@ const Breakfast = () => {
   const [tableData, setTableData] = useState([]);
   const route = useRoute();
   const { id,e_ID } = route.params;
-  const [selectedSection, setSelectedSection] = useState('');
+  const [selectedSection, setSelectedSection] = useState('Food Group');
   const [selectedFoodIds, setSelectedFoodIds] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [foods, setFoods] = useState([]);
   const [filteredFoods, setFilteredFoods] = useState([]);
   const [showHouseholdMeasure, setShowHouseholdMeasure] = useState(false);
+  const [noRecommendedFoods, setNoRecommendedFoods] = useState(false);
+  const [foodGroupSelected, setFoodGroupSelected] = useState(false);
   
   const { breakfast, setBreakfast } = useContext(ResultContext);
   // AHFDinner,setAHFDinner
@@ -83,13 +85,15 @@ const Breakfast = () => {
         return false;
       });
     
+      if (filteredFoods.length === 0) {
+        setNoRecommendedFoods(true); // Step 2: Set the state variable
+      } else {
+        setNoRecommendedFoods(false);
+      }
       setFoods(filteredFoods);
       setFilteredFoods(filteredFoods);
-    }
-     else{
-      const sectionData = foodsData.filter((food) => food.meal_group === selectedSection);
-      setFoods(sectionData);
-      setFilteredFoods(sectionData);
+    } else if (selectedSection === 'Food Group') {
+      setFoodGroupSelected(true); // Step 2: Set the state variable
     }
     
   };
@@ -324,31 +328,44 @@ const Breakfast = () => {
         </View>
       </View>
 
-      <FlatList
-        style={styles.foodsContainer}
-        data={filteredFoods}
-        keyExtractor={(food) => food.id.toString()}
-        renderItem={({ item: food }) => (
-          <TouchableOpacity
-            key={food.id}
-            style={[
-              styles.foodButton,
-              selectedFoodIds.includes(food.id) && styles.selectedFood,
-            ]}
-            onPress={() => addFoodToMeal(selectedSection, food)}
-          >
-            <Text style={styles.foodButtonText}>
-            {food.meal_name}
-            {food.household_measure ? ` - ${food.household_measure}` : ''}
-            {food.recom === 'Recommended' && food.meal_group && food.meal_group.length > 0 ? (
-              ` ( ${food.meal_group.map((group, index) => (
-                `${group} = ${food.exchange[index]}`
-              )).join(', ')} )`
-            ) : ''}
-</Text>
-          </TouchableOpacity>
-        )}
-      />
+      {selectedSection === 'Recommended' && noRecommendedFoods ? (
+        <>
+        <Text style={styles.noMealMessageText}>No food to recommend</Text>
+      <View style={styles.noMealMessageIcon}>
+        <Ionicons name="restaurant" size={50} color="green" />
+      </View>
+      </>
+      ) : selectedSection === 'Food Group' && foodGroupSelected ? ( // Step 3: Conditional rendering
+        <>
+        <Text style={styles.noMealMessageText}>Choose food group in the dropdown <Ionicons name="caret-down-outline" size={25} color="green" /></Text>
+      </>
+      ): (
+        <FlatList
+          style={styles.foodsContainer}
+          data={filteredFoods}
+          keyExtractor={(food) => food.id.toString()}
+          renderItem={({ item: food }) => (
+            <TouchableOpacity
+              key={food.id}
+              style={[
+                styles.foodButton,
+                selectedFoodIds.includes(food.id) && styles.selectedFood,
+              ]}
+              onPress={() => addFoodToMeal(selectedSection, food)}
+            >
+              <Text style={styles.foodButtonText}>
+                {food.meal_name}
+                {food.household_measure ? ` - ${food.household_measure}` : ''}
+                {food.recom === 'Recommended' && food.meal_group && food.meal_group.length > 0 ? (
+                  ` ( ${food.meal_group.map((group, index) => (
+                    `${group} = ${food.exchange[index]}`
+                  )).join(', ')} )`
+                ) : ''}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      )}
       <View style={styles.mealtextContainer}>
         <Text style={styles.mealPlanText}>Meal Plan:</Text>
         <View style={styles.searchContainer}>
@@ -545,6 +562,19 @@ const styles = StyleSheet.create({
   mealPlanText: {
   fontSize: 16,
   marginBottom: 8,
+},
+noMealMessageIcon: {
+  alignContent: "center",
+  alignItems: "center",
+  padding: 15,
+},
+noMealMessageText: {
+  fontSize: 20,
+  fontWeight: "bold",
+  alignContent: "center",
+  textAlign: "center",
+  color: "green",
+  marginBottom: 20,
 },
 });
 

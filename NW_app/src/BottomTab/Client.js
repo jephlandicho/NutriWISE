@@ -51,7 +51,7 @@ function Client() {
   const refreshTableData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM client',
+        'SELECT * FROM client ORDER BY lastName ASC',
         [],
         (_, { rows }) => {
           const data = rows._array;
@@ -68,7 +68,7 @@ function Client() {
     setSearchQuery(query);
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT * FROM client WHERE name LIKE '%${query}%'`,
+        `SELECT * FROM client WHERE lastName LIKE '%${query}%'`,
         [],
         (_, { rows }) => {
           const data = rows._array;
@@ -101,13 +101,17 @@ function Client() {
               <View key={item.id} style={styles.contactContainer}>
                 <TouchableOpacity onPress={() => handleView(item.id)}>
                 <View style={styles.avatarContainer}>
-                <Avatar.Text size={50} label={item.name.charAt(0).toUpperCase()} color={MyTheme.colors.background}/>
+                <Avatar.Text
+                size={50}
+                label={item.lastName.charAt(0).toUpperCase() + item.firstName.charAt(0).toUpperCase()}
+                color={MyTheme.colors.background}
+              />
                 </View>
                 </TouchableOpacity>
                 <View style={styles.contactInfo}>
                 <Text>ID: {item.id}</Text>
                 <TouchableOpacity onPress={() => handleView(item.id)}>
-                  <Text style={styles.contactName}>{item.name}</Text>
+                  <Text style={styles.contactName}>{item.lastName}, {item.firstName}</Text>
                 </TouchableOpacity>
                   {(() => {
                   const today = new Date();
@@ -121,7 +125,7 @@ function Client() {
                   const ageDate = new Date(ageDiff);
                   const years = Math.abs(ageDate.getUTCFullYear() - 1970);
                   const age = years.toString();
-                  return <Text>{age} | {item.sex}</Text>;
+                  return <Text>{age} | {item.sex} | {item.designation}</Text>;
                 })()}
                   
                 </View>

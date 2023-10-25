@@ -41,30 +41,33 @@ import { useNavigation } from '@react-navigation/native';
     }
   };
   const handleDeleteTables = () => {
-    db.transaction((tx) => {
-      
-      const tablesToDelete = ['client','client_measurements','exchanges','meal_title','meal','meal_plan'];
+    db.transaction(
+      (tx) => {
+        const tablesToDelete = ['client', 'client_measurements', 'exchanges', 'meal_title', 'meal', 'meal_plan'];
   
-      tablesToDelete.forEach((table) => {
-        const query = `DROP TABLE IF EXISTS ${table};`;
+        tablesToDelete.forEach((table) => {
+          const query = `DROP TABLE IF EXISTS ${table};`;
   
-        tx.executeSql(query, [], (_, resultSet) => {
-          console.log(`Table ${table} deleted.`);
-        }, (error) => {
-          console.error(`Error deleting ${table}:`, error);
+          tx.executeSql(query, [], (_, resultSet) => {
+            console.log(`Table ${table} deleted.`);
+          },
+          (error) => {
+            console.error(`Error deleting ${table}:`, error);
+          });
         });
-      });
-    }, (error) => {
-      console.error('Transaction error:', error);
-    }, () => {
-      // Transaction successful
-      Alert.alert('Tables Deleted', 'All tables have been deleted.');
-    });
+      },
+      (error) => {
+        console.error('Transaction error:', error);
+      },
+      () => {
+        console.log(`Tables deleted.`);
+      }
+    );
   };
-
+  
   const deleteTable = () => {
         const createClassesTableQuery = `
-        DROP TABLE classes;`;
+        DROP TABLE client;`;
 
       return new Promise((resolve, reject) => {
         db.transaction((transaction) => {
@@ -79,7 +82,13 @@ import { useNavigation } from '@react-navigation/native';
 
 const markRecordsAsSynced = async () => {
   try {
-    await updateTable('meal_plan');
+    // await updateTable('client');
+    // await updateTable('client_measurements');
+    // await updateTable('exchanges');
+    await updateTable('distribution_exchange');
+    // await updateTable('meal_title');
+    // await updateTable('meal');
+    // await updateTable('meal_plan');
     console.log('All records marked as unsynced');
   } catch (error) {
     console.log('Error marking records as unsynced:', error);
@@ -90,10 +99,10 @@ const updateTable = async (tableName) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `UPDATE ${tableName} SET syncData = 0 WHERE syncData = 1 AND meal_name_id = '871609';`,
+        `UPDATE ${tableName} SET syncData = 0 WHERE syncData = 1;`,
         [],
         (_, { rowsAffected }) => {
-          console.log(`${rowsAffected} records in ${tableName} marked as synced`);
+          console.log(`${rowsAffected} records in ${tableName} marked as unsynced`);
           resolve();
         },
         (_, error) => {
@@ -142,6 +151,9 @@ const updateTable = async (tableName) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={() => syncTable()}>
           <Text style={styles.settingLabel}>UnSync</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingItem} onPress={() => deleteTable()}>
+          <Text style={styles.settingLabel}>Delete Table</Text>
         </TouchableOpacity>
       </View>
     </View>

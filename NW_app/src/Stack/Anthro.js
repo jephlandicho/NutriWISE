@@ -16,9 +16,15 @@ const MealPlan = () => {
 
   const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm();
   const navigation = useNavigation();
-  const { result, setResult, otherValue, setOtherValue,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,birthdate,setbirthdate } = useContext(ResultContext);
-  
-  const name = watch('Client_name');
+  const { result, setResult, otherValue, setOtherValue,ClientLastName,setClientLastName,
+    ClientfirstName,setClientfirstName,
+    Clientdesignation,setClientdesignation,clientName,setClientname,clientAge,setClientAge,clientSex,setClientSex,waistC,setWaistC,hipC,setHipC,varweight,setweight,varheight,setheight,pal,setPal,whr,setwhr,bmi,setbmi,dbw,setdbw,carbs,setcarbs,protein,setprotein,fats,setfats,TER,setTER,normal,setNormal,birthdate,setbirthdate } = useContext(ResultContext);
+    
+    
+    
+  const lastname = watch('Client_lastname');
+  const firstname = watch('Client_firstname');
+  const designation = watch('Client_designation');
   const sex = watch('gender');
   const waistCircumference = watch('waistCircumference');
   const hipCircumference = watch('hipCircumference');
@@ -79,7 +85,9 @@ const MealPlan = () => {
     const dietRX = `Diet RX:\n \nCarbohydrates: ${carbs} g\nProtein: ${protein} g\nFats: ${fats} g\nTER: ${ter} kcal`;
     setOtherValue(dietRX);
 
-    setClientname(name);
+    setClientLastName(lastname)
+    setClientfirstName(firstname)
+    setClientdesignation(designation)
     setClientSex(sex);
     setWaistC(waistCircumference);
     setHipC(hipCircumference);
@@ -106,14 +114,32 @@ const MealPlan = () => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <View style={styles.inputContainer}>
+
+          <View style={styles.item}>
           <CustomInput
-            title="Client Full Name"
-            name="Client_name"
-            placeholder="Client name"
+            title="Last Name"
+            name="Client_lastname"
+            placeholder="Lastname"
             control={control}
-            rules={{ required: 'Client Name is required!' }} />
+            rules={{ required: 'Client Lastname is required!' }} />
+          </View>
+          <View style={styles.item}>
+          <CustomInput
+            title="First Name"
+            name="Client_firstname"
+            placeholder="Firstname"
+            control={control}
+            rules={{ required: 'Client Firstname is required!' }} />
+          </View>
+          <CustomInput
+            title="Designation"
+            name="Client_designation"
+            placeholder="Designation"
+            control={control}
+            rules={{ required: 'Client designation is required!' }} />
             <View style={styles.pal}>
             <Text>Birthdate: ({new Date(date).toLocaleDateString('en-US')})</Text>
+
             <CustomButton
             onPress={showDatepicker} text={'Select Birthdate'} type='tertiary'
             />
@@ -247,7 +273,6 @@ const styles = StyleSheet.create({
   },
   item: {
     width: '50%',
-    paddingLeft: 10,
   },
   pal: {
     width: '100%',

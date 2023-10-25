@@ -307,13 +307,6 @@ const Home = () => {
                   <Ionicons name="refresh" size={30} color="green" />
                 </TouchableOpacity>
                   {renderFilterButtons()}
-                  {/* <Button
-                    mode="outlined"
-                    onPress={() => setFilteredTitle(null)}
-                    disabled={!filteredTitle}
-                  >
-                    View All
-                  </Button> */}
                 </View>
                 {renderMealPlan()}
               </ScrollView>

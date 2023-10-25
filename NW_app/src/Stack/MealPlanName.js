@@ -47,7 +47,9 @@ function MealPlanName() {
     }
   };
   const generateHtml = (dataFromDB) => {
-    const name = dataFromDB.length > 0 ? dataFromDB[0].name : "";
+    const lastName = dataFromDB.length > 0 ? dataFromDB[0].lastName : "";
+    const firstName = dataFromDB.length > 0 ? dataFromDB[0].firstName : "";
+    const designation = dataFromDB.length > 0 ? dataFromDB[0].designation : "";
     const birthdate = dataFromDB.length > 0 ? dataFromDB[0].birthdate : "";
     const today = new Date();
     const birthdateArray = birthdate.split('-');
@@ -172,14 +174,15 @@ function MealPlanName() {
         <div class="header"> <b>Nutrition and Dietetics Department</b></div>
         <div class="header"><b>Nutritional Assessment</b></div>
         <br>
-        <div><b>Student Name:</b>${userData.fullName}</div>
+        <div><b>Student Name:</b> ${userData.fullName}</div>
         <div class="table-container">
         <table>
         <tr class="marginBottom">
         <td colspan="4" class="cells"><b>Client Data</b></td>
         </tr>
         <tr class="marginBottom">
-          <td colspan="4" class="cells2"><b>FullName: </b> ${name}</td>
+          <td colspan="2" class="cells2"><b>FullName: </b> ${lastName}, ${firstName}</td>
+          <td colspan="2" class="cells2"><b>Designation: </b> ${designation}</td>
         </tr>
         <tr>
           <td colspan="2" class="cells3"><b>Age: </b> ${age}</td>
@@ -713,7 +716,7 @@ function MealPlanName() {
   const handleSaveasPDF = (id) => {
     db.transaction((tx) => {
       tx.executeSql(
-        `SELECT c.name, c.birthdate, c.sex, m.*,cm.*,cm.TER as cmTER, cm.protein as cmProtein, cm.carbs as cmCarbs, cm.fats as cmFats, mt.*, mp.*, e.*
+        `SELECT c.*, m.*,cm.*,cm.TER as cmTER, cm.protein as cmProtein, cm.carbs as cmCarbs, cm.fats as cmFats, mt.*, mp.*, e.*
         FROM client AS c
         INNER JOIN client_measurements AS cm ON c.id = cm.client_id
         INNER JOIN exchanges AS e ON cm.id = e.measurement_id
