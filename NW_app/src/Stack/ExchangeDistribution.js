@@ -25,6 +25,22 @@ const ExchangeDistribution = () => {
         AFatMidnightSnacks,setAFatMidnightSnacks,
         ASugarMidnightSnacks,setASugarMidnightSnacks} =useContext(ResultContext)
 
+        const [vegetableTotal, setVegetableTotal] = useState(false);
+        const [fruitTotal, setFruitTotal] = useState(false);
+        const [riceATotal, setriceATotal] = useState(false);
+        const [riceBTotal, setriceBTotal] = useState(false);
+        const [riceCTotal, setriceCTotal] = useState(false);
+        const [wholemilkTotal, setwholemilkTotal] = useState(false);
+        const [LFmilkTotal, setLFMilkTotal] = useState(false);
+        const [NFmilkTotal, setNFMilkTotal] = useState(false);
+        const [LFTotal, setLFTotal] = useState(false);
+        const [MFTotal, setMFTotal] = useState(false);
+        const [HFTotal, setHFTotal] = useState(false);
+        const [fatTotal, setFatTotal] = useState(false); 
+        const [sugarTotal, setSugarTotal] = useState(false);
+
+        
+
   const vegetablesBreakfast = parseFloat(watch('vegetablesBreakfast') || 0);
   const vegetablesAMSnacks = parseFloat(watch('vegetablesAMSnacks') || 0);
   const vegetablesLunch = parseFloat(watch('vegetablesLunch') || 0);
@@ -117,8 +133,131 @@ const ExchangeDistribution = () => {
   const SugarDinner = parseFloat(watch('SugarDinner') || 0);
   const SugarMidSnacks = parseFloat(watch('SugarMidSnacks') || 0);
 
+  const totalVegetables = vegetablesBreakfast + vegetablesAMSnacks + vegetablesLunch + vegetablesPMSnacks + vegetablesDinner + vegetablesMidSnacks;
+  
 
+  const totalFruit = fruitBreakfast + fruitAMSnacks + fruitLunch + fruitPMSnacks + fruitDinner + fruitMidSnacks;
+//   setFruitTotal(totalFruit);
 
+  const totalRiceA = riceABreakfast + riceAAMSnacks + riceALunch + riceAPMSnacks + riceADinner + riceAMidSnacks;
+//   setriceATotal(totalRiceA);
+
+  const totalRiceB = riceBBreakfast + riceBAMSnacks + riceBLunch + riceBPMSnacks + riceBDinner + riceBMidSnacks;
+//   setriceBTotal(totalRiceB);
+
+  const totalRiceC = riceCBreakfast + riceCAMSnacks + riceCLunch + riceCPMSnacks + riceCDinner + riceCMidSnacks;
+//   setriceCTotal(totalRiceC);
+
+  const totalWholeMilk = WholeMilkBreakfast + WholeMilkAMSnacks + WholeMilkLunch + WholeMilkPMSnacks + WholeMilkDinner + WholeMilkMidSnacks;
+//   setwholemilkTotal(totalWholeMilk);
+
+  const totalLFMilk = LFMilkBreakfast + LFMilkAMSnacks + LFMilkLunch + LFMilkPMSnacks + LFMilkDinner + LFMilkMidSnacks;
+//   setLFMilkTotal(totalLFMilk);
+
+  const totalNFMilk = NFMilkBreakfast + NFMilkAMSnacks + NFMilkLunch + NFMilkPMSnacks + NFMilkDinner + NFMilkMidSnacks;
+//   setNFMilkTotal(totalNFMilk);
+
+  const totalLF = LFBreakfast + LFAMSnacks + LFLunch + LFPMSnacks + LFDinner + LFMidSnacks;
+//   setLFTotal(totalLF);
+
+  const totalMF = MFBreakfast + MFAMSnacks + MFLunch + MFPMSnacks + MFDinner + MFMidSnacks;
+//   setMFTotal(totalMF);
+
+  const totalHF = HFBreakfast + HFAMSnacks + HFLunch + HFPMSnacks + HFDinner + HFMidSnacks;
+//   setHFTotal(totalHF);
+  
+  const totalFat = FatBreakfast + FatAMSnacks + FatLunch + FatPMSnacks + FatDinner + FatMidSnacks;
+//   setFatTotal(totalFat);
+
+  const totalSugar = SugarBreakfast + SugarAMSnacks + SugarLunch + SugarPMSnacks + SugarDinner + SugarMidSnacks;
+//   setSugarTotal(totalSugar);
+useEffect(() => {
+    if (totalVegetables == vegetableEx) {
+        setVegetableTotal(true);
+    } else {
+        setVegetableTotal(false);
+    }
+
+    if (totalFruit == fruitEx) {
+        setFruitTotal(true);
+    } else {
+        setFruitTotal(false);
+    }
+
+    if (totalRiceA == riceAEx) {
+        setriceATotal(true);
+    } else {
+        setriceATotal(false);
+    }
+    if (totalRiceB == riceBEx) {
+        setriceBTotal(true);
+    } else {
+        setriceBTotal(false);
+    }
+    if (totalRiceC == riceCEx) {
+        setriceCTotal(true);
+    } else {
+        setriceCTotal(false);
+    }
+    if (totalWholeMilk == WholeMilkEx) {
+        setwholemilkTotal(true);
+    } else {
+        setwholemilkTotal(false);
+    }
+    if (totalLFMilk == LFMilkEx) {
+        setLFMilkTotal(true);
+    } else {
+        setLFMilkTotal(false);
+    }
+    if (totalNFMilk == NFMilkEx) {
+        setNFMilkTotal(true);
+    } else {
+        setNFMilkTotal(false);
+    }
+    if (totalLF == LFmeatEx) {
+        setLFTotal(true);
+    } else {
+        setLFTotal(false);
+    }
+    if (totalMF == MFmeatEx) {
+        setMFTotal(true);
+    } else {
+        setMFTotal(false);
+    }
+    if (totalHF == HFmeatEx) {
+        setHFTotal(true);
+    } else {
+        setHFTotal(false);
+    }
+    if (totalFat == fatEx) {
+        setFatTotal(true);
+    } else {
+        setFatTotal(false);
+    }
+    if (totalSugar == sugarEx) {
+        setSugarTotal(true);
+    } else {
+        setSugarTotal(false);
+    }
+    
+  }, [totalVegetables,totalFruit,totalRiceA,totalRiceB,totalRiceC,totalWholeMilk,totalLFMilk,totalNFMilk,totalLF,totalMF,totalHF,totalFat,totalSugar,fruitEx,vegetableEx,riceAEx,
+    riceBEx,
+    riceCEx,
+    WholeMilkEx,
+    LFMilkEx,
+    NFMilkEx,
+    LFmeatEx,
+    MFmeatEx,
+    HFmeatEx,
+    fatEx,
+    sugarEx]);
+
+    const getVegetableStyle = (total) => {
+        return {
+          color: total ? '#28a745' : '#000000',
+          fontWeight: total ? 'bold' : 'normal',
+        };
+      }; 
   useEffect(() => {
     assigned()
   }, [vegetablesBreakfast, vegetablesAMSnacks, vegetablesLunch, vegetablesPMSnacks, vegetablesDinner,fruitBreakfast,fruitAMSnacks,fruitLunch,fruitPMSnacks,fruitDinner,riceABreakfast,riceAAMSnacks,riceALunch,riceAPMSnacks,riceADinner,riceBBreakfast,riceBAMSnacks,riceBLunch,riceBPMSnacks,riceBDinner,riceCBreakfast,riceCAMSnacks,riceCLunch,riceCPMSnacks,riceCDinner,
@@ -253,7 +392,11 @@ const ExchangeDistribution = () => {
         <View style={styles.container}>
         {vegetableEx !== '0' ? (
         <>
-        <Text>Vegetables: {vegetableEx}</Text>
+        <Text
+            style={getVegetableStyle(vegetableTotal)}
+            >
+        Vegetables: {vegetableEx}
+      </Text>
         <View style={styles.row}>
             <View style={styles.input}>
             <CustomInput control={control} numeric={true} name="vegetablesBreakfast" />
@@ -278,7 +421,8 @@ const ExchangeDistribution = () => {
         ) : null}
         {fruitEx !== '0' ? (
         <>
-        <Text>Fruit: {fruitEx}</Text><View style={styles.row}>
+                <Text style={getVegetableStyle(fruitTotal)}>
+                Fruit: {fruitEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="fruitBreakfast" />
             </View>
@@ -302,7 +446,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {riceAEx !== '0' ? (
         <>
-        <Text>Rice A: {riceAEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(riceATotal)}>Rice A: {riceAEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="riceABreakfast" />
             </View>
@@ -326,7 +470,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {riceBEx !== '0' ? (
         <>
-        <Text>Rice B: {riceBEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(riceBTotal)}>Rice B: {riceBEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="riceBBreakfast" />
             </View>
@@ -350,7 +494,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {riceCEx !== '0' ? (
         <>
-        <Text>Rice C: {riceCEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(riceCTotal)}>Rice C: {riceCEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="riceCBreakfast" />
             </View>
@@ -374,7 +518,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {WholeMilkEx !== '0' ? (
         <>
-        <Text>Whole Milk: {WholeMilkEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(wholemilkTotal)}>Whole Milk: {WholeMilkEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="WholeMilkBreakfast" />
             </View>
@@ -398,7 +542,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {LFMilkEx !== '0' ? (
         <>
-        <Text>Low-Fat Milk: {LFMilkEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(LFmilkTotal)}>Low-Fat Milk: {LFMilkEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="LFMilkBreakfast" />
             </View>
@@ -422,7 +566,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {NFMilkEx !== '0' ? (
         <>
-        <Text>Non-Fat Milk: {NFMilkEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(NFmilkTotal)}>Non-Fat Milk: {NFMilkEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="NFMilkBreakfast" />
             </View>
@@ -446,7 +590,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {LFmeatEx !== '0' ? (
         <>
-        <Text>Low Fat Meat: {LFmeatEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(LFTotal)}>Low Fat Meat: {LFmeatEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="LFBreakfast" />
             </View>
@@ -470,7 +614,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {MFmeatEx !== '0' ? (
         <>
-        <Text>Medium Fat Meat: {MFmeatEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(MFTotal)}>Medium Fat Meat: {MFmeatEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="MFBreakfast" />
             </View>
@@ -494,7 +638,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {HFmeatEx !== '0' ? (
         <>
-        <Text>High Fat Meat: {HFmeatEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(HFTotal)}>High Fat Meat: {HFmeatEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="HFBreakfast" />
             </View>
@@ -518,7 +662,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {fatEx !== '0' ? (
         <>
-        <Text>Fat: {fatEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(fatTotal)}>Fat: {fatEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="FatBreakfast" />
             </View>
@@ -542,7 +686,7 @@ const ExchangeDistribution = () => {
         ) : null}
         {sugarEx !== '0' ? (
         <>
-        <Text>Sugar: {sugarEx}</Text><View style={styles.row}>
+        <Text style={getVegetableStyle(sugarTotal)}>Sugar: {sugarEx}</Text><View style={styles.row}>
             <View style={styles.input}>
                 <CustomInput control={control} numeric={true} name="SugarBreakfast" />
             </View>
@@ -607,6 +751,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: windowWidth * 0.02,
     },
+    greenText: {
+        color: 'green',
+      },
 });
 
 export default ExchangeDistribution;

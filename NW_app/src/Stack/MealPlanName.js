@@ -689,23 +689,23 @@ function MealPlanName() {
   };
 
   const handleDelete = (id) => {
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     'DELETE FROM meal_title WHERE id = ?',
-    //     [id],
-    //     (_, { rowsAffected }) => {
-    //       if (rowsAffected > 0) {
-    //         Alert.alert('Success', 'Item deleted successfully');
-    //         console.log('Item deleted successfully');
-    //         refreshTableData(); // Call a function to refresh the table data
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log('Error deleting item:', error);
-    //     }
-    //   );
-    // });
-    // setModalVisible(false);
+    db.transaction((tx) => {
+      tx.executeSql(
+        'DELETE FROM meal_title WHERE id = ?',
+        [id],
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) {
+            Alert.alert('Success', 'Meal Plan deleted successfully');
+            console.log('Item deleted successfully');
+            refreshTableData(); // Call a function to refresh the table data
+          }
+        },
+        (error) => {
+          console.log('Error deleting item:', error);
+        }
+      );
+    });
+    setModalVisible(false);
   };
 
   const handleView = (id) => {
@@ -866,9 +866,6 @@ function MealPlanName() {
                 </TouchableOpacity>
                 </View>
                 <View style={styles.contactActions}>
-                  <TouchableOpacity style={styles.button} onPress={() => handleUpdate(item.id)}>
-                    <Ionicons name="md-create-outline" size={25} color="black" />
-                  </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handleDelete(item.id)}>
                     <Ionicons name="md-trash-outline" size={25} />
                   </TouchableOpacity>

@@ -118,8 +118,8 @@ function TabNavigator() {
             iconName = focused ? 'ios-people' : 'ios-people-outline';
           } else if (route.name === 'MealPlan') {
             iconName = focused ? 'ios-restaurant' : 'ios-restaurant-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+          } else if (route.name === 'About') {
+            iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
           }
 
           return (
@@ -143,7 +143,7 @@ function TabNavigator() {
           options={{
         headerShown: false,
       }}/>
-      <Tab.Screen name='Settings' component={SettingsScreen} 
+      <Tab.Screen name='About' component={SettingsScreen} 
       options={{
         headerShown: false,
       }}/>
@@ -466,7 +466,7 @@ function SettingsScreen(){
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
-                Settings
+                About
               </Text>
             </View>
           ),

@@ -32,9 +32,9 @@ const Home = () => {
 
   const fetchFacebookFeed = async () => {
     try {
-      const accessToken = 'EAAJMKel19P4BO9hxvqqBLHiGlObMVy7rUpsabqo785DxZCHgL3pQ4pgegOpXbEUX1d9PnvbUAs3jZBV7gbrAxTIDZAx0CUzr3nnroFPTdXR6QCTGkbB54RUGz2aoLyPXXuUscQPP82KwZAEXt8Ptf0ah9aln83MBSV1oHdZBXCejcZCqgXzEPFzdZAXgZAbPL9sZD'; // Replace with your Facebook access token
+      const accessToken = 'EAAJMKel19P4BOxmsIAUvLsMRTr6KtMpDB6XuMUTVAAz0auzHAJNix2fMwFQodiYhzdHK8w2hZBNolggtbm77aVsBsJ66mytZB0M8MHzKZBi7vWOP3vgZB5w8vZBOaqXJUmfqJB9tZAxaayJITNB78WPmZBFZCkqNMqAZA8mYC6kUhklMx1Ny0UdAZBgPThbfmfnFIZD'; // Replace with your Facebook access token
       const response = await fetch(
-        `https://graph.facebook.com/v13.0/104766035512845/feed?access_token=${accessToken}&fields=message,attachments&limit=1`
+        `https://graph.facebook.com/v13.0/127717720422053/feed?access_token=${accessToken}&fields=message,attachments&limit=1`
       );
 
       if (response.ok) {

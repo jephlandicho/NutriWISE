@@ -147,6 +147,7 @@ function ClientMeasurements() {
       const [tableData, setTableData] = useState([]);
       const [C_MeasurementID,setC_MeasurementID] = useState('');
       const [C_exchangesID,setC_exchangesID] = useState('');
+      const [clientName, setClientName] = useState('');
       const route = useRoute();
       const { id } = route.params;
     
@@ -162,7 +163,7 @@ function ClientMeasurements() {
             `SELECT cm.BMI as cmBMI, cm.assessment_date
             FROM client_measurements AS cm
             WHERE cm.client_id = ? 
-            ORDER BY cm.assessment_date DESC`,
+            ORDER BY cm.assessment_date ASC`,
             [id],
             (_, { rows }) => {
               const data = rows._array;
@@ -174,7 +175,26 @@ function ClientMeasurements() {
           );
         });
       }, []);
+      React.useEffect(() => {
+        // Fetch client details from the database
+        db.transaction((tx) => {
+          tx.executeSql(
+            'SELECT firstName, lastName FROM client WHERE id = ?',
+            [id], // Assuming you have the client_id in the variable id
+            (_, { rows }) => {
+              const client = rows.item(0);
+              const fullName = `${client.firstName} ${client.lastName}`;
+              setClientName(fullName);
+            },
+            (error) => {
+              console.log('Error fetching client details: ', error);
+            }
+          );
     
+          // Fetch measurements data and setTableData as you did before
+          // ...
+        });
+      }, []);
       const handleUpdate = (id) => {
         // Handle the update logic here using the item id
         console.log('Update item with id:', id);
@@ -468,10 +488,11 @@ function ClientMeasurements() {
       const refreshTableData = () => {
         db.transaction((tx) => {
           tx.executeSql(
-            `SELECT cm.*,e.*,e.TER AS exchange_TER,
+            `SELECT c.*,cm.*,e.*,e.TER AS exchange_TER,
             e.carbohydrates AS exchange_carbohydrates,
             e.protein AS exchange_protein,
-            e.fats AS exchange_fats, cm.TER AS cmTER, cm.protein AS cmPro, cm.fats AS cmFats, e.id AS e_ID FROM client_measurements as cm INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ? ORDER BY cm.assessment_date DESC`,
+            e.fats AS exchange_fats, cm.TER AS cmTER, cm.protein AS cmPro, cm.fats AS cmFats, e.id AS e_ID FROM client_measurements as cm
+            INNER JOIN client AS c ON c.id = cm.client_id INNER JOIN exchanges AS e ON cm.id = e.measurement_id WHERE client_id = ? ORDER BY cm.assessment_date DESC`,
             [id],
             (_, { rows }) => {
               const data = rows._array;
@@ -543,7 +564,7 @@ function ClientMeasurements() {
           </Text>
         </TouchableOpacity>
       </View>
-
+      <Text>Client: {clientName}</Text>
         <ScrollView style={styles.cardContainer}>
           {displayedData.length > 0 ? (
             displayedData.map((item,index) => (
