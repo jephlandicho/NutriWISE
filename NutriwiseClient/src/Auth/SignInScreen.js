@@ -9,12 +9,20 @@ import Logo from '../../assets/icon.png';
 
 const db = SQLite.openDatabase('client.db');
 
+
+
 const SignInScreen = ({ setLoggedIn }) => {
   React.useEffect(() => {
     // Create the meal_plan table if it doesn't exist
     db.transaction((tx) => {
       tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS meal_planned (meal_title,meal_name,meal_time,meal_group ,food, household_measurement);`,
+        `CREATE TABLE IF NOT EXISTS m_plans (
+          meal_title TEXT,
+          meal_name TEXT,
+          meal_time TEXT,
+          food REAL,
+          household_measurement TEXT
+        )`,
         [],
         () => {
           console.log('meal_plan table created successfully');
@@ -45,13 +53,12 @@ const SignInScreen = ({ setLoggedIn }) => {
       db.transaction((tx) => {
         mealPlanData.clientMealPlan.forEach((mealPlanItem) => {
           tx.executeSql(
-            'INSERT INTO meal_planned (meal_title,meal_name,meal_time,meal_group ,food, household_measurement) VALUES (?,?,?, ?, ?, ?);',
+            'INSERT INTO m_plans (meal_title,meal_name,meal_time ,food, household_measurement) VALUES (?,?, ?, ?, ?);',
             [
               mealPlanItem.meal_title,
               mealPlanItem.meal_name,
               mealPlanItem.meal_time,
-              mealPlanItem.meal_group,
-              mealPlanItem.food,
+              mealPlanItem.food_id,
               mealPlanItem.household_measurement,
             ],
             () => {
@@ -76,7 +83,7 @@ const SignInScreen = ({ setLoggedIn }) => {
 
       console.log('Result:', result);
       if (result.success) {
-        await AsyncStorage.setItem('clientInfoo', JSON.stringify(result.userData));
+        await AsyncStorage.setItem('infoClient', JSON.stringify(result.userData));
         setLoggedIn(true); // Update the isLoggedIn state
       } else {
         throw new Error(result.message); // Throw an error with the error message from the API response

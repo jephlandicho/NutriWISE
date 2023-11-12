@@ -15,10 +15,10 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "322c237c-381b-4d3e-a17f-31a23ea12ed3"
+        "projectId": "12be609b-46ae-4987-b60b-ee66a31dc0e2"
       }
     },
-    "owner": "nutriwiseclient",
+    "owner": "jephthah1212",
     "android": {
       "package": "com.jephjeph12.nutriwise"
     }

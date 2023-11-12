@@ -13,7 +13,7 @@ const App = () => {
   React.useEffect(() => {
     const checkUserLoginStatus = async () => {
       try {
-        const userAccountString = await AsyncStorage.getItem('clientInfoo');
+        const userAccountString = await AsyncStorage.getItem('infoClient');
         if (userAccountString) {
           const userAccount = JSON.parse(userAccountString);
           // Perform any additional checks or validations if needed

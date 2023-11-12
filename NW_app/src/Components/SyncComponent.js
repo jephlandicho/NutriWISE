@@ -1,15 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import axios from 'axios';
 import * as SQLite from 'expo-sqlite';
 import NetInfo from '@react-native-community/netinfo';
-import { View } from 'react-native';
+import { View,Alert,Button } from 'react-native';
 
 const db = SQLite.openDatabase('mydatabase.db');
 
 const SyncComponent = () => {
+  const [isSyncing, setIsSyncing] = useState(false);
+  useEffect(() => {
+    // Check for internet connectivity and sync data if available
+    const checkAndSync = async () => {
+      const isConnected = await checkInternetConnectivity();
+      if (isConnected) {
+        setIsSyncing(true);
+        await syncDataWhenOnline();
+        setIsSyncing(false);
+      }
+    };
+
+    // Add event listener for network connectivity changes
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected) {
+        checkAndSync();
+      }
+    });
+
+    // Cleanup event listener on component unmount
+    return () => unsubscribe();
+  }, []);
   const syncDataWhenOnline = async () => {
-    const isConnected = await checkInternetConnectivity();
-    if (isConnected) {
       try {
         const clientData = await fetchClientData();
         const clientMeasurementsData = await fetchClientMeasurementsData();
@@ -36,7 +56,6 @@ const SyncComponent = () => {
       } catch (error) {
         console.log('Error synchronizing data:', error);
       }
-    }
   };
 
   const syncDataToMySQL = async (combinedData) => {
@@ -67,6 +86,7 @@ const SyncComponent = () => {
       await updateTable('meal');
       await updateTable('meal_plan');
       console.log('All records marked as synced');
+      Alert.alert('Synced','All client data has been synced')
     } catch (error) {
       console.log('Error marking records as synced:', error);
     }
@@ -225,14 +245,8 @@ const SyncComponent = () => {
     });
   };
 
-  useEffect(() => {
-    // Sync data when online initially
-    syncDataWhenOnline();
-  }, []);
-
   return (
     <View>
-      {/* You can add any UI elements related to the SyncComponent here */}
     </View>
   );
 };

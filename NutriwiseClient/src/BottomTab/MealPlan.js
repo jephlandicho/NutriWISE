@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import { Provider as PaperProvider,Card, Title, Button } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
 import MyTheme from '../Components/MyTheme';
-
+import foodData from '../meals/foods.json';
 const db = SQLite.openDatabase('client.db');
 
 const MealPlan = () => {
@@ -14,7 +14,7 @@ const MealPlan = () => {
     // Fetch the data from the SQLite database
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM meal_planned ORDER BY meal_time',
+        'SELECT * FROM m_plans ORDER BY meal_time',
         [],
         (_, { rows }) => {
           const data = rows._array;
@@ -33,7 +33,12 @@ const MealPlan = () => {
   const groupMealData = (data) => {
     const groupedData = {};
     data.forEach((item) => {
-      const { meal_title, meal_time, meal_name, meal_group, food, household_measurement } = item;
+      const { meal_title, meal_time, meal_name, food, household_measurement } = item;
+
+      const foodInfo = foodData.find((foodItem) => foodItem.id === food);
+      const meal_group = foodInfo ? foodInfo.meal_group : 'Unknown';
+      const foody = foodInfo ? foodInfo.meal_name : 'Unknown';
+
       if (!groupedData[meal_title]) {
         groupedData[meal_title] = {};
       }
@@ -47,7 +52,7 @@ const MealPlan = () => {
         groupedData[meal_title][meal_time][meal_name][meal_group] = [];
       }
       groupedData[meal_title][meal_time][meal_name][meal_group].push({
-        food,
+        foody,
         household_measurement,
       });
     });
@@ -88,31 +93,32 @@ const MealPlan = () => {
                     <Title style={styles.mealTime}>{time}</Title>
                     {Object.keys(mealPlanData[title][time])
                       .sort((a, b) => a.localeCompare(b))
-                      .map((group) => (
-                        <View key={group} style={styles.mealGroupContainer}>
-                          {group ? (
-                            <Text style={styles.mealGroup}>Menu: {group}</Text>
+                      .map((meal_name) => (
+                        <View key={meal_name} style={styles.mealGroupContainer}>
+                          {meal_name ? (
+                            <Text style={styles.mealGroup}>Menu: {meal_name}</Text>
                           ) : (
                             <></>
                           )}
-                          {Object.keys(mealPlanData[title][time][group])
-                            .map((meal_name) => (
-                              <View key={meal_name} style={styles.mealItemContainer}>
-                                <Text style={styles.mealName}>{meal_name}</Text>
-                                {mealPlanData[title][time][group][meal_name].map(
+                          {Object.keys(mealPlanData[title][time][meal_name])
+                            .map((meal_group) => (
+                              <View key={meal_group} style={styles.mealItemContainer}>
+                                <Text style={styles.mealName}>{Array.isArray(meal_group) ? meal_group.join(', ') : meal_group}</Text>
+                                {mealPlanData[title][time][meal_name][meal_group].map(
                                   (item, index) => (
                                     <View key={index} style={styles.mealItemContainer}>
-                                      {meal_name === 'Vegetable' && index === 0 ? (
+                                      {meal_group === 'Vegetable' && index === 0 ? (
+                                        
                                         <Text style={styles.mealItem}>
-                                          {item.food} - {item.household_measurement}
+                                          {item.foody} - {item.household_measurement}
                                         </Text>
-                                      ) : meal_name === 'Vegetable' && index >= 1 ? (
+                                      ) : meal_group === 'Vegetable' && index >= 1 ? (
                                         <Text style={styles.mealItem}>
-                                          {item.food}
+                                          {item.foody}
                                         </Text>
                                       ) : (
                                         <Text style={styles.mealItem}>
-                                          {item.food} - {item.household_measurement}
+                                          {item.foody} - {item.household_measurement}
                                         </Text>
                                       )}
                                     </View>

@@ -13,6 +13,7 @@ import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("client.db");
 import { Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
+import foodData from '../meals/foods.json';
 
 const windowWidth = Dimensions.get("window").width;
 const Home = () => {
@@ -31,7 +32,7 @@ const Home = () => {
   const loadData = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM meal_planned WHERE meal_time = ?",
+        "SELECT * FROM m_plans WHERE meal_time = ?",
         [currentMeal],
         (_, { rows }) => {
           const data = rows._array;
@@ -55,7 +56,10 @@ const Home = () => {
       setCurrentMeal("PMSnacks")
     } else if (hour >= 18 && hour < 20) {
       setCurrentMeal("Dinner")
-    } else {
+    }else if (hour >= 20 && hour < 22) {
+      setCurrentMeal("Midnight Snacks")
+    }
+    else {
       return null;
     }
   };
@@ -64,13 +68,14 @@ const Home = () => {
     const groupedData = {};
     data.forEach((item) => {
       const {
-        meal_title,
-        meal_time,
-        meal_name,
-        meal_group,
-        food,
-        household_measurement,
+        meal_title,meal_time,meal_name,food,household_measurement,
       } = item;
+
+      const foodInfo = foodData.find((foodItem) => foodItem.id === food);
+
+      const meal_group = foodInfo ? foodInfo.meal_group : 'Unknown';
+      const foody = foodInfo ? foodInfo.meal_name : 'Unknown';
+
       if (!groupedData[meal_title]) {
         groupedData[meal_title] = {};
       }
@@ -84,7 +89,7 @@ const Home = () => {
         groupedData[meal_title][meal_time][meal_name][meal_group] = [];
       }
       groupedData[meal_title][meal_time][meal_name][meal_group].push({
-        food,
+        foody,
         household_measurement,
       });
     });
@@ -106,21 +111,18 @@ const Home = () => {
                 <Card.Content>
                   {Object.keys(mealPlanData[title][time])
                     .sort((a, b) => a.localeCompare(b))
-                    .map((group) => (
-                      <View key={group} style={styles.mealGroupContainer}>
-                        {group ? (
-                          <Text style={styles.mealGroup}>Menu: {group}</Text>
-                        ) : (
-                          <></>
-                        )}
-                        {Object.keys(mealPlanData[title][time][group]).map(
-                          (meal_name) => (
-                            <View
-                              key={meal_name}
-                              style={styles.mealItemContainer}
-                            >
-                              <Text style={styles.mealName}>{meal_name}</Text>
-                              {mealPlanData[title][time][group][meal_name].map(
+                    .map((meal_name) => (
+                      <View key={meal_name} style={styles.mealGroupContainer}>
+                      {meal_name ? (
+                        <Text style={styles.mealGroup}>Menu: {meal_name}</Text>
+                      ) : (
+                        <></>
+                      )}
+                      {Object.keys(mealPlanData[title][time][meal_name])
+                        .map((meal_group) => (
+                          <View key={meal_group} style={styles.mealItemContainer}>
+                            <Text style={styles.mealName}>{Array.isArray(meal_group) ? meal_group.join(', ') : meal_group}</Text>
+                            {mealPlanData[title][time][meal_name][meal_group].map(
                                 (item, index) => (
                                   <View
                                     key={index}
@@ -129,17 +131,17 @@ const Home = () => {
                                     {meal_name === "Vegetable" &&
                                     index === 0 ? (
                                       <Text style={styles.mealItem}>
-                                        {item.food} -{" "}
+                                        {item.foody} -{" "}
                                         {item.household_measurement}
                                       </Text>
                                     ) : meal_name === "Vegetable" &&
                                       index >= 1 ? (
                                       <Text style={styles.mealItem}>
-                                        {item.food}
+                                        {item.foody}
                                       </Text>
                                     ) : (
                                       <Text style={styles.mealItem}>
-                                        {item.food} -{" "}
+                                        {item.foody} -{" "}
                                         {item.household_measurement}
                                       </Text>
                                     )}
@@ -189,7 +191,7 @@ const Home = () => {
 
   const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem("clientInfoo");
+      const userData = await AsyncStorage.getItem("infoClient");
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setUserData(parsedUserData);
@@ -229,10 +231,9 @@ const Home = () => {
           <View style={styles.header}>
             <Avatar.Text
               size={64}
-              label={userData.name.charAt(0).toUpperCase()}
+              label={`${userData.firstName.charAt(0).toUpperCase()}${userData.lastName.charAt(0).toUpperCase()}`}
             />
-            <Text style={styles.userName}>{userData.name}</Text>
-            <Text> {userData.sex}</Text>
+            <Text style={styles.userName}>{userData.firstName}, {userData.lastName}</Text>
             
           </View>
         )}

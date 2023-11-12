@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 
    const getUserData = async () => {
     try {
-      const userData = await AsyncStorage.getItem('clientInfoo');
+      const userData = await AsyncStorage.getItem('infoClient');
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         setUserData(parsedUserData);
@@ -43,7 +43,7 @@ import { useNavigation } from '@react-navigation/native';
   const handleDeleteTables = () => {
     db.transaction((tx) => {
       
-      const tablesToDelete = ['meal_planned'];
+      const tablesToDelete = ['m_plans'];
   
       tablesToDelete.forEach((table) => {
         const query = `DROP TABLE IF EXISTS ${table};`;
@@ -64,23 +64,13 @@ import { useNavigation } from '@react-navigation/native';
 
   const clearClientInfo = async () => {
     try {
-      await AsyncStorage.removeItem('clientInfoo');
+      await AsyncStorage.removeItem('infoClient');
       // After removing the item, you can set the userData state to null
       setUserData(null);
-      console.log('clientInfoo cleared');
+      console.log('infoClient cleared');
     } catch (error) {
       console.error('Error clearing clientInfoo:', error);
     }
-  };
-  const deleteTable = () => {
-        const createClassesTableQuery = `
-        DROP TABLE classes;`;
-
-      return new Promise((resolve, reject) => {
-        db.transaction((transaction) => {
-          transaction.executeSql(createClassesTableQuery, [], resolve, (_, error) => reject(error));
-        });
-      });
   };
 
   const syncTable = () => {
@@ -152,11 +142,11 @@ const updateTable = async (tableName) => {
             trackColor={{ false: '#767577', true: '#81b0ff' }}
           />
         </View>
-        <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Change Password')}>
-          <Text style={styles.settingLabel}>Change Password</Text>
+        <TouchableOpacity style={styles.settingItem} onPress={() => clearClientInfo()}>
+          <Text style={styles.settingLabel}>Clear Info</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Privacy Settings')}>
-          <Text style={styles.settingLabel}>Privacy Settings</Text>
+        <TouchableOpacity style={styles.settingItem} onPress={() => handleDeleteTables()}>
+          <Text style={styles.settingLabel}>Delete Table</Text>
         </TouchableOpacity>
       </View>
     </View>
