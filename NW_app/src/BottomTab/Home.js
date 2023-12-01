@@ -4,15 +4,14 @@ import { Avatar, Card, Provider as PaperProvider, Button } from 'react-native-pa
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MyTheme from '../Components/MyTheme';
 import * as SQLite from 'expo-sqlite';
-import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
-
+import { Ionicons } from '@expo/vector-icons';
 const db = SQLite.openDatabase('mydatabase.db');
 
 const Home = () => {
   const [userData, setUserData] = useState(null);
   const [facebookFeed, setFacebookFeed] = useState(null); // State for Facebook feed data
-
+  const [facebookFeeds, setFacebookFeeds] = useState(null);
   useEffect(() => {
     getUserData();
     fetchFacebookFeed();
@@ -64,14 +63,6 @@ const Home = () => {
     }
   };
 
-  const pageUrl = 'https://facebook.com/ascendbsutneuarasof'; // Replace with the Facebook page URL
-  const pageUrls = 'https://web.facebook.com/conahs.batstateu.arasof';
-  const openFacebookPage = () => {
-    Linking.openURL(pageUrl);
-  };
-  const openFacebookPage1 = () => {
-    Linking.openURL(pageUrls);
-  };
 
 
   return (
@@ -85,19 +76,18 @@ const Home = () => {
             </View>
           )}
 
-          <View>
-            {facebookFeed && (
-              <View>
-                {facebookFeed.data.map((post, index) => (
-                  <Card key={index} style={styles.card2}>
-                    <Card.Title title="Announcements" />
-                    <Card.Content>
+<View>
+ {facebookFeed ? (
+   facebookFeed.data.map((post, index) => (
+     <Card key={index} style={styles.card2}>
+       <Card.Title title="Announcement" />
+       <Card.Content>
                       {post.attachments && post.attachments.data[0] && (
                         <>
                           {post.attachments.data[0].media && (
                             <Image
                               source={{ uri: post.attachments.data[0].media.image.src }}
-                              style={styles.image} // Use a fixed width and height
+                              style={styles.image} 
                             />
                           )}
                           {post.message && (
@@ -113,11 +103,21 @@ const Home = () => {
                         </>
                       )}
                     </Card.Content>
-                  </Card>
-                ))}
-              </View>
-            )}
-          </View>
+     </Card>
+   ))
+ ) : (
+<Card style={styles.card2}>
+  <Card.Title title="Announcement" />
+  <Card.Content style={styles.centerContent}>
+    <View style={styles.centerContent}>
+      <Ionicons name="megaphone" size={40} color="green" />
+      <Text style={styles.annStyle}>No Announcement found, Please check you internet connection</Text>
+    </View>
+  </Card.Content>
+</Card>
+  
+ )}
+</View>
         </ScrollView>
       </View>
     </PaperProvider>
@@ -133,52 +133,45 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    padding: '5%',
   },
   userName: {
-    marginLeft: 16,
+    marginLeft: '5%',
     fontSize: 18,
     fontWeight: 'bold',
   },
   card: {
-    margin: 16,
+    margin: '5%',
     borderRadius: 8,
     elevation: 4,
     backgroundColor: '#FFFFFF',
   },
   card2: {
-    margin: 16,
+    margin: '5%',
     borderRadius: 8,
     elevation: 4,
     backgroundColor: '#FFFFFF',
-    marginBottom: '60%',
-  },
-  header1: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 10,
-    padding: 5
-  },
-  userName1: {
-    marginRight: 10,
-    marginLeft: 10,
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  profile: {
-    marginRight: 10,
+    marginBottom: '70%',
   },
   image: {
-    width: '100%', // Replace with your desired width
-    height: '20%', // Replace with your desired height
+    width: '100%',
+    height: '20%', 
   },
   messageText: {
-    marginTop: 10,
+    marginTop: '2%',
     fontSize: 16,
   },
-  linkText: {
-    marginTop: 10,
+  centerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-});
+  annStyle:{
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
+ });
+ 
 
 export default Home;

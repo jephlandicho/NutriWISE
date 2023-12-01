@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Measurements from '../Components/Measurements';
 import ExchangeComputation from '../Stack/ExchangeComputation';
 import ExchangeDistribution from '../Stack/ExchangeDistribution';
-
 import { LineChart } from 'react-native-chart-kit';
 import { ResultContext } from '../Components/ResultContext';
 import MyTheme from '../Components/MyTheme';
@@ -142,7 +141,7 @@ function ClientMeasurements() {
       const [selectedItemId, setSelectedItemId] = useState(null);
       const [selectedExchangeID, setselectedExchangeID] = useState(null);
       const [page, setPage] = useState(0);
-      const [numberOfItemsPerPageList] = useState([2, 4, 6]);
+      const [numberOfItemsPerPageList] = useState([1, 3, 5]);
       const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
       const [tableData, setTableData] = useState([]);
       const [C_MeasurementID,setC_MeasurementID] = useState('');

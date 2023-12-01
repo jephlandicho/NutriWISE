@@ -133,7 +133,7 @@ const updateTable = async (tableName) => {
     <View style={styles.container}>
       {userData && (
         <View style={styles.userDataContainer}>
-          <Text style={styles.label}>User Data:</Text>
+          <Text style={styles.label}>Client Data:</Text>
           <Text style={styles.userDataItem}>ID: {userData.ClientID}</Text>
           <Text style={styles.userDataItem}>Name: {userData.name}</Text>
           <Text style={styles.userDataItem}>Birthdate: {userData.birthdate}</Text>

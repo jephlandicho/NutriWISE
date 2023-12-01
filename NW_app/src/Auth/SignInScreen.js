@@ -34,8 +34,7 @@ const SignInScreen = ({ setLoggedIn }) => {
         throw new Error(result.message); // Throw an error with the error message from the API response
       }
     } catch (error) {
-      console.error('Error:', error);
-      Alert.alert('Error', 'An error occurred while signing in. Please try again later.');
+      Alert.alert('Sign In Failed', 'Wrong credentials, please try again.');
     }
   };
   

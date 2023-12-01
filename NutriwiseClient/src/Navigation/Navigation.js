@@ -101,9 +101,9 @@ function TabNavigator() {
           }
           else if (route.name === 'NewsFeed') {
             iconName = focused ? 'ios-newspaper' : 'ios-newspaper-outline';
-          } else if (route.name === 'Settings') {
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-          } 
+          } else if (route.name === 'About') {
+            iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline';
+          }
           return (
             <FloatingTabIcon
               name={iconName}
@@ -129,7 +129,7 @@ function TabNavigator() {
       options={{
         headerShown: false,
       }}/>
-      <Tab.Screen name='Settings' component={SettingsScreen} 
+      <Tab.Screen name='About' component={SettingsScreen} 
       options={{
         headerShown: false,
       }}/>
@@ -158,7 +158,7 @@ function SettingsScreen(){
           headerTitle: () => (
             <View style={styles.headerTitleCon}>
               <Text style={styles.headerTitle}>
-                Settings
+                About
               </Text>
             </View>
           ),

@@ -384,8 +384,8 @@ const MidSnacks = () => {
                 {food.household_measure === false && showHouseholdMeasure && (
                   <TextInput
                     style={styles.menuBar}
-                    value={householdMeasureBreakfast}
-                    onChangeText={setHouseholdMeasureBreakfast}
+                    value={householdMeasureMidnightSnacks}
+                    onChangeText={setHouseholdMeasureMidnightSnacks}
                     placeholder="Household measure"
                   />
                 )}

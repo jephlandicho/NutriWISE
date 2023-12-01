@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import SignInScreen from './src/Auth/SignInScreen';
 import Navigation from './src/Navigation/Navigation';
 import SyncComponent from './src/Components/SyncComponent';
@@ -10,6 +9,8 @@ export const ResultContext = React.createContext();
 
 const App = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
+
+
 
   React.useEffect(() => {
     const checkUserLoginStatus = async () => {

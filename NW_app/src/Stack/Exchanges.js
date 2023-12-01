@@ -289,11 +289,6 @@ function Exchanges() {
           label={`${from + 1}-${Math.min((page + 1) * itemsPerPage, tableData.length)} of ${
             tableData.length
           }`}
-        //   numberOfItemsPerPageList={numberOfItemsPerPageList}
-        //   numberOfItemsPerPage={itemsPerPage}
-        //   onItemsPerPageChange={onItemsPerPageChange}
-        //   showFastPaginationControls
-        //   selectPageDropdownLabel={'Rows per page'}
         />
         <Modal isVisible={anotherModalVisible} onBackdropPress={closeAnotherModal}>
           <View style={styles.modalContainer}>

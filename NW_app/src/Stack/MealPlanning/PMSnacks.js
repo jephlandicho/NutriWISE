@@ -383,8 +383,8 @@ const PMSnacks = () => {
                 {food.household_measure === false && showHouseholdMeasure && (
                   <TextInput
                     style={styles.menuBar}
-                    value={householdMeasureBreakfast}
-                    onChangeText={setHouseholdMeasureBreakfast}
+                    value={householdMeasurePmSnacks}
+                    onChangeText={setHouseholdMeasurePmSnacks}
                     placeholder="Household measure"
                   />
                 )}
@@ -410,8 +410,8 @@ const PMSnacks = () => {
                     {!food.household_measure && index === 0 && showHouseholdMeasure && (
                       <TextInput
                         style={styles.menuBar}
-                        value={householdMeasureBreakfast}
-                        onChangeText={setHouseholdMeasureBreakfast}
+                        value={householdMeasurePmSnacks}
+                        onChangeText={setHouseholdMeasurePmSnacks}
                         placeholder="Household measure"
                       />
                     )}

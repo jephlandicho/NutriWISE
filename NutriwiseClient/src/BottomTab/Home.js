@@ -223,7 +223,19 @@ const Home = () => {
       description: userData ? userData.height + " m" : "",
     },
   ];
-
+  const OneMonthLater = (dateString) => {
+    // Convert the string to a Date object
+    const assessmentDate = new Date(dateString);
+  
+    // Add one month to the assessmentDate
+    const returnDate = new Date(assessmentDate);
+    returnDate.setMonth(returnDate.getMonth() + 1);
+  
+    // Format the returnDate as a string (adjust the format as needed)
+    const returnDateString = returnDate.toDateString();
+  
+    return returnDateString;
+  };
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
@@ -233,9 +245,14 @@ const Home = () => {
               size={64}
               label={`${userData.firstName.charAt(0).toUpperCase()}${userData.lastName.charAt(0).toUpperCase()}`}
             />
-            <Text style={styles.userName}>{userData.firstName}, {userData.lastName}</Text>
+          <View style={styles.userInfo}>
             
+            <Text style={styles.userName}>{userData.firstName}, {userData.lastName}</Text>
+            <Text style={styles.userReturn}>Return Date: {OneMonthLater(userData.assessment_date)}</Text>
           </View>
+          
+          
+        </View>
         )}
 
         <Card style={styles.dietPresCard}>
@@ -336,6 +353,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333", // User name text color
+  },
+  userInfo: {
+    flexDirection: 'column',
+  },
+  userReturn:{
+    marginLeft: 16,
+    fontSize: 16,
   },
   dietPresCard: {
     borderRadius: 30,

@@ -229,15 +229,52 @@ const MealPlan = () => {
         </View>
       </View>
       <View style={styles.resultContainer}>
-      <Text style={styles.result}>{normal}</Text>
-      <Text style={styles.result}>WHR: {whr} cm</Text>
-      <Text style={styles.result}>BMI: {bmi} kg/m²</Text>
-      <Text style={styles.result}>DBW: {dbw} kg</Text>
-        <Text style={styles.result}>Diet RX:</Text>
-        <Text style={styles.result}>Carbohydrates: {carbs} g</Text>
-        <Text style={styles.result}>Protein: {protein} g</Text>
-        <Text style={styles.result}>Fats: {fats} g</Text>
-        <Text style={styles.result}>TER: {TER} kcal</Text>
+      <View style={styles.MeaRow}>
+      <View style={styles.resultRow}>
+        <Text style={styles.resultLabel}>Nutritional Status</Text>
+        <Text style={styles.resultValue}>{normal}</Text>
+      </View>
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Waist Hip Ratio</Text>
+        <Text style={styles.resultValue}>{whr} cm</Text>
+      </View>
+      </View>
+      <View style={styles.MeaRow}>
+      
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Body Mass Index </Text>
+        <Text style={styles.resultValue}>{bmi} kg/m² </Text>
+      </View>
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Desirable Body Weight </Text>
+        <Text style={styles.resultValue}>{dbw} kg </Text>
+      </View>
+      
+      </View>
+      <View style={styles.resultRow}>
+    <Text style={styles.resultLabel2}>Diet RX</Text>
+  </View>
+  <View style={styles.MeaRow}>
+      
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Carbohydrates </Text>
+        <Text style={styles.resultValue}>{carbs} g </Text>
+      </View>
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Protein </Text>
+        <Text style={styles.resultValue}>{protein} g </Text>
+      </View>
+      <View style={styles.resultRow}>
+      <Text style={styles.resultLabel}>Fats </Text>
+        <Text style={styles.resultValue}>{fats} g </Text>
+      </View>
+
+      </View>
+      <View style={styles.resultRow}>
+    <Text style={styles.resultLabel}>Total Energy Requirement</Text>
+    <Text style={styles.resultValue}>{TER} kcal</Text>
+  </View>
+        
       </View>
 
     </ScrollView></>
@@ -248,7 +285,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#fefefe',
     alignItems: 'center',
     padding: 5,
   },
@@ -279,8 +316,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   resultContainer: {
-    paddingLeft: 10,
-    marginBottom:50
+    marginBottom:'20%',
   },
   result: {
     fontSize: 18,
@@ -313,6 +349,36 @@ const styles = StyleSheet.create({
     backgroundColor: '#0000ff',
     width: '50%',
     alignSelf: 'center',
+  },
+  resultRow: {
+    flexDirection: 'column',
+    marginBottom: 5,
+  },
+  MeaRow: {
+    flexDirection: 'row',
+  },
+  resultLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginHorizontal: 10
+  },
+  resultLabel2: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginVertical: 10,
+    textAlign: 'center'
+  },
+  resultLabel3: {
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  resultSubLabel: {
+    fontSize: 16,
+    marginHorizontal: 10
+  },
+  resultValue: {
+    fontSize: 18,
+    marginHorizontal: 10
   },
 });
 

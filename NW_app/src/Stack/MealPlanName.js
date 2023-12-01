@@ -32,7 +32,8 @@ function MealPlanName() {
   const [mealTitle, setMealTitle] = useState('');
   const [selectedExchangesId, setSelectedExchangesId] = useState(null);
   const {C_meal_titleID,setC_meal_titleID} = useContext(ResultContext);
-
+  
+  const [s_ID, sets_ID] = useState('');
   const getUserData = async () => {
     try {
       const userData = await AsyncStorage.getItem('userData');
@@ -46,6 +47,7 @@ function MealPlanName() {
       console.error('Error:', error);
     }
   };
+   
   const generateHtml = (dataFromDB) => {
     const lastName = dataFromDB.length > 0 ? dataFromDB[0].lastName : "";
     const firstName = dataFromDB.length > 0 ? dataFromDB[0].firstName : "";
@@ -95,7 +97,9 @@ function MealPlanName() {
     const protein = dataFromDB.length > 0 ? dataFromDB[0].protein: "0";
     const fats = dataFromDB.length > 0 ? dataFromDB[0].fats: "0";
     const meal_title = dataFromDB.length > 0 ? dataFromDB[0].meal_title: "0";
+    const student_id = dataFromDB.length > 0 ? dataFromDB[0].student_id: "";
 
+     
     let htmlContent = `
       <html>
         <head>
@@ -174,7 +178,6 @@ function MealPlanName() {
         <div class="header"> <b>Nutrition and Dietetics Department</b></div>
         <div class="header"><b>Nutritional Assessment</b></div>
         <br>
-        <div><b>Student Name:</b> ${userData.fullName}</div>
         <div class="table-container">
         <table>
         <tr class="marginBottom">
@@ -672,21 +675,16 @@ function MealPlanName() {
     const mt_ID = generateUniqueSixDigitCode();
     const finalmt_ID =  '03' + mt_ID 
     setC_meal_titleID(finalmt_ID)
+    
   }, []);
 
   React.useEffect(() => {
-    if (dataFromDB.length > 0) {
-      const html = generateHtml(dataFromDB);
-      generateAndSharePdf(html);
-    }
+      if (dataFromDB.length > 0) {
+        const html = generateHtml(dataFromDB);
+        generateAndSharePdf(html);
+      }
+
   }, [dataFromDB]);
-
-
-  const handleUpdate = (id) => {
-    // Handle the update logic here using the item id
-    console.log('Update item with id:', id);
-    setModalVisible(false);
-  };
 
   const handleDelete = (id) => {
     db.transaction((tx) => {
@@ -855,6 +853,7 @@ function MealPlanName() {
               </Text>
             </TouchableOpacity>
           </View>
+          
         </View>
         <ScrollView style={styles.tableBodyContainer}>
           {displayedData.length > 0 ? (
@@ -975,7 +974,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   meabuttonContainer: {
-    alignItems: 'flex-end',
+    alignItems: 'flex-end', // Align items at the start
   },
   buttonText: {
     fontSize: 20,

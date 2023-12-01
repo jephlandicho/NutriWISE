@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Button,Alert,ScrollView } from 'react-native';
+import { StyleSheet, View, Text,Alert,ScrollView } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 import { ResultContext } from '../Components/ResultContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
+import { Provider as PaperProvider,Button } from 'react-native-paper';
+import MyTheme from '../Components/MyTheme';
 const db = SQLite.openDatabase('mydatabase.db');
 function MeasurementSummary() {
 
@@ -725,6 +726,7 @@ const consolelog = () =>{
   };
 
   return (
+    <PaperProvider theme={MyTheme}>
     <ScrollView style={styles.Scrollcontainer}>
     <View style={styles.container}>
       <View style={styles.row}>
@@ -911,10 +913,10 @@ const consolelog = () =>{
         <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
       </View>
       </View>
-      <Button title="Save Data" onPress={insertData} />
+      <Button mode="contained" onPress={insertData} > Add Client </Button>
     </View>
     </ScrollView>
-
+    </PaperProvider>
   );
 }
 
@@ -926,6 +928,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFF',
     flex: 1,
     alignItems: 'center',
+    marginBottom: '30%'
   },
   row: {
     flexDirection: 'row',

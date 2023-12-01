@@ -1,9 +1,11 @@
 import React, { useContext,useState } from 'react';
 import { DataTable } from 'react-native-paper';
 import { ResultContext } from '../Components/ResultContext';
-import { Text, View, StyleSheet, ScrollView, Button,Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView,Alert } from 'react-native';
 import MealComponent from '../Components/MealComponent';
 import { useNavigation } from '@react-navigation/native';
+import { Provider as PaperProvider,Button } from 'react-native-paper';
+import MyTheme from '../Components/MyTheme';
 import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('mydatabase.db');
 
@@ -448,7 +450,7 @@ const MealPlanResult = () => {
     navigation.navigate('Client');
   }
   return (
-    <>
+    <PaperProvider theme={MyTheme}>
     <DataTable>
     <View style={styles.headerContainer}>
       <DataTable.Header>
@@ -620,14 +622,14 @@ const MealPlanResult = () => {
       householdMeasure={householdMeasureMidnightSnacks}
       >
       </MealComponent>
-      <Button title="Save Meal Plan" onPress={insertData} />
+      <Button mode="contained"  onPress={insertData} > Save Meal Plan </Button>
       </View>
       
       </ScrollView>
       
     </DataTable>
     
-    </>
+    </PaperProvider>
   );
 };
 

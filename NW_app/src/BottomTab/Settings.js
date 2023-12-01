@@ -193,7 +193,7 @@ const updateTable = async (tableName) => {
     <View style={styles.container}>
       {userData && (
         <View style={styles.userDataContainer}>
-          <Text style={styles.label}>User Data:</Text>
+          <Text style={styles.label}>Student Data:</Text>
           <Text style={styles.userDataItem}>Full Name: {userData.fullName}</Text>
           <Text style={styles.userDataItem}>Email: {userData.email}</Text>
           <Text style={styles.userDataItem}>Username: {userData.username}</Text>
@@ -209,18 +209,18 @@ const updateTable = async (tableName) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.settingsContainer}>
+      {/* <View style={styles.settingsContainer}>
         <Text style={styles.settingsHeading}>User Settings:</Text>
         <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Change Password')}>
           <Text style={styles.settingLabel}>Change Password</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.settingItem} onPress={() => syncTable()}>
+         <TouchableOpacity style={styles.settingItem} onPress={() => syncTable()}>
           <Text style={styles.settingLabel}>UnSync</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingItem} onPress={() => deleteTable()}>
           <Text style={styles.settingLabel}>Delete Table</Text>
-        </TouchableOpacity> */}
-      </View>
+        </TouchableOpacity> 
+      </View> */}
     </View>
   );
 };

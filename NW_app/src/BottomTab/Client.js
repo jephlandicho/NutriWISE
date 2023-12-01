@@ -7,10 +7,13 @@ import { Provider as PaperProvider, DataTable,Avatar,Button } from 'react-native
 import MyTheme from '../Components/MyTheme';
 import axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
-
+import CustomInput from '../Components/CustomInput';
 const db = SQLite.openDatabase('mydatabase.db');
+import { useForm } from 'react-hook-form';
+import Modal from 'react-native-modal';
 
 function Client() {
+  const { control,handleSubmit } = useForm();
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const [page, setPage] = useState(0);
@@ -18,14 +21,56 @@ function Client() {
   const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
   const [tableData, setTableData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
 
   React.useEffect(() => {
     setPage(0);
     if (isFocused) {
       refreshTableData();
-      // syncDataWhenOnline()
+      syncDataWhenOnline();
     }
   }, [isFocused]);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  
+  const getClientData = async (data) => {
+    const isConnected = await checkInternetConnectivity();
+  
+    if (isConnected) {
+      try {
+        const response = await fetch('https://nutriwise.website/api/getClient.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const result = await response.json();
+  
+        if (result.success) {
+          // Data is found, handle it as needed
+          console.log('Client Data:', result.clientData);
+        } else {
+          // ID not found, display an alert
+          Alert.alert('ID Not Found', result.message);
+        }
+  
+      } catch (error) {
+        console.error('An error occurred:', error.message);
+      }
+    } else {
+      Alert.alert('No Internet', 'No internet connection found');
+    }
+  };
+  
+  
 
   const syncDataWhenOnline = async () => {
     const isConnected = await checkInternetConnectivity();
@@ -88,7 +133,6 @@ function Client() {
       await updateTable('meal');
       await updateTable('meal_plan');
       console.log('All records marked as synced');
-      Alert.alert('Synced', 'All client data has been synced');
     } catch (error) {
       console.log('Error marking records as synced:', error);
     }
@@ -301,15 +345,13 @@ function Client() {
   return (
     <PaperProvider theme={MyTheme}>
       <View style={styles.container}>
-      <Button onPress={syncDataWhenOnline}>
-            Sync Data
-          </Button>
         <TextInput
           style={styles.searchInput}
-          placeholder="Search..."
+          placeholder="Search client's last name..."
           value={searchQuery}
           onChangeText={handleSearch}
         />
+        <Button mode='contained' onPress={toggleModal}> Add existing Client </Button>
         <ScrollView style={styles.tableBodyContainer}>
           {displayedData.length > 0 ? (
             displayedData.map((item) => (
@@ -366,6 +408,25 @@ function Client() {
           numberOfItemsPerPage={itemsPerPage}
           selectPageDropdownLabel={'Rows per page'}
         />
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={toggleModal}
+          style={styles.modal}
+        >
+          <View style={styles.modalContent}>
+            <CustomInput
+              title="Client ID"
+              name="ClientID"
+              label="Client ID"
+              
+              control={control}
+              
+            />
+            <Button mode="contained"  onPress={handleSubmit(getClientData)}  style={styles.submitButton}>
+              Submit
+            </Button>
+          </View>
+        </Modal>
       </View>
     </PaperProvider>
   );
@@ -391,6 +452,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   tableBodyContainer: {
+    marginTop: '2%',
     maxHeight: '70%', // Adjust the height as needed
   },
   contactContainer: {
@@ -424,6 +486,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
     color: '#888',
+  },
+  submitButton: {
+    marginTop: 16,
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 8,
+    width: '100%', // Set the width of the modal content
   },
 });
 
