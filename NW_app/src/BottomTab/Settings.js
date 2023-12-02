@@ -209,18 +209,12 @@ const updateTable = async (tableName) => {
         </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.settingsContainer}>
+      <View style={styles.settingsContainer}>
         <Text style={styles.settingsHeading}>User Settings:</Text>
-        <TouchableOpacity style={styles.settingItem} onPress={() => console.log('Change Password')}>
-          <Text style={styles.settingLabel}>Change Password</Text>
-        </TouchableOpacity>
-         <TouchableOpacity style={styles.settingItem} onPress={() => syncTable()}>
-          <Text style={styles.settingLabel}>UnSync</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.settingItem} onPress={() => deleteTable()}>
+        <TouchableOpacity style={styles.settingItem} onPress={() => handleDeleteTables()}>
           <Text style={styles.settingLabel}>Delete Table</Text>
         </TouchableOpacity> 
-      </View> */}
+      </View>
     </View>
   );
 };

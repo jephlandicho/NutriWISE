@@ -48,27 +48,195 @@ function Client() {
           body: JSON.stringify(data),
         });
   
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-  
         const result = await response.json();
-  
+        // Inserting client
         if (result.success) {
-          // Data is found, handle it as needed
-          console.log('Client Data:', result.clientData);
+          
+          if (result.clientData.length > 0) {
+            console.log('Client Data:', result.clientData[0].lastName);
+            db.transaction((tx) => {
+              tx.executeSql(
+                'INSERT INTO client (id, lastName,firstName,designation, birthdate, sex,syncData) VALUES (?,?,?,?,?,?,?)',
+                [result.clientData[0].c_ID, result.clientData[0].lastName, result.clientData[0].firstName,result.clientData[0].designation, result.clientData[0].birthdate, result.clientData[0].sex,1],
+                () => {
+                  console.log('Data inserted into client successfully.');
+                  // Inserting to client_measurements
+                  tx.executeSql(
+                    'INSERT INTO client_measurements (id, client_id, student_id, assessment_date, waistCircum, hipCircum, weight, height, physicalActLevel, WHR, BMI, remarks, DBW, TER, protein, carbs, fats,syncData) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)',
+                    [
+                      result.clientData[0].cm_ID,result.clientData[0].c_ID,result.clientData[0].s_ID,result.clientData[0].assessment_date,result.clientData[0].waistCircum,result.clientData[0].hipCircum,result.clientData[0].weight,result.clientData[0].height,result.clientData[0].physicalActLevel,result.clientData[0].WHR,result.clientData[0].BMI,result.clientData[0].remarks,result.clientData[0].DBW,result.clientData[0].cmTER,result.clientData[0].cmCarbs,result.clientData[0].cmProtein,result.clientData[0].cmFats,1],
+                      () => {
+                        console.log('Data inserted into client_measurements successfully.');
+                        tx.executeSql(
+                          'INSERT INTO exchanges (id, measurement_id, vegetables, fruit, wholeMilk, lfMilk,nfMilk, sugar, riceA, riceB, riceC, lfMeat, mfMeat,hfMeat, fat, TER, carbohydrates, protein, fats,syncData) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)',
+                          [
+                            result.clientData[0].e_ID,result.clientData[0].cm_ID,result.clientData[0].vegetables,result.clientData[0].fruit,result.clientData[0].wholeMilk,result.clientData[0].lfMilk,result.clientData[0].nfMilk,result.clientData[0].sugar,result.clientData[0].riceA,result.clientData[0].riceB,result.clientData[0].riceC,result.clientData[0].lfMeat,result.clientData[0].mfMeat,result.clientData[0].hfMeat,result.clientData[0].fat,result.clientData[0].exTER,result.clientData[0].exCarbs,result.clientData[0].exProtein,result.clientData[0].exFat,
+                            1
+                          ],() => {
+                            console.log('Data inserted into exchanges successfully.');
+                          },
+                          (error) => {
+                            console.log('Error inserting data into exchanges: ', error);
+                          })
+                      },
+                      (error) => {
+                        console.log('Error inserting data into client_measurements: ', error);
+                      }
+                    )
+                },
+                (error) => {
+                  console.log('Error inserting data into client: ', error);
+                }
+              )
+            })
+          } else {
+            console.log('No client data found');
+          }
+
+          const response2 = await fetch('https://nutriwise.website/api/getExDistrib.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+    
+          const result2 = await response2.json();
+    
+          if (result2.success) {
+
+            if (result2.exdtrib.length > 0) {
+              db.transaction((tx) => {
+              result2.exdtrib.forEach(item => {
+                    tx.executeSql(
+                      'INSERT INTO distribution_exchange (exchange_id, food_group, breakfast, am_snacks, lunch, pm_snacks, dinner,midnight_snacks,syncData) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)',
+                      [
+                        item.e_ID,
+                        item.food_group,
+                        item.breakfast,
+                        item.am_snacks,
+                        item.lunch,
+                        item.pm_snacks,
+                        item.dinner,
+                        item.midnight_snacks,
+                        1
+                      ],
+                      () => {
+                        console.log('Data inserted into distribution_exchange successfully.');
+                      },
+                      (error) => {
+                        console.log('Error inserting data into distribution_exchange: ', error);
+                      })
+                });
+              });
+            } else {
+              console.log('No food groups found');
+            }
+
+
+            const response3 = await fetch('https://nutriwise.website/api/getMealPlan.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+      
+            const result3 = await response3.json();
+      
+            if (result3.success) {
+              db.transaction((tx) => {
+                result3.mealtitle.forEach(item => {
+                  tx.executeSql(
+                    'INSERT INTO meal_title (id,exchanges_id, meal_title,syncData) VALUES (?,?, ?,?)',
+                    [item.mt_ID,item.e_ID, item.meal_title,1],
+                    () => {
+                      console.log('Data inserted into meal_title successfully.');
+                    },
+                    (error) => {
+                      console.log('Error inserting data into meal_title: ', error);
+                    })
+                  }),
+                  result3.meal.forEach(item => {
+                    tx.executeSql(
+                      'INSERT INTO meal (id, meal_title_id, meal_name, meal_time, syncData) VALUES (?, ?, ?, ?, ?)',
+                      [item.m_ID, item.mt_ID, item.meal_name, item.meal_time, 1],
+                      () => {
+                        console.log('Data inserted into meal successfully.');
+                      },
+                      (error) => {
+                        console.log('Error inserting data into meal: ', error);
+                      })
+                    }),
+
+                    result3.mealplan.forEach(item => {
+  tx.executeSql(
+    "SELECT * FROM meal_plan WHERE meal_name_id = ?",
+    [item.m_ID],
+    (_, { rows }) => {
+      if (rows.length > 0) {
+        // Record already exists, delete the existing record
+        tx.executeSql(
+          "DELETE FROM meal_plan WHERE meal_name_id = ?",
+          [item.m_ID],
+          () => {
+            console.log('Existing record deleted successfully.');
+            
+            // Now, insert the new data
+            tx.executeSql(
+              "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
+              [item.m_ID, item.exchange_distribution, item.food_id, item.household_measurement, 1],
+              () => {
+                console.log('Data inserted into meal_plan successfully.');
+              },
+              (error) => {
+                console.log('Error inserting data into meal_plan: ', error);
+              }
+            );
+          },
+          (error) => {
+            console.log('Error deleting existing record: ', error);
+          }
+        );
+      } else {
+        // No record found, proceed with the insertion
+        tx.executeSql(
+          "INSERT INTO meal_plan (meal_name_id, exchange_distribution, food_id, household_measurement, syncData) VALUES (?, ?, ?, ?, ?)",
+          [item.m_ID, item.exchange_distribution, item.food_id, item.household_measurement, 1],
+          () => {
+            console.log('Data inserted into meal_plan successfully.');
+          },
+          (error) => {
+            console.log('Error inserting data into meal_plan: ', error);
+          }
+        );
+      }
+    },
+    (error) => {
+      console.log('Error checking for existing record: ', error);
+    }
+  );
+});
+
+                });
+                Alert.alert('Client Found', 'Client added successfully');
+                refreshTableData();
+                toggleModal();
+              ;
+            }
+          }
         } else {
           // ID not found, display an alert
           Alert.alert('ID Not Found', result.message);
         }
-  
+        // refreshTableData();
       } catch (error) {
         console.error('An error occurred:', error.message);
       }
     } else {
       Alert.alert('No Internet', 'No internet connection found');
     }
-  };
+  }
   
   
 
@@ -418,7 +586,7 @@ function Client() {
               title="Client ID"
               name="ClientID"
               label="Client ID"
-              
+              numeric='true'
               control={control}
               
             />
