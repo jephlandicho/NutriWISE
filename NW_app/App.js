@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignInScreen from './src/Auth/SignInScreen';
 import Navigation from './src/Navigation/Navigation';
 import SyncComponent from './src/Components/SyncComponent';
+import GetClients from './src/Components/GetClients';
 
 export const ResultContext = React.createContext();
 
@@ -34,6 +35,7 @@ const App = () => {
   return (
     <ResultContext.Provider value={{ isLoggedIn, setLoggedIn }}>
       <SyncComponent/>
+      <GetClients/>
       <View style={styles.container}>
         {isLoggedIn ? (
           <Navigation isLoggedIn={isLoggedIn} />
